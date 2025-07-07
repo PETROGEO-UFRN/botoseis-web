@@ -1,0 +1,29 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+System_Boundary(core, "Core Server") {
+    ContainerDb(db, "Database", "PostgreSQL", "Stores data")
+    Container(fs, "Filesystem", "Filesystem folder", "Stores data files")
+    Container(coreApp, "API", "Python, Flask", "Handles business rules and serves API endpoints")
+}
+
+System_Boundary(adminPanel, "Admin Panel") {
+    Container(adminClient, "Admin Client", "Typescript, React", "Manages programs")
+}
+
+System_Boundary(workspace, "Web App") {
+    Container(webClient, "Workspace", "Typescript, React", "Visually interact with workflows")
+}
+
+System_Boundary(dataview, "Data-view") {
+    Container(dataviewServer, "Data-view", "Python, Bokeh", "Visualize seismic file plots")
+}
+
+Rel_U(webClient, coreApp, "Sends instructions")
+Rel_U(adminClient, coreApp, "Manages available programs")
+Rel(coreApp, db, "Stores data")
+Rel(coreApp, fs, "Saves and updates files")
+Rel_R(dataviewServer, coreApp, "Requests file paths")
+Rel_R(dataviewServer, fs, "Reads seismic files")
+
+@enduml
