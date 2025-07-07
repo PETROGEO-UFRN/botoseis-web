@@ -4,6 +4,10 @@ CloudSeis is a cloud-based seismic data processing software based on the desktop
 <br />
 CloudSeis is mainly a wrapper for [SeismicUnix](https://github.com/JohnWStockwellJr/SeisUnix) allowing usage through API and web UI, adding tooling for store, track and organize data processing steps.
 
+![Database diagram, simplified version](
+  ./docs/assets/home_screen.png
+)
+
 ## Getting Started
 
 ### Dependencies
@@ -53,15 +57,19 @@ To manully run any instance without docker, check each folder `README.md`.
 
 ### Services
 
+![High level architecture diagram](
+  ./docs/assets/architecture.png
+)
+
 The project is divided in 4 services:
- - server <br />
+ - API <br />
    Base API that handle every persistent storage on the aplication
- - admin <br />
+ - Admin Client <br />
    Web interface that provides management of the programs available for the end user. The admin can create, delete and modify programs information. It will reflect in the end user view. 
- - webapp <br />
+ - Workspace <br />
    The end user view. Where the avarage end user must interact with it's workflows, files and history information
- - seismic-webviz <br />
-   Vizualization web interface. Usualy it opens as result of some action at the webapp, displaying visualization tools for the selected data or for the resulting data of some process.
+ - Data-view <br />
+   Vizualization web interface. Usualy it opens as result of some action at the Workspace, displaying visualization tools for the selected data or for the resulting data of some process.
 
 ### Database diagram
 
