@@ -16,7 +16,7 @@ on:
       - master
     paths:
       - 'server/**'
-      - 'webapp/**'
+      - 'workspace/**'
       - 'Makefile'
       - 'docker-compose.yml'
   workflow_dispatch: {}

@@ -4,7 +4,6 @@ from os import path
 from sqlalchemy import text
 
 from server.app.database.connection import database
-from server.app.models import WorkflowModel
 from ..conftest import _app
 from ..Mock import Mock
 
@@ -79,28 +78,28 @@ class TestSuFileRouter:
 
     def test_create_su_file(self):
         with open(self.mock.base_marmousi_stack_path, "rb") as file:
-            file_name = path.basename(file.name)
+            file_path = path.basename(file.name)
             expeted_response_data = {
                 "fileLink": {
-                    "name": file_name,
+                    "path": file_path,
                     "projectId": self.mock.project['id'],
-                    "data_type": "any for now",
+                    "data_type": "su",
                 }
             }
             response = self.client.post(
                 f"{self.url_prefix}/create/{self.mock.project['id']}",
                 data={
-                    "file": (file, file_name)
+                    "file": (file, file_path)
                 },
                 content_type="multipart/form-data"
             )
         assert response.status_code == 200
         assert isinstance(response.json["fileLink"]["id"], int)
-        assert response.json["fileLink"]["name"] == expeted_response_data["fileLink"]["name"]
+        assert response.json["fileLink"]["path"] == expeted_response_data["fileLink"]["path"]
         assert response.json["fileLink"]["projectId"] == expeted_response_data["fileLink"]["projectId"]
         assert response.json["fileLink"]["data_type"] == expeted_response_data["fileLink"]["data_type"]
         self.created_file_link["id"] = response.json["fileLink"]["id"]
-        self.created_file_link["name"] = response.json["fileLink"]["name"]
+        self.created_file_link["path"] = response.json["fileLink"]["path"]
         self.created_file_link["projectId"] = response.json["fileLink"]["projectId"]
         self.created_file_link["data_type"] = response.json["fileLink"]["data_type"]
 
@@ -114,7 +113,7 @@ class TestSuFileRouter:
         assert isinstance(response.json, list)
         assert len(response.json) == 1
         assert isinstance(response.json[0]["id"], int)
-        assert response.json[0]["name"] == self.created_file_link["name"]
+        assert response.json[0]["path"] == self.created_file_link["path"]
         assert response.json[0]["projectId"] == self.created_file_link["projectId"]
         assert response.json[0]["data_type"] == self.created_file_link["data_type"]
 
@@ -144,6 +143,7 @@ class TestSuFileRouter:
 
     def test_update_su_file(self):
         # ! Needs documentation and/or refactoring
+        # ! broken test, needs more mocking
         with _app.app_context():
             database.session.execute(
                 text(

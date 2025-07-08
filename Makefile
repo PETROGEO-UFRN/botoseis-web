@@ -1,6 +1,6 @@
 # *** Makefile for building and managing Docker services
 
-.PHONY: build-db build-server build-webapp build-webviz up-default \
+.PHONY: build-db build-server build-workspace build-data-view up-default \
 				adm build-admin up-admin \
         build-test-db up-test-db upgrade-test-db \
         test
@@ -9,7 +9,7 @@ FLASK_APP := app.main
 TEST_DATABASE_PORT := 5431
 
 # *** Default targets, production like build (end user only, no admin module)
-default: build-db server build-webapp build-webviz up-default
+default: build-db server build-workspace build-data-view up-default
 
 build-db:
 	docker compose build db
@@ -17,15 +17,15 @@ build-db:
 build-server:
 	docker compose build server
 
-build-webapp:
-	docker compose build webapp
+build-workspace:
+	docker compose build workspace
 
-build-webviz:
-	docker compose build webviz
+build-data-view:
+	docker compose build data-view
 
 up-default:
 	@echo "Starting default services..."
-	docker compose up db webapp webviz -d
+	docker compose up db workspace data-view -d
 
 # *** Admin module and dependencies. 
 adm: build-db build-server build-admin up-admin
@@ -43,13 +43,13 @@ demo: build-demo up-demo
 
 build-demo:
 	docker compose build db
-	docker build --tag boto/webapp:demo-1.0 ./webapp
-	docker build --tag boto/webviz:demo-1.0 ./seismic-webviz
+	docker build --tag boto/workspace:demo-1.0 ./workspace
+	docker build --tag boto/data-view:demo-1.0 ./data-view
 	docker build --tag boto/admin:demo-1.0 ./admin
 # docker build --tag boto/server:demo-1.0 ./server
 
 up-demo:
-	docker compose -p boto-safe-demo up webapp webviz admin
+	docker compose -p boto-safe-demo up workspace data-view admin
 
 # *** get test database ready
 test: build-test-db up-test-db upgrade-test-db

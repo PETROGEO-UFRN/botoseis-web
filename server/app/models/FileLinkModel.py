@@ -1,4 +1,5 @@
 import sqlalchemy as dbTypes
+from os import path
 
 from ..database.connection import database
 
@@ -7,9 +8,7 @@ class FileLinkModel(database.Model):  # type: ignore
     __tablename__ = "file_link_table"
 
     id = dbTypes.Column(dbTypes.Integer, primary_key=True)
-    #! maybe change to "name" to "path"
-    name = dbTypes.Column(dbTypes.String)
-    # *** stack || shotgather_ep || ...
+    path = dbTypes.Column(dbTypes.String)
     data_type = dbTypes.Column(dbTypes.String)
 
     projectId = dbTypes.Column(dbTypes.ForeignKey(
@@ -33,10 +32,13 @@ class FileLinkModel(database.Model):  # type: ignore
         onupdate=dbTypes.func.now()
     )
 
+    def getFileName(self):
+        return path.basename(self.path)
+
     def getAttributes(self):
         return {
             "id": self.id,
-            "name": self.name,
+            "name": self.getFileName(),
             "data_type": self.data_type,
             "projectId": self.projectId,
         }

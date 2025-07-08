@@ -1,8 +1,0 @@
-FROM python:3.12.3
-WORKDIR /home/seismic-webviz
-
-COPY . .
-RUN pip install -r requirements.txt
-
-EXPOSE 5006
-CMD python -m seismic_webviz

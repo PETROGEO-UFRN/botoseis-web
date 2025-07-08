@@ -6,13 +6,12 @@ from datetime import datetime
 from ..database.connection import database
 from ..models.FileLinkModel import FileLinkModel
 from ..models.WorkflowModel import WorkflowModel
-from ..models.DataSetModel import DataSetModel
 from ..models.WorkflowParentsAssociationModel import WorkflowParentsAssociationModel
 
-from ..services.createDataset import createDataset
-from ..services.seismicFilePathServices import showWorkflowFilePath, createUploadedFilePath, createDatasetFilePath
-from ..services.seismicUnixCommandStringServices import getSemicUnixCommandString
-from ..services.getSimplifiedProcessStringService import getSimplifiedProcessString
+from ..services.datasetServices import createDataset, deleteDatasets
+from ..factories.filePathFactory import createUploadedFilePath, createDatasetFilePath
+from ..factories.seismicUnixCommandStringFactory import createSemicUnixCommandString
+from ..factories.simplifiedProcessStringFactory import createSimplifiedProcessString
 
 from ..errors.FileError import FileError
 
@@ -20,7 +19,7 @@ from ..errors.FileError import FileError
 def listByProjectId(projectId):
     fileLinks = FileLinkModel.query.filter_by(projectId=projectId).all()
 
-    # *** iterate fileLinks and converte it to list of dicts
+    # *** iterate fileLinks and convert it to list of dicts
     # *** so the api can return this as route response
     fileLinksResponse = list(map(
         lambda link: link.getAttributes(),
@@ -38,8 +37,8 @@ def create(file, projectId):
 
     newFileLink = FileLinkModel(
         projectId=projectId,
-        data_type="any for now",
-        name=path.basename(filePath)
+        path=filePath,
+        data_type="su",
     )
     database.session.add(newFileLink)
     database.session.commit()
@@ -50,7 +49,6 @@ def create(file, projectId):
     file.save(filePath)
 
     return newFileLink.getAttributes()
-    # *** File is blank if marmousi_CS.su is empty
 
 
 def update(userId, workflowId):
@@ -64,31 +62,14 @@ def update(userId, workflowId):
     if not workflow.input_file_link_id:
         raise FileError("Input file should be set before running workflow")
 
-    # ! overwrite any dataset with the same out_put name
-    datasets_to_delete = DataSetModel.query \
-        .join(WorkflowParentsAssociationModel, DataSetModel.id == WorkflowParentsAssociationModel.datasetId) \
-        .join(WorkflowModel, WorkflowModel.id == WorkflowParentsAssociationModel.workflowId) \
-        .filter(WorkflowModel.output_name == workflow.output_name) \
-        .all()
-    for dataset in datasets_to_delete:
-        if dataset.workflowParentAssociations:
-            workflow_to_delete = WorkflowModel.query.filter_by(
-                id=dataset.workflowParentAssociations[0].workflowId
-            ).first()
-            # dataset.workflowParentAssociations
-            database.session.delete(workflow_to_delete)
-        database.session.delete(dataset)
+    source_file_path = workflow.getSelectedInputFile().path
+    target_file_path = createDatasetFilePath(workflowId)
 
-    datasetAttributes = createDataset(userId, workflowId)
+    datasetsDirectory = path.dirname(target_file_path)
+    if not path.exists(datasetsDirectory):
+        makedirs(datasetsDirectory)
 
-    source_file_path = showWorkflowFilePath(
-        workflowId
-    )
-    target_file_path = createDatasetFilePath(
-        workflowId
-    )
-
-    seismicUnixProcessString = getSemicUnixCommandString(
+    seismicUnixProcessString = createSemicUnixCommandString(
         workflow.orderedCommandsList,
         source_file_path,
         target_file_path
@@ -103,25 +84,33 @@ def update(userId, workflowId):
             stderr=subprocess.PIPE,
             text=True
         )
+    except Exception as error:
+        return str(error)
+    finally:
+        # *** delete datasets with the same output name as the new one
+        deleteDatasets(workflow)
+        datasetAttributes = createDataset(userId, workflowId)
 
         newFileLink = FileLinkModel(
             projectId=workflowParent.getProjectId(),
             datasetId=datasetAttributes["id"],
-            data_type="any for now",
-            name=path.basename(target_file_path)
+            data_type="su",
+            path=target_file_path
         )
         database.session.add(newFileLink)
         database.session.commit()
 
-        return {
-            "executionSimplifiedString": getSimplifiedProcessString(process_output),
+        process_details = {
+            "executionSimplifiedString": createSimplifiedProcessString(process_output),
             "logMessage": process_output.stderr,
             "returncode": process_output.returncode,
             "processStartTime": processStartTime,
             "executionEndTime": datetime.now(),
         }
-    except Exception as error:
-        return str(error)
+        return {
+            "result_workflow_id": datasetAttributes["workflows"][0]["id"],
+            "process_details": process_details
+        }
 
 
 suFileController = SimpleNamespace(

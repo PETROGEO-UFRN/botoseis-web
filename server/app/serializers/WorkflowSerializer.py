@@ -11,6 +11,10 @@ class WorkflowCreateSchema(Schema):
     )
 
 
+class WorkflowNameUpdateSchema(Schema):
+    name = fields.String(required=True)
+
+
 class WorkflowFileLinkUpdateSchema(Schema):
     fileLinkId = fields.Integer(required=True)
 

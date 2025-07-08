@@ -24,14 +24,14 @@ export default function Home() {
           {programGroups.map(group => (
             <TreeItemWithAction
               key={`group-${group.id}`}
-              nodeId={`group-${group.id}`}
+              itemId={`group-${group.id}`}
               labelText={group.name}
               deleteAction={() => deleteProgramGroup(group.id)}
             >
               {group.programs.map(program => (
                 <TreeItem
                   key={`${group.id}-program-${program.id}`}
-                  nodeId={`${group.id}-program-${program.id}`}
+                  itemId={`${group.id}-program-${program.id}`}
                   label={program.name}
                   onClick={() => setSelectedProgram(program)}
                 />

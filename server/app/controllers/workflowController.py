@@ -31,10 +31,15 @@ def create(userId, newWorkflowData, parentId):
     return newWorkflow.getAttributes()
 
 
-def updateName(userId, data):
+def updateName(workflowId, name):
     # ! breaks MVC !
-    # ! not implemented
-    raise AppError("Not implemented")
+    workflow = WorkflowModel.query.filter_by(id=workflowId).first()
+    if not workflow:
+        raise AppError("Workflow does not exist", 404)
+
+    workflow.name = name
+    database.session.commit()
+    return workflow.getResumedAttributes()
 
 
 def updateFilePath(workflowId, fileLinkId):
@@ -50,7 +55,6 @@ def updateOutput(workflowId, newOutputValue):
         raise AppError("Workflow does not exist", 404)
 
     workflow.output_name = re.sub(r'[^a-zA-Z0-9\-_()]', '', newOutputValue)
-
     database.session.commit()
     return workflow.getAttributes()
 

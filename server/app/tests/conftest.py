@@ -27,6 +27,7 @@ def pytest_collection_modifyitems(items):
         "TestParameterRouter",
         "TestCommandRouter",
         "TestSuFileRouter",
+        "TestSuFilePathRouter",
     ]
     class_mapping = {}
     sorted_items = []

@@ -41,11 +41,11 @@ class WorkflowModel(database.Model):  # type: ignore
         cascade="all, delete-orphan",
     )
 
-    def getSelectedFileName(self) -> str:
+    def getSelectedInputFile(self):
         fileLink = FileLinkModel.query.filter_by(
             id=self.input_file_link_id
         ).first()
-        return fileLink.name
+        return fileLink
 
     def getResumedAttributes(self) -> dict[str, str | int]:
         return {

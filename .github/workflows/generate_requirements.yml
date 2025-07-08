@@ -25,15 +25,15 @@ jobs:
     - name: Generate server requirements
       run: cd server/ && pipenv requirements > requirements.txt
 
-    - name: Generate seismic-webviz requirements
-      run: cd seismic-webviz/ && pipenv requirements > requirements.txt
+    - name: Generate data-view requirements
+      run: cd data-view/ && pipenv requirements > requirements.txt
 
     - name: Commit changes
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git add ./server/requirements.txt
-        git add ./seismic-webviz/requirements.txt
+        git add ./data-view/requirements.txt
         git commit -m 'Auto update requirements.txt'
 
     - name: Push changes

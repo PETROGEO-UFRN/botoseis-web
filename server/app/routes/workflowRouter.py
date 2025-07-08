@@ -5,7 +5,7 @@ from ..middlewares.requireAuthentication import requireAuthentication
 from ..middlewares.validateRequestBody import validateRequestBody
 
 from ..controllers import workflowController
-from ..serializers.WorkflowSerializer import WorkflowCreateSchema, WorkflowFileLinkUpdateSchema, WorkflowOutputNameUpdateSchema
+from ..serializers.WorkflowSerializer import WorkflowCreateSchema, WorkflowNameUpdateSchema, WorkflowFileLinkUpdateSchema, WorkflowOutputNameUpdateSchema
 from ..models.WorkflowModel import WorkflowModel
 
 
@@ -34,6 +34,20 @@ def createWorkflow(userId, parentId):
 
 
 # !missing test
+@workflowRouter.route("/update/<workflowId>/name", methods=['PUT'])
+@decorator_factory(validateRequestBody, SerializerSchema=WorkflowNameUpdateSchema)
+@decorator_factory(requireAuthentication, routeModel=WorkflowModel)
+def updateWorkflow(_, workflowId):
+    # ! breaks MVC !
+    data = request.get_json()
+    updatedWorkflow = workflowController.updateName(
+        workflowId,
+        data["name"]
+    )
+    return jsonify(updatedWorkflow)
+
+
+# !missing test
 @workflowRouter.route("/update/<workflowId>/file", methods=['PUT'])
 @decorator_factory(validateRequestBody, SerializerSchema=WorkflowFileLinkUpdateSchema)
 @decorator_factory(requireAuthentication, routeModel=WorkflowModel)
@@ -47,6 +61,8 @@ def updateWorkflow(_, workflowId):
     return jsonify(updatedWorkflow)
 
 # !missing test
+
+
 @workflowRouter.route("/update/<workflowId>/output-name", methods=['PUT'])
 @decorator_factory(validateRequestBody, SerializerSchema=WorkflowOutputNameUpdateSchema)
 @decorator_factory(requireAuthentication, routeModel=WorkflowModel)

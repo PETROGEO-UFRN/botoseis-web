@@ -1,54 +1,34 @@
 import type { ReactNode } from 'react';
 
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
-import Box from '@mui/material/Box'
-import DeleteButton from '../components/DeleteButton';
 import Button from '@mui/material/Button';
+
+import { TreeItemLabelWithActions } from 'shared-ui';
 
 import { useSelectedProgramCommand } from '../providers/SelectedProgramProvider';
 
-interface ILabelContentProps {
+interface ITreeItemWithActionProps {
+  children: ReactNode
+  itemId: string
   labelText: string
   deleteAction(): void
 }
 
-interface ITreeItemWithActionProps extends ILabelContentProps {
-  children: ReactNode
-  nodeId: string
-}
-
-const LabelContent = ({
-  labelText,
-  deleteAction
-}: ILabelContentProps) => (
-  <Box
-    sx={{
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center"
-    }}
-  >
-    {labelText}
-
-
-    <DeleteButton onClick={deleteAction} size='small' />
-  </Box>
-)
-
 export default function TreeItemWithAction({
   children,
-  nodeId,
+  itemId,
   labelText,
   deleteAction
 }: ITreeItemWithActionProps) {
   const { setSelectedProgram } = useSelectedProgramCommand()
+
   return (
     <TreeItem
-      nodeId={nodeId}
+      itemId={itemId}
       label={
-        <LabelContent
+        <TreeItemLabelWithActions
           labelText={labelText}
-          deleteAction={deleteAction}
+          onRemove={deleteAction}
         />
       }
     >

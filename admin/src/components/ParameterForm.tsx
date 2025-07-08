@@ -11,7 +11,8 @@ import Snackbar from '@mui/material/Snackbar';
 import SnackbarContent from '@mui/material/SnackbarContent';
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 
-import DeleteButton from "./DeleteButton";
+import { DeleteButton } from "shared-ui"
+
 import {
   getParameters,
   createNewParameter,
@@ -132,13 +133,11 @@ export default function ParameterForm() {
         </Snackbar>
 
         <DeleteButton
-          onClick={() => {
-            deleteParameter(parameter.id).then(() => {
-              const newParameters = [...parameters]
-              newParameters.splice(index, 1)
-              setParamenters(newParameters)
-            })
-          }}
+          onRemove={() => deleteParameter(parameter.id).then(() => {
+            const newParameters = [...parameters]
+            newParameters.splice(index, 1)
+            setParamenters(newParameters)
+          })}
         />
       </Stack>
     ))}

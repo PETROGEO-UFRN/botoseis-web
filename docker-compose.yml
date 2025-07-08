@@ -39,10 +39,10 @@ services:
     ports:
       - "5000:5000"
 
-  webapp:
-    image: boto/webapp:demo-1.0
+  workspace:
+    image: boto/workspace:demo-1.0
     build:
-      context: ./webapp
+      context: ./workspace
     environment:
       - VITE_API_URL=${VITE_API_URL:-http://localhost:5000}
       - VITE_VISUALIZER_URL=${VITE_VISUALIZER_URL:-http://localhost:5006}
@@ -58,10 +58,10 @@ services:
     ports:
       - "4172:4173"
 
-  webviz:
-    image: boto/webviz:demo-1.0
+  data-view:
+    image: boto/data-view:demo-1.0
     build:
-      context: ./seismic-webviz
+      context: ./data-view
     environment:
       - FLASK_ENV=${FLASK_ENV:-DEVELOPMENT}
       - API_URL=${API_URL:-http://host.docker.internal:5000}

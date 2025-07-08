@@ -6,22 +6,9 @@ from ..middlewares.decoratorsFactory import decorator_factory
 from ..middlewares.requireAuthentication import requireAuthentication
 from ..models.ProjectModel import ProjectModel
 from ..models.WorkflowModel import WorkflowModel
-
 from ..controllers.suFileController import suFileController
-from ..services.seismicFilePathServices import showWorkflowFilePath
 
 suFileRouter = Blueprint("su-file-routes", __name__, url_prefix="/su-file")
-
-
-@suFileRouter.route("/show/<workflowId>", methods=['GET'])
-@decorator_factory(requireAuthentication, routeModel=WorkflowModel)
-def showSuFile(_, workflowId):
-    # *** no controller layer for this route, no adcional rules *** #
-    file_path = showWorkflowFilePath(workflowId)
-    try:
-        return send_file(file_path)  # Faz o download ??
-    except Exception as error:
-        return str(error)
 
 
 @suFileRouter.route("/list/<projectId>", methods=['GET'])

@@ -17,6 +17,7 @@ class Mock():
     workflow = dict()
     # *** valid sufilter command
     sufilterCommand = dict()
+    created_file_link = dict()
 
     programGroup = dict()
     program = dict()
@@ -52,9 +53,6 @@ class Mock():
                 "name": "project_test",
                 "userId": self.user["id"],
             },
-            headers={
-                "Authorization": self.token
-            }
         )
         project_data = response.json
         self.project = project_data
@@ -67,9 +65,6 @@ class Mock():
                 "name": "line_test",
                 "projectId": self.project["id"],
             },
-            headers={
-                "Authorization": self.token
-            }
         )
         line_data = response.json
         self.line = line_data
@@ -82,9 +77,6 @@ class Mock():
                 "name": "workflow_test",
                 "parentType": "projectId"
             },
-            headers={
-                "Authorization": self.token
-            }
         )
         workflow_data = response.json
         self.workflow = workflow_data
@@ -97,9 +89,6 @@ class Mock():
                 "name": "program_test",
                 "description": "no description"
             },
-            headers={
-                "Authorization": self.token,
-            }
         )
         programGroupData = response.json
         self.programGroup = programGroupData
@@ -119,7 +108,6 @@ class Mock():
             },
             headers={
                 "Content-Type": "application/x-www-form-urlencoded",
-                "Authorization": self.token,
             }
         )
         programData = response.json
@@ -144,10 +132,29 @@ class Mock():
                 "parameters": parameters,
                 "program_id": self.program['id'],
             },
-            headers={
-                "Authorization": self.token
-            }
         )
         commandData = response.json
         self.sufilterCommand = commandData
         return commandData
+
+    def loadSuFileLink(self):
+        with open(self.base_marmousi_stack_path, "rb") as file:
+            response = self.client.post(
+                f"/su-file/create/{self.workflow['id']}",
+                data={
+                    "file": (file, path.basename(file.name))
+                },
+                content_type="multipart/form-data",
+            )
+
+            created_file_link = response.json['fileLink']
+            self.created_file_link = created_file_link
+            return created_file_link
+
+    def linkSuFileInputToWorkflow(self):
+        self.client.put(
+            f"/workflow/update/{self.workflow['id']}/file",
+            json={
+                "fileLinkId": self.created_file_link["id"],
+            },
+        )
