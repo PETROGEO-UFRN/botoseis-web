@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-bokeh = "~=3.5.0"
+bokeh = "~=3.8.0"
 seismicio = "==0.0.22"
 requests = "~=2.32.3"
 python-dotenv = "~=1.0.1"

@@ -1,0 +1,100 @@
+{% from macros import embed %}
+<!DOCTYPE html>
+<html lang="en">
+{% block head %}
+
+<head>
+  {% block inner_head %}
+  <meta charset="utf-8">
+  <title>
+    {% block title %}{{ title | e if title else "Bokeh Plot" }}{% endblock %}
+  </title>
+  <link rel="stylesheet" type="text/css" href="{{ static_path }}css/index.css">
+  {% block preamble -%}{%- endblock %}
+  {% block resources %}
+  {% block css_resources -%}
+  {{- bokeh_css if bokeh_css }}
+  {%- endblock css_resources %}
+  {% block js_resources -%}
+  {{ bokeh_js if bokeh_js }}
+  {%- endblock js_resources %}
+  {% endblock resources %}
+  {% block postamble %}{% endblock %}
+  {% endblock inner_head %}
+</head>
+{% endblock head%}
+{% block body %}
+
+<body>
+  <script src="{{ static_path }}js/handleDrawerChange.js"></script>
+  <div class="drawer">
+    <button class="close-button" onclick="handleDrawerChange()">
+      X
+    </button>
+    <label>
+      Image
+      <input type="checkbox" />
+    </label>
+
+    <label>
+      Wiggle
+      <input type="checkbox" />
+    </label>
+
+    <label>
+      Areas
+      <input type="checkbox" />
+    </label>
+
+    <label class="label-column">
+      <span>
+        Percentile clip
+      </span>
+      <input type="number" />
+    </label>
+
+    <div class="gainTypeBox">
+      <label>
+        None
+        <input type="radio" value="None" name="gainType" />
+      </label>
+      <label>
+        agc
+        <input type="radio" value="agc" name="gainType" />
+      </label>
+      <label>
+        wagc
+        <input type="radio" value="wagc" name="gainType" />
+      </label>
+    </div>
+
+    <label class="label-column">
+      <span>
+        Automatic gain control window (seconds):
+      </span>
+      <input type="number" />
+    </label>
+  </div>
+
+  <button class="open-button" onclick="handleDrawerChange()">
+    Open
+  </button>
+
+  {% block inner_body %}
+  {% block contents %}
+  {% for doc in docs %}
+  {{ embed(doc) if doc.elementid }}
+  {%- for root in doc.roots %}
+  {% block root scoped %}
+  {{ embed(root) }}
+  {% endblock %}
+  {% endfor %}
+  {% endfor %}
+  {% endblock contents %}
+  {{ plot_script | indent(4) }}
+  {% endblock inner_body %}
+
+</body>
+{% endblock body%}
+
+</html>

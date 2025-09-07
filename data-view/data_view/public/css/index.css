@@ -1,0 +1,42 @@
+html,
+body {
+  box-sizing: border-box;
+  display: flow-root;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer {
+  z-index: 10;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+
+  width: 288px;
+  height: calc(100% - 32px);
+  gap: 16px;
+  padding: 16px;
+  background-color: #fff;
+}
+
+.drawer:not(.open) {
+  display: none;
+}
+
+.close-button {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+}
+
+.label-column {
+  display: flex;
+  flex-direction: column;
+}
