@@ -1,4 +1,2 @@
-from .get_sufile import get_sufile
-from .MultiGatherVisualization import MultiGatherVisualization
-from .StackVisualization import StackVisualization
-from .visualization_factory import visualization_factory
+from .StackVisualization import Visualization
+from .PlotOptionsState import PlotOptionsState

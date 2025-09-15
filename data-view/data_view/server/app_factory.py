@@ -1,9 +1,10 @@
 from bokeh.application import Application
 from bokeh.application.handlers import FunctionHandler
 from bokeh.document.document import Document
-from bokeh.plotting import figure
 from jinja2 import Template
 
+
+from ..basicPlot import Visualization, PlotOptionsState
 from ..constants.paths import index_template_path, static_url_path
 
 with open(index_template_path, "r", encoding="utf-8") as file:
@@ -12,9 +13,12 @@ with open(index_template_path, "r", encoding="utf-8") as file:
 
 def app_factory():
     def modify_document(document: Document) -> None:
-        # ! mock
-        plot = figure(name="bokeh_jinja_figure")
-        # ! ***
+        visualization = Visualization(
+            gather_key=None,
+            filename="",
+            plot_options_state=PlotOptionsState(gather_key=None),
+        )
+        plot = visualization.plot_manager.plot
 
         document.template = html_template
 

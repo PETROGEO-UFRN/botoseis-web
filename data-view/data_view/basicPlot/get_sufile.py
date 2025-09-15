@@ -1,26 +1,29 @@
 from seismicio import readsu
 
+SECOND_IN_MICRO_SECONDS = 10e6
 
-def get_stack_sufile(state: dict, filename: str):
+
+def get_stack_sufile(plot_options: dict, filename: str):
     # Read seismic data
     # -----------------
     sufile = readsu(filename)
 
     # Data from current seismic data
     # ------------------------------
-    state["num_time_samples"] = sufile.num_samples
-    state["interval_time_samples"] = sufile.headers.dt[0] / 1000000  # µs → s
+    plot_options["num_time_samples"] = sufile.num_samples
+    plot_options["interval_time_samples"] = \
+        sufile.headers.dt[0] / SECOND_IN_MICRO_SECONDS
 
     return sufile
 
 
-def get_sufile(state: dict, filename: str, gather_key: str):
+def get_multi_gather_sufile(plot_options: dict, filename: str, gather_key: str):
     """
-    State:
+    plot_options:
     - [write] num_gathers, num_time_samples, interval_time_samples
     """
-    state["gather_index_start"] = 0
-    state["num_loadedgathers"] = 1
+    plot_options["gather_index_start"] = 0
+    plot_options["num_loadedgathers"] = 1
 
     # Read seismic data
     # -----------------
@@ -28,8 +31,9 @@ def get_sufile(state: dict, filename: str, gather_key: str):
 
     # Data from current seismic data
     # ------------------------------
-    state["num_gathers"] = sufile.num_gathers
-    state["num_time_samples"] = sufile.num_samples
-    state["interval_time_samples"] = sufile.headers.dt[0] / 1000000  # µs → s
+    plot_options["num_gathers"] = sufile.num_gathers
+    plot_options["num_time_samples"] = sufile.num_samples
+    plot_options["interval_time_samples"] = sufile.headers.dt[0] / \
+        SECOND_IN_MICRO_SECONDS
 
     return sufile
