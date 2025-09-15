@@ -12,6 +12,7 @@ from .PlotManager import PlotManager
 
 class Visualization:
     sufile: SuFile
+    x_positions: np_types.NDArray | None
     plot_options_state: PlotOptionsState
     plot_manager: PlotManager
 
@@ -22,7 +23,6 @@ class Visualization:
         gather_key: str | None = None,
     ) -> None:
         self.plot_options_state = plot_options_state
-
         if gather_key:
             self.sufile: SuFile = get_multi_gather_sufile(
                 plot_options=self.plot_options_state.__dict__,
@@ -35,8 +35,15 @@ class Visualization:
                 filename=filename,
             )
 
+        # !!! check if "gather_keyword" exist
+        # !!! is must exist for shot gathers
+        if self.sufile.gather_keyword:
+            data = self.__getDataForShotGathers()
+        else:
+            data = self.sufile.traces
+            self.x_positions = None
         self.plot_manager = PlotManager(
-            data=self.sufile.traces,
+            data=data,
             interval_time_samples=self.plot_options_state.interval_time_samples,
         )
 
@@ -52,11 +59,37 @@ class Visualization:
             return data
         return apply_gain(data, gain_option, wagc, dt)
 
+    def __getDataForShotGathers(self):
+        gather_index_stop = self.plot_options_state.gather_index_start + \
+            self.plot_options_state.num_loadedgathers
+        if (
+            gather_index_stop - 1 ==
+            self.plot_options_state.gather_index_start
+        ):
+            # *** Single gather
+            self.x_positions = self.sufile.igather[
+                self.plot_options_state.gather_index_start
+            ].headers["offset"],
+            return self.sufile.igather[
+                self.plot_options_state.gather_index_start
+            ].data
+        # *** Multiple gathers
+        return self.sufile.igather[
+            self.plot_options_state.gather_index_start:
+            gather_index_stop
+        ].data
+
     def handle_state_change(self):
         start_time = time.perf_counter()
         print("CALL handle_state_change")
 
-        data = self.sufile.traces
+        # !!! check if "gather_keyword" exist
+        # !!! is must exist for shot gathers
+        if self.sufile.gather_keyword:
+            data = self.__getDataForShotGathers()
+        else:
+            data = self.sufile.traces
+            self.x_positions = None
 
         data = self.__optionally_apply_gain(
             data,
@@ -71,7 +104,7 @@ class Visualization:
 
         self.plot_manager.update_plot(
             data=data,
-            x_positions=None,
+            x_positions=self.x_positions,
             interval_time_samples=self.plot_options_state.interval_time_samples,
         )
 

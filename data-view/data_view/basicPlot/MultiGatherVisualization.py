@@ -1,15 +1,10 @@
 import time
 
 import numpy.typing as npt
-from bokeh.layouts import column, row
-from bokeh.models import Paragraph
 from seismicio.Models.SuDataModel import SuFile
 
-from ..widgets import widgets
 from ..transforms.clip import apply_clip_from_perc
 from ..transforms.gain import apply_gain
-
-from .get_sufile import get_sufile
 
 
 class MultiGatherVisualization:
@@ -26,62 +21,6 @@ class MultiGatherVisualization:
             "interval_time_samples": None,
             "num_time_samples": None,
         }
-
-        self.sufile: SuFile = get_sufile(self.state, filename, gather_key)
-
-        self.seismic_plot_wrapper = widgets.create_seismic_plot_wrapper(
-            self.state,
-            self.sufile
-        )
-
-        gather_index_start_slider = widgets.create_gather_index_start_slider(
-            self.state,
-            self.handle_state_change,
-        )
-        num_loadedgathers_spinner = widgets.create_num_loadedgathers_spinner(
-            self.state,
-            self.handle_state_change,
-        )
-        percentile_clip_input = widgets.create_percentile_clip_input(
-            self.state,
-            self.handle_state_change,
-        )
-        gain_option_picker = widgets.create_gain_option_picker(
-            self.state,
-            self.handle_state_change,
-        )
-        wagc_input = widgets.create_wagc_input(
-            self.state,
-            self.handle_state_change,
-        )
-
-        self.gather_label_wrapper = widgets.GatherValueWrapper(
-            self.sufile.gather_index_to_value
-        )
-        self.gather_label_wrapper.update_widget(self.state)
-
-        left_tools_column = column(
-            self.gather_label_wrapper.widget,
-            row(Paragraph(text="Image"), self.seismic_plot_wrapper.image_switch),
-            row(Paragraph(text="Wiggle"), self.seismic_plot_wrapper.wiggle_switch),
-            row(Paragraph(text="Areas"), self.seismic_plot_wrapper.areas_switch),
-            percentile_clip_input,
-            gain_option_picker,
-            wagc_input,
-        )
-        bottom_tools_row = row(
-            num_loadedgathers_spinner,
-            gather_index_start_slider,
-            sizing_mode="stretch_width"
-        )
-        row_tools_figure = row(
-            children=[left_tools_column, self.seismic_plot_wrapper.plot],
-            sizing_mode="stretch_both"
-        )
-        self.root_layout = column(
-            children=[row_tools_figure, bottom_tools_row],
-            sizing_mode="stretch_both"
-        )
 
     @staticmethod
     def _optionally_apply_pencentile_clip(data: npt.NDArray, percentile: None | int) -> npt.NDArray:
@@ -127,6 +66,16 @@ class MultiGatherVisualization:
                 interval_time_samples=self.state["interval_time_samples"],
                 gather_key="Offset [m]",
             )
+
+    # changes between Stack and MultiGather classes:
+    #   - data assignment at "handle_state_change"
+    #       - 1 path for stack
+    #       - 1 path for single-gather
+    #       - 1 path for multi-gather
+    #   - update_plot parameters, different for single-gather
+    #       - different x_positions
+    #       - different gather_key
+    #           - gather_key miss on multi-gather?
         else:
             # *** Multiple gathers
 
@@ -144,11 +93,10 @@ class MultiGatherVisualization:
             )
 
             self.seismic_plot_wrapper.update_plot(
-                data,
+                data=data,
                 x_positions=None,
                 interval_time_samples=self.state["interval_time_samples"],
             )
 
-        self.gather_label_wrapper.update_widget(self.state)
         end_time = time.perf_counter()
         print(f"elapsed time: {end_time - start_time} seconds")

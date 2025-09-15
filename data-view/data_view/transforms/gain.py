@@ -1,18 +1,10 @@
 from collections.abc import Callable
-from math import isclose, sqrt, exp
+from math import sqrt, exp
 
 import numpy as np
 import numpy.typing as npt
 
 EPS: float = 3.8090232  # exp(-EPS*EPS) = 5e-7, "noise" level
-
-
-def _apply_gain_single_trace(data, gain_option: str, iwagc, nt: int):
-    if gain_option == "agc":
-        data = do_agc_single_trace(data, iwagc, nt)
-    elif gain_option == "gagc":
-        data = do_gagc_single_trace(data, iwagc, nt)
-    return data
 
 
 def apply_gain(data: npt.NDArray, gain_option: str, wagc: float, dt: float) -> npt.NDArray:
