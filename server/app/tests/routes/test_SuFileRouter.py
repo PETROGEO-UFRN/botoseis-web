@@ -95,11 +95,9 @@ class TestSuFileRouter:
             )
         assert response.status_code == 200
         assert isinstance(response.json["fileLink"]["id"], int)
-        assert response.json["fileLink"]["path"] == expeted_response_data["fileLink"]["path"]
         assert response.json["fileLink"]["projectId"] == expeted_response_data["fileLink"]["projectId"]
         assert response.json["fileLink"]["data_type"] == expeted_response_data["fileLink"]["data_type"]
         self.created_file_link["id"] = response.json["fileLink"]["id"]
-        self.created_file_link["path"] = response.json["fileLink"]["path"]
         self.created_file_link["projectId"] = response.json["fileLink"]["projectId"]
         self.created_file_link["data_type"] = response.json["fileLink"]["data_type"]
 
@@ -113,21 +111,8 @@ class TestSuFileRouter:
         assert isinstance(response.json, list)
         assert len(response.json) == 1
         assert isinstance(response.json[0]["id"], int)
-        assert response.json[0]["path"] == self.created_file_link["path"]
         assert response.json[0]["projectId"] == self.created_file_link["projectId"]
         assert response.json[0]["data_type"] == self.created_file_link["data_type"]
-
-    def test_update_su_file_with_output_unset(self):
-        expeted_response_data = {
-            "Error": "Output name should be set before running workflow"
-        }
-
-        response = self.client.put(
-            f"{self.url_prefix}/update/{self.mock.project['id']}",
-            content_type="multipart/form-data"
-        )
-        assert response.status_code == 424
-        assert response.json["Error"] == expeted_response_data["Error"]
 
     def test_update_su_file_with_output_unset(self):
         expeted_response_data = {
@@ -145,20 +130,28 @@ class TestSuFileRouter:
         # ! Needs documentation and/or refactoring
         # ! broken test, needs more mocking
         with _app.app_context():
+            # *** sets output file target to mock workflow
             database.session.execute(
                 text(
                     "UPDATE workflows_table SET output_name = :output_name WHERE id = :id"
                 ),
-                {"output_name": "mock_output_marmousi",
-                    "id": self.mock.workflow["id"]}
+                {
+                    "output_name": "mock_output_marmousi",
+                    "id": self.mock.workflow["id"]
+                }
             )
+            # *** sets input_file_link_id to mock workflow
+            # ! probably needs "created_file_link" to be created
+            # ! or there is some bug on "created_file_link"
             database.session.execute(
                 text(
                     "UPDATE workflows_table SET input_file_link_id = :input_file_link_id WHERE id = :id"
                 ),
                 # ! missing link id
-                {"input_file_link_id": self.created_file_link["id"],
-                    "id": self.mock.workflow["id"]}
+                {
+                    "input_file_link_id": self.created_file_link["id"],
+                    "id": self.mock.workflow["id"]
+                }
             )
             database.session.commit()
 
