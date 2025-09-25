@@ -39,7 +39,7 @@ export default function FileUploadDialog({
       onClose={() => setOpen(false)}
     >
       <DialogTitle>
-        Upload novo arquivo .su
+        Upload new file
       </DialogTitle>
 
       <DialogContent>
@@ -54,7 +54,7 @@ export default function FileUploadDialog({
           variant="contained"
           onClick={saveNewFile}
         >
-          Salvar Novo Arquivo
+          Save new file
         </Button>
       </DialogActions>
     </Dialog>

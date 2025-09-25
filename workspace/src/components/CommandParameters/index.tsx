@@ -8,11 +8,11 @@ import { useCommandsStore } from "store/commandsStore"
 
 import {
   Container,
-  CustomTextField,
   CustomButton,
   CustomTooltip
 } from "./styles"
 import ParameterReadOnly from "./ParameterReadOnly"
+import ParameterInput from "./ParameterInput"
 
 interface ICommandParametersProps {
   command: ICommand | undefined
@@ -35,7 +35,6 @@ export default function CommandParameters({ command }: ICommandParametersProps) 
       return
     updateCommandParams(command.id, JSON.stringify(commandParameters))
   }
-
 
   useEffect(() => {
     if (!command)
@@ -62,24 +61,10 @@ export default function CommandParameters({ command }: ICommandParametersProps) 
               value={commandParameters ? commandParameters[parameterField.name] : ""}
             />
           ) : (
-            <CustomTextField
-              label={parameterField.name}
-              // todo: "type" must be improved to handle complex typing rendering stuff like a select list 
-              type={parameterField.input_type}
-              // ! display "required" status some other way
-              // required={parameterField.isRequired}
-
-              value={commandParameters ? commandParameters[parameterField.name] : ""}
-              onChange={(event) => {
-                const temCommandParameters = { ...commandParameters }
-                temCommandParameters[parameterField.name] = event.target.value
-                setCommandParameters({ ...temCommandParameters })
-              }}
-              slotProps={{
-                inputLabel: {
-                  shrink: true,
-                },
-              }}
+            <ParameterInput
+              parameterField={parameterField}
+              commandParameters={commandParameters}
+              setCommandParameters={setCommandParameters}
             />
           )}
         </CustomTooltip>

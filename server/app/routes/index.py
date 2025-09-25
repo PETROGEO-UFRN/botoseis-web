@@ -1,5 +1,6 @@
 from flask import Blueprint
 
+from .helperFileRouter import helperFileRouter
 from .suFilesRouter import suFileRouter
 from .suFilePathRouter import suFilePathRouter
 from .userRouter import userRouter
@@ -18,8 +19,10 @@ from .admin.parameterRouter import parameterRouter
 
 router = Blueprint("routes", __name__)
 
+router.register_blueprint(helperFileRouter)
 router.register_blueprint(suFileRouter)
 router.register_blueprint(suFilePathRouter)
+
 router.register_blueprint(userRouter)
 router.register_blueprint(sessionRouter)
 

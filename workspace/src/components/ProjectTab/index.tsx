@@ -12,8 +12,8 @@ import { TreeItemLabelWithActions } from 'shared-ui';
 
 import { useLinesStore } from 'store/linesStore';
 import { useSelectedWorkflowsStore } from 'store/selectedWorkflowsStore';
-import LineChildrenFolder from './LineChildrenFolder'
-import DataSetsFolder from './DataSetsFolder'
+import WorkflowsFolder from './TreeViewFolders/WorkflowsFolder'
+import DataSetsFolder from './TreeViewFolders/DataSetsFolder'
 import MenuActions from './MenuActions';
 
 import { Container } from "./styles"
@@ -50,14 +50,13 @@ export default function ProjectTab() {
     resetAllowToSelectTimer()
 
     const isWorkflow = itemId.startsWith("workflow")
-    const isDataset = itemId.startsWith("dataset")
+    const isFolder = itemId.includes("folder")
 
-
-    if (!(isWorkflow || isDataset))
+    if (isFolder || !isWorkflow)
       return
-    const [key, id, name] = itemId.split("-")
+    const [key, id] = itemId.split("-")
 
-    if (key !== "workflow" || !id || !name)
+    if (key !== "workflow" || !id)
       return
 
     selectWorkflow(Number(id), () => setSelectedItems(itemId))
@@ -79,7 +78,7 @@ export default function ProjectTab() {
         {Boolean(lines.length) && lines.map((line) => (
           <TreeItem
             key={line.id}
-            itemId={`line-${line.id}`}
+            itemId={`line-${line.id}-folder`}
             label={
               <TreeItemLabelWithActions
                 labelText={line.name}
@@ -88,9 +87,8 @@ export default function ProjectTab() {
               />
             }
           >
-            <LineChildrenFolder
+            <WorkflowsFolder
               lineId={line.id}
-              entityType='workflow'
               data={line.workflows}
             />
 

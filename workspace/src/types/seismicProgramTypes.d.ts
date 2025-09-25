@@ -1,8 +1,10 @@
+type parameterFileInputType = `file:${helperFileTypes}`
+
 declare interface IseismicProgramParameters {
   id: number
   name: string
   description: string
-  input_type: string
+  input_type: "float" | "integer" | "string" | parameterFileInputType
   isRequired: boolean
 }
 

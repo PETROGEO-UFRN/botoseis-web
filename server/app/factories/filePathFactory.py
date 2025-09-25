@@ -14,7 +14,7 @@ def _createFolderPath(user_email, projectId) -> str:
     return folder_path
 
 
-def createUploadedFilePath(input_file_name, projectId) -> str:
+def createUploadedSUFilePath(projectId, input_file_name) -> str:
     project = ProjectModel.query.filter_by(id=projectId).first()
     user = UserModel.query.filter_by(id=str(project.userId)).first()
 
@@ -46,3 +46,17 @@ def createDatasetFilePath(originWorkflowId) -> str:
     )
 
     return target_file_path
+
+
+def createHelperFilePath(projectId, data_type, input_file_name):
+    project = ProjectModel.query.filter_by(id=projectId).first()
+    user = UserModel.query.filter_by(id=str(project.userId)).first()
+
+    filePath = path.join(
+        _createFolderPath(user.email, projectId),
+        # *** plural of data_type
+        f"{data_type}s",
+        input_file_name
+    )
+
+    return filePath

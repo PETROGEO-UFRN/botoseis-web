@@ -9,7 +9,7 @@ from ..models.WorkflowModel import WorkflowModel
 from ..models.WorkflowParentsAssociationModel import WorkflowParentsAssociationModel
 
 from ..services.datasetServices import createDataset, deleteDatasets
-from ..factories.filePathFactory import createUploadedFilePath, createDatasetFilePath
+from ..factories.filePathFactory import createUploadedSUFilePath, createDatasetFilePath
 from ..factories.seismicUnixCommandStringFactory import createSemicUnixCommandString
 from ..factories.simplifiedProcessStringFactory import createSimplifiedProcessString
 
@@ -30,9 +30,9 @@ def listByProjectId(projectId):
 
 
 def create(file, projectId):
-    filePath = createUploadedFilePath(
-        file.filename,
-        projectId
+    filePath = createUploadedSUFilePath(
+        projectId,
+        file.filename
     )
 
     newFileLink = FileLinkModel(
@@ -69,10 +69,11 @@ def update(userId, workflowId):
     if not path.exists(datasetsDirectory):
         makedirs(datasetsDirectory)
 
+    # !!! seismicUnixProcessString is empty when running on pytest
     seismicUnixProcessString = createSemicUnixCommandString(
         workflow.orderedCommandsList,
         source_file_path,
-        target_file_path
+        source_file_path
     )
 
     try:
