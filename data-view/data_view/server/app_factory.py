@@ -7,10 +7,10 @@ from bokeh.document.document import Document
 from jinja2 import Template
 
 from ..basicPlot import Visualization, PlotOptionsState
-from ..constants.paths import index_template_path, static_url_path
-from .config import BASE_URL
+from .config import IS_DEVELOPMENT, BASE_URL
+from .paths import STATIC_URL_PATH, INDEX_TEMPLATE_PATH
 
-with open(index_template_path, "r", encoding="utf-8") as file:
+with open(INDEX_TEMPLATE_PATH, "r", encoding="utf-8") as file:
     html_template = Template(file.read())
 
 
@@ -58,7 +58,8 @@ def app_factory():
         plot = visualization.plot_manager.plot
 
         document.template = html_template
-        document.template_variables["static_path"] = static_url_path
+        document.template_variables["STATIC_PATH"] = STATIC_URL_PATH
+        document.template_variables["IS_DEVELOPMENT"] = IS_DEVELOPMENT
 
         document.add_root(plot)
 

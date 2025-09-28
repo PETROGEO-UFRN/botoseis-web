@@ -9,7 +9,7 @@
   <title>
     {% block title %}{{ title | e if title else "Bokeh Plot" }}{% endblock %}
   </title>
-  <link rel="stylesheet" type="text/css" href="{{ static_path }}css/index.css">
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/index.css">
   {% block preamble -%}{%- endblock %}
   {% block resources %}
   {% block css_resources -%}
@@ -26,7 +26,15 @@
 {% block body %}
 
 <body>
-  <script src="{{ static_path }}js/handleDrawerChange.js"></script>
+  <script src="{{ STATIC_PATH }}js/handleDrawerChange.js"></script>
+  {% if IS_DEVELOPMENT %}
+  <script>
+    // dev WebSocket to detect server restart
+    const ws = new WebSocket(`ws://${location.host}/ws-autoreload`);
+    ws.onclose = () => location.reload();
+  </script>
+  {% endif %}
+
   <div class="drawer">
     <button class="close-button" onclick="handleDrawerChange()">
       X

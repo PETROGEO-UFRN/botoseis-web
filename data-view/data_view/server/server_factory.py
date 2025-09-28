@@ -2,8 +2,9 @@ from bokeh.server.server import Server
 from bokeh.application import Application
 from tornado.web import StaticFileHandler
 
-
-from ..constants.paths import static_files_path
+from .DevAutoReloadWebSocketHandler import DevAutoReloadWebSocketHandler
+from .config import IS_DEVELOPMENT
+from .paths import STATIC_FILES_PATH
 
 
 def server_factory(bokeh_app: Application) -> Server:
@@ -20,8 +21,14 @@ def server_factory(bokeh_app: Application) -> Server:
         [(
             r"/public/(.*)",
             StaticFileHandler,
-            {"path": str(static_files_path)}
+            {"path": str(STATIC_FILES_PATH)}
         )]
     )
+
+    if IS_DEVELOPMENT:
+        server._tornado.add_handlers(
+            r".*",
+            [(r"/ws-autoreload", DevAutoReloadWebSocketHandler)]
+        )
 
     return server
