@@ -3,6 +3,7 @@ from os import path
 from ..models.WorkflowModel import WorkflowModel
 from ..models.UserModel import UserModel
 from ..models.ProjectModel import ProjectModel
+from ..models.LineModel import LineModel
 
 
 def _createFolderPath(user_email, projectId) -> str:
@@ -48,12 +49,14 @@ def createDatasetFilePath(originWorkflowId) -> str:
     return target_file_path
 
 
-def createHelperFilePath(projectId, data_type, input_file_name):
-    project = ProjectModel.query.filter_by(id=projectId).first()
+def createHelperFilePath(lineId, data_type, input_file_name):
+    line = LineModel.query.filter_by(id=lineId).first()
+    project = ProjectModel.query.filter_by(id=line.id).first()
     user = UserModel.query.filter_by(id=str(project.userId)).first()
 
     filePath = path.join(
-        _createFolderPath(user.email, projectId),
+        _createFolderPath(user.email, project.id),
+        lineId,
         # *** plural of data_type
         f"{data_type}s",
         input_file_name

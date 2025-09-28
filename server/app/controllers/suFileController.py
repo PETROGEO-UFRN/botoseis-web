@@ -17,7 +17,10 @@ from ..errors.FileError import FileError
 
 
 def listByProjectId(projectId):
-    fileLinks = FileLinkModel.query.filter_by(projectId=projectId).all()
+    fileLinks = FileLinkModel.query.filter_by(
+        projectId=projectId,
+        data_type="su"
+    ).all()
 
     # *** iterate fileLinks and convert it to list of dicts
     # *** so the api can return this as route response
@@ -95,8 +98,8 @@ def update(userId, workflowId):
         newFileLink = FileLinkModel(
             projectId=workflowParent.getProjectId(),
             datasetId=datasetAttributes["id"],
-            data_type="su",
-            path=target_file_path
+            path=target_file_path,
+            data_type="su"
         )
         database.session.add(newFileLink)
         database.session.commit()

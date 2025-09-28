@@ -26,7 +26,7 @@ export default function CommandParameters({ command }: ICommandParametersProps) 
     state.updateCommandParams
   )))
 
-  const [availableParameters, setAvailableParameters] = useState<Array<IseismicProgramParameters>>([])
+  const [availableParameters, setAvailableParameters] = useState<Array<IParameter>>([])
   const [commandParameters, setCommandParameters] = useState<IobjectWithDynamicFields | null>(null)
 
   const submitParametersUpdate = (event: FormEvent) => {

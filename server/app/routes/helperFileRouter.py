@@ -4,7 +4,7 @@ from ..errors.AppError import AppError
 
 from ..middlewares.decoratorsFactory import decorator_factory
 from ..middlewares.requireAuthentication import requireAuthentication
-from ..models.ProjectModel import ProjectModel
+from ..models.LineModel import LineModel
 from ..controllers.helperFileController import helperFileController
 
 helperFileRouter = Blueprint(
@@ -14,26 +14,26 @@ helperFileRouter = Blueprint(
 )
 
 
-@helperFileRouter.route("/list/<projectId>/models", methods=['GET'])
-@helperFileRouter.route("/list/<projectId>/tables", methods=['GET'])
-@decorator_factory(requireAuthentication, routeModel=ProjectModel)
-def listHelperFiles(_, projectId):
+@helperFileRouter.route("/list/<lineId>/models", methods=['GET'])
+@helperFileRouter.route("/list/<lineId>/tables", methods=['GET'])
+@decorator_factory(requireAuthentication, routeModel=LineModel)
+def listHelperFiles(_, lineId):
     if "/models" in str(request.url_rule):
         data_type = "model"
     if "/tables" in str(request.url_rule):
         data_type = "table"
 
-    fileLinksList = helperFileController.listByProjectId(
-        projectId,
+    fileLinksList = helperFileController.listByLineId(
+        lineId,
         data_type
     )
     return jsonify(fileLinksList)
 
 
-@helperFileRouter.route("/create/<projectId>/model", methods=['POST'])
-@helperFileRouter.route("/create/<projectId>/table", methods=['POST'])
-@decorator_factory(requireAuthentication, routeModel=ProjectModel)
-def createHelperFile(_, projectId):
+@helperFileRouter.route("/create/<lineId>/model", methods=['POST'])
+@helperFileRouter.route("/create/<lineId>/table", methods=['POST'])
+@decorator_factory(requireAuthentication, routeModel=LineModel)
+def createHelperFile(_, lineId):
     if 'file' not in request.files:
         raise AppError("No file part in the request")
     file = request.files['file']
@@ -45,7 +45,7 @@ def createHelperFile(_, projectId):
 
     fileLink = helperFileController.create(
         file,
-        projectId,
+        lineId,
         data_type,
     )
     return {"fileLink": fileLink}

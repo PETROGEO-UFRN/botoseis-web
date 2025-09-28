@@ -13,7 +13,7 @@ import {
 
 interface ILabelContentProps {
   labelText: string
-  onRemove(): void
+  onRemove?(): void
   onUpdate?(newName: string): void
 }
 
@@ -69,11 +69,12 @@ export default function TreeItemLabelWithActions({
             />
           </IconButton>
         )}
-
-        <DeleteButton
-          size="small"
-          onRemove={onRemove}
-        />
+        {onRemove && (
+          <DeleteButton
+            size="small"
+            onRemove={onRemove}
+          />
+        )}
       </ActionsBox>
     </Container>
   )

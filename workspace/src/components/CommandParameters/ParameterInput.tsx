@@ -8,7 +8,7 @@ import {
 interface IParameterTextField {
   commandParameters: IobjectWithDynamicFields | null
   setCommandParameters: Dispatch<SetStateAction<IobjectWithDynamicFields | null>>
-  parameterField: IseismicProgramParameters
+  parameterField: IParameter
 }
 
 export default function ParameterInput({

@@ -7,14 +7,14 @@ from ..models.FileLinkModel import FileLinkModel
 from ..factories.filePathFactory import createHelperFilePath
 
 
-def listByProjectId(projectId, data_type):
+def listByLineId(lineId, data_type):
     fileLinks = FileLinkModel.query.filter_by(
-        projectId=projectId,
+        lineId=lineId,
         data_type=data_type,
     ).all()
 
     # *** iterate fileLinks and convert it to list of dicts
-    # *** so the api can return this as route response
+    # *** so the api can return it as route response
     fileLinksResponse = list(map(
         lambda link: link.getAttributes(),
         fileLinks
@@ -23,15 +23,15 @@ def listByProjectId(projectId, data_type):
     return fileLinksResponse
 
 
-def create(file, projectId, data_type) -> str:
+def create(file, lineId, data_type) -> str:
     filePath = createHelperFilePath(
-        projectId,
+        lineId,
         data_type,
         file.filename
     )
 
     newFileLink = FileLinkModel(
-        projectId=projectId,
+        lineId=lineId,
         path=filePath,
         data_type=data_type,
     )
@@ -47,6 +47,6 @@ def create(file, projectId, data_type) -> str:
 
 
 helperFileController = SimpleNamespace(
-    listByProjectId=listByProjectId,
+    listByLineId=listByLineId,
     create=create,
 )

@@ -24,6 +24,7 @@ class BaseTests:
             self.mock.loadUser()
             self.mock.loadSession()
             self.mock.loadProject()
+            self.mock.loadLine()
         yield
         with _app.app_context():
             database.drop_all()
@@ -31,12 +32,12 @@ class BaseTests:
 
     def test_empty_get(self):
         response = self.client.get(
-            f"{self.url_prefix}/list/{self.mock.project['id']}/{self.data_type}s",
+            f"{self.url_prefix}/list/{self.mock.line['id']}/{self.data_type}s",
         )
         assert response.status_code == 200
         assert response.json == []
 
-    def test_list_files_with_inexistent_project(self):
+    def test_list_files_with_inexistent_line(self):
         expeted_response_data = {
             "Error": "No instance found for this id"
         }
@@ -51,13 +52,13 @@ class BaseTests:
             "Error": "No file part in the request"
         }
         response = self.client.post(
-            f"{self.url_prefix}/create/{self.mock.project['id']}/{self.data_type}",
+            f"{self.url_prefix}/create/{self.mock.line['id']}/{self.data_type}",
         )
 
         assert response.status_code == 400
         assert response.json["Error"] == expeted_response_data["Error"]
 
-    def test_create_file_with_inexistent_workflow(self):
+    def test_create_file_with_inexistent_line(self):
         expeted_response_data = {
             "Error": "No instance found for this id"
         }
@@ -78,12 +79,13 @@ class BaseTests:
             expeted_response_data = {
                 "fileLink": {
                     "path": file_path,
-                    "projectId": self.mock.project['id'],
                     "data_type": self.data_type,
+                    "lineId": self.mock.line['id'],
+                    "projectId": None,
                 }
             }
             response = self.client.post(
-                f"{self.url_prefix}/create/{self.mock.project['id']}/{self.data_type}",
+                f"{self.url_prefix}/create/{self.mock.line['id']}/{self.data_type}",
                 data={
                     "file": (file, file_path)
                 },
@@ -91,15 +93,17 @@ class BaseTests:
             )
         assert response.status_code == 200
         assert isinstance(response.json["fileLink"]["id"], int)
-        assert response.json["fileLink"]["projectId"] == expeted_response_data["fileLink"]["projectId"]
         assert response.json["fileLink"]["data_type"] == expeted_response_data["fileLink"]["data_type"]
+        assert response.json["fileLink"]["lineId"] == expeted_response_data["fileLink"]["lineId"]
+        assert response.json["fileLink"]["projectId"] == expeted_response_data["fileLink"]["projectId"]
         self.created_file_link["id"] = response.json["fileLink"]["id"]
-        self.created_file_link["projectId"] = response.json["fileLink"]["projectId"]
         self.created_file_link["data_type"] = response.json["fileLink"]["data_type"]
+        self.created_file_link["lineId"] = response.json["fileLink"]["lineId"]
+        self.created_file_link["projectId"] = response.json["fileLink"]["projectId"]
 
     def test_list_files(self):
         response = self.client.get(
-            f"{self.url_prefix}/list/{self.mock.project['id']}/{self.data_type}s",
+            f"{self.url_prefix}/list/{self.mock.line['id']}/{self.data_type}s",
             content_type="multipart/form-data"
         )
 
@@ -107,5 +111,6 @@ class BaseTests:
         assert isinstance(response.json, list)
         assert len(response.json) == 1
         assert isinstance(response.json[0]["id"], int)
-        assert response.json[0]["projectId"] == self.created_file_link["projectId"]
         assert response.json[0]["data_type"] == self.created_file_link["data_type"]
+        assert response.json[0]["lineId"] == self.created_file_link["lineId"]
+        assert response.json[0]["projectId"] == self.created_file_link["projectId"]

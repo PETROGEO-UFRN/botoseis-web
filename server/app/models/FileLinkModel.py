@@ -23,6 +23,12 @@ class FileLinkModel(database.Model):  # type: ignore
         ondelete="CASCADE"
     ))
 
+    lineId = dbTypes.Column(dbTypes.ForeignKey(
+        "lines_table.id",
+        name="FK_lines_table_file_link_table",
+        ondelete="CASCADE"
+    ))
+
     created_at = dbTypes.Column(
         dbTypes.DateTime(timezone=True),
         server_default=dbTypes.func.now()
@@ -41,4 +47,5 @@ class FileLinkModel(database.Model):  # type: ignore
             "name": self.getFileName(),
             "data_type": self.data_type,
             "projectId": self.projectId,
+            "lineId": self.lineId,
         }

@@ -14,6 +14,7 @@ import { useLinesStore } from 'store/linesStore';
 import { useSelectedWorkflowsStore } from 'store/selectedWorkflowsStore';
 import WorkflowsFolder from './TreeViewFolders/WorkflowsFolder'
 import DataSetsFolder from './TreeViewFolders/DataSetsFolder'
+import TablesFolder from './TreeViewFolders/TablesFolder'
 import MenuActions from './MenuActions';
 
 import { Container } from "./styles"
@@ -93,6 +94,8 @@ export default function ProjectTab() {
             />
 
             <DataSetsFolder line={line} />
+
+            <TablesFolder lineId={line.id} />
           </TreeItem>
         ))}
       </SimpleTreeView>
