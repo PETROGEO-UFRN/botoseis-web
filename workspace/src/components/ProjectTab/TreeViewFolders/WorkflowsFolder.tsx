@@ -62,6 +62,7 @@ export default function WorkflowsFolder({
           lineId,
           generateNextWorkflowName()
         )}
+        fullWidth
       >
         <NoteAddRoundedIcon />
         New Workflow
