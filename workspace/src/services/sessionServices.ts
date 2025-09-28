@@ -11,11 +11,9 @@ interface sessionRequestBody {
 }
 
 export async function validateSession(): Promise<boolean> {
-  const token = "mock-token"
   try {
-    // ! insecure
-    const response = await api.get(`/session/validate/${token}`)
-    if (response.status == 200)
+    const response = await api.get(`/session/validate`)
+    if (response.status == 204)
       return true
     return false
   } catch (error) {
@@ -33,7 +31,6 @@ export async function createNewSession({
   password
 }: sessionRequestBody): Promise<true | null> {
   try {
-    console.log("try to login")
     await api.post(`/session/`, {
       email,
       password

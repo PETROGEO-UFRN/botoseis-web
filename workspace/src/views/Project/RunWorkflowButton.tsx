@@ -4,7 +4,7 @@ import { useShallow } from "zustand/react/shallow"
 import { useSelectedWorkflowsStore } from "store/selectedWorkflowsStore"
 import { useGatherKeyStore } from "store/gatherKeyStore"
 import { useLogsStore } from "store/logsStore"
-import { updateFile } from 'services/fileServices'
+import { updateFile } from 'services/suFileServices'
 
 import { CommandActionButtonStyled } from './styles'
 

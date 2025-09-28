@@ -1,5 +1,5 @@
 import { AxiosError } from "axios"
-import useNotificationStore from 'store/notificationStore';
+import useNotificationStore from 'store/notificationStore'
 
 import api from "./api"
 
@@ -10,7 +10,7 @@ interface IupdateFileResult {
 
 const notificationStore = useNotificationStore.getState()
 
-export async function listFiles(
+export async function listSUFiles(
   projectId: number,
 ): Promise<Array<IfileLink> | null> {
   try {
@@ -28,7 +28,7 @@ export async function listFiles(
   }
 }
 
-export async function createFile(
+export async function createSUFile(
   projectId: number,
   formData: any,
 ): Promise<{ fileLink: IfileLink } | null> {

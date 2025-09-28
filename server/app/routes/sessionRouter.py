@@ -18,7 +18,8 @@ def create():
     return response
 
 
-@sessionRouter.route("/validate/<token>", methods=['POST'])
-def create(token):
+@sessionRouter.route("/validate", methods=['GET'])
+def validate():
+    token = request.cookies.get("Authorization")
     sessionController.validate(token)
-    return ('', 501)
+    return ('', 204)

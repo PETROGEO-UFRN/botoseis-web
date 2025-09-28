@@ -19,15 +19,22 @@ def pytest_configure():
 def pytest_collection_modifyitems(items):
     CLASS_ORDER = [
         "TestUserRouter",
+        "TestSessionRouter",
+
         "TestProjectRouter",
         "TestLineRouter",
         "TestWorkflowRouter",
+
         "TestProgramGroupRouter",
         "TestProgramRouter",
         "TestParameterRouter",
+
         "TestCommandRouter",
         "TestSuFileRouter",
         "TestSuFilePathRouter",
+
+        "TestSubPathTables",
+        "TestSubPathModels",
     ]
     class_mapping = {}
     sorted_items = []

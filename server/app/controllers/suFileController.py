@@ -9,7 +9,7 @@ from ..models.WorkflowModel import WorkflowModel
 from ..models.WorkflowParentsAssociationModel import WorkflowParentsAssociationModel
 
 from ..services.datasetServices import createDataset, deleteDatasets
-from ..factories.filePathFactory import createUploadedFilePath, createDatasetFilePath
+from ..factories.filePathFactory import createUploadedSUFilePath, createDatasetFilePath
 from ..factories.seismicUnixCommandStringFactory import createSemicUnixCommandString
 from ..factories.simplifiedProcessStringFactory import createSimplifiedProcessString
 
@@ -17,7 +17,10 @@ from ..errors.FileError import FileError
 
 
 def listByProjectId(projectId):
-    fileLinks = FileLinkModel.query.filter_by(projectId=projectId).all()
+    fileLinks = FileLinkModel.query.filter_by(
+        projectId=projectId,
+        data_type="su"
+    ).all()
 
     # *** iterate fileLinks and convert it to list of dicts
     # *** so the api can return this as route response
@@ -30,9 +33,9 @@ def listByProjectId(projectId):
 
 
 def create(file, projectId):
-    filePath = createUploadedFilePath(
-        file.filename,
-        projectId
+    filePath = createUploadedSUFilePath(
+        projectId,
+        file.filename
     )
 
     newFileLink = FileLinkModel(
@@ -69,10 +72,11 @@ def update(userId, workflowId):
     if not path.exists(datasetsDirectory):
         makedirs(datasetsDirectory)
 
+    # !!! seismicUnixProcessString is empty when running on pytest
     seismicUnixProcessString = createSemicUnixCommandString(
         workflow.orderedCommandsList,
         source_file_path,
-        target_file_path
+        source_file_path
     )
 
     try:
@@ -94,8 +98,8 @@ def update(userId, workflowId):
         newFileLink = FileLinkModel(
             projectId=workflowParent.getProjectId(),
             datasetId=datasetAttributes["id"],
-            data_type="su",
-            path=target_file_path
+            path=target_file_path,
+            data_type="su"
         )
         database.session.add(newFileLink)
         database.session.commit()

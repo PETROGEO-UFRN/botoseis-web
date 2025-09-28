@@ -1,10 +1,11 @@
 // ! Duplicated ! Shall be shared from "admin" as well as its types
+type parameterFileInputType = `file:${helperFileTypes}`
 
 declare interface IParameter {
   id: number
   name: string
   description: string
-  input_type: string
+  input_type: "float" | "integer" | "string" | parameterFileInputType
   isRequired: boolean
 }
 

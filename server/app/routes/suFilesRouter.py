@@ -1,4 +1,4 @@
-from flask import Blueprint, send_file, request, jsonify
+from flask import Blueprint, request, jsonify
 
 from ..errors.AppError import AppError
 

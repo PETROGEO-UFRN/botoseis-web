@@ -23,10 +23,6 @@ export const CustomTextField = styled(TextField)`
     font-size: 20px;
     transform: translate(14px, -16px) scale(100%);
   }
-  input {
-    padding-top: 8px;
-    padding-bottom: 4px;
-  }
   legend {
     font-size: 22px;
   }

@@ -52,7 +52,7 @@ class TestSuFilePathRouter:
 
     def test_show_path(self):
         self.mock.linkSuFileInputToWorkflow()
-        expected_file_path = "/home/jorb/code/CloudSeis/server/static/root@email.com/1/marmousi_4ms_stack.su"
+        expected_file_path = "static/root@email.com/1/marmousi_4ms_stack.su"
 
         response = self.client.get(
             f"{self.url_prefix}/{self.mock.workflow['id']}/show-path/input",

@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography'
 
 import { FileSelector } from "shared-ui"
 
-import { listFiles, createFile } from "services/fileServices"
+import { listSUFiles, createSUFile } from "services/suFileServices"
 import { updateWorkflowFileLink } from "services/workflowServices"
 import { useSelectedWorkflowsStore } from 'store/selectedWorkflowsStore'
 import { useGatherKeyStore } from 'store/gatherKeyStore'
@@ -39,7 +39,7 @@ export default function InputSelectorOptions() {
     if (!singleSelectedWorkflowId)
       return
 
-    createFile(
+    createSUFile(
       projectId,
       formData
     ).then((result) => {
@@ -82,16 +82,15 @@ export default function InputSelectorOptions() {
   }
 
   useEffect(() => {
-    listFiles(projectId).then((result) => {
+    listSUFiles(projectId).then((result) => {
       if (!result)
         return
       setFileLinks(result)
 
-      // ! change this name
-      const availableSeismicFiles = selectedWorkflows.filter(
+      const availableSUFiles = selectedWorkflows.filter(
         (workflow) => workflow.id == singleSelectedWorkflowId
       )
-      const fileLinkId = availableSeismicFiles[0].input_file_link_id
+      const fileLinkId = availableSUFiles[0].input_file_link_id
       setSelectedFileLinkId(fileLinkId)
     })
   }, [])
@@ -101,8 +100,8 @@ export default function InputSelectorOptions() {
       <Typography variant="h5">
         {
           hasSelectedDataset ?
-            "Arquivo .su usado no fluxo" :
-            "Escolha o arquivo .su a ser usado no fluxo"
+            "Original .su data for this dataset" :
+            "Choose a .su file to be processed on this workflow"
         }
       </Typography>
 
@@ -124,7 +123,7 @@ export default function InputSelectorOptions() {
         color={hasSelectedDataset ? 'secondary' : 'primary'}
         onClick={visualizeInputFile}
       >
-        Visualizar input
+        Visualize input
       </Button>
     </Container>
   )

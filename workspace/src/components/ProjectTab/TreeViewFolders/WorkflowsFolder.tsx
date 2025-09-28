@@ -8,17 +8,17 @@ import { TreeItemLabelWithActions } from 'shared-ui';
 import { defaultWorkflowName } from 'constants/defaults';
 import { useLinesStore } from 'store/linesStore';
 
-interface ILineChildrenFolderProps {
+interface IWorkflowsFolderProps {
   lineId: number
-  entityType: "workflow" | "dataset"
   data: Array<IResumedWorkflow>
 }
 
-export default function LineChildrenFolder({
+const entityType = 'workflow'
+
+export default function WorkflowsFolder({
   lineId,
-  entityType,
   data,
-}: ILineChildrenFolderProps) {
+}: IWorkflowsFolderProps) {
   const {
     pushNewWorkflowToLine,
     updateWorkflowName,
@@ -40,13 +40,13 @@ export default function LineChildrenFolder({
 
   return (
     <TreeItem
-      itemId={`from-${lineId}-${entityType}`}
+      itemId={`${lineId}-${entityType}s-folder`}
       label={`${entityType}s`}
     >
       {data.map((workflow) => (
         <TreeItem
-          key={`${entityType}-${workflow.id}`}
-          itemId={`${entityType}-${workflow.id}-${workflow.name}`}
+          key={workflow.id}
+          itemId={`${entityType}-${workflow.id}`}
           label={
             <TreeItemLabelWithActions
               labelText={workflow.name}
@@ -56,17 +56,17 @@ export default function LineChildrenFolder({
           }
         />
       ))}
-      {entityType == "workflow" && (
-        <Button
-          onClick={() => pushNewWorkflowToLine(
-            lineId,
-            generateNextWorkflowName()
-          )}
-        >
-          <NoteAddRoundedIcon />
-          New Workflow
-        </Button>
-      )}
+
+      <Button
+        onClick={() => pushNewWorkflowToLine(
+          lineId,
+          generateNextWorkflowName()
+        )}
+        fullWidth
+      >
+        <NoteAddRoundedIcon />
+        New Workflow
+      </Button>
     </TreeItem>
   )
 }
