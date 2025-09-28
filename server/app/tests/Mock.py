@@ -38,7 +38,7 @@ class Mock():
         return user_data
 
     def loadSession(self, email=None, password=DEFAULT_PASSWORD):
-        response = self.client.post(
+        self.client.post(
             "/session/",
             json={
                 "email": email or self.user["email"],
