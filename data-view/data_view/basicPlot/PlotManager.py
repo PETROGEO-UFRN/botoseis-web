@@ -15,9 +15,9 @@ class PlotManager:
     image_renderer: GlyphRenderer
     wiggle_renderer: GlyphRenderer
 
-    # temp properties, shall be removed
-    wiggle_switch = True
-    areas_switch = True
+    is_image_visible: bool
+    is_wiggle_visible: bool
+    is_areas_visible: bool
 
     def __init__(
         self,
@@ -28,6 +28,12 @@ class PlotManager:
         stretch_factor: float = 0.15,
         gather_key: str | None = None,
     ):
+        # Initial visibility of renderers
+        # -------------------------------
+        self.is_image_visible = True
+        self.is_wiggle_visible = False
+        self.is_areas_visible = False
+
         # Input checks
         # ------------
         self._check_stretch_factor(stretch_factor)
@@ -110,7 +116,7 @@ class PlotManager:
             ys="ys",
             source=self.wiggle_source,
             color=COLOR,
-            visible=self.wiggle_switch if self.wiggle_switch else True,
+            visible=self.is_wiggle_visible,
         )
 
     def __create_image_renderer(
@@ -133,6 +139,7 @@ class PlotManager:
             "palette": "Greys256",
             "anchor": "bottom_left",
             "origin": "bottom_left",
+            "visible": self.is_image_visible,
         }
         if num_traces == 1:
             self.image_renderer: GlyphRenderer = self.plot.image(
@@ -246,7 +253,7 @@ class PlotManager:
                 y=time_sample_instants,
                 color=COLOR,
                 name="H",
-                visible=self.areas_switch if self.areas_switch else True,
+                visible=self.is_areas_visible,
             )
 
     def _update_image_glyph(self, x_positions: np_types.NDArray, time_sample_instants: np_types.NDArray):

@@ -1,5 +1,6 @@
 import time
 import numpy.typing as np_types
+from typing import Literal
 from seismicio.Models.SuDataModel import SuFile
 
 from ..transforms.clip import apply_clip_from_perc
@@ -78,6 +79,26 @@ class Visualization:
             self.plot_options_state.gather_index_start:
             gather_index_stop
         ].data
+
+    def toogle_visibility_by_type(
+        self,
+        renderer_type: Literal["toggle_image", "toggle_wiggle", "toggle_areas"]
+    ) -> bool:
+        if renderer_type == "toggle_image":
+            is_visible = not self.plot_manager.is_image_visible
+            self.plot_manager.is_image_visible = is_visible
+            self.plot_manager.image_renderer.visible = is_visible
+            return is_visible
+        if renderer_type == "toggle_wiggle":
+            is_visible = not self.plot_manager.is_wiggle_visible
+            self.plot_manager.is_wiggle_visible = is_visible
+            self.plot_manager.wiggle_renderer.visible = is_visible
+            return is_visible
+        if renderer_type == "toggle_areas":
+            is_visible = not self.plot_manager.is_areas_visible
+            self.plot_manager.is_areas_visible = is_visible
+            self.plot_manager.areas_renderer.visible = is_visible
+            return is_visible
 
     def handle_state_change(self):
         start_time = time.perf_counter()
