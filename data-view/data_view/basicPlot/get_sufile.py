@@ -1,6 +1,6 @@
 from seismicio import readsu
 
-SECOND_IN_MICRO_SECONDS = 10e6
+SECOND_IN_MICRO_SECONDS = 1e6
 
 
 def get_stack_sufile(plot_options: dict, filename: str):
