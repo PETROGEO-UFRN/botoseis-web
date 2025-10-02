@@ -55,7 +55,7 @@ class Visualization:
 
     @staticmethod
     def __optionally_apply_gain(data: np_types.NDArray, gain_option: str, wagc: float, dt: float) -> np_types.NDArray:
-        if gain_option == "None":
+        if gain_option == None:
             return data
         return apply_gain(data, gain_option, wagc, dt)
 

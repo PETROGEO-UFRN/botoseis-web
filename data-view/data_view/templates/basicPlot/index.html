@@ -9,7 +9,16 @@
   <title>
     {% block title %}{{ title | e if title else "Bokeh Plot" }}{% endblock %}
   </title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
   <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/index.css">
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/basic_plot_page.css">
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/open_menu_button.css">
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/side_menu.css">
   {% block preamble -%}{%- endblock %}
   {% block resources %}
   {% block css_resources -%}
@@ -25,8 +34,10 @@
 {% endblock head%}
 {% block body %}
 
-<body>
-  <script src="{{ STATIC_PATH }}js/handleDrawerChange.js"></script>
+<body class="{% if has_gather_key %}shot-gather-plot-page{% endif %}">
+  <script src="{{ STATIC_PATH }}js/handleSideMenuVisibility.js"></script>
+  <script src="{{ STATIC_PATH }}js/basicPlot/loadPythonBridge.js"></script>
+  <script src="{{ STATIC_PATH }}js/basicPlot/onInputsChange.js"></script>
   {% if IS_DEVELOPMENT %}
   <script>
     // dev WebSocket to detect server restart
@@ -35,58 +46,12 @@
   </script>
   {% endif %}
 
-  <div class="drawer">
-    <button class="close-button" onclick="handleDrawerChange()">
-      X
-    </button>
-    <label>
-      Image
-      <input type="checkbox" />
-    </label>
-
-    <label>
-      Wiggle
-      <input type="checkbox" />
-    </label>
-
-    <label>
-      Areas
-      <input type="checkbox" />
-    </label>
-
-    <label class="label-column">
-      <span>
-        Percentile clip
-      </span>
-      <input type="number" />
-    </label>
-
-    <div class="gainTypeBox">
-      <label>
-        None
-        <input type="radio" value="None" name="gainType" />
-      </label>
-      <label>
-        agc
-        <input type="radio" value="agc" name="gainType" />
-      </label>
-      <label>
-        wagc
-        <input type="radio" value="wagc" name="gainType" />
-      </label>
-    </div>
-
-    <label class="label-column">
-      <span>
-        Automatic gain control window (seconds):
-      </span>
-      <input type="number" />
-    </label>
-  </div>
-
-  <button class="open-button" onclick="handleDrawerChange()">
-    Open
+  <button class="open-side-menu-button" onclick="handleSideMenuVisibility()">
+    <img src="{{ STATIC_PATH }}icons/menu_icon.svg" alt="">
+    Plot Options
   </button>
+
+  {{ _sideMenu | safe }}
 
   {% block inner_body %}
   {% block contents %}
@@ -102,6 +67,12 @@
   {{ plot_script | indent(4) }}
   {% endblock inner_body %}
 
+
+  {% if has_gather_key %}
+  <div class="shot-navigation">
+    <!--  -->
+  </div>
+  {% endif %}
 </body>
 {% endblock body%}
 

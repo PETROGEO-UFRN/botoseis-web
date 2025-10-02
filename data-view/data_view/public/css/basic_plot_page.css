@@ -1,0 +1,26 @@
+body {
+  display: grid;
+  grid-template-areas:
+    "side-menu plot"
+    "shot-navigation shot-navigation";
+  grid-template-columns: 0 1fr;
+  grid-template-rows: 1fr 0;
+}
+
+body.shot-gather-plot-page {
+  grid-template-rows: 1fr 64px;
+}
+
+.side-menu {
+  grid-area: side-menu;
+}
+
+/* class provided by bokeh to plot container */
+/* very limited styles */
+.bk-Figure {
+  grid-area: plot;
+}
+
+.shot-navigation {
+  grid-area: shot-navigation;
+}

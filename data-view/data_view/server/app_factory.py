@@ -4,18 +4,23 @@ from requests import get
 from bokeh.application import Application
 from bokeh.application.handlers import FunctionHandler
 from bokeh.document.document import Document
-from jinja2 import Template
+
 
 from ..basicPlot import Visualization, PlotOptionsState
+from .loadTemplate import loadTemplate
+from .create_bridge_model import create_bridge_model
 from .config import IS_DEVELOPMENT, BASE_URL
-from .paths import STATIC_URL_PATH, INDEX_TEMPLATE_PATH
+from .paths import STATIC_URL_PATH, BASIC_PLOT_TEMPLATE_PATH
 
-with open(INDEX_TEMPLATE_PATH, "r", encoding="utf-8") as file:
-    html_template = Template(file.read())
+html_template = loadTemplate(BASIC_PLOT_TEMPLATE_PATH)
 
 
 def app_factory():
-    def __find_file_path(auth_token: str, workflowId: int, origin: Literal["input", "output"]) -> None | str:
+    def __find_file_path(
+        auth_token: str,
+        workflowId: int,
+        origin: Literal["input", "output"]
+    ) -> None | str:
         api_url = f"{BASE_URL}/su-file-path/{workflowId}/show-path/output"
         if origin == "input":
             api_url = api_url.replace("/output", "/input")
@@ -36,7 +41,7 @@ def app_factory():
 
         return absolute_file_path
 
-    def modify_document(document: Document) -> None:
+    def __get_request_arguments(document: Document) -> tuple[str, str, str, str]:
         session_context = document.session_context
         request = session_context.request
         arguments = request.arguments
@@ -45,22 +50,47 @@ def app_factory():
         gather_key: str = arguments.get('gather_key', [b''])[0].decode('utf-8')
         workflowId = arguments.get('workflowId', [b''])[0].decode('utf-8')
         origin = arguments.get('origin', [b''])[0].decode('utf-8')
+        return (
+            origin,
+            auth_token,
+            workflowId,
+            gather_key,
+        )
+
+    def __setup_template(document: Document, gather_key: str) -> None:
+        document.template = html_template
+        document.template_variables["STATIC_PATH"] = STATIC_URL_PATH
+        document.template_variables["IS_DEVELOPMENT"] = IS_DEVELOPMENT
+        document.template_variables["has_gather_key"] = bool(gather_key)
+
+    def modify_document(document: Document) -> None:
+        (
+            origin,
+            auth_token,
+            workflowId,
+            gather_key
+        ) = __get_request_arguments(document)
+
         absolute_file_path = __find_file_path(
             auth_token=auth_token,
             workflowId=int(workflowId),
             origin=origin
         )
+
+        __setup_template(document, gather_key)
+
+        plot_options_state = PlotOptionsState(gather_key=gather_key or None)
         visualization = Visualization(
             gather_key=gather_key or None,
             filename=absolute_file_path,
-            plot_options_state=PlotOptionsState(gather_key=gather_key or None),
+            plot_options_state=plot_options_state,
         )
         plot = visualization.plot_manager.plot
 
-        document.template = html_template
-        document.template_variables["STATIC_PATH"] = STATIC_URL_PATH
-        document.template_variables["IS_DEVELOPMENT"] = IS_DEVELOPMENT
-
+        state_changer_bridge_model = create_bridge_model(
+            visualization=visualization
+        )
+        document.add_root(state_changer_bridge_model)
         document.add_root(plot)
 
     # *** Create a new Bokeh Application

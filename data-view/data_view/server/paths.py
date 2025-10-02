@@ -1,9 +1,10 @@
 from pathlib import Path
 
-INDEX_TEMPLATE_PATH = (
-    Path(__file__).parent.parent / "templates" / "index.html"
-).resolve()
+__TAMPLATES_FOLDER = Path(__file__).parent.parent / "templates"
 
+BASIC_PLOT_TEMPLATE_PATH = (
+    __TAMPLATES_FOLDER / "basicPlot" / "index.html"
+).resolve()
 
 STATIC_URL_PATH = "/public/"
 

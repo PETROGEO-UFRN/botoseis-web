@@ -1,0 +1,72 @@
+<aside class="side-menu">
+  <button class="close-button" onclick="handleSideMenuVisibility()">
+    <img src="{{ STATIC_PATH }}icons/close_icon.svg" alt="Close Plot Options Menu">
+  </button>
+
+  <h2>
+    Edit Plot Options
+  </h2>
+
+  <!-- SWITCHS  -->
+  <div class="plot-type-selectors">
+    <label class="switch-label">
+      <span class="label-title">
+        Image
+      </span>
+      <input id="image-switch" type="checkbox" />
+      <span class="slider"></span>
+    </label>
+
+    <label class="switch-label">
+      <span class="label-title">
+        Wiggle
+      </span>
+      <input id="wiggle-switch" type="checkbox" />
+      <span class="slider"></span>
+    </label>
+
+    <label class="switch-label">
+      <span class="label-title">
+        Areas
+      </span>
+      <input id="areas-switch" type="checkbox" />
+      <span class="slider"></span>
+    </label>
+  </div>
+  <!-- END SWITCHS  -->
+
+  <label class="label-column">
+    <span>
+      Percentile clip
+    </span>
+    <input type="number" id="percentile-clip-input" value="100" />
+  </label>
+
+  <label class="label-column">
+    <span>
+      Automatic gain control window
+    </span>
+    <span>
+      (seconds):
+    </span>
+    <input type="number" id="gain-control-window-input" value="0.5" />
+  </label>
+
+  <div class="gain-type-selector-box">
+    <p class="title">
+      Gain type
+    </p>
+    <label class="radio-label">
+      <input type="radio" value="None" name="gain-type-radio" checked />
+      <span> None </span>
+    </label>
+    <label class="radio-label">
+      <input type="radio" value="agc" name="gain-type-radio" />
+      <span> agc </span>
+    </label>
+    <label class="radio-label">
+      <input type="radio" value="wagc" name="gain-type-radio" />
+      <span> wagc </span>
+    </label>
+  </div>
+</aside>

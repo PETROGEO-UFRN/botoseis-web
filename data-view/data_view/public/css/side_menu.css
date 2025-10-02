@@ -1,0 +1,151 @@
+.side-menu {
+  z-index: 10;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+
+  width: 256px;
+  height: 100%;
+  gap: 16px;
+  padding: 16px;
+  background-color: #fff;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 -8px 16px 4px #0000003F;
+}
+
+.side-menu:not(.open) {
+  display: none;
+}
+
+.side-menu h2 {
+  color: var(--primary-color-dark);
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+.close-button {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+}
+
+.close-button img {
+  height: 32px;
+  width: auto;
+}
+
+.side-menu .plot-type-selectors {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+/* switch styles */
+.side-menu .switch-label {
+  --slider-size: 50px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 24px;
+}
+
+.side-menu .switch-label .label-title {
+  margin-left: calc(var(--slider-size) + 8px);
+  color: var(--primary-color-dark);
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 1.6px;
+}
+
+.side-menu .switch-label input {
+  width: 0;
+  height: 0;
+}
+
+.side-menu .switch-label .slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--slider-size);
+
+  background-color: var(--primary-color-light);
+  opacity: 0.67;
+  transition: 0.3s;
+  border-radius: 24px;
+}
+
+
+.side-menu .switch-label .slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  bottom: 2px;
+  background-color: #fff;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.side-menu .switch-label input:checked+.slider {
+  background-color: var(--primary-color);
+  opacity: 1;
+}
+
+.side-menu .switch-label input:checked+.slider:before {
+  transform: translateX(26px);
+}
+
+/* end switch styles */
+
+
+.side-menu .label-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.side-menu .label-column input {
+  font-size: 1rem;
+  margin-top: 4px;
+  padding: 4px 8px;
+}
+
+/* gain type selecor */
+
+.side-menu .gain-type-selector-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.side-menu .gain-type-selector-box .title {
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+}
+
+.side-menu .gain-type-selector-box .radio-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.side-menu .radio-label:not(:last-of-type) {
+  margin-bottom: 4px;
+}
+
+.side-menu .radio-label span {
+  color: var(--primary-color-dark);
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 1.6px;
+}
+
+.side-menu .radio-label input {
+  accent-color: var(--primary-color);
+}
+
+/* end gain type selecor */
