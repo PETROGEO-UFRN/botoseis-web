@@ -19,6 +19,7 @@
   <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/basic_plot_page.css">
   <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/open_menu_button.css">
   <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/side_menu.css">
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/shot_navigation.css">
   {% block preamble -%}{%- endblock %}
   {% block resources %}
   {% block css_resources -%}
@@ -37,7 +38,8 @@
 <body class="{% if has_gather_key %}shot-gather-plot-page{% endif %}">
   <script src="{{ STATIC_PATH }}js/handleSideMenuVisibility.js"></script>
   <script src="{{ STATIC_PATH }}js/basicPlot/loadPythonBridge.js"></script>
-  <script src="{{ STATIC_PATH }}js/basicPlot/onInputsChange.js"></script>
+  <script src="{{ STATIC_PATH }}js/basicPlot/onPlotOptionInputsChange.js"></script>
+  <script src="{{ STATIC_PATH }}js/basicPlot/onShotGatherInputsChange.js"></script>
   {% if IS_DEVELOPMENT %}
   <script>
     // dev WebSocket to detect server restart
@@ -69,9 +71,7 @@
 
 
   {% if has_gather_key %}
-  <div class="shot-navigation">
-    <!--  -->
-  </div>
+  {{ _shotNavigation | safe }}
   {% endif %}
 </body>
 {% endblock body%}

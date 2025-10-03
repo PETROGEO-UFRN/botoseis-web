@@ -16,7 +16,7 @@ class PlotOptionsState:
 
     def __init__(
         self,
-        gather_key: str | None = None
+        has_gather_key: bool = False
     ) -> None:
         self.updatePlotOptionsState(
             percentile_clip=100,
@@ -26,7 +26,7 @@ class PlotOptionsState:
             num_time_samples=None,
         )
 
-        if gather_key:
+        if has_gather_key:
             self.updatePlotOptionsState(
                 gather_index_start=0,  # zero-based indexing
                 num_loadedgathers=1,

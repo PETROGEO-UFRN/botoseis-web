@@ -1,0 +1,68 @@
+.shot-navigation {
+  z-index: 20;
+  display: flex;
+  padding: 8px 16px;
+  gap: 16px;
+}
+
+.shot-navigation .divider {
+  height: 100%;
+  width: 2px;
+  background-color: var(--shadow-color);
+}
+
+/* gathers amount to load input */
+.shot-navigation .gathers-amount-label {
+  display: flex;
+  flex-direction: column;
+  justify-content: spa;
+  width: 128px;
+  gap: 4px;
+}
+
+.shot-navigation .gathers-amount-label #gathers-amount-input {
+  font-size: 1rem;
+  padding: 4px 8px;
+}
+
+
+/* gather position input */
+.shot-navigation .position-slider {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  gap: 8px;
+}
+
+.shot-navigation .position-slider .gathers-number-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.shot-navigation .gathers-number-box .total-gathers-amount {
+  font-size: 1rem;
+}
+
+.shot-navigation .position-slider label {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 8px;
+}
+
+.shot-navigation .position-slider .label-title {
+  display: flex;
+  font-size: 1rem;
+}
+
+.shot-navigation .position-slider #shot-gather-position-number {
+  width: 96px;
+  padding: 2px 8px;
+  font-size: 1rem;
+}
+
+.shot-navigation .position-slider #shot-gather-position-slider {
+  accent-color: var(--primary-color-light);
+}

@@ -14,26 +14,29 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const areasCheckbox = document.querySelector("#areas-switch");
-  areasCheckbox.addEventListener("change", (event) => {
-    areasCheckbox.checked = event.target.checked;
+  // *** check if there is no such input
+  // *** tipcaly when the input has no shot gather
+  // *** is will also have no areas-switch
+  if (areasCheckbox)
+    areasCheckbox.addEventListener("change", (event) => {
+      areasCheckbox.checked = event.target.checked;
 
-    loadPythonBridge({ toggle_areas: event.target.checked });
-  });
+      loadPythonBridge({ toggle_areas: event.target.checked });
+    });
 
   const gainControlWindowInput = document.querySelector("#gain-control-window-input");
   gainControlWindowInput.addEventListener("change", (event) => {
     const value = event.target.value
+
+    if (value <= 0)
+      return gainControlWindowInput.value = 0
+
     loadPythonBridge({ wagc: value })
   })
 
   const percentileClipInput = document.querySelector("#percentile-clip-input");
   percentileClipInput.addEventListener("change", (event) => {
     const value = event.target.value
-
-    if (value <= 0)
-      return percentileClipInput.value = 0
-    if (value > 100)
-      return percentileClipInput.value = 0
 
     loadPythonBridge({ percentile_clip: value })
   })

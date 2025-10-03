@@ -9,6 +9,7 @@ body {
   --primary-color-dark: #3e4d49;
   --primary-color-light: #7a8b87;
   --secondary-color: #725B5B;
+  --shadow-color: #0000003F;
   font-family: "Roboto", sans-serif;
   box-sizing: border-box;
   height: 100vh;

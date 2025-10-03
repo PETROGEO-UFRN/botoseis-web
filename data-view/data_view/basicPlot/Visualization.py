@@ -61,24 +61,24 @@ class Visualization:
         return apply_gain(data, gain_option, wagc, dt)
 
     def __getDataForShotGathers(self):
-        gather_index_stop = self.plot_options_state.gather_index_start + \
+        gather_index_start = self.plot_options_state.gather_index_start
+        gather_index_stop = gather_index_start + \
             self.plot_options_state.num_loadedgathers
-        if (
-            gather_index_stop - 1 ==
-            self.plot_options_state.gather_index_start
-        ):
+
+        data = self.sufile.igather[
+            gather_index_start:gather_index_stop
+        ].data
+
+        if (gather_index_stop - 1 == gather_index_start):
             # *** Single gather
             self.x_positions = self.sufile.igather[
-                self.plot_options_state.gather_index_start
-            ].headers["offset"],
-            return self.sufile.igather[
-                self.plot_options_state.gather_index_start
-            ].data
+                gather_index_start
+            ].headers["offset"]
+            return data
+
         # *** Multiple gathers
-        return self.sufile.igather[
-            self.plot_options_state.gather_index_start:
-            gather_index_stop
-        ].data
+        self.x_positions = None
+        return data
 
     def toogle_visibility_by_type(
         self,

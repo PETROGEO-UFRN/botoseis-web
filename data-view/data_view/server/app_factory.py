@@ -85,6 +85,7 @@ def app_factory() -> Application:
             "STATIC_PATH": STATIC_URL_PATH,
             "IS_DEVELOPMENT": IS_DEVELOPMENT,
             "has_gather_key": gather_key,
+            "total_gathers_amount": plot_options_state.num_gathers
         }
         html_template = loadTemplate(
             BASIC_PLOT_TEMPLATE_PATH,

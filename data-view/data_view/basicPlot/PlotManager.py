@@ -53,6 +53,7 @@ class PlotManager:
             width=1000,
             sizing_mode="stretch_both",
             active_drag=None,
+            min_border=0,
         )
 
         # Adjust ranges

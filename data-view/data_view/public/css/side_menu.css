@@ -5,12 +5,13 @@
   flex-direction: column;
 
   width: 256px;
-  height: 100%;
+  height: auto;
   gap: 16px;
   padding: 16px;
   background-color: #fff;
-  border-right: 1px solid rgba(0, 0, 0, 0.12);
-  box-shadow: 0 -8px 16px 4px #0000003F;
+  border-right: 2px solid var(--shadow-color);
+  border-bottom: 2px solid var(--shadow-color);
+  box-shadow: 0 -8px 16px 4px var(--shadow-color);
 }
 
 .side-menu:not(.open) {
