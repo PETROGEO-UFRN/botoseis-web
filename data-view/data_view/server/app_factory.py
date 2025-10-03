@@ -12,10 +12,8 @@ from .create_bridge_model import create_bridge_model
 from .config import IS_DEVELOPMENT, BASE_URL
 from .paths import STATIC_URL_PATH, BASIC_PLOT_TEMPLATE_PATH
 
-html_template = loadTemplate(BASIC_PLOT_TEMPLATE_PATH)
 
-
-def app_factory():
+def app_factory() -> Application:
     def __find_file_path(
         auth_token: str,
         workflowId: int,
@@ -57,12 +55,6 @@ def app_factory():
             gather_key,
         )
 
-    def __setup_template(document: Document, gather_key: str) -> None:
-        document.template = html_template
-        document.template_variables["STATIC_PATH"] = STATIC_URL_PATH
-        document.template_variables["IS_DEVELOPMENT"] = IS_DEVELOPMENT
-        document.template_variables["has_gather_key"] = bool(gather_key)
-
     def modify_document(document: Document) -> None:
         (
             origin,
@@ -77,9 +69,7 @@ def app_factory():
             origin=origin
         )
 
-        __setup_template(document, gather_key)
-
-        plot_options_state = PlotOptionsState(gather_key=gather_key or None)
+        plot_options_state = PlotOptionsState(has_gather_key=bool(gather_key))
         visualization = Visualization(
             gather_key=gather_key or None,
             filename=absolute_file_path,
@@ -90,8 +80,20 @@ def app_factory():
         state_changer_bridge_model = create_bridge_model(
             visualization=visualization
         )
-        document.add_root(state_changer_bridge_model)
+
+        template_variables = {
+            "STATIC_PATH": STATIC_URL_PATH,
+            "IS_DEVELOPMENT": IS_DEVELOPMENT,
+            "has_gather_key": gather_key,
+        }
+        html_template = loadTemplate(
+            BASIC_PLOT_TEMPLATE_PATH,
+            template_variables
+        )
+
+        document.template = html_template
         document.add_root(plot)
+        document.add_root(state_changer_bridge_model)
 
     # *** Create a new Bokeh Application
     bokeh_app = Application(

@@ -4,7 +4,18 @@ from jinja2 import Template
 from .paths import STATIC_URL_PATH
 
 
-def loadTemplate(template_path: Path) -> Template:
+def __loadVariables(
+    template: Template,
+    variables: dict[str, str | bool]
+):
+    for key, value in variables.items():
+        template.globals[key] = value
+
+
+def loadTemplate(
+    template_path: Path,
+    template_variables: dict[str, str | bool]
+) -> Template:
     """
     Load a Jinja2 template.
 
@@ -26,16 +37,17 @@ def loadTemplate(template_path: Path) -> Template:
         for file_path in template_module_folder.iterdir():
             if file_path.is_file() and file_path.suffix == ".html":
                 key_name = file_path.stem
-                # *** skip main template itself
+                # *** skip main template
                 if key_name == template_path.stem:
                     continue
 
                 with open(file_path, "r", encoding="utf-8") as partial_template_file:
                     partial_template = Template(partial_template_file.read())
+                    __loadVariables(partial_template, template_variables)
                     rendered = partial_template.render(
                         STATIC_PATH=STATIC_URL_PATH
                     )
                     html_template.globals[key_name] = rendered
-                html_template.globals["STATIC_PATH"] = STATIC_URL_PATH
+                __loadVariables(html_template, template_variables)
 
         return html_template
