@@ -113,6 +113,13 @@
                             "example": "v1,v2,...",
                             "input_type": "string",
                             "isRequired": false
+                        },
+                        {
+                            "name": "par",
+                            "description": "",
+                            "example": "",
+                            "input_type": "file:table",
+                            "isRequired": false
                         }
                     ]
                 },
