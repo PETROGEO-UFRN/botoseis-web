@@ -1,5 +1,5 @@
 import Grid from '@mui/material/Grid'
-import { TreeView } from '@mui/x-tree-view/TreeView';
+import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -16,10 +16,12 @@ export default function Home() {
 
   return (
     <Grid container sx={{ height: "100%" }}>
-      <Grid item xs={2}>
-        <TreeView
-          defaultCollapseIcon={<ExpandMoreIcon />}
-          defaultExpandIcon={<ChevronRightIcon />}
+      <Grid size={2}>
+        <SimpleTreeView
+          slots={{
+            collapseIcon: ExpandMoreIcon,
+            expandIcon: ChevronRightIcon
+          }}
         >
           {programGroups.map(group => (
             <TreeItemWithAction
@@ -38,10 +40,10 @@ export default function Home() {
               ))}
             </TreeItemWithAction>
           ))}
-        </TreeView>
+        </SimpleTreeView>
       </Grid>
 
-      <Grid item xs={10}>
+      <Grid size={10}>
         <ProgramForm />
       </Grid>
     </Grid>

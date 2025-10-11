@@ -8,6 +8,7 @@ import Button from "@mui/material/Button"
 
 import FileUploadDialog from "../FileUploadDialog"
 import { uploadNewFileType } from "../FileUploadDialog"
+import type { IfileLink } from "../../types/fileTypes"
 
 interface IFileSelectorProps {
   fileLinks: Array<IfileLink>

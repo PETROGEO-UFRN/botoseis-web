@@ -1,7 +1,7 @@
-interface IfileLink {
+export interface IfileLink {
   id: number
   name: string
-  data_type: "su" | "asc_table" | "velocity_model"
+  data_type: "su" | "table" | "model"
   projectId: number | undefined
   datasetId: number | undefined
 }

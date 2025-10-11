@@ -4,7 +4,7 @@ import LoginForm from '../components/LoginForm'
 
 export default function Login() {
   return (
-    <Grid item xs={10}>
+    <Grid size={10}>
       <LoginForm />
     </Grid>
   )
