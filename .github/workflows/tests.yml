@@ -32,8 +32,11 @@ jobs:
     - name: Install dependecies
       run: pip install -r server/requirements.txt
 
+    - name: Install dev dependecies
+      run: pip install -r server/requirements-dev.txt
+
     - name: Make
       run: make test
-
+    
     - name: run tests
       run: cd server/ && pytest

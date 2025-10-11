@@ -127,6 +127,7 @@ class TestSuFileRouter:
         assert response.json["Error"] == expeted_response_data["Error"]
 
     def test_update_su_file(self):
+        pass
         # ! Needs documentation and/or refactoring
         # ! broken test, needs more mocking
         with _app.app_context():

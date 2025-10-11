@@ -26,17 +26,32 @@ jobs:
 
     - name: Generate server requirements
       run: cd server/ && pipenv requirements > requirements.txt
+      
+    - name: Generate server dev requirements (required to run tests)
+      run: cd server/ && pipenv requirements --dev-only > requirements-dev.txt
 
     - name: Generate data-view requirements
       run: cd data-view/ && pipenv requirements > requirements.txt
 
-    - name: Commit changes
+    - name: Generate data-view dev requirements (required to run tests)
+      run: cd data-view/ && pipenv requirements --dev-only > requirements-dev.txt
+
+    - name: Setup git
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git add ./server/requirements.txt
+        git add ./server/requirements-dev.txt
         git add ./data-view/requirements.txt
-        git commit -m 'Auto update requirements.txt'
+        git add ./data-view/requirements-dev.txt
+
+    - name: Commit changes
+      run: |
+        if ! git diff --cached --quiet; then
+          git commit -m 'Auto update requirements.txt'
+        else
+          echo 'No changes to commit.'
+        fi
 
     - name: Push changes
       env:
