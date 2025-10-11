@@ -33,7 +33,7 @@ export default function InputSelectorOptions() {
   const [selectedFileLinkId, setSelectedFileLinkId] = useState<number | undefined>(0)
 
   const uploadNewFile = (
-    newFile: File,
+    _newFile: File,
     formData: FormData
   ) => {
     if (!singleSelectedWorkflowId)

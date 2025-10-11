@@ -1,9 +1,24 @@
-FROM node:22.14.0-alpine
+FROM node:22.18.0-alpine
+
+WORKDIR /home
+
+# Set vite env on build time
+ARG VITE_API_URL
+ARG VITE_VISUALIZER_URL
+ENV VITE_API_URL=${VITE_API_URL}
+ENV VITE_VISUALIZER_URL=${VITE_VISUALIZER_URL}
+
+# Local package "shared-ui"
+COPY ./shared-ui /home/shared-ui
+WORKDIR /home/shared-ui
+
+RUN yarn install --frozen-lockfile
+RUN yarn run build
+
+# Core workspace
+COPY ./workspace /home/workspace
 WORKDIR /home/workspace
 
-COPY . .
-
-RUN yarn
 RUN yarn install
 RUN yarn build
 

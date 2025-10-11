@@ -48,7 +48,7 @@ export default function ParameterFileSelector({
   ])
 
   const uploadNewFile = (
-    newFile: File,
+    _newFile: File,
     formData: FormData
   ) => {
     if (fileInputDataType == fileDataTypes.Table)

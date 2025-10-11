@@ -14,7 +14,7 @@ interface ITablesStoreState {
   ) => Promise<undefined | number>
 }
 
-export const useTablesStore = create<ITablesStoreState>((set, get) => ({
+export const useTablesStore = create<ITablesStoreState>((set) => ({
   tables: [],
   loadTables: (projectId) => {
     const data_type = "table"

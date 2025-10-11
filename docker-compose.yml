@@ -38,25 +38,8 @@ services:
       - FLASK_ENV=${FLASK_ENV:-DEVELOPMENT}
     ports:
       - "5000:5000"
-
-  workspace:
-    image: boto/workspace:demo-1.0
-    build:
-      context: ./workspace
-    environment:
-      - VITE_API_URL=${VITE_API_URL:-http://localhost:5000}
-      - VITE_VISUALIZER_URL=${VITE_VISUALIZER_URL:-http://localhost:5006}
-    ports:
-      - "4173:4173"
-
-  admin:
-    image: boto/admin:demo-1.0
-    build:
-      context: ./admin
-    environment:
-      - VITE_API_URL=${VITE_API_URL:-http://localhost:5000}
-    ports:
-      - "4172:4173"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   data-view:
     image: boto/data-view:demo-1.0
@@ -71,3 +54,22 @@ services:
       - "host.docker.internal:host-gateway"
     ports:
       - "5006:5006"
+
+  workspace:
+    build:
+      context: .
+      dockerfile: workspace/dockerfile
+      args:
+        - VITE_API_URL=${VITE_API_URL:-http://localhost:5000}
+        - VITE_VISUALIZER_URL=${VITE_VISUALIZER_URL:-http://localhost:5006}
+    ports:
+      - "4173:4173"
+
+  admin:
+    build:
+      context: .
+      dockerfile: admin/dockerfile
+      args:
+        - VITE_API_URL=${VITE_API_URL:-http://localhost:5000}
+    ports:
+      - "4172:4173"
