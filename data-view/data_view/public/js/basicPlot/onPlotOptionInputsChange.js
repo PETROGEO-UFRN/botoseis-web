@@ -24,6 +24,20 @@ document.addEventListener("DOMContentLoaded", () => {
       loadPythonBridge({ toggle_areas: event.target.checked });
     });
 
+  const colormapInput = document.querySelector("#colormap-input")
+  colormapInput.addEventListener("change", (event) => {
+    const value = event.target.value
+    colormapInput.value = value
+
+    console.warn({ value })
+    loadPythonBridge({ palette: value })
+  })
+
+  const colormapLabel = document.querySelector(".colormap-label")
+  colormapLabel.addEventListener("click", (event) => {
+    colormapInput.showPicker()
+  })
+
   const gainControlWindowInput = document.querySelector("#gain-control-window-input");
   gainControlWindowInput.addEventListener("change", (event) => {
     const value = event.target.value

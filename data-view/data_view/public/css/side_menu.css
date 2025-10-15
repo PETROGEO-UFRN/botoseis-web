@@ -102,6 +102,11 @@
 }
 
 /* end switch styles */
+.side-menu .label-button {
+  display: flex;
+  align-items: start;
+  font-size: 1rem;
+}
 
 
 .side-menu .label-column {
@@ -109,6 +114,7 @@
   flex-direction: column;
 }
 
+.side-menu .label-column select,
 .side-menu .label-column input {
   font-size: 1rem;
   margin-top: 4px;

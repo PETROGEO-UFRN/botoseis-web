@@ -30,6 +30,13 @@ def create_bridge_model(
                 # *** remove "toggle_key" once it will not be accepted by "updatePlotOptionsState()"
                 flat_new_state_options.pop(toggle_key)
 
+        if "palette" in flat_new_state_options:
+            visualization.handle_palette_change(
+                flat_new_state_options["palette"]
+            )
+            # *** remove "palette" once it will not be accepted by "updatePlotOptionsState()"
+            flat_new_state_options.pop("palette")
+
         if (not flat_new_state_options):
             return
 

@@ -1,5 +1,6 @@
 import time
 import numpy.typing as np_types
+from bokeh.palettes import Greys256, BuRd9, RdGy11
 from typing import Literal
 from seismicio.Models.SuDataModel import SuFile
 
@@ -79,6 +80,17 @@ class Visualization:
         # *** Multiple gathers
         self.x_positions = None
         return data
+
+    def handle_palette_change(
+        self,
+        selectedPalette: Literal["grey", "BuRd", "RdGy"]
+    ):
+        if selectedPalette == "grey":
+            return self.plot_manager.updateImagePalette(Greys256)
+        if selectedPalette == "BuRd":
+            return self.plot_manager.updateImagePalette(BuRd9)
+        if selectedPalette == "RdGy":
+            return self.plot_manager.updateImagePalette(RdGy11)
 
     def toogle_visibility_by_type(
         self,

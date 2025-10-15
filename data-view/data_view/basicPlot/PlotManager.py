@@ -1,15 +1,18 @@
 from bokeh.models import ColumnDataSource, GlyphRenderer
 from bokeh.plotting import figure
+from bokeh.palettes import Palette, Greys256
 import numpy as np
 import numpy.typing as np_types
 
 
 MAX_TRACES_LINE_HAREA = 150
-COLOR = "black"
+WIGGLE_COLOR = "black"
+DEFAULT_PALETTE = Greys256
 
 
 class PlotManager:
     plot: figure
+    palette: Palette
     image_source: ColumnDataSource
     wiggle_source: ColumnDataSource
     image_renderer: GlyphRenderer
@@ -33,6 +36,8 @@ class PlotManager:
         self.is_image_visible = True
         self.is_wiggle_visible = False
         self.is_areas_visible = False
+
+        self.palette = DEFAULT_PALETTE
 
         # Input checks
         # ------------
@@ -119,7 +124,7 @@ class PlotManager:
             xs="xs",
             ys="ys",
             source=self.wiggle_source,
-            color=COLOR,
+            color=WIGGLE_COLOR,
             visible=self.is_wiggle_visible,
         )
 
@@ -140,7 +145,7 @@ class PlotManager:
             "source": self.image_source,
             "y": first_time_sample,
             "dh": width_time_sample_instants,
-            "palette": "Greys256",
+            "palette": self.palette,
             "anchor": "bottom_left",
             "origin": "bottom_left",
             "visible": self.is_image_visible,
@@ -162,6 +167,10 @@ class PlotManager:
                 (distance_first_x_positions + distance_last_x_positions) / 2,
                 **shared_plot_attributes
             )
+
+    def updateImagePalette(self, palette: Palette):
+        self.palette = palette
+        self.image_renderer.glyph.color_mapper.palette = palette
 
     @staticmethod
     def _check_stretch_factor(stretch_factor):
@@ -255,7 +264,7 @@ class PlotManager:
                 x1=amplitudes_zeros + x_position,
                 x2=amplitudes_positive + x_position,
                 y=time_sample_instants,
-                color=COLOR,
+                color=WIGGLE_COLOR,
                 name="H",
                 visible=self.is_areas_visible,
             )
