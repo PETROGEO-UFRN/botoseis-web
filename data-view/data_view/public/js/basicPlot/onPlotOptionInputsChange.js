@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
     debouncedPythonBridge({ palette: value })
   })
 
-  const colormapLabel = document.querySelector(".colormap-label")
-  colormapLabel.addEventListener("click", (event) => {
+  const colormapLabelButton = document.querySelector(".colormap-label .label-button")
+  colormapLabelButton.addEventListener("click", () => {
     colormapInput.showPicker()
   })
 
