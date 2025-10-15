@@ -11,7 +11,7 @@
   background-color: var(--shadow-color);
 }
 
-/* gathers amount to load input */
+/* * start gathers amount to load input * */
 .shot-navigation .gathers-amount-label {
   display: flex;
   flex-direction: column;
@@ -25,44 +25,84 @@
   padding: 4px 8px;
 }
 
+/* * end gathers amount to load input * */
 
-/* gather position input */
-.shot-navigation .position-slider {
+.shot-navigation .gather-position-box {
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  gap: 8px;
+  gap: 4px;
 }
 
-.shot-navigation .position-slider .gathers-number-box {
+.shot-navigation .gathers-numbers-box {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+}
+
+.shot-navigation .gathers-numbers-box .label-title {
   display: flex;
-  justify-content: space-between;
+  font-size: 1rem;
+  margin-right: 8px;
   align-items: center;
 }
 
-.shot-navigation .gathers-number-box .total-gathers-amount {
-  font-size: 1rem;
-}
-
-.shot-navigation .position-slider label {
+/* * start gather-number-input * */
+.shot-navigation .gather-number-input-box {
   display: flex;
-  width: fit-content;
   align-items: center;
-  gap: 8px;
+  border: 1px solid var(--primary-color);
 }
 
-.shot-navigation .position-slider .label-title {
+.shot-navigation .gather-number-input-box input {
+  border: none;
+}
+
+.shot-navigation .shot-position-button {
   display: flex;
-  font-size: 1rem;
+  justify-content: center;
+  align-items: center;
+  height: 22px;
+  transition: 0.3s;
 }
 
-.shot-navigation .position-slider #shot-gather-position-number {
-  width: 96px;
+.shot-navigation .shot-position-button:hover {
+  transition: 0.3s;
+  background-color: var(--shadow-color);
+}
+
+.shot-navigation .shot-position-button img {
+  height: 16px;
+}
+
+.shot-navigation #next-shot-button img {
+  transform: rotate(180deg);
+}
+
+.shot-navigation #shot-gather-position-number {
+  width: 72px;
   padding: 2px 8px;
   font-size: 1rem;
+  /* remove default input buttons */
+  -moz-appearance: textfield;
 }
 
-.shot-navigation .position-slider #shot-gather-position-slider {
-  accent-color: var(--primary-color-light);
+.shot-navigation #shot-gather-position-number::-webkit-outer-spin-button,
+.shot-navigation #shot-gather-position-number::-webkit-inner-spin-button {
+  /* remove default input buttons */
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* * end gather-number input * */
+
+.shot-navigation .total-gathers-amount {
+  font-size: 1rem;
+  justify-self: end;
+}
+
+/* * gather-slider input * */
+
+.shot-navigation .gather-position-box #shot-gather-position-slider {
+  accent-color: var(--primary-color);
 }

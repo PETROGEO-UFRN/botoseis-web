@@ -8,14 +8,23 @@
 
   <div class="divider"></div>
 
-  <div class="position-slider">
-    <div class="gathers-number-box">
-      <label>
-        <span class="label-title">
-          Start position
-        </span>
-        <input type="number" id="shot-gather-position-number" max="{{total_gathers_amount}}" value="1" />
+  <div class="gather-position-box">
+    <div class="gathers-numbers-box">
+      <label for="shot-gather-position-number" class=label-title>
+        Gather(s)
       </label>
+
+      <div class="gather-number-input-box">
+        <button id="previus-shot-button" onclick="previusGatherPostion()" class="shot-position-button">
+          <img src="{{ STATIC_PATH }}icons/arrow_back.svg" alt="">
+        </button>
+
+        <input type="number" id="shot-gather-position-number" max="{{total_gathers_amount}}" value="1" />
+
+        <button id="next-shot-button" onclick="nextGatherPostion()" class="shot-position-button">
+          <img src="{{ STATIC_PATH }}icons/arrow_back.svg" alt="">
+        </button>
+      </div>
 
       <span class="total-gathers-amount">
         Total Gathers Amount:
@@ -25,4 +34,5 @@
 
     <input type="range" id="shot-gather-position-slider" min="1" max="{{total_gathers_amount}}" value="1" />
   </div>
+
 </div>
