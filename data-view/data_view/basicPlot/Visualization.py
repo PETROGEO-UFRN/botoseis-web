@@ -107,9 +107,9 @@ class Visualization:
             self.plot_manager.wiggle_renderer.visible = is_visible
             return is_visible
         if renderer_type == "toggle_areas":
-            is_visible = not self.plot_manager.is_areas_visible
-            self.plot_manager.is_areas_visible = is_visible
-            self.plot_manager.areas_renderer.visible = is_visible
+            is_visible = not self.plot_manager.is_hareas_visible
+            self.plot_manager.is_hareas_visible = is_visible
+            self.plot_manager.hareas_renderer.visible = is_visible
             return is_visible
 
     def handle_state_change(self):

@@ -17,10 +17,11 @@ class PlotManager:
     wiggle_source: ColumnDataSource
     image_renderer: GlyphRenderer
     wiggle_renderer: GlyphRenderer
+    hareas_renderer: GlyphRenderer
 
     is_image_visible: bool
     is_wiggle_visible: bool
-    is_areas_visible: bool
+    is_hareas_visible: bool
 
     def __init__(
         self,
@@ -35,7 +36,7 @@ class PlotManager:
         # -------------------------------
         self.is_image_visible = True
         self.is_wiggle_visible = False
-        self.is_areas_visible = False
+        self.is_hareas_visible = False
 
         self.palette = DEFAULT_PALETTE
 
@@ -120,7 +121,7 @@ class PlotManager:
 
     def __create_wiggle_renderer(self):
         # Add (single) wiggle renderer
-        self.wiggle_renderer: GlyphRenderer = self.plot.multi_line(
+        self.wiggle_renderer = self.plot.multi_line(
             xs="xs",
             ys="ys",
             source=self.wiggle_source,
@@ -151,7 +152,7 @@ class PlotManager:
             "visible": self.is_image_visible,
         }
         if num_traces == 1:
-            self.image_renderer: GlyphRenderer = self.plot.image(
+            self.image_renderer = self.plot.image(
                 x=x_positions[0] - 1,
                 dw=2,
                 **shared_plot_attributes
@@ -161,7 +162,7 @@ class PlotManager:
             width_x_positions = np.abs(x_positions[0] - x_positions[-1])
             distance_first_x_positions = x_positions[1] - x_positions[0]
             distance_last_x_positions = x_positions[-1] - x_positions[-2]
-            self.image_renderer: GlyphRenderer = self.plot.image(
+            self.image_renderer = self.plot.image(
                 x=x_positions[0] - distance_first_x_positions / 2,
                 dw=width_x_positions +
                 (distance_first_x_positions + distance_last_x_positions) / 2,
@@ -260,13 +261,13 @@ class PlotManager:
             amplitudes_positive = np.clip(amplitudes, a_min=0, a_max=None)
 
             # Add harea glyph renderer
-            self.plot.harea(
+            self.hareas_renderer = self.plot.harea(
                 x1=amplitudes_zeros + x_position,
                 x2=amplitudes_positive + x_position,
                 y=time_sample_instants,
                 color=WIGGLE_COLOR,
                 name="H",
-                visible=self.is_areas_visible,
+                visible=self.is_hareas_visible,
             )
 
     def _update_image_glyph(self, x_positions: np_types.NDArray, time_sample_instants: np_types.NDArray):
