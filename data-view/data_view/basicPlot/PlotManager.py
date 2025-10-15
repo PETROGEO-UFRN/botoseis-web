@@ -1,3 +1,4 @@
+from typing import List, Dict
 from bokeh.models import ColumnDataSource, GlyphRenderer
 from bokeh.plotting import figure
 from bokeh.palettes import Palette, Greys256
@@ -22,6 +23,8 @@ class PlotManager:
     is_image_visible: bool
     is_wiggle_visible: bool
     is_hareas_visible: bool
+
+    __hareas_source: Dict[str, str]
 
     def __init__(
         self,
@@ -117,7 +120,12 @@ class PlotManager:
         self.__create_wiggle_renderer()
 
         # Add (multiple) harea renderers
-        self._add_hareas(data_rescaled, x_positions, time_sample_instants)
+        self.__hareas_source = {
+            "data": data_rescaled,
+            "x_positions": x_positions,
+            "time_sample_instants": time_sample_instants,
+        }
+        self.add_hareas()
 
     def __create_wiggle_renderer(self):
         # Add (single) wiggle renderer
@@ -238,12 +246,10 @@ class PlotManager:
 
         return {"xs": xs_list, "ys": ys_list}
 
-    def _add_hareas(
-        self,
-        data: np_types.NDArray,
-        x_positions: np_types.NDArray,
-        time_sample_instants: np_types.NDArray,
-    ):
+    def add_hareas(self):
+        data = self.__hareas_source["data"]
+        x_positions = self.__hareas_source["x_positions"]
+        time_sample_instants = self.__hareas_source["time_sample_instants"]
 
         num_time_samples = data.shape[0]
         num_traces = data.shape[1]
@@ -261,7 +267,7 @@ class PlotManager:
             amplitudes_positive = np.clip(amplitudes, a_min=0, a_max=None)
 
             # Add harea glyph renderer
-            self.hareas_renderer = self.plot.harea(
+            self.plot.harea(
                 x1=amplitudes_zeros + x_position,
                 x2=amplitudes_positive + x_position,
                 y=time_sample_instants,
@@ -350,8 +356,13 @@ class PlotManager:
         )
 
         # Update harea renderers
-        self._remove_hareas()
-        self._add_hareas(data_rescaled, x_positions, time_sample_instants)
+        self.remove_hareas()
+        self.__hareas_source = {
+            "data": data_rescaled,
+            "x_positions": x_positions,
+            "time_sample_instants": time_sample_instants,
+        }
+        self.add_hareas()
 
         # Update plot setup
         # -----------------
@@ -381,7 +392,7 @@ class PlotManager:
             data_rescaled, x_positions, time_sample_instants
         )
 
-    def _remove_hareas(self):
+    def remove_hareas(self):
         """Remove all harea glyph renderers from this plot"""
         self.plot.renderers = list(
             filter(lambda gl: gl.name != "H", self.plot.renderers)

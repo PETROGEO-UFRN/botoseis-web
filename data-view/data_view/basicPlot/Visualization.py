@@ -108,7 +108,10 @@ class Visualization:
         if renderer_type == "toggle_areas":
             is_visible = not self.plot_manager.is_hareas_visible
             self.plot_manager.is_hareas_visible = is_visible
-            self.plot_manager.hareas_renderer.visible = is_visible
+            if is_visible:
+                self.plot_manager.add_hareas()
+                return is_visible
+            self.plot_manager.remove_hareas()
             return is_visible
 
     def handle_state_change(self):
