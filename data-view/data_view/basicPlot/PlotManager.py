@@ -4,7 +4,7 @@ import numpy as np
 import numpy.typing as np_types
 
 
-MAX_TRACES_LINE_HAREA = 10
+MAX_TRACES_LINE_HAREA = 150
 COLOR = "black"
 
 
