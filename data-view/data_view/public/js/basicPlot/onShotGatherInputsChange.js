@@ -22,18 +22,15 @@ document.addEventListener("DOMContentLoaded", () => {
       shotGatherPositionSlider.max = newPositionLimit
     }
 
-    loadPythonBridge({ num_loadedgathers: newGathersAmount })
+    debouncedPythonBridge({ num_loadedgathers: newGathersAmount })
   })
 
-  let ping = 0
   const updateShotGatherPositionNumber = (event) => {
     const newPosition = event.target.value
     shotGatherPositionNumber.value = newPosition
     shotGatherPositionSlider.value = newPosition
-    ping++
-    console.warn(ping)
     // *** server uses 0 based index
-    loadPythonBridge({ gather_index_start: newPosition - 1 })
+    debouncedPythonBridge({ gather_index_start: newPosition - 1 })
   }
 
   shotGatherPositionNumber.addEventListener(

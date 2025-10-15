@@ -12,7 +12,7 @@ function previusGatherPostion() {
 
   shotGatherPositionNumber.value = newPosition
   shotGatherPositionSlider.value = newPosition
-  loadPythonBridge({ gather_index_start: newPosition - 1 })
+  debouncedPythonBridge({ gather_index_start: newPosition - 1 })
 }
 
 function nextGatherPostion() {
@@ -29,5 +29,5 @@ function nextGatherPostion() {
 
   shotGatherPositionNumber.value = newPosition
   shotGatherPositionSlider.value = newPosition
-  loadPythonBridge({ gather_index_start: newPosition - 1 })
+  debouncedPythonBridge({ gather_index_start: newPosition - 1 })
 }

@@ -3,14 +3,14 @@ document.addEventListener("DOMContentLoaded", () => {
   imageCheckbox.addEventListener("change", (event) => {
     imageCheckbox.checked = event.target.checked;
 
-    loadPythonBridge({ toggle_image: event.target.checked });
+    debouncedPythonBridge({ toggle_image: event.target.checked });
   });
 
   const wiggleCheckbox = document.querySelector("#wiggle-switch");
   wiggleCheckbox.addEventListener("change", (event) => {
     wiggleCheckbox.checked = event.target.checked;
 
-    loadPythonBridge({ toggle_wiggle: event.target.checked });
+    debouncedPythonBridge({ toggle_wiggle: event.target.checked });
   });
 
   const areasCheckbox = document.querySelector("#areas-switch");
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     areasCheckbox.addEventListener("change", (event) => {
       areasCheckbox.checked = event.target.checked;
 
-      loadPythonBridge({ toggle_areas: event.target.checked });
+      debouncedPythonBridge({ toggle_areas: event.target.checked });
     });
 
   const colormapInput = document.querySelector("#colormap-input")
@@ -29,8 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const value = event.target.value
     colormapInput.value = value
 
-    console.warn({ value })
-    loadPythonBridge({ palette: value })
+    debouncedPythonBridge({ palette: value })
   })
 
   const colormapLabel = document.querySelector(".colormap-label")
@@ -45,20 +44,20 @@ document.addEventListener("DOMContentLoaded", () => {
     if (value <= 0)
       return gainControlWindowInput.value = 0
 
-    loadPythonBridge({ wagc: value })
+    debouncedPythonBridge({ wagc: value })
   })
 
   const percentileClipInput = document.querySelector("#percentile-clip-input");
   percentileClipInput.addEventListener("change", (event) => {
     const value = event.target.value
 
-    loadPythonBridge({ percentile_clip: value })
+    debouncedPythonBridge({ percentile_clip: value })
   })
 
   const gainRadios = document.querySelectorAll('input[name="gain-type-radio"]');
   gainRadios.forEach(radio => {
     radio.addEventListener('change', (event) => {
-      loadPythonBridge({ gain_option: event.target.value });
+      debouncedPythonBridge({ gain_option: event.target.value });
     });
   });
 })
