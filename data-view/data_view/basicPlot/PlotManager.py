@@ -99,13 +99,16 @@ class PlotManager:
 
         # Add renderers
         # -------------
-        self.__create_wiggle_renderer()
         self.__create_image_renderer(
             num_traces=num_traces,
             x_positions=x_positions,
             first_time_sample=first_time_sample,
             time_sample_instants=time_sample_instants,
         )
+        # wiggle_renderer shall be created after image_renderer.
+        # Bokeh places the most recently created renderer on top.
+        # If image is placed on top, wiggle will be invisible.
+        self.__create_wiggle_renderer()
 
         # Add (multiple) harea renderers
         self._add_hareas(data_rescaled, x_positions, time_sample_instants)
