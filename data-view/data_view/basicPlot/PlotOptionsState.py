@@ -28,12 +28,17 @@ class PlotOptionsState:
 
         if has_gather_key:
             self.updatePlotOptionsState(
-                gather_index_start=0,  # zero-based indexing
+                gather_index_start=190,  # zero-based indexing
                 num_loadedgathers=1,
                 num_gathers=None,
             )
 
     def __to_extected_number_type(self, key: str, value: str):
+        """
+        Convert property to Int or Float, as expected for each property.
+
+        If not Int or Float (complex types), skip conversion.
+        """
         annotation = self.__annotations__.get(key, str)
         expected_type = get_args(annotation)[0]
 

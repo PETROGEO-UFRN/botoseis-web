@@ -22,9 +22,6 @@ def get_multi_gather_sufile(plot_options: dict, filename: str, gather_key: str):
     plot_options:
     - [write] num_gathers, num_time_samples, interval_time_samples
     """
-    plot_options["gather_index_start"] = 0
-    plot_options["num_loadedgathers"] = 1
-
     # Read seismic data
     # -----------------
     sufile = readsu(filename, gather_key)

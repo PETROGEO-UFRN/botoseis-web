@@ -14,7 +14,6 @@ from .get_plot_palette import get_plot_pallete
 
 class Visualization:
     sufile: SuFile
-    x_positions: np_types.NDArray | None
     plot_options_state: PlotOptionsState
     plot_manager: PlotManager
 
@@ -43,7 +42,6 @@ class Visualization:
             data = self.__getDataForShotGathers()
         else:
             data = self.sufile.traces
-            self.x_positions = None
         self.plot_manager = PlotManager(
             data=data,
             interval_time_samples=self.plot_options_state.interval_time_samples,
@@ -70,15 +68,6 @@ class Visualization:
             gather_index_start:gather_index_stop
         ].data
 
-        if (gather_index_stop - 1 == gather_index_start):
-            # *** Single gather
-            self.x_positions = self.sufile.igather[
-                gather_index_start
-            ].headers["offset"]
-            return data
-
-        # *** Multiple gathers
-        self.x_positions = None
         return data
 
     def handle_palette_change(
@@ -124,7 +113,6 @@ class Visualization:
             data = self.__getDataForShotGathers()
         else:
             data = self.sufile.traces
-            self.x_positions = None
 
         data = self.__optionally_apply_gain(
             data,
@@ -139,7 +127,6 @@ class Visualization:
 
         self.plot_manager.update_plot(
             data=data,
-            x_positions=self.x_positions,
             interval_time_samples=self.plot_options_state.interval_time_samples,
         )
 

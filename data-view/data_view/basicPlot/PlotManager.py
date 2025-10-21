@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import Dict
 from bokeh.models import ColumnDataSource, GlyphRenderer
 from bokeh.plotting import figure
 from bokeh.palettes import Palette, Greys256
@@ -30,9 +30,7 @@ class PlotManager:
         self,
         data: np_types.NDArray,
         interval_time_samples: float,
-        x_positions: np_types.NDArray | None = None,
         time_unit: str = "s",
-        stretch_factor: float = 0.15,
         gather_key: str | None = None,
     ):
         # Initial visibility of renderers
@@ -45,21 +43,16 @@ class PlotManager:
 
         # Input checks
         # ------------
-        self._check_stretch_factor(stretch_factor)
         self._check_data(data)
         num_time_samples = data.shape[0]
         num_traces = data.shape[1]
-        if x_positions is None:
-            x_positions = np.arange(start=1, stop=num_traces + 1)
-        else:
-            self._check_x_positions(x_positions, num_traces)
+
+        x_positions = np.arange(start=1, stop=num_traces + 1)
 
         # Create and set up figure object
         # -------------------------------
         self.plot = figure(
             x_axis_location="above",
-            height=800,
-            width=1000,
             sizing_mode="stretch_both",
             active_drag=None,
             min_border=0,
@@ -81,7 +74,7 @@ class PlotManager:
             self.plot.yaxis.axis_label = "Time (ms)"
 
         # Amplitudes rescaled (data for wiggle renderers)
-        data_rescaled = self._rescale_data(data, x_positions, stretch_factor)
+        data_rescaled = self.__rescale_data(data)
 
         # Time sample instants (data for all renderers)
         first_time_sample = 0.0
@@ -91,7 +84,9 @@ class PlotManager:
             interval_time_samples
         )
         time_sample_instants = np.linspace(
-            start=first_time_sample, stop=last_time_sample, num=num_time_samples
+            start=first_time_sample,
+            stop=last_time_sample,
+            num=num_time_samples
         )
 
         # Create ColumnDataSource objects
@@ -100,7 +95,9 @@ class PlotManager:
         # Create wiggle renderer's source
         self.wiggle_source = ColumnDataSource(
             data=self.__compute_wiggle_source_data(
-                data_rescaled, x_positions, time_sample_instants
+                data_rescaled,
+                x_positions,
+                time_sample_instants
             )
         )
         # Create image source
@@ -182,11 +179,6 @@ class PlotManager:
         self.image_renderer.glyph.color_mapper.palette = palette
 
     @staticmethod
-    def _check_stretch_factor(stretch_factor):
-        if not isinstance(stretch_factor, (int, float)):
-            raise TypeError("stretch_factor must be a number")
-
-    @staticmethod
     def _check_data(data):
         if type(data).__module__ != np.__name__:
             raise TypeError("data must be a numpy array")
@@ -207,19 +199,18 @@ class PlotManager:
             )
 
     @staticmethod
-    def _rescale_data(data: np_types.NDArray, x_positions: np_types.NDArray, stretch_factor: int):
+    def __rescale_data(data: np_types.NDArray):
+        """rescale data traces width"""
         # if there is only one trace, no need to rescale
         if data.shape[1] == 1:
-            # normalize between -1 and 1
+            # normalize range between -1 and 1
             return data / np.max(np.abs(data))
 
-        # Minimum trace horizontal spacing
-        trace_x_spacing = np.min(np.diff(x_positions))
+        # Define traces width based on maximum posible range
+        # Making traces free of overlap
+        trace_max_width = abs(data.min() - data.max())
+        data_rescaled = data / trace_max_width
 
-        # Rescale data by trace_x_spacing and stretch_factor
-        data_max_std = np.max(np.std(data, axis=0))
-
-        data_rescaled = data / data_max_std * trace_x_spacing * stretch_factor
         return data_rescaled
 
     @staticmethod
@@ -258,7 +249,7 @@ class PlotManager:
         if num_traces > MAX_TRACES_LINE_HAREA:
             return
 
-        amplitudes_zeros = np.zeros(shape=(num_time_samples,))
+        amplitudes_zeros = np.zeros(shape=(num_time_samples))
 
         for trace_index in range(num_traces):
             x_position = x_positions[trace_index]
@@ -307,28 +298,24 @@ class PlotManager:
     def update_plot(
         self,
         data: np_types.NDArray,
-        x_positions: np_types.NDArray | None,
         interval_time_samples: float,
         time_unit="s",
-        stretch_factor=0.15,
         gather_key: str | None = None,
     ):
         # Input checks
         # ------------
-        self._check_stretch_factor(stretch_factor)
         self._check_data(data)
         num_time_samples = data.shape[0]
         num_traces = data.shape[1]
-        if x_positions is None:
-            x_positions = np.arange(start=1, stop=num_traces + 1)
-        else:
-            self._check_x_positions(x_positions, num_traces)
+
+        x_positions = np.arange(start=1, stop=num_traces + 1)
+        self._check_x_positions(x_positions, num_traces)
 
         # Hold off all requests to repaint the plot
         self.plot.hold_render = True
 
         # Amplitudes rescaled (data for wiggle renderers)
-        data_rescaled = self._rescale_data(data, x_positions, stretch_factor)
+        data_rescaled = self.__rescale_data(data)
 
         # Time sample instants (data for all renderers)
         first_time_sample = 0.0
@@ -351,7 +338,8 @@ class PlotManager:
 
         # Update wiggle renderer's source
         self._update_wiggle_source(
-            data_rescaled, x_positions,
+            data_rescaled,
+            x_positions,
             time_sample_instants
         )
 
