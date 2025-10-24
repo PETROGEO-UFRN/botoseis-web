@@ -1,19 +1,17 @@
 import time
 import numpy.typing as np_types
 from typing import Literal
-from seismicio.Models.SuDataModel import SuFile
 
+from ..BaseVisualization import BaseVisualization
 from ..transforms.clip import apply_clip_from_perc
 from ..transforms.gain import apply_gain
 
-from .get_sufile import get_stack_sufile, get_multi_gather_sufile
 from .PlotOptionsState import PlotOptionsState
 from .PlotManager import PlotManager
 from .get_plot_palette import get_plot_pallete
 
 
-class Visualization:
-    sufile: SuFile
+class Visualization(BaseVisualization):
     x_positions: np_types.NDArray | None
     plot_options_state: PlotOptionsState
     plot_manager: PlotManager
@@ -24,26 +22,14 @@ class Visualization:
         plot_options_state: PlotOptionsState,
         gather_key: str | None = None,
     ) -> None:
-        self.plot_options_state = plot_options_state
-        if gather_key:
-            self.sufile: SuFile = get_multi_gather_sufile(
-                plot_options=self.plot_options_state.__dict__,
-                filename=filename,
-                gather_key=gather_key,
-            )
-        else:
-            self.sufile = get_stack_sufile(
-                plot_options=self.plot_options_state.__dict__,
-                filename=filename,
-            )
+        super().__init__(
+            filename,
+            plot_options_state,
+            gather_key,
+        )
 
-        # !!! check if "gather_keyword" exist
-        # !!! is must exist for shot gathers
-        if self.sufile.gather_keyword:
-            data = self.__getDataForShotGathers()
-        else:
-            data = self.sufile.traces
-            self.x_positions = None
+        data = self.getBaseData()
+
         self.plot_manager = PlotManager(
             data=data,
             interval_time_samples=self.plot_options_state.interval_time_samples,
@@ -60,26 +46,6 @@ class Visualization:
         if gain_option == None:
             return data
         return apply_gain(data, gain_option, wagc, dt)
-
-    def __getDataForShotGathers(self):
-        gather_index_start = self.plot_options_state.gather_index_start
-        gather_index_stop = gather_index_start + \
-            self.plot_options_state.num_loadedgathers
-
-        data = self.sufile.igather[
-            gather_index_start:gather_index_stop
-        ].data
-
-        if (gather_index_stop - 1 == gather_index_start):
-            # *** Single gather
-            self.x_positions = self.sufile.igather[
-                gather_index_start
-            ].headers["offset"]
-            return data
-
-        # *** Multiple gathers
-        self.x_positions = None
-        return data
 
     def handle_palette_change(
         self,
@@ -118,13 +84,7 @@ class Visualization:
         start_time = time.perf_counter()
         print("CALL handle_state_change")
 
-        # !!! check if "gather_keyword" exist
-        # !!! is must exist for shot gathers
-        if self.sufile.gather_keyword:
-            data = self.__getDataForShotGathers()
-        else:
-            data = self.sufile.traces
-            self.x_positions = None
+        data = self.getBaseData()
 
         data = self.__optionally_apply_gain(
             data,

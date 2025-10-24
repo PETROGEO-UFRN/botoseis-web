@@ -1,7 +1,7 @@
 from pathlib import Path
 from jinja2 import Template
 
-from .paths import STATIC_URL_PATH
+from ..constants import URL_PATHS
 
 
 def __loadVariables(
@@ -45,7 +45,7 @@ def loadTemplate(
                     partial_template = Template(partial_template_file.read())
                     __loadVariables(partial_template, template_variables)
                     rendered = partial_template.render(
-                        STATIC_PATH=STATIC_URL_PATH
+                        STATIC_PATH=URL_PATHS.STATIC_FILES
                     )
                     html_template.globals[key_name] = rendered
                 __loadVariables(html_template, template_variables)

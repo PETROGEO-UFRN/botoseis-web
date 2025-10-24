@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import Dict
 from bokeh.models import ColumnDataSource, GlyphRenderer
 from bokeh.plotting import figure
 from bokeh.palettes import Palette, Greys256

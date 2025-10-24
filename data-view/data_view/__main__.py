@@ -1,6 +1,8 @@
 from pathlib import Path
 from tornado import autoreload
-from .server import app_factory, server_factory, IS_DEVELOPMENT
+
+from .constants import ENV
+from .server import server_factory
 
 
 def __watch_folder(folder: str) -> None:
@@ -12,14 +14,12 @@ def __watch_folder(folder: str) -> None:
 
 # *** Run the Bokeh server application
 if __name__ == '__main__':
-    server = server_factory(
-        bokeh_app=app_factory()
-    )
+    server = server_factory()
 
     server.start()
-    print("IS_DEVELOPMENT: ", IS_DEVELOPMENT)
+    print("IS_DEVELOPMENT: ", ENV.IS_DEVELOPMENT)
 
-    if IS_DEVELOPMENT:
+    if ENV.IS_DEVELOPMENT:
         __watch_folder("data_view/public")
         __watch_folder("data_view/templates")
         autoreload.start()

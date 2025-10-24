@@ -6,6 +6,4 @@ BASIC_PLOT_TEMPLATE_PATH = (
     __TAMPLATES_FOLDER / "basicPlot" / "index.html"
 ).resolve()
 
-STATIC_URL_PATH = "/public/"
-
 STATIC_FILES_PATH = (Path(__file__).parent.parent / "public").resolve()

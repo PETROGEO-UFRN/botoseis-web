@@ -1,9 +1,10 @@
-from ..basicPlot import Visualization
 from bokeh.models import ColumnDataSource
+
+from ..basicPlot import Visualization
 
 
 def create_bridge_model(
-    visualization: Visualization | None = None
+    visualization: Visualization
 ) -> ColumnDataSource:
     """
     Creates a Bokeh ColumnDataSource to act as a bridge for updating plot

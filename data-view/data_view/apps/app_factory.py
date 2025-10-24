@@ -7,10 +7,9 @@ from bokeh.document.document import Document
 
 
 from ..basicPlot import Visualization, PlotOptionsState
+from ..constants import ENV, FOLDERS, URL_PATHS
 from .loadTemplate import loadTemplate
 from .create_bridge_model import create_bridge_model
-from .config import IS_DEVELOPMENT, BASE_URL
-from .paths import STATIC_URL_PATH, BASIC_PLOT_TEMPLATE_PATH
 
 
 def app_factory() -> Application:
@@ -19,7 +18,7 @@ def app_factory() -> Application:
         workflowId: int,
         origin: Literal["input", "output"]
     ) -> None | str:
-        api_url = f"{BASE_URL}/su-file-path/{workflowId}/show-path/output"
+        api_url = f"{ENV.BASE_API_URL}/su-file-path/{workflowId}/show-path/output"
         if origin == "input":
             api_url = api_url.replace("/output", "/input")
         cookies = {
@@ -82,14 +81,14 @@ def app_factory() -> Application:
         )
 
         template_variables = {
-            "STATIC_PATH": STATIC_URL_PATH,
-            "IS_DEVELOPMENT": IS_DEVELOPMENT,
+            "STATIC_PATH": URL_PATHS.STATIC_FILES,
+            "IS_DEVELOPMENT": ENV.IS_DEVELOPMENT,
             "has_gather_key": gather_key,
         }
         if gather_key:
             template_variables["total_gathers_amount"] = plot_options_state.num_gathers
         html_template = loadTemplate(
-            BASIC_PLOT_TEMPLATE_PATH,
+            FOLDERS.BASIC_PLOT_TEMPLATE_PATH,
             template_variables
         )
 
