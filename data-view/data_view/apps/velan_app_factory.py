@@ -78,6 +78,7 @@ def velan_app_factory() -> Application:
             "STATIC_PATH": URL_PATHS.STATIC_FILES,
             "IS_DEVELOPMENT": ENV.IS_DEVELOPMENT,
             "has_gather_key": gather_key,
+            "is_velan": True,
         }
         if gather_key:
             template_variables["total_gathers_amount"] = plot_options_state.num_gathers
