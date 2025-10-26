@@ -5,14 +5,13 @@ from bokeh.application import Application
 from bokeh.application.handlers import FunctionHandler
 from bokeh.document.document import Document
 
-
-from ..basicPlot import Visualization, PlotOptionsState
 from ..constants import ENV, FOLDERS, URL_PATHS
+from ..basicPlot import Visualization, PlotOptionsState
 from .loadTemplate import loadTemplate
 from .create_bridge_model import create_bridge_model
 
 
-def app_factory() -> Application:
+def basic_plot_app_factory() -> Application:
     def __find_file_path(
         auth_token: str,
         workflowId: int,

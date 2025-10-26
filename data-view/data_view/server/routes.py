@@ -1,6 +1,7 @@
 from bokeh.application import Application
-from ..apps import app_factory
+from data_view import apps
 
 routes: dict[str, Application] = {
-    "/": app_factory()
+    "/": apps.basic_plot_app_factory(),
+    "/velan": apps.velan_app_factory()
 }

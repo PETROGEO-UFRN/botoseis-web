@@ -17,7 +17,8 @@ body.shot-gather-plot-page {
 
 /* class provided by bokeh to plot container */
 /* very limited styles */
-.bk-Figure {
+.bk-Figure,
+.bk-Row {
   grid-area: plot;
 }
 

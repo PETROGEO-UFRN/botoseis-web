@@ -17,8 +17,6 @@
 
   <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/index.css">
   <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/basic_plot_page.css">
-  <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/open_menu_button.css">
-  <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/side_menu.css">
   <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/shot_navigation.css">
   {% block preamble -%}{%- endblock %}
   {% block resources %}
@@ -36,21 +34,12 @@
 {% block body %}
 
 <body class="{% if has_gather_key %}shot-gather-plot-page{% endif %}">
-  <script src="{{ STATIC_PATH }}js/handleSideMenuVisibility.js"></script>
   <script src="{{ STATIC_PATH }}js/basicPlot/loadPythonBridge.js"></script>
-  <script src="{{ STATIC_PATH }}js/basicPlot/onPlotOptionInputsChange.js"></script>
   <script src="{{ STATIC_PATH }}js/basicPlot/onShotGatherInputsChange.js"></script>
   <script src="{{ STATIC_PATH }}js/basicPlot/changeGatherPosition.js"></script>
   {% if IS_DEVELOPMENT %}
   <script src="{{ STATIC_PATH }}js/devWebSocket.js"></script>
   {% endif %}
-
-  <button class="open-side-menu-button" onclick="handleSideMenuVisibility()">
-    <img src="{{ STATIC_PATH }}icons/menu_icon.svg" alt="">
-    Plot Options
-  </button>
-
-  {{ _sideMenu | safe }}
 
   {% block inner_body %}
   {% block contents %}

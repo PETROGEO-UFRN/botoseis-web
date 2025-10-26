@@ -13,7 +13,7 @@ def __loadVariables(
 
 
 def loadTemplate(
-    template_path: Path,
+    index_template_path: Path,
     template_variables: dict[str, str | bool]
 ) -> Template:
     """
@@ -28,17 +28,22 @@ def loadTemplate(
     {{ file_name | safe }}
     """
 
-    template_module_folder = template_path.parent
+    template_folder = index_template_path.parent
+    root_templates_folder = index_template_path.parent.parent
+    templates_paths = [
+        *template_folder.iterdir(),
+        *root_templates_folder.iterdir(),
+    ]
 
-    with open(template_path, "r", encoding="utf-8") as index_template_file:
+    with open(index_template_path, "r", encoding="utf-8") as index_template_file:
         html_template = Template(index_template_file.read())
 
         # *** Search for aditional files in the HTML file folder
-        for file_path in template_module_folder.iterdir():
+        for file_path in templates_paths:
             if file_path.is_file() and file_path.suffix == ".html":
                 key_name = file_path.stem
                 # *** skip main template
-                if key_name == template_path.stem:
+                if key_name == index_template_path.stem:
                     continue
 
                 with open(file_path, "r", encoding="utf-8") as partial_template_file:

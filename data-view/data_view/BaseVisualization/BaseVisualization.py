@@ -66,6 +66,8 @@ class BaseVisualization:
 
     def handle_state_change(self):
         raise NotImplementedError(
-            "Missing custom handle_state_change() for this Visualization",
-            "handle_state_change() method must be implmented for any class extending BaseVisualization"
+            """
+            Missing custom handle_state_change() for this Visualization
+            handle_state_change() method must be re-implmented when extending BaseVisualization
+            """
         )
