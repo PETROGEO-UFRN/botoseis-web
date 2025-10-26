@@ -3,12 +3,13 @@ import numpy.typing as np_types
 from typing import Literal
 
 from ..BaseVisualization import BaseVisualization
-from ..transforms.clip import apply_clip_from_perc
-from ..transforms.gain import apply_gain
 
 from .PlotOptionsState import PlotOptionsState
 from .PlotManager import PlotManager
 from .get_plot_palette import get_plot_pallete
+
+from .transforms.clip import apply_clip_from_perc
+from .transforms.gain import apply_gain
 
 
 class Visualization(BaseVisualization):
