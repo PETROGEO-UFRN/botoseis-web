@@ -41,5 +41,24 @@ function loadPythonBridge(newValues) {
     ))
   )
 
+  stopLoadingWhenUnchanged(
+    update_plot_options_trigger.data,
+    newValuesWrapped
+  )
   update_plot_options_trigger.data = { ...newValuesWrapped }
+}
+
+function stopLoadingWhenUnchanged(oldDataArray, newDataArray) {
+  const keysToStop = Object.entries(newDataArray).map(([key]) => {
+    if (!(key in oldDataArray))
+      return
+    // *** data needs to be compared as string to avoid memory address comparison
+    const isDataUnchanged = oldDataArray[key].toString() === newDataArray[key].toString()
+    if (isDataUnchanged)
+      return key
+    // *** filter removes undefined values
+  }).filter(key => key)
+
+  if (keysToStop.length)
+    window.finishLoading(keysToStop)
 }

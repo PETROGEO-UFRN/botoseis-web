@@ -13,6 +13,7 @@
 
 /* * start gathers amount to load input * */
 .shot-navigation .gathers-amount-label {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: spa;
@@ -23,6 +24,13 @@
 .shot-navigation .gathers-amount-label #gathers-amount-input {
   font-size: 1rem;
   padding: 4px 8px;
+}
+
+.shot-navigation .gathers-amount-label .loading-icon {
+  position: absolute;
+  height: 16px;
+  top: 2px;
+  right: 0;
 }
 
 /* * end gathers amount to load input * */
@@ -49,6 +57,7 @@
 
 /* * start gather-number-input * */
 .shot-navigation .gather-number-input-box {
+  position: relative;
   display: flex;
   align-items: center;
   border: 1px solid var(--primary-color);
@@ -77,6 +86,12 @@
 
 .shot-navigation #next-shot-button img {
   transform: rotate(180deg);
+}
+
+.shot-navigation img#loading-gather_index_start-icon {
+  position: absolute;
+  right: -24px;
+  height: 16px;
 }
 
 .shot-navigation #shot-gather-position-number {

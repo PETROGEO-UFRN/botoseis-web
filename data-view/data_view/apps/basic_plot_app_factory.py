@@ -9,6 +9,7 @@ from ..constants import ENV, FOLDERS, URL_PATHS
 from ..basicPlot import Visualization, PlotOptionsState
 from .loadTemplate import loadTemplate
 from .create_bridge_model import create_bridge_model
+from .addFinishLoadingEvent import addFinishLoadingEvent
 
 
 def basic_plot_app_factory() -> Application:
@@ -74,6 +75,7 @@ def basic_plot_app_factory() -> Application:
             plot_options_state=plot_options_state,
         )
         plot = visualization.plot_manager.plot
+        addFinishLoadingEvent(plot)
 
         state_changer_bridge_model = create_bridge_model(
             visualization=visualization

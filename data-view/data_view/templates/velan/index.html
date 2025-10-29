@@ -35,11 +35,14 @@
 {% block body %}
 
 <body class="{% if has_gather_key %}shot-gather-plot-page{% endif %}">
-  <script src="{{ STATIC_PATH }}js/basicPlot/loadPythonBridge.js"></script>
-  <script src="{{ STATIC_PATH }}js/basicPlot/onShotGatherInputsChange.js"></script>
-  <script src="{{ STATIC_PATH }}js/basicPlot/changeGatherPosition.js"></script>
+  <script src="{{ STATIC_PATH }}js/global/loadPythonBridge.js"></script>
+  <script src="{{ STATIC_PATH }}js/global/finishLoading.js"></script>
+  <script src="{{ STATIC_PATH }}js/global/displayLoadingOnGatherSelection.js"></script>
+  <script src="{{ STATIC_PATH }}js/global/onShotGatherInputsChange.js"></script>
+  <script src="{{ STATIC_PATH }}js/global/changeGatherPosition.js"></script>
+
   {% if IS_DEVELOPMENT %}
-  <script src="{{ STATIC_PATH }}js/devWebSocket.js"></script>
+  <script src="{{ STATIC_PATH }}js/global/devWebSocket.js"></script>
   {% endif %}
 
   {% block inner_body %}

@@ -13,6 +13,7 @@
       Gathers to load
     </span>
     <input type="number" id="gathers-amount-input" min="1" value="1" />
+    <img class="loading-icon" id="loading-num_loadedgathers-icon" src="{{ STATIC_PATH }}icons/spinning_icon.svg" alt="">
   </label>
 
   <div class="divider"></div>
@@ -33,6 +34,9 @@
         <button id="next-shot-button" onclick="nextGatherPostion()" class="shot-position-button">
           <img src="{{ STATIC_PATH }}icons/arrow_back.svg" alt="">
         </button>
+
+        <img class="loading-icon" id="loading-gather_index_start-icon" src="{{ STATIC_PATH }}icons/spinning_icon.svg"
+          alt="">
       </div>
 
       <span class="total-gathers-amount">

@@ -10,6 +10,7 @@ function previusGatherPostion() {
   if (newPosition < 1)
     return
 
+  displayLoadingOnGatherSelection()
   shotGatherPositionNumber.value = newPosition
   shotGatherPositionSlider.value = newPosition
   debouncedPythonBridge({ gather_index_start: newPosition - 1 })
@@ -27,6 +28,7 @@ function nextGatherPostion() {
   if (newPosition > shotGatherPositionNumber.max)
     return
 
+  displayLoadingOnGatherSelection()
   shotGatherPositionNumber.value = newPosition
   shotGatherPositionSlider.value = newPosition
   debouncedPythonBridge({ gather_index_start: newPosition - 1 })

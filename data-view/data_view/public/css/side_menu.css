@@ -108,7 +108,6 @@
   font-size: 1rem;
 }
 
-
 .side-menu .label-column {
   display: flex;
   flex-direction: column;
@@ -119,7 +118,39 @@
   font-size: 1rem;
   margin-top: 4px;
   padding: 4px 8px;
+  border: solid 1px var(--primary-color-dark);
 }
+
+.side-menu .label-column select {
+  border-radius: 4px;
+}
+
+.side-menu .filter-box input {
+  border-radius: 4px 4px 0 0;
+  border-bottom: none;
+}
+
+.side-menu .filter-box .apply {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 4px 16px;
+  gap: 8px;
+
+  font-size: 0.9rem;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+
+  border-radius: 0 0 4px 4px;
+  background-color: var(--primary-color-dark);
+  color: #fff;
+}
+
+.side-menu .filter-box .apply img {
+  height: 12px;
+}
+
 
 /* gain type selecor */
 

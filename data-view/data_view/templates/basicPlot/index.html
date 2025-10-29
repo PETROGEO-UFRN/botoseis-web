@@ -17,9 +17,9 @@
 
   <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/index.css">
   <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/plot_page.css">
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/shot_navigation.css">
   <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/open_menu_button.css">
   <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/side_menu.css">
-  <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/shot_navigation.css">
   {% block preamble -%}{%- endblock %}
   {% block resources %}
   {% block css_resources -%}
@@ -36,13 +36,19 @@
 {% block body %}
 
 <body class="{% if has_gather_key %}shot-gather-plot-page{% endif %}">
-  <script src="{{ STATIC_PATH }}js/handleSideMenuVisibility.js"></script>
-  <script src="{{ STATIC_PATH }}js/basicPlot/loadPythonBridge.js"></script>
+  <script src="{{ STATIC_PATH }}js/global/loadPythonBridge.js"></script>
+  <script src="{{ STATIC_PATH }}js/global/finishLoading.js"></script>
+  <script src="{{ STATIC_PATH }}js/global/displayLoadingOnGatherSelection.js"></script>
+  <script src="{{ STATIC_PATH }}js/global/onShotGatherInputsChange.js"></script>
+  <script src="{{ STATIC_PATH }}js/global/changeGatherPosition.js"></script>
+
+  <script src="{{ STATIC_PATH }}js/basicPlot/handleSideMenuVisibility.js"></script>
+  <script src="{{ STATIC_PATH }}js/basicPlot/applyClip.js"></script>
+  <script src="{{ STATIC_PATH }}js/basicPlot/applyGain.js"></script>
   <script src="{{ STATIC_PATH }}js/basicPlot/onPlotOptionInputsChange.js"></script>
-  <script src="{{ STATIC_PATH }}js/basicPlot/onShotGatherInputsChange.js"></script>
-  <script src="{{ STATIC_PATH }}js/basicPlot/changeGatherPosition.js"></script>
+
   {% if IS_DEVELOPMENT %}
-  <script src="{{ STATIC_PATH }}js/devWebSocket.js"></script>
+  <script src="{{ STATIC_PATH }}js/global/devWebSocket.js"></script>
   {% endif %}
 
   <button class="open-side-menu-button" onclick="handleSideMenuVisibility()">

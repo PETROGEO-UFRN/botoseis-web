@@ -20,7 +20,6 @@ def create_bridge_model(
         """
         Callback function to update the plot options state from the client.
         """
-
         flat_new_state_options = {
             key: value[0] for key, value in new_state_options.items()
         }
@@ -43,6 +42,10 @@ def create_bridge_model(
 
         visualization.plot_options_state.updatePlotOptionsState(
             **flat_new_state_options
+        )
+
+        visualization.plot_manager.plot.tags = list(
+            flat_new_state_options.keys()
         )
         visualization.handle_state_change()
 

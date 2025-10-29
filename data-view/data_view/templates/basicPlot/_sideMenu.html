@@ -64,22 +64,37 @@
     </select>
   </label>
 
-  <label class="label-column">
-    <span>
-      Percentile clip
-    </span>
-    <input type="number" id="percentile-clip-input" value="100" min="1" max="100" />
-  </label>
+  <div class="filter-box">
+    <label class="label-column">
+      <span>
+        Percentile clip
+      </span>
+      <input type="number" id="percentile-clip-input" value="100" min="1" max="100" />
+    </label>
 
-  <label class="label-column">
-    <span>
-      Automatic gain control window
-    </span>
-    <span>
-      (seconds):
-    </span>
-    <input type="number" id="gain-control-window-input" value="0.5" />
-  </label>
+    <button onclick="applyClip()" class="apply">
+      Apply Clip
+      <img class="loading-icon" id="loading-percentile_clip-icon" src="{{ STATIC_PATH }}icons/spinning_icon_white.svg"
+        alt="">
+    </button>
+  </div>
+
+  <div class="filter-box">
+    <label class="label-column">
+      <span>
+        Automatic gain control window
+      </span>
+      <span>
+        (seconds):
+      </span>
+      <input type="number" id="gain-control-window-input" value="0.5" />
+    </label>
+
+    <button onclick="applyGain()" class="apply">
+      Apply Gain
+      <img class="loading-icon" id="loading-wagc-icon" src="{{ STATIC_PATH }}icons/spinning_icon_white.svg" alt="">
+    </button>
+  </div>
 
   <div class="gain-type-selector-box">
     <p class="title">

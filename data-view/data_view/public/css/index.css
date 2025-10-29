@@ -42,3 +42,11 @@ button,
 label {
   cursor: pointer;
 }
+
+img.loading-icon {
+  display: none;
+}
+
+img.loading-icon.is-loading {
+  display: block;
+}

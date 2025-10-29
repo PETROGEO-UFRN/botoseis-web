@@ -63,6 +63,7 @@ class PlotManager:
             sizing_mode="stretch_both",
             active_drag=None,
             min_border=0,
+            tags=[]
         )
 
         # Adjust ranges
@@ -324,9 +325,6 @@ class PlotManager:
         else:
             self._check_x_positions(x_positions, num_traces)
 
-        # Hold off all requests to repaint the plot
-        self.plot.hold_render = True
-
         # Amplitudes rescaled (data for wiggle renderers)
         data_rescaled = self._rescale_data(data, x_positions, stretch_factor)
 
@@ -375,9 +373,6 @@ class PlotManager:
             self.plot.yaxis.axis_label = "Time (s)"
         elif time_unit == "ms":
             self.plot.yaxis.axis_label = "Time (ms)"
-
-        # Stop holding off requests to repaint the plot
-        self.plot.hold_render = False
 
     def _update_image_source(self, data: np_types.NDArray):
         self.image_source.data = {"image": [data]}

@@ -43,21 +43,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (value <= 0)
       return gainControlWindowInput.value = 0
-
-    debouncedPythonBridge({ wagc: value })
   })
-
-  const percentileClipInput = document.querySelector("#percentile-clip-input");
-  percentileClipInput.addEventListener("change", (event) => {
-    const value = event.target.value
-
-    debouncedPythonBridge({ percentile_clip: value })
-  })
-
-  const gainRadios = document.querySelectorAll('input[name="gain-type-radio"]');
-  gainRadios.forEach(radio => {
-    radio.addEventListener('change', (event) => {
-      debouncedPythonBridge({ gain_option: event.target.value });
-    });
-  });
 })

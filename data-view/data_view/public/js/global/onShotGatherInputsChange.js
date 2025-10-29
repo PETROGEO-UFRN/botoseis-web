@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
     '#shot-gather-position-slider'
   )
 
+  const gathersAmountLoadingIcon = document.querySelector("#loading-num_loadedgathers-icon")
+
   // *** stop when there is no such input
   // *** tipcaly when the input has no shot gather
   if (!gathersAmountInput) return
@@ -22,10 +24,12 @@ document.addEventListener("DOMContentLoaded", () => {
       shotGatherPositionSlider.max = newPositionLimit
     }
 
+    gathersAmountLoadingIcon.classList.toggle("is-loading")
     debouncedPythonBridge({ num_loadedgathers: newGathersAmount })
   })
 
   const updateShotGatherPositionNumber = (event) => {
+    displayLoadingOnGatherSelection()
     const newPosition = event.target.value
     shotGatherPositionNumber.value = newPosition
     shotGatherPositionSlider.value = newPosition
