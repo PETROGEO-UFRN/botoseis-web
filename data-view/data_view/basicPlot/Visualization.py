@@ -29,7 +29,7 @@ class Visualization(BaseVisualization):
             gather_key,
         )
 
-        data = self.getBaseData()
+        data = self.__getBaseData()
 
         self.plot_manager = PlotManager(
             data=data,
@@ -47,6 +47,40 @@ class Visualization(BaseVisualization):
         if gain_option == None:
             return data
         return apply_gain(data, gain_option, wagc, dt)
+
+    def __getDataForShotGathers(self) -> np_types.NDArray:
+        gather_index_start = self.plot_options_state.gather_index_start
+        gather_index_stop = gather_index_start + \
+            self.plot_options_state.num_loadedgathers
+
+        data = self.sufile.igather[
+            gather_index_start:gather_index_stop
+        ].data
+
+        if (gather_index_stop - 1 == gather_index_start):
+            # *** Single gather
+            self.x_positions = self.sufile.igather[
+                gather_index_start
+            ].headers["offset"]
+            return data
+
+        # *** Multiple gathers
+        self.x_positions = None
+        return data
+
+    def __getBaseData(self) -> np_types.NDArray:
+        """
+        Get Numpy NDArray for data section on display
+
+        Handles stack or sectioned data (shot gathers) 
+        """
+        # *** "gather_keyword"  must exist for shot gathers
+        if self.sufile.gather_keyword:
+            data = self.__getDataForShotGathers()
+        else:
+            data = self.sufile.traces
+            self.x_positions = None
+        return data
 
     def handle_palette_change(
         self,
@@ -85,7 +119,7 @@ class Visualization(BaseVisualization):
         start_time = time.perf_counter()
         print("CALL handle_state_change")
 
-        data = self.getBaseData()
+        data = self.__getBaseData()
 
         data = self.__optionally_apply_gain(
             data,

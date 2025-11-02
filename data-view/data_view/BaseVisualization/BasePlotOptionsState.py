@@ -1,4 +1,5 @@
 from typing import get_args
+from numpy import ndarray
 
 
 class BasePlotOptionsState():
@@ -16,10 +17,16 @@ class BasePlotOptionsState():
         has_gather_key: bool = False,
         **custom_states
     ) -> None:
-        self.updatePlotOptionsState(
-            interval_time_samples=None,
-            num_time_samples=None,
+        default_options = {
+            "interval_time_samples": None,
+            "num_time_samples": None,
+        }
+        merged_options = {
+            **default_options,
             **custom_states
+        }
+        self.updatePlotOptionsState(
+            **merged_options
         )
 
         if has_gather_key:

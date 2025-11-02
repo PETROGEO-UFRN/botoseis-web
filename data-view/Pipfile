@@ -9,6 +9,9 @@ seismicio = "==0.0.22"
 requests = "~=2.32.3"
 python-dotenv = "~=1.0.1"
 numpy = "~=1.26"
+meson = "~=1.9.1"
+ninja = "~=1.13.0"
+colorcet = "~=3.1.0"
 
 [dev-packages]
 ipython = "*"
