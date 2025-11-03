@@ -25,7 +25,7 @@ export default function VizualizerConfigOptions() {
   return (
     <Container>
       <Typography variant="h5">
-        Informe o Gather key
+        Gather Key
       </Typography>
 
       <TextField
@@ -34,10 +34,10 @@ export default function VizualizerConfigOptions() {
         onChange={(event) => updateGatherKey(singleSelectedWorkflowId, event.target.value)}
       />
       <HelperText>
-        Gather key is not always mandatory and shall be empty in some cases, depending on your seismic data organization
+        Gather key is mandatory for pre-stack data.
       </HelperText>
       <HelperText>
-        Gather key is only requested when your seismic data file is dived in shot gathers
+        Must be provided the key of sorted data.
       </HelperText>
     </Container>
   )
