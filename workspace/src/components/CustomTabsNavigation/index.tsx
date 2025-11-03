@@ -3,7 +3,7 @@ import type { ComponentType, ReactNode } from 'react'
 import Tabs from '@mui/material/Tabs';
 import CustomTab from 'components/CustomTab';
 import { IDefaultDNDListProps } from 'components/DefaultDNDList/types'
-import { StaticTabKey } from 'constants/StaticTabKey'
+import { StaticTabKey } from 'constants/staticCommands'
 
 import {
   Container,

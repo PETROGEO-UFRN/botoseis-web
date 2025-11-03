@@ -6,7 +6,7 @@ import InputSelectorOptions from 'components/InputSelectorOptions';
 import OutputConfigOptions from 'components/OutputConfigOptions'
 import VizualizerConfigOptions from 'components/VizualizerConfigOptions'
 
-import { StaticTabKey } from 'constants/StaticTabKey'
+import { StaticTabKey } from 'constants/staticCommands'
 
 export default function TabContentDisplayer() {
   const {
