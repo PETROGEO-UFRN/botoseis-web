@@ -10,6 +10,7 @@ export enum StaticTabKey {
   Input = "tab-input",
   Output = "tab-output",
   Vizualizer = "tab-vizualizer",
+  Velan = "tab-Velan",
 }
 
 
@@ -30,6 +31,11 @@ export const postProcessingCommands: staticTabsType = [
   {
     id: StaticTabKey.Vizualizer,
     name: "Visualization",
+    parameters: ""
+  },
+  {
+    id: StaticTabKey.Velan,
+    name: "Velocity Analysis",
     parameters: ""
   }
 ]

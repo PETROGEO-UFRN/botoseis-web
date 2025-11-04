@@ -1,8 +1,9 @@
 import styled from "styled-components"
 import Typography from "@mui/material/Typography"
-import Accordion from '@mui/material/Accordion';
-import ListItem from '@mui/material/ListItem';
+import Accordion from '@mui/material/Accordion'
+import ListItem from '@mui/material/ListItem'
 import IconButton from '@mui/material/IconButton'
+import AccordionSummary from '@mui/material/AccordionSummary';
 
 export const Container = styled.div`
   overflow: hidden;
@@ -16,9 +17,15 @@ export const GroupsListBox = styled.div`
   height: 100%;
 `
 
+export const PackageAccordionSummary = styled(AccordionSummary)`
+  && > .MuiAccordionSummary-content {
+    justify-content: center;
+    align-items: center;
+  }
+`
+
 export const Title = styled(Typography)`
   && {
-    margin-top: 8px;
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 1.2px;

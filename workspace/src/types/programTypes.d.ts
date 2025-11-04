@@ -1,34 +1,51 @@
 // ! Duplicated ! Shall be shared from "admin" as well as its types
+import type { Key } from 'react'
+
 type parameterFileInputType = `file:${helperFileTypes}`
 
-declare interface IParameter {
-  id: number
-  name: string
-  description: string
-  input_type: "float" | "integer" | "string" | parameterFileInputType
-  isRequired: boolean
-}
+import { StaticTabKey } from 'constants/clientPrograms'
 
-declare type GenericProgramConstructorKeysType = "name" | "description" | "path_to_executable_file" | "groupId"
-declare interface IGenericProgramConstructor {
-  name: string
-  description: string
-  path_to_executable_file: string
-  groupId: number
-}
+type clientGroupIdType = "client-side-programs"
 
-declare interface IGenericProgram extends IGenericProgramConstructor {
-  id: number
-  // parameters: Array<IParameter>
-}
+declare global {
+  type clientProgramIdType = Exclude<
+    StaticTabKey,
+    StaticTabKey.Input
+  >
 
-declare interface IProgramsGroupConstructor {
-  name: string
-  description: string
-}
+  interface IParameter {
+    id: number
+    name: string
+    description: string
+    input_type: "float" | "integer" | "string" | parameterFileInputType
+    isRequired: boolean
+  }
 
-declare interface IProgramsGroup extends IProgramsGroupConstructor {
-  id: number
-  programs: Array<IGenericProgram>
-}
+  type GenericProgramConstructorKeysType = "name" | "description" | "path_to_executable_file" | "groupId"
+  interface IGenericProgramConstructor {
+    name: string
+    description: string
+    path_to_executable_file: string
+    groupId: number
+  }
 
+  interface IGenericProgram<
+    ProgramIDType extends Key = number
+  > extends IGenericProgramConstructor {
+    id: ProgramIDType
+    groupId: number | clientGroupIdType
+    // parameters: Array<IParameter>
+  }
+
+  interface IProgramsGroupConstructor {
+    name: string
+    description: string
+  }
+
+  interface IProgramsGroup<
+    ProgramIDType extends Key = number
+  > extends IProgramsGroupConstructor {
+    id: number | clientGroupIdType
+    programs: Array<IGenericProgram<ProgramIDType>>
+  }
+}

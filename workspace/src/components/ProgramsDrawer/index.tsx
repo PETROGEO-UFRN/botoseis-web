@@ -2,19 +2,11 @@ import { useState, useEffect } from 'react'
 import type { Dispatch, SetStateAction } from 'react'
 
 import { useShallow } from 'zustand/react/shallow'
-import Typography from '@mui/material/Typography';
-import List from '@mui/material/List';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 
-import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
-import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 
 import { CloseButton } from 'shared-ui';
 
+import { clientProgramsGroup } from 'constants/clientPrograms'
 import { getGroups } from 'services/programServices'
 import { createNewCommand } from 'services/commandServices'
 import { useSelectedWorkflowsStore } from 'store/selectedWorkflowsStore';
@@ -23,12 +15,9 @@ import useNotificationStore from 'store/notificationStore';
 import GenericDrawer from "../GenericDrawer"
 
 
+import ProgramsGroupsAccordion from './ProgramsGroupsAccordion';
 import {
   Container,
-  GroupsListBox,
-  Title,
-  CustomAccordion,
-  CustomListItem
 } from './styles'
 
 interface IProgramsDrawerProps {
@@ -80,6 +69,13 @@ export default function ProgramsDrawer({
     })
   }
 
+  const addClientProgramToCurrentWorkflow = (
+    name: string,
+    program_id: clientProgramIdType
+  ) => {
+    console.log(name, program_id);
+  }
+
   useEffect(() => {
     getGroups().then((result) => {
       setProgramsGroups(result)
@@ -98,69 +94,18 @@ export default function ProgramsDrawer({
           $top={"8px"}
         />
 
-        <Title variant='h5'>
-          Seismic Unix
-        </Title>
+        {/* Type parameter to accept client-side-only programs */}
+        <ProgramsGroupsAccordion<clientProgramIdType>
+          packageTitle="Boto - Interative"
+          programsGroups={[clientProgramsGroup]}
+          addProgramToCurrentWorkflow={addClientProgramToCurrentWorkflow}
+        />
 
-        <GroupsListBox>
-          {programsGroups.map((group) => (
-            <CustomAccordion
-              key={group.id}
-              disableGutters
-            >
-              <AccordionSummary expandIcon={<ExpandMoreRoundedIcon />}>
-                <Typography
-                  variant='subtitle1'
-                  fontWeight="700"
-                >
-                  {group.name.toUpperCase()}
-                </Typography>
-              </AccordionSummary>
-
-              <AccordionDetails>
-                <List
-                  dense
-                  disablePadding
-                >
-                  {group.programs.map((program) => (
-                    <CustomListItem
-                      key={program.id}
-                      disableGutters
-                    >
-                      <Button
-                        onClick={() => addProgramToCurrentWorkflow(
-                          program.path_to_executable_file,
-                          program.id,
-                        )}
-                        variant='text'
-                        startIcon={<KeyboardBackspaceRoundedIcon />}
-                      >
-                        <Typography
-                          variant='body1'
-                          key={program.id}
-                        >
-                          {program.name}
-                        </Typography>
-                      </Button>
-
-                      <Tooltip
-                        title={program.description}
-                        placement='top'
-                        arrow
-                      >
-                        <QuestionMarkIcon
-                          color='primary'
-                          fontSize='small'
-                        />
-                      </Tooltip>
-                    </CustomListItem>
-                  ))}
-                </List>
-              </AccordionDetails>
-            </CustomAccordion>
-          ))}
-        </GroupsListBox>
-
+        <ProgramsGroupsAccordion
+          packageTitle="Seismic Unix"
+          programsGroups={programsGroups}
+          addProgramToCurrentWorkflow={addProgramToCurrentWorkflow}
+        />
       </Container>
     </GenericDrawer>
   )

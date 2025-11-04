@@ -28,6 +28,9 @@ export default function TabContentDisplayer() {
       case StaticTabKey.Vizualizer:
         return <VizualizerConfigOptions />
 
+      case StaticTabKey.Velan:
+        return <VizualizerConfigOptions />
+
       default:
         const selectedCommand = commands.find(({ id }) => id == selectedCommandId)
         if (typeof selectedCommand?.id != "string")
