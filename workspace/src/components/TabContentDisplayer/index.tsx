@@ -1,12 +1,12 @@
 import { useCommandsStore } from 'store/commandsStore'
 import { useShallow } from 'zustand/react/shallow'
 
-import CommandParameters from 'components/CommandParameters';
-import InputSelectorOptions from 'components/InputSelectorOptions';
-import OutputConfigOptions from 'components/OutputConfigOptions'
-import VizualizerConfigOptions from 'components/VizualizerConfigOptions'
+import { StaticTabKey } from 'constants/clientPrograms'
 
-import { StaticTabKey } from 'constants/staticCommands'
+import CommandParameters from './CommandParameters'
+import InputSelectorOptions from './InputSelectorOptions'
+import OutputConfigOptions from './OutputConfigOptions'
+import VizualizerConfigOptions from './VizualizerConfigOptions'
 
 export default function TabContentDisplayer() {
   const {

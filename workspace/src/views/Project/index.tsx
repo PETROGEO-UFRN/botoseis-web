@@ -3,23 +3,21 @@ import TerminalRoundedIcon from '@mui/icons-material/TerminalRounded';
 import IntegrationInstructionsRoundedIcon from '@mui/icons-material/IntegrationInstructionsRounded';
 import { useShallow } from 'zustand/react/shallow'
 
+import { DrawerTriggerButton } from 'shared-ui'
+
 import { useLinesStore } from 'store/linesStore';
 import { useCommandsStore } from 'store/commandsStore';
 import { useSelectedWorkflowsStore } from 'store/selectedWorkflowsStore'
 import { updateCommandsOrder, deleteCommand } from 'services/commandServices'
 import { StaticTabKey } from 'constants/staticCommands'
 
-import Console from 'components/Console'
-import ProgramsDrawer from 'components/ProgramsDrawer';
-import ProjectTab from 'components/ProjectTab';
-import CustomTabsNavigation from 'components/CustomTabsNavigation';
-import DefaultDNDList from 'components/DefaultDNDList';
+import { Console, ProgramsDrawer } from 'components/Drawers'
+import TabContentDisplayer from 'components/TabContentDisplayer'
+import ProjectTab from 'components/ProjectTab'
+import CustomTabsNavigation from 'components/CustomTabsNavigation'
 
-import { DrawerTriggerButton } from 'shared-ui'
-
-import TabContentDisplayer from './TabContentDisplayer'
-import RunWorkflowButton from './RunWorkflowButton';
-import VisualizeDatasetButton from './VisualizeDatasetButton';
+import RunWorkflowButton from './RunWorkflowButton'
+import VisualizeDatasetButton from './VisualizeDatasetButton'
 import {
   Container,
   SelectedWorkflowsContainer,
@@ -104,7 +102,6 @@ export default function Project({ projectId }: IProjectProps) {
             setTabs={setSelectedWorkflows}
             selectedTabId={singleSelectedWorkflowId}
             setSelectedTabId={setSingleSelectedWorkflowId}
-            CustomDndContext={DefaultDNDList}
             color='white'
           >
             <CustomTabsNavigation
@@ -117,7 +114,6 @@ export default function Project({ projectId }: IProjectProps) {
               onRemove={(commandId: number | StaticTabKey) =>
                 deleteCommand(commandId.toString())
               }
-              CustomDndContext={DefaultDNDList}
               color={hasSelectedDataset ? 'secondary' : 'primary'}
               orientation='vertical'
               tabStaticContent={!hasSelectedDataset ?

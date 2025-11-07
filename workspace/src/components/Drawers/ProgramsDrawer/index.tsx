@@ -3,7 +3,6 @@ import type { Dispatch, SetStateAction } from 'react'
 
 import { useShallow } from 'zustand/react/shallow'
 
-
 import { CloseButton } from 'shared-ui';
 
 import { clientProgramsGroup } from 'constants/clientPrograms'
@@ -12,9 +11,8 @@ import { createNewCommand } from 'services/commandServices'
 import { useSelectedWorkflowsStore } from 'store/selectedWorkflowsStore';
 import { useCommandsStore } from 'store/commandsStore';
 import useNotificationStore from 'store/notificationStore';
+
 import GenericDrawer from "../GenericDrawer"
-
-
 import ProgramsGroupsAccordion from './ProgramsGroupsAccordion';
 import {
   Container,

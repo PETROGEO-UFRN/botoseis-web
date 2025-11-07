@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
 
 import CustomTabsNavigation from '.'
-import DefaultDNDList from '../DefaultDNDList'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -29,10 +28,6 @@ const meta = {
     },
     setSelectedTabId: {
       description: "setState to `selectedTab` state",
-    },
-    CustomDndContext: {
-      description: `Component to provide drag and drop context. By default will
-                    render the the children without doing anything`,
     },
     color: {
       control: 'select',
@@ -94,7 +89,6 @@ export const DragableTabs = () => {
         tabs={tabs}
         setTabs={setTabs}
         setSelectedTabId={() => undefined}
-        CustomDndContext={DefaultDNDList}
       />
     </div>
   )

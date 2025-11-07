@@ -12,8 +12,8 @@ import { CloseButton } from 'shared-ui'
 
 import { useLogsStore } from 'store/logsStore'
 import { useSelectedWorkflowsStore } from 'store/selectedWorkflowsStore'
-import GenericDrawer from '../GenericDrawer'
 
+import GenericDrawer from '../GenericDrawer'
 import {
   CustomTableContainer,
   CustomTableCell,

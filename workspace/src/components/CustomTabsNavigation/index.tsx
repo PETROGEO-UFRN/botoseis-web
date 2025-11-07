@@ -1,9 +1,11 @@
-import type { ComponentType, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
-import Tabs from '@mui/material/Tabs';
-import CustomTab from 'components/CustomTab';
-import { IDefaultDNDListProps } from 'components/DefaultDNDList/types'
+import Tabs from '@mui/material/Tabs'
+
 import { StaticTabKey } from 'constants/staticCommands'
+
+import CustomTab from './CustomTab'
+import CustomDNDContext from './DefaultDNDList'
 
 import {
   Container,
@@ -26,8 +28,6 @@ interface ICustomTabsNavigationProps<T extends IgenericTab> {
   color?: navigationColorType
   orientation?: navigationOrientationType
   tabStaticContent?: ReactNode
-
-  CustomDndContext?: ComponentType<IDefaultDNDListProps<T>>
 }
 
 export default function CustomTabsNavigation<T extends IgenericTab>({
@@ -41,9 +41,6 @@ export default function CustomTabsNavigation<T extends IgenericTab>({
   color = "primary",
   orientation = "horizontal",
   tabStaticContent,
-
-  // *** render empty element by default when no FixedLastTabOptions provided
-  CustomDndContext = ({ children }) => (<>{children}</>),
 }: ICustomTabsNavigationProps<T>) {
   // ? conditional rendering could be a high order component ?
   const removeElementFromState = (tabId: number | StaticTabKey) => {
@@ -61,8 +58,7 @@ export default function CustomTabsNavigation<T extends IgenericTab>({
 
   return Boolean(tabs.length) ? (
     <Container id="containerSample" $orientation={orientation}>
-      {/* *** CustomDndContext is passed by optional props *** */}
-      <CustomDndContext
+      <CustomDNDContext
         orientation={orientation}
         items={tabs}
         setItems={setTabs}
@@ -88,7 +84,7 @@ export default function CustomTabsNavigation<T extends IgenericTab>({
           ))}
           {tabStaticContent && tabStaticContent}
         </Tabs>
-      </CustomDndContext>
+      </CustomDNDContext>
 
       {tabs.map(
         (tab) => selectedTabId == tab.id && (
