@@ -6,6 +6,7 @@ import Tooltip from '@mui/material/Tooltip';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import CommentsDisabledRoundedIcon from '@mui/icons-material/CommentsDisabledRounded';
 
+import { StaticTabKey } from 'constants/clientPrograms'
 import { updateCommandIsActive } from 'services/commandServices';
 import { useSelectedWorkflowsStore } from 'store/selectedWorkflowsStore';
 import { useCommandsStore } from 'store/commandsStore';
@@ -89,21 +90,28 @@ export default function CustomTab({
             {...attributes}
             {...listeners}
           />
-          {
-            $orientation == "vertical" &&
-            Number.isInteger(value) &&
-            !hasSelectedDataset && (
-              <ActionButtonsContainer>
-                {/* ! comment disabled should not be in generic component */}
+          <ActionButtonsContainer>
+            {
+              /* ! comment disabled should not be in generic component */
+              $orientation == "vertical" &&
+              Number.isInteger(value) &&
+              !hasSelectedDataset && (
                 <ActionButton onClick={handleUpdateCommandIsActive}>
                   <CommentsDisabledRoundedIcon />
                 </ActionButton>
+              )
+            }
+            {
+              $orientation == "vertical" &&
+              value !== StaticTabKey.Input &&
+              value !== StaticTabKey.Output &&
+              !hasSelectedDataset && (
                 <ActionButton onClick={onRemove}>
                   <CloseRoundedIcon />
                 </ActionButton>
-              </ActionButtonsContainer>
-            )
-          }
+              )
+            }
+          </ActionButtonsContainer>
         </Container>
       </Tooltip >
     </>

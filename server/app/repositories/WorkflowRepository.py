@@ -1,11 +1,11 @@
 from uuid import UUID
 from types import SimpleNamespace
 
-
 from ..database.connection import database
 from ..models.UserModel import UserModel
 from ..models.WorkflowModel import WorkflowModel
 from ..models.FileLinkModel import FileLinkModel
+from ..factories.postProcessingOptionsFactory import createPostProcessingOptions
 
 from ..errors.AppError import AppError
 from ..services.validateWorkflowParent import validateWorkflowParent
@@ -23,7 +23,8 @@ def create(userId, newWorkflowData, parentId):
     newWorkflow = WorkflowModel(
         name=newWorkflowData["name"],
         owner_email=user.email,
-        output_name=newWorkflowData.get("output_name") or ""
+        output_name=newWorkflowData.get("output_name") or "",
+        post_processing_options=(createPostProcessingOptions())
     )
 
     database.session.add(newWorkflow)

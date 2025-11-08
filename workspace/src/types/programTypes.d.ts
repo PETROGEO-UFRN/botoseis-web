@@ -10,7 +10,7 @@ type clientGroupIdType = "client-side-programs"
 declare global {
   type clientProgramIdType = Exclude<
     StaticTabKey,
-    StaticTabKey.Input
+    StaticTabKey.Input | StaticTabKey.Output
   >
 
   interface IParameter {

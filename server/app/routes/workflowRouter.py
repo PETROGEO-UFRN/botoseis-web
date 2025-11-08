@@ -5,7 +5,7 @@ from ..middlewares.requireAuthentication import requireAuthentication
 from ..middlewares.validateRequestBody import validateRequestBody
 
 from ..controllers import workflowController
-from ..serializers.WorkflowSerializer import WorkflowCreateSchema, WorkflowNameUpdateSchema, WorkflowFileLinkUpdateSchema, WorkflowOutputNameUpdateSchema
+from ..serializers.WorkflowSerializer import WorkflowCreateSchema, WorkflowNameUpdateSchema, WorkflowFileLinkUpdateSchema, WorkflowOutputNameUpdateSchema, WorkflowPostProcessingUpdateSchema
 from ..models.WorkflowModel import WorkflowModel
 
 
@@ -60,9 +60,8 @@ def updateWorkflow(_, workflowId):
     )
     return jsonify(updatedWorkflow)
 
+
 # !missing test
-
-
 @workflowRouter.route("/update/<workflowId>/output-name", methods=['PUT'])
 @decorator_factory(validateRequestBody, SerializerSchema=WorkflowOutputNameUpdateSchema)
 @decorator_factory(requireAuthentication, routeModel=WorkflowModel)
@@ -74,6 +73,20 @@ def updateWorkflow(_, workflowId):
         data["outputName"]
     )
     return jsonify(updatedWorkflow)
+
+
+# !missing test
+@workflowRouter.route("/update/<workflowId>/post-processing", methods=['PUT'])
+@decorator_factory(requireAuthentication, routeModel=WorkflowModel)
+def updateWorkflow(_, workflowId):
+    # ! breaks MVC !
+    data = request.get_json()
+    post_processing_options = workflowController.updatePostProcessingOptions(
+        workflowId,
+        data["key"],
+        data["options"],
+    )
+    return jsonify(post_processing_options)
 
 
 @workflowRouter.route("/delete/<id>", methods=['DELETE'])

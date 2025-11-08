@@ -6,8 +6,10 @@ import { useShallow } from 'zustand/react/shallow'
 import { CloseButton } from 'shared-ui';
 
 import { clientProgramsGroup } from 'constants/clientPrograms'
+import { postProcessingCommands, StaticTabKey } from 'constants/staticCommands';
 import { getGroups } from 'services/programServices'
 import { createNewCommand } from 'services/commandServices'
+import { updateWorkflowPostProcessing } from 'services/workflowServices'
 import { useSelectedWorkflowsStore } from 'store/selectedWorkflowsStore';
 import { useCommandsStore } from 'store/commandsStore';
 import useNotificationStore from 'store/notificationStore';
@@ -62,8 +64,8 @@ export default function ProgramsDrawer({
       ).then((result) => {
         if (!result) return;
         const newCommands = [...commands]
-        const posProcessingStaticTabsAmount = 2
-        newCommands.splice(newCommands.length - posProcessingStaticTabsAmount, 0, result)
+        const postProcessingStaticTabsAmount = 2
+        newCommands.splice(newCommands.length - postProcessingStaticTabsAmount, 0, result)
         setCommands(newCommands)
 
         // *** Turn focous on the new command
@@ -78,10 +80,41 @@ export default function ProgramsDrawer({
   }
 
   const addClientProgramToCurrentWorkflow = (
-    name: string,
+    _name: string,
     program_id: clientProgramIdType
   ) => {
-    console.log(name, program_id);
+    if (singleSelectedWorkflowId)
+      // *** Shall overwrite the past post processing key
+      // *** That allows only one post processing program at time
+      return updateWorkflowPostProcessing({
+        workflowId: singleSelectedWorkflowId,
+        key: program_id,
+      }).then((workflow) => {
+        const tempCommands = [...commands]
+
+        const lastCommandId = tempCommands[tempCommands.length - 1].id
+        if (
+          lastCommandId == StaticTabKey.Velan ||
+          lastCommandId == StaticTabKey.Vizualizer
+        )
+          tempCommands.pop()
+
+        const newCommand = postProcessingCommands.find((command) =>
+          command.id == workflow?.post_processing_options?.key
+        )
+        if (!newCommand)
+          return
+
+        setCommands([
+          ...tempCommands,
+          newCommand,
+        ])
+      })
+
+    triggerNotification({
+      content: "Must select an workflow",
+      variant: "warning",
+    })
   }
 
   useEffect(() => {

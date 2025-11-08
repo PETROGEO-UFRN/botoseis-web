@@ -17,12 +17,6 @@ const sharedClientProgramsParameters: Pick<
 
 const clientPrograms: Array<IGenericProgram<clientProgramIdType>> = [
   {
-    id: StaticTabKey.Output,
-    name: "Output",
-    description: "Define the output file name",
-    ...sharedClientProgramsParameters,
-  },
-  {
     id: StaticTabKey.Vizualizer,
     name: "Visualization",
     description: "Data visualization. Wiggle view & Image view.",

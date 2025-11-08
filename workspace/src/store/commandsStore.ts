@@ -22,6 +22,27 @@ interface ICommandsStoreState {
   updateCommandParams: (id: number, newParameters: string) => Promise<void>
 }
 
+type pickPostProcessingCommandsType = (
+  postProcessingOptions: IpostProcessingOptions | undefined
+) => Array<IstaticTab>
+
+const pickPostProcessingCommands: pickPostProcessingCommandsType = (postProcessingOptions) => {
+  if (postProcessingOptions)
+    return postProcessingCommands.filter(
+      (command) => (
+        command.id == StaticTabKey.Output ||
+        command.id == postProcessingOptions.key
+      )
+    )
+  // *** select vizualizer by default. Important for not breaking datasets
+  return postProcessingCommands.filter(
+    (command) => (
+      command.id == StaticTabKey.Output ||
+      command.id == StaticTabKey.Vizualizer
+    )
+  )
+}
+
 export const useCommandsStore = create<ICommandsStoreState>((set, get) => ({
   selectedCommandId: StaticTabKey.Input,
   setSelectedCommandId: (newIndex) => {
@@ -37,11 +58,13 @@ export const useCommandsStore = create<ICommandsStoreState>((set, get) => ({
         if (!result)
           return
 
+        const activePostProcessingCommands = pickPostProcessingCommands(result.post_processing_options)
+
         set({
           commands: [
             ...preProcessingCommands,
             ...result.commands,
-            ...postProcessingCommands
+            ...activePostProcessingCommands
           ]
         })
         if (result.commands.length < 1)

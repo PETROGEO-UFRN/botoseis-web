@@ -1,10 +1,12 @@
 import re
+import json
 from types import SimpleNamespace
 
 from ..database.connection import database
 from ..models.WorkflowModel import WorkflowModel
 
 from ..errors.AppError import AppError
+from ..factories.postProcessingOptionsFactory import createPostProcessingOptions
 from ..repositories.WorkflowRepository import workflowRepository
 from ..repositories.WorkflowParentsAssociationRepository import workflowParentsAssociationRepository
 from ..repositories.OrderedCommandsListRepository import orderedCommandsListRepository
@@ -59,6 +61,23 @@ def updateOutput(workflowId, newOutputValue):
     return workflow.getAttributes()
 
 
+def updatePostProcessingOptions(workflowId, key, options):
+    # ! breaks MVC !
+    workflow = WorkflowModel.query.filter_by(id=workflowId).first()
+    if not workflow:
+        raise AppError("Workflow does not exist", 404)
+
+    workflow.post_processing_options = createPostProcessingOptions(
+        key=key,
+        options=options,
+    )
+    database.session.commit()
+
+    return {
+        "post_processing_options": json.loads(workflow.post_processing_options)
+    }
+
+
 def delete(id):
     workflow = WorkflowModel.query.filter_by(id=id).first()
     if not workflow:
@@ -75,5 +94,6 @@ workflowController = SimpleNamespace(
     updateName=updateName,
     updateFilePath=updateFilePath,
     updateOutput=updateOutput,
+    updatePostProcessingOptions=updatePostProcessingOptions,
     delete=delete,
 )

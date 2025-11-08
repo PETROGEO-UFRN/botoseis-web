@@ -111,9 +111,12 @@ export default function Project({ projectId }: IProjectProps) {
               setTabs={setUpdateCommandsOrder}
               selectedTabId={selectedCommandId}
               setSelectedTabId={setSelectedCommandId}
-              onRemove={(commandId: number | StaticTabKey) =>
-                deleteCommand(commandId.toString())
-              }
+              onRemove={(commandId: number | StaticTabKey) => {
+                if (typeof commandId == "number")
+                  return deleteCommand(commandId.toString())
+                console.log("should save the client-side command")
+                console.log({ commandId })
+              }}
               color={hasSelectedDataset ? 'secondary' : 'primary'}
               orientation='vertical'
               tabStaticContent={!hasSelectedDataset ?

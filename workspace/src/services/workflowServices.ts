@@ -117,6 +117,36 @@ export async function updateWorkflowOutputName(
   }
 }
 
+
+interface IupdateWorkflowPostProcessingProps {
+  workflowId: number,
+  key: IpostProcessingOptions["key"],
+  options?: IpostProcessingOptions["options"],
+}
+export async function updateWorkflowPostProcessing({
+  workflowId,
+  key,
+  options = {},
+}: IupdateWorkflowPostProcessingProps): Promise<IWorkflow | null> {
+  try {
+    const response = await api.put<IWorkflow>(
+      `/workflow/update/${workflowId}/post-processing`,
+      {
+        key,
+        options,
+      }
+    )
+    return response.data
+  } catch (error) {
+    console.error(error)
+    const axiosError = error as AxiosError
+    notificationStore.triggerNotification({
+      content: axiosError
+    });
+    return null
+  }
+}
+
 export async function deleteWorkflow(
   workflowId: number,
 ): Promise<IWorkflow | null> {

@@ -9,8 +9,11 @@ declare global {
     is_active?: boolean
   }
 
-  type literals = Array<string>
-  type primitevesTypes = string | number | boolean | Array<number> | literals | headers
+  interface IpostProcessingOptions {
+    key: StaticTabKey.Vizualizer | StaticTabKey.Velan
+    options: IobjectWithDynamicFields
+  }
+
   interface IgenericEntitiesType {
     id: number
     name: string
@@ -33,6 +36,7 @@ declare global {
     output_name: string
     commands: Array<ICommand>
     parentType: 'dataset' | 'project' | 'line',
+    post_processing_options?: IpostProcessingOptions
   }
 
   interface IResumedWorkflow extends IgenericEntitiesType {

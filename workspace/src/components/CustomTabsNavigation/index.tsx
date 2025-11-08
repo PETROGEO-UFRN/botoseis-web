@@ -44,16 +44,17 @@ export default function CustomTabsNavigation<T extends IgenericTab>({
 }: ICustomTabsNavigationProps<T>) {
   // ? conditional rendering could be a high order component ?
   const removeElementFromState = (tabId: number | StaticTabKey) => {
-    if (!tabId || typeof tabId == 'string')
+    if (!tabId || tabId == StaticTabKey.Input || tabId == StaticTabKey.Output)
       return
 
     const newTabs = tabs.filter((element) => element.id != tabId)
 
-    if (onRemove && typeof tabId == "number")
+    if (onRemove)
       onRemove(tabId)
 
     setTabs(newTabs)
-    setSelectedTabId(StaticTabKey.Input)
+    if (selectedTabId == tabId)
+      setSelectedTabId(StaticTabKey.Input)
   }
 
   return Boolean(tabs.length) ? (
