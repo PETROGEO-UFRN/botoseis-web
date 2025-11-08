@@ -1,9 +1,9 @@
 import styled from "styled-components"
 import Typography from "@mui/material/Typography"
 import Accordion from '@mui/material/Accordion'
+import AccordionSummary from '@mui/material/AccordionSummary'
 import ListItem from '@mui/material/ListItem'
 import IconButton from '@mui/material/IconButton'
-import AccordionSummary from '@mui/material/AccordionSummary';
 
 export const Container = styled.div`
   overflow: hidden;
@@ -12,9 +12,12 @@ export const Container = styled.div`
   flex-direction: column;
 `
 
-export const GroupsListBox = styled.div`
-  overflow-y: auto;
-  height: 100%;
+export const CustomAccordion = styled(Accordion)`
+  && {
+    max-height: calc( 100% - (56.01px + 16px));
+    overflow-y: auto;
+    box-shadow: none;
+  }
 `
 
 export const PackageAccordionSummary = styled(AccordionSummary)`
@@ -32,17 +35,6 @@ export const Title = styled(Typography)`
   }
 `
 
-export const CloseButton = styled(IconButton)`
-  position: absolute !important;
-  z-index: 10;
-`
-
-export const CustomAccordion = styled(Accordion)`
-  && {
-    box-shadow: none;
-  }
-`
-
 export const CustomListItem = styled(ListItem)`
   &:not(:last-child) {
     border-bottom: 1px solid ${({ theme }) => theme.palette.divider};
@@ -50,4 +42,9 @@ export const CustomListItem = styled(ListItem)`
   svg:not(:first-child) {
     opacity: 0.37;
   }
+`
+
+export const CloseButton = styled(IconButton)`
+  position: absolute !important;
+  z-index: 10;
 `

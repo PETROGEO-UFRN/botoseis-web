@@ -1,40 +1,42 @@
-import type { Key } from 'react'
+import type { Key, Dispatch, SetStateAction } from 'react'
+
+import List from '@mui/material/List'
 
 import Typography from '@mui/material/Typography'
-import List from '@mui/material/List'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
-import Button from '@mui/material/Button'
-import Tooltip from '@mui/material/Tooltip'
 
-import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded'
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded'
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark'
+
+import ProgramCard from './ProgramCard'
+import type { addProgramToCurrentWorkflowType } from './ProgramCard'
 
 import {
-  GroupsListBox,
   PackageAccordionSummary,
   Title,
   CustomAccordion,
-  CustomListItem
 } from './styles'
 
 interface IProgramsGroupsAccordionProps<ProgramIDType extends Key> {
+  isExpanded: boolean,
+  onChange: Dispatch<SetStateAction<boolean>>,
   packageTitle: string,
   programsGroups: Array<IProgramsGroup<ProgramIDType>>,
-  addProgramToCurrentWorkflow: (
-    name: string,
-    program_id: ProgramIDType
-  ) => void,
+  addProgramToCurrentWorkflow: addProgramToCurrentWorkflowType<ProgramIDType>
 }
 
 export default function ProgramsGroupsAccordion<ProgramIDType extends Key>({
+  isExpanded,
+  onChange,
   packageTitle,
   programsGroups,
   addProgramToCurrentWorkflow,
 }: IProgramsGroupsAccordionProps<ProgramIDType>) {
   return (
-    <CustomAccordion>
+    <CustomAccordion
+      expanded={isExpanded}
+      onChange={() => onChange(!isExpanded)}
+    >
       <PackageAccordionSummary expandIcon={<ExpandMoreRoundedIcon />}>
         <Title variant='h5'>
           {packageTitle}
@@ -42,63 +44,36 @@ export default function ProgramsGroupsAccordion<ProgramIDType extends Key>({
       </PackageAccordionSummary>
 
       <AccordionDetails>
-        <GroupsListBox>
-          {programsGroups.map((group) => (
-            <CustomAccordion
-              key={group.id}
-              disableGutters
-            >
-              <AccordionSummary expandIcon={<ExpandMoreRoundedIcon />}>
-                <Typography
-                  variant='subtitle1'
-                  fontWeight="700"
-                >
-                  {group.name.toUpperCase()}
-                </Typography>
-              </AccordionSummary>
+        {programsGroups.map((group) => (
+          <CustomAccordion
+            key={group.id}
+            slotProps={{ transition: { unmountOnExit: true } }}
+            disableGutters
+          >
+            <AccordionSummary expandIcon={<ExpandMoreRoundedIcon />}>
+              <Typography
+                variant='subtitle1'
+                fontWeight="700"
+              >
+                {group.name.toUpperCase()}
+              </Typography>
+            </AccordionSummary>
 
-              <AccordionDetails>
-                <List
-                  dense
-                  disablePadding
-                >
-                  {group.programs.map((program) => (
-                    <CustomListItem
-                      key={program.id}
-                      disableGutters
-                    >
-                      <Button
-                        onClick={() => addProgramToCurrentWorkflow(
-                          program.path_to_executable_file,
-                          program.id,
-                        )}
-                        variant='text'
-                        startIcon={<KeyboardBackspaceRoundedIcon />}
-                      >
-                        <Typography
-                          variant='body1'
-                        >
-                          {program.name}
-                        </Typography>
-                      </Button>
-
-                      <Tooltip
-                        title={program.description}
-                        placement='top'
-                        arrow
-                      >
-                        <QuestionMarkIcon
-                          color='primary'
-                          fontSize='small'
-                        />
-                      </Tooltip>
-                    </CustomListItem>
-                  ))}
-                </List>
-              </AccordionDetails>
-            </CustomAccordion>
-          ))}
-        </GroupsListBox>
+            <AccordionDetails>
+              <List
+                dense
+                disablePadding
+              >
+                {group.programs.map((program) => (
+                  <ProgramCard<ProgramIDType>
+                    program={program}
+                    addProgramToCurrentWorkflow={addProgramToCurrentWorkflow}
+                  />
+                ))}
+              </List>
+            </AccordionDetails>
+          </CustomAccordion>
+        ))}
       </AccordionDetails>
     </CustomAccordion>
   )

@@ -18,6 +18,8 @@ import {
   Container,
 } from './styles'
 
+type expandedGroupKey = 'Client' | 'SeismicUnix' | undefined
+
 interface IProgramsDrawerProps {
   isOpen: boolean
   setIsOpen: Dispatch<SetStateAction<boolean>>
@@ -40,8 +42,16 @@ export default function ProgramsDrawer({
     setSelectedCommandId: state.setSelectedCommandId,
   })))
 
+  const [expandedGroup, setExpandedGroup] = useState<expandedGroupKey>('SeismicUnix')
+
   // *** Groups of Commands, available commands to insert in the workflow
   const [programsGroups, setProgramsGroups] = useState<Array<IProgramsGroup>>([])
+
+  const handleExpandedGroupChange = (key: expandedGroupKey) => {
+    if (expandedGroup == key)
+      setExpandedGroup(undefined)
+    setExpandedGroup(key)
+  }
 
   const addProgramToCurrentWorkflow = (name: string, program_id: number) => {
     if (singleSelectedWorkflowId)
@@ -97,12 +107,16 @@ export default function ProgramsDrawer({
           packageTitle="Boto - Interative"
           programsGroups={[clientProgramsGroup]}
           addProgramToCurrentWorkflow={addClientProgramToCurrentWorkflow}
+          isExpanded={expandedGroup == 'Client'}
+          onChange={() => handleExpandedGroupChange('Client')}
         />
 
         <ProgramsGroupsAccordion
           packageTitle="Seismic Unix"
           programsGroups={programsGroups}
           addProgramToCurrentWorkflow={addProgramToCurrentWorkflow}
+          isExpanded={expandedGroup == 'SeismicUnix'}
+          onChange={() => handleExpandedGroupChange('SeismicUnix')}
         />
       </Container>
     </GenericDrawer>
