@@ -5,8 +5,11 @@ import { useShallow } from 'zustand/react/shallow'
 
 import { CloseButton } from 'shared-ui';
 
-import { clientProgramsGroup } from 'constants/clientPrograms'
-import { postProcessingCommands, StaticTabKey } from 'constants/staticCommands';
+import {
+  StaticTabKey,
+  postProcessingCommands,
+  clientProgramsGroup
+} from 'constants/clientPrograms'
 import { getGroups } from 'services/programServices'
 import { createNewCommand } from 'services/commandServices'
 import { updateWorkflowPostProcessing } from 'services/workflowServices'

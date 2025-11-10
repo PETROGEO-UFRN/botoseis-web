@@ -9,7 +9,7 @@ import { useLinesStore } from 'store/linesStore';
 import { useCommandsStore } from 'store/commandsStore';
 import { useSelectedWorkflowsStore } from 'store/selectedWorkflowsStore'
 import { updateCommandsOrder, deleteCommand } from 'services/commandServices'
-import { StaticTabKey } from 'constants/staticCommands'
+import { StaticTabKey } from 'constants/clientPrograms'
 
 import { Console, ProgramsDrawer } from 'components/Drawers'
 import TabContentDisplayer from 'components/TabContentDisplayer'

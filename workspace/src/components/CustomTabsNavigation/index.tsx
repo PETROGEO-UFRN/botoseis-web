@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 
 import Tabs from '@mui/material/Tabs'
 
-import { StaticTabKey } from 'constants/staticCommands'
+import { StaticTabKey } from 'constants/clientPrograms'
 
 import CustomTab from './CustomTab'
 import CustomDNDContext from './DefaultDNDList'

@@ -1,4 +1,4 @@
-import type { StaticTabKey } from 'constants/staticCommands'
+import type { StaticTabKey } from 'constants/clientPrograms'
 declare global {
   type navigationOrientationType = 'horizontal' | 'vertical'
   type navigationColorType = "primary" | "secondary" | "white"

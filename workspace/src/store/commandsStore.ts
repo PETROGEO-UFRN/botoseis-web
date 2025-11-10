@@ -6,8 +6,8 @@ import {
   preProcessingCommands,
   postProcessingCommands,
   StaticTabKey
-} from 'constants/staticCommands'
-import type { IstaticTab } from 'constants/staticCommands'
+} from 'constants/clientPrograms'
+import type { IstaticTab } from 'constants/clientPrograms'
 
 // ! StaticTabKey here looks too much, needs refactoring
 type selectedCommandIdType = number | StaticTabKey

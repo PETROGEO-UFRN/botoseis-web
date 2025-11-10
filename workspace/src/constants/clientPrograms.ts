@@ -1,3 +1,9 @@
+export interface IstaticTab {
+  id: StaticTabKey,
+  name: string
+  parameters: string
+}
+type staticTabsType = Array<IstaticTab>
 
 export enum StaticTabKey {
   Input = "tab-input",
@@ -36,3 +42,29 @@ export const clientProgramsGroup: IProgramsGroup<clientProgramIdType> = {
   description: "",
   programs: clientPrograms,
 }
+
+export const preProcessingCommands: staticTabsType = [
+  {
+    id: StaticTabKey.Input,
+    name: "Input",
+    parameters: ""
+  }
+]
+
+export const postProcessingCommands: staticTabsType = [
+  {
+    id: StaticTabKey.Output,
+    name: "Output",
+    parameters: ""
+  },
+  {
+    id: StaticTabKey.Vizualizer,
+    name: "Visualization",
+    parameters: ""
+  },
+  {
+    id: StaticTabKey.Velan,
+    name: "Velocity Analysis",
+    parameters: ""
+  }
+]
