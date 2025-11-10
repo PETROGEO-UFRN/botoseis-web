@@ -1,3 +1,4 @@
+import json
 import sqlalchemy as dbTypes
 from sqlalchemy.orm import relationship, Mapped
 from typing import List
@@ -61,7 +62,7 @@ class WorkflowModel(database.Model):  # type: ignore
             "name": self.name,
             "input_file_link_id": self.input_file_link_id,
             "output_name": self.output_name,
-            "post_processing_options": self.post_processing_options,
+            "post_processing_options": json.loads(self.post_processing_options),
             "commands": self.orderedCommandsList[0].getCommands(),
             "parentType": self.workflowParent.getParentType(),
         }
