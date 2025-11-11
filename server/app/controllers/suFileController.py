@@ -88,9 +88,6 @@ def update(userId, workflowId):
             stderr=subprocess.PIPE,
             text=True
         )
-    except Exception as error:
-        return str(error)
-    finally:
         # *** delete datasets with the same output name as the new one
         deleteDatasets(workflow)
         datasetAttributes = createDataset(userId, workflowId)
@@ -115,6 +112,8 @@ def update(userId, workflowId):
             "result_workflow_id": datasetAttributes["workflows"][0]["id"],
             "process_details": process_details
         }
+    except Exception as error:
+        return str(error)
 
 
 suFileController = SimpleNamespace(
