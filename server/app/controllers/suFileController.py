@@ -76,7 +76,7 @@ def update(userId, workflowId):
     seismicUnixProcessString = createSemicUnixCommandString(
         workflow.orderedCommandsList,
         source_file_path,
-        source_file_path
+        target_file_path
     )
 
     try:
