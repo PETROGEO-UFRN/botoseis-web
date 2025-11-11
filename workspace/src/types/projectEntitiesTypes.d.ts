@@ -11,7 +11,7 @@ declare global {
 
   interface IpostProcessingOptions {
     key: StaticTabKey.Vizualizer | StaticTabKey.Velan
-    options: IobjectWithDynamicFields
+    options: IvelanOptions | {}
   }
 
   interface IgenericEntitiesType {

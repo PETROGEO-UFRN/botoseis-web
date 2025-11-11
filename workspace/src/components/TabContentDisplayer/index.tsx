@@ -7,6 +7,7 @@ import CommandParameters from './CommandParameters'
 import InputSelectorOptions from './InputSelectorOptions'
 import OutputConfigOptions from './OutputConfigOptions'
 import VizualizerConfigOptions from './VizualizerConfigOptions'
+import VelanConfigOptions from './VelanConfigOptions'
 
 export default function TabContentDisplayer() {
   const {
@@ -29,7 +30,7 @@ export default function TabContentDisplayer() {
         return <VizualizerConfigOptions />
 
       case StaticTabKey.Velan:
-        return <VizualizerConfigOptions />
+        return <VelanConfigOptions />
 
       default:
         const selectedCommand = commands.find(({ id }) => id == selectedCommandId)

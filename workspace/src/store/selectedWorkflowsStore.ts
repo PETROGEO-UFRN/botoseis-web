@@ -85,6 +85,7 @@ export const useSelectedWorkflowsStore = create<ISelectedWorkflowsStoreState>((s
               commands: result.commands,
               output_name: result.output_name,
               parentType: result.parentType,
+              post_processing_options: result.post_processing_options
             },
           ]
         }))

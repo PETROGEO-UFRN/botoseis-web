@@ -5,11 +5,12 @@ import { useShallow } from 'zustand/react/shallow'
 
 import { DrawerTriggerButton } from 'shared-ui'
 
+import { StaticTabKey } from 'constants/clientPrograms'
 import { useLinesStore } from 'store/linesStore';
 import { useCommandsStore } from 'store/commandsStore';
 import { useSelectedWorkflowsStore } from 'store/selectedWorkflowsStore'
 import { updateCommandsOrder, deleteCommand } from 'services/commandServices'
-import { StaticTabKey } from 'constants/clientPrograms'
+import { useVelanOptionsStore } from 'store/velanOptionsStore'
 
 import { Console, ProgramsDrawer } from 'components/Drawers'
 import TabContentDisplayer from 'components/TabContentDisplayer'
@@ -29,6 +30,9 @@ interface IProjectProps {
 
 export default function Project({ projectId }: IProjectProps) {
   const loadLines = useLinesStore(useShallow((state) => state.loadLines))
+  const { unpackVelanOptions } = useVelanOptionsStore(useShallow((state) => ({
+    unpackVelanOptions: state.unpackVelanOptions
+  })))
 
   const {
     selectedWorkflows,
@@ -90,6 +94,16 @@ export default function Project({ projectId }: IProjectProps) {
   useEffect(() => {
     if (!singleSelectedWorkflowId) return
     loadCommands(singleSelectedWorkflowId)
+
+    // *** Load velan options when velan is present on the selected workflow
+    const workflowToLoad = selectedWorkflows.find(
+      (workflow) => workflow.id == singleSelectedWorkflowId
+    )
+    console.log({ workflowToLoad })
+    console.log(singleSelectedWorkflowId)
+    if (!workflowToLoad) return
+    if (workflowToLoad.post_processing_options?.key == StaticTabKey.Velan)
+      unpackVelanOptions(workflowToLoad)
   }, [singleSelectedWorkflowId])
 
   return (
