@@ -1,9 +1,9 @@
-import { create } from 'zustand';
-import type { VariantType } from 'notistack';
+import { create } from 'zustand'
+import type { VariantType } from 'notistack'
 
 
 type notificationMessageType = {
-  content: string | Error
+  content: string | Array<string> | Error
   variant?: VariantType
 }
 
@@ -14,7 +14,7 @@ interface INotificationStore {
 
 const useNotificationStore = create<INotificationStore>((set) => ({
   notificationMessage: null,
-  triggerNotification: ({ content, variant }) => {
+  triggerNotification: ({ content, variant = "error" }) => {
     set({ notificationMessage: { content, variant } })
   },
 }));

@@ -1,11 +1,13 @@
 import { useEffect } from "react"
-import { useShallow } from "zustand/react/shallow";
-import { useSnackbar } from 'notistack';
-import { useNavigate } from '@tanstack/react-location';
-import { AxiosError } from "axios";
+import { useShallow } from "zustand/react/shallow"
+import { useSnackbar } from 'notistack'
+import { useNavigate } from '@tanstack/react-location'
+import { AxiosError } from "axios"
 import type { ReactNode } from "react"
 
 import useNotificationStore from "store/notificationStore"
+
+import CustomErrorMessage from "components/CustomErrorMessage"
 
 interface INotificationManager {
   children: ReactNode
@@ -22,22 +24,21 @@ export default function NotificationManager({ children }: INotificationManager) 
     if (notificationMessage.content instanceof AxiosError) {
       if (notificationMessage.content.status == 401) {
         enqueueSnackbar(
-          "Erro de autenticação, redirecionando...",
+          <CustomErrorMessage content="Authentication error, redirecting..." />,
           { variant: "error" }
         );
         return navigate({ to: "/login" })
       }
     }
 
-
     if (notificationMessage.content instanceof Error) {
       return enqueueSnackbar(
-        notificationMessage.content.message,
+        <CustomErrorMessage content={notificationMessage.content.message} />,
         { variant: "error" }
       );
     }
     enqueueSnackbar(
-      notificationMessage.content,
+      <CustomErrorMessage content={notificationMessage.content} />,
       { variant: notificationMessage.variant }
     );
   }
