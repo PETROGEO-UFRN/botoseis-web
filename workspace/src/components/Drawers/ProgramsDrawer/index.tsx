@@ -35,7 +35,15 @@ export default function ProgramsDrawer({
   setIsOpen
 }: IProgramsDrawerProps) {
   const triggerNotification = useNotificationStore(useShallow((state) => state.triggerNotification))
-  const singleSelectedWorkflowId = useSelectedWorkflowsStore(useShallow((state) => state.singleSelectedWorkflowId))
+  const {
+    selectedWorkflows,
+    setSelectedWorkflows,
+    singleSelectedWorkflowId,
+  } = useSelectedWorkflowsStore(useShallow((state) => ({
+    selectedWorkflows: state.selectedWorkflows,
+    setSelectedWorkflows: state.setSelectedWorkflows,
+    singleSelectedWorkflowId: state.singleSelectedWorkflowId,
+  })))
   // *** Commands in the current selected workflow
   const {
     commands,
@@ -92,9 +100,10 @@ export default function ProgramsDrawer({
       return updateWorkflowPostProcessing({
         workflowId: singleSelectedWorkflowId,
         key: program_id,
-      }).then((workflow) => {
-        const tempCommands = [...commands]
+      }).then((resultWorkflow) => {
+        if (!resultWorkflow) return
 
+        const tempCommands = [...commands]
         const lastCommandId = tempCommands[tempCommands.length - 1].id
         if (
           lastCommandId == StaticTabKey.Velan ||
@@ -103,15 +112,23 @@ export default function ProgramsDrawer({
           tempCommands.pop()
 
         const newCommand = postProcessingCommands.find((command) =>
-          command.id == workflow?.post_processing_options?.key
+          command.id == resultWorkflow.post_processing_options.key
         )
         if (!newCommand)
           return
-
         setCommands([
           ...tempCommands,
           newCommand,
         ])
+
+        const tempSelectedWorkflows = selectedWorkflows.map((workflow) => {
+          if (workflow.id == singleSelectedWorkflowId) {
+            workflow.post_processing_options.key = resultWorkflow.post_processing_options.key
+            return workflow
+          }
+          return workflow
+        })
+        setSelectedWorkflows(tempSelectedWorkflows)
       })
 
     triggerNotification({

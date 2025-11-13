@@ -1,3 +1,4 @@
+import json
 from os import path
 from requests import get
 from bokeh.application import Application
@@ -9,6 +10,7 @@ from ..velan import Visualization, VelanPlotOptionsState
 
 from .loadTemplate import loadTemplate
 from .create_bridge_model import create_bridge_model
+from .addFinishLoadingEvent import addFinishLoadingEvent
 
 
 def velan_app_factory() -> Application:
@@ -16,7 +18,7 @@ def velan_app_factory() -> Application:
         auth_token: str,
         workflowId: int,
     ) -> None | str:
-        api_url = f"{ENV.BASE_API_URL}/su-file-path/{workflowId}/show-path/input"
+        api_url = f"{ENV.BASE_API_URL}/su-file-path/{workflowId}/show-path/output"
 
         cookies = {
             "Authorization": f"Bearer {auth_token}"
@@ -41,24 +43,32 @@ def velan_app_factory() -> Application:
         arguments = request.arguments
 
         auth_token = request.cookies.get('Authorization', '')
+        velan_starter_props = json.loads(
+            request.cookies.get('velan_starter_props', '')
+        )
         workflowId = arguments.get('workflowId', [b''])[0].decode('utf-8')
 
-        return auth_token, workflowId
+        return auth_token, workflowId, velan_starter_props
 
     def modify_document(document: Document) -> None:
-        auth_token, workflowId = __get_request_arguments(document)
+        auth_token, workflowId, velan_starter_props = __get_request_arguments(
+            document
+        )
 
         absolute_file_path = __find_file_path(
             auth_token=auth_token,
             workflowId=int(workflowId),
         )
 
-        plot_options_state = VelanPlotOptionsState()
+        plot_options_state = VelanPlotOptionsState(
+            **velan_starter_props
+        )
         visualization = Visualization(
             filename=absolute_file_path,
             plot_options_state=plot_options_state,
         )
-        plots = visualization.plots["semblance"]
+        plots_row = visualization.plots_row
+        addFinishLoadingEvent(plots_row)
 
         state_changer_bridge_model = create_bridge_model(
             visualization=visualization
@@ -77,7 +87,7 @@ def velan_app_factory() -> Application:
         )
 
         document.template = html_template
-        document.add_root(plots)
+        document.add_root(plots_row)
         document.add_root(state_changer_bridge_model)
 
     # *** Create a new Bokeh Application

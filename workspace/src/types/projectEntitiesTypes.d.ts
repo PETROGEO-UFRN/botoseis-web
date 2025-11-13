@@ -36,7 +36,7 @@ declare global {
     output_name: string
     commands: Array<ICommand>
     parentType: 'dataset' | 'project' | 'line',
-    post_processing_options?: IpostProcessingOptions
+    post_processing_options: IpostProcessingOptions
   }
 
   interface IResumedWorkflow extends IgenericEntitiesType {

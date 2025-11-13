@@ -6,35 +6,36 @@ class VelanPlotOptionsState(BasePlotOptionsState):
     last_cdp: int
     number_of_gathers_per_time: int
 
-    # time_min
-    first_time_sample: float
-    # time_max - time_min
-    width_time_samples: float
-
     first_velocity_value: float
     last_velocity_value: float
     # number of velocity values
     velocity_step_size: float
 
+    # not input by user
+    width_time_samples: float
+
     def __init__(
         self,
         **custom_states
     ):
+        default_state_values = {
+            "first_cdp": 100,
+            "last_cdp": 500,
+            "number_of_gathers_per_time": 50,
+
+            "first_velocity_value": 1000,
+            "last_velocity_value": 4000,
+            "velocity_step_size": 25,
+        }
+        merged_velan_states = {
+            **default_state_values,
+            **custom_states,
+        }
         super().__init__(
             has_gather_key=True,
-            interval_time_samples=50,
+            num_loadedgathers=1,
 
-            first_cdp=100,
-            last_cdp=100,
-            number_of_gathers_per_time=25,
-
-            first_time_sample=0.0,
             width_time_samples=100,
 
-            first_velocity_value=1000.0,
-            last_velocity_value=5000.0,
-            velocity_step_size=25.0,
-            **custom_states
+            **merged_velan_states
         )
-
-        self.last_cdp = self.first_cdp + self.velocity_step_size

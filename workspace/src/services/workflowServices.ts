@@ -3,8 +3,15 @@ import { AxiosError } from "axios"
 import useNotificationStore from 'store/notificationStore';
 import { defaultOutputName } from 'constants/defaults'
 
-
 import api from "./api"
+
+interface IupdateWorkflowPostProcessingProps {
+  workflowId: number,
+  key: IpostProcessingOptions["key"],
+  options?: IpostProcessingOptions["options"],
+}
+
+type postProcessingReturnType = Pick<IWorkflow, "post_processing_options">
 
 const notificationStore = useNotificationStore.getState()
 
@@ -118,18 +125,13 @@ export async function updateWorkflowOutputName(
 }
 
 
-interface IupdateWorkflowPostProcessingProps {
-  workflowId: number,
-  key: IpostProcessingOptions["key"],
-  options?: IpostProcessingOptions["options"],
-}
 export async function updateWorkflowPostProcessing({
   workflowId,
   key,
   options = {},
-}: IupdateWorkflowPostProcessingProps): Promise<IWorkflow | null> {
+}: IupdateWorkflowPostProcessingProps): Promise<postProcessingReturnType | null> {
   try {
-    const response = await api.put<IWorkflow>(
+    const response = await api.put<postProcessingReturnType>(
       `/workflow/update/${workflowId}/post-processing`,
       {
         key,

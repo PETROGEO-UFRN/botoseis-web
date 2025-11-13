@@ -1,7 +1,9 @@
+import subprocess
+import json
 from os import path, makedirs
 from types import SimpleNamespace
-import subprocess
 from datetime import datetime
+from flask import jsonify, make_response, current_app
 
 from ..database.connection import database
 from ..models.FileLinkModel import FileLinkModel
@@ -108,10 +110,29 @@ def update(userId, workflowId):
             "processStartTime": processStartTime,
             "executionEndTime": datetime.now(),
         }
-        return {
+
+        responseBody = {
             "result_workflow_id": datasetAttributes["workflows"][0]["id"],
             "process_details": process_details
         }
+        response = make_response(jsonify(responseBody))
+
+        # ! cookie domain needs more testing
+        cookie_domain = current_app.config.get("JWT_COOKIE_DOMAIN")
+        if not cookie_domain:
+            cookie_domain = None
+        post_processing_options = json.loads(workflow.post_processing_options)
+        if 'options' in post_processing_options:
+            response.set_cookie(
+                "velan_starter_props",
+                json.dumps(post_processing_options["options"]),
+                httponly=current_app.config["JWT_COOKIE_HTTPONLY"],
+                secure=current_app.config["JWT_COOKIE_SECURE"],
+                samesite=current_app.config["JWT_COOKIE_SAMESITE"],
+                path="/",
+                domain=cookie_domain
+            )
+        return response
     except Exception as error:
         return str(error)
 

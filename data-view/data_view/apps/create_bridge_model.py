@@ -44,9 +44,17 @@ def create_bridge_model(
             **flat_new_state_options
         )
 
-        visualization.plot_manager.plot.tags = list(
-            flat_new_state_options.keys()
-        )
+        # ! workarround to bypass difference beetwen different Visualization classes
+        # ! This chunk handles loading feedback
+        try:
+            visualization.plot_manager.plot.tags = list(
+                flat_new_state_options.keys()
+            )
+        except:
+            visualization.plots_row.tags = list(
+                flat_new_state_options.keys()
+            )
+
         visualization.handle_state_change()
 
     state_changer_bridge_model = ColumnDataSource(

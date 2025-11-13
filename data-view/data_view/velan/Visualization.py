@@ -15,6 +15,9 @@ from .factories import (
     semblancePlotRendererFactory
 )
 
+FIRST_TIME_SAMPLE = 0.0
+GATHER_KEY = "cdp"
+
 
 class Visualization(BaseVisualization):
     sufile: SuFile
@@ -35,19 +38,17 @@ class Visualization(BaseVisualization):
         self,
         filename: str,
         plot_options_state: VelanPlotOptionsState,
-        gather_key: str | None = None,
     ) -> None:
         self.plots = dict()
         self.renderers = dict()
 
         super().__init__(
-            filename,
-            plot_options_state,
-            gather_key,
+            filename=filename,
+            plot_options_state=plot_options_state,
+            gather_key=GATHER_KEY,
         )
 
         data = self.__getBaseData()
-
         coherence_matrix = self.__get_semblance_coherence_matrix(data)
 
         self.plots["semblance"] = plotFactory(
@@ -58,40 +59,34 @@ class Visualization(BaseVisualization):
             plot=self.plots["semblance"],
             coherence_matrix=coherence_matrix,
             velocities=self.velocities,
-            first_time_sample=self.plot_options_state.first_time_sample,
+            first_time_sample=FIRST_TIME_SAMPLE,
             width_time_samples=self.plot_options_state.width_time_samples,
             first_velocity_value=self.plot_options_state.first_velocity_value,
             last_velocity_value=self.plot_options_state.last_velocity_value,
         )
+        self.plots_row = row(
+            self.plots["semblance"],
+            tags=[]
+        )
 
     def __getBaseData(self):
-        first_gather_index = self.plot_options_state.first_cdp
-        last_gather_index = first_gather_index + \
-            self.plot_options_state.number_of_gathers_per_time
-
-        if first_gather_index == last_gather_index:
-            selected_gathers = self.sufile.gather[
-                first_gather_index
-            ]
-        else:
-            selected_gathers = self.sufile.gather[
-                first_gather_index:last_gather_index
-            ]
+        selected_gathers = self.sufile.gather[
+            self.plot_options_state.first_cdp
+        ]
 
         cdp_gather_data = selected_gathers.data
         self.cdp_gather_offsets = selected_gathers.headers["offset"]
 
         last_time_sample = \
-            self.plot_options_state.first_time_sample + \
+            FIRST_TIME_SAMPLE + \
             (self.plot_options_state.num_time_samples - 1) * \
             self.plot_options_state.interval_time_samples
 
         self.plot_options_state.width_time_samples = np.abs(
-            last_time_sample - self.plot_options_state.first_time_sample
+            last_time_sample - FIRST_TIME_SAMPLE
         )
 
         self.plot_options_state.updatePlotOptionsState(
-            first_time_sample=self.plot_options_state.first_time_sample,
             width_time_samples=self.plot_options_state.width_time_samples,
         )
         return cdp_gather_data
@@ -99,7 +94,7 @@ class Visualization(BaseVisualization):
     def __get_semblance_coherence_matrix(self, data: np_types.NDArray):
         self.velocities = np.arange(
             self.plot_options_state.first_velocity_value,
-            self.plot_options_state.last_velocity_value + 0.1,
+            self.plot_options_state.last_velocity_value + 1,
             self.plot_options_state.velocity_step_size,
             dtype=float
         )
@@ -111,7 +106,7 @@ class Visualization(BaseVisualization):
             sucmpdata=data,
             offsets=self.cdp_gather_offsets,
             velocities=self.velocities,
-            t0_data=self.plot_options_state.first_time_sample,
+            t0_data=FIRST_TIME_SAMPLE,
             dt=self.plot_options_state.interval_time_samples,
             nt=num_time_samples,
             num_traces=num_traces,
