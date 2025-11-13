@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography'
 
 import { FileSelector } from "shared-ui"
 
+import { StaticTabKey } from "constants/clientPrograms"
 import { listSUFiles, createSUFile } from "services/suFileServices"
 import { updateWorkflowFileLink } from "services/workflowServices"
 import { useSelectedWorkflowsStore } from 'store/selectedWorkflowsStore'
@@ -58,8 +59,18 @@ export default function InputSelectorOptions() {
 
     let vizualizerURL = `${import.meta.env.VITE_VISUALIZER_URL}/?`
     const gatherKeyFromStore = gatherKeys.get(singleSelectedWorkflowId)
+
+    const currentWorkflow = selectedWorkflows.find((workflow) => workflow.id == singleSelectedWorkflowId)
+    if (!currentWorkflow)
+      return
+
     if (gatherKeyFromStore)
       vizualizerURL += `gather_key=${gatherKeyFromStore}&`
+
+    const postProcessingKey = currentWorkflow.post_processing_options?.key
+    if (postProcessingKey == StaticTabKey.Velan)
+      vizualizerURL += "gather_key=cdp&"
+
     window.open(`${vizualizerURL}workflowId=${singleSelectedWorkflowId}&origin=input`, '_blank')
   }
 
