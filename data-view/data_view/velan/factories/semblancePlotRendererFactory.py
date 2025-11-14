@@ -1,9 +1,11 @@
 import colorcet
-
-from bokeh.plotting import figure
-from bokeh.models import GlyphRenderer, ColumnDataSource
 import numpy as np
 import numpy.typing as np_types
+
+from bokeh.plotting import figure
+from bokeh.models import GlyphRenderer, ColumnDataSource, PointDrawTool
+
+from .pickingFactory import pickingFactory
 
 
 def semblancePlotRendererFactory(
@@ -17,6 +19,7 @@ def semblancePlotRendererFactory(
     first_velocity_value: float,
     last_velocity_value: float,
 ) -> GlyphRenderer:
+    picks_source = ColumnDataSource(data={"x": [], "y": []})
     width_velocities = np.abs(last_velocity_value - first_velocity_value)
 
     renderer = plot.image(
@@ -29,6 +32,11 @@ def semblancePlotRendererFactory(
         anchor="bottom_left",
         origin="bottom_left",
         palette=colorcet.rainbow4,
+    )
+
+    pickingFactory(
+        plot=plot,
+        picks_source=picks_source
     )
 
     return renderer
