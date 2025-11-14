@@ -8,7 +8,6 @@ class VelanPlotOptionsState(BasePlotOptionsState):
 
     first_velocity_value: float
     last_velocity_value: float
-    # number of velocity values
     velocity_step_size: float
 
     # not input by user
@@ -39,3 +38,5 @@ class VelanPlotOptionsState(BasePlotOptionsState):
 
             **merged_velan_states
         )
+
+        self.gather_index_start = self.first_cdp

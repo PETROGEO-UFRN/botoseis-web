@@ -9,24 +9,31 @@ document.addEventListener("DOMContentLoaded", () => {
     '#shot-gather-position-slider'
   )
 
+  // *** apply custom step size for velan module
+  if (shotGatherPositionSlider.classList.contains("is_velan")) {
+    console.log({ HELLO: "BITCH" })
+    shotGatherPositionSlider.step = 50;
+  }
+
   const gathersAmountLoadingIcon = document.querySelector("#loading-num_loadedgathers-icon")
 
   // *** stop when there is no such input
   // *** tipcaly when the input has no shot gather
   if (!gathersAmountInput) return
 
-  gathersAmountInput.addEventListener('change', (event) => {
-    const newGathersAmount = event.target.value
+  if (gathersAmountInput)
+    gathersAmountInput.addEventListener('change', (event) => {
+      const newGathersAmount = event.target.value
 
-    if (newGathersAmount > 1) {
-      newPositionLimit = shotGatherPositionNumber.max - (newGathersAmount - 1)
-      shotGatherPositionNumber.max = newPositionLimit
-      shotGatherPositionSlider.max = newPositionLimit
-    }
+      if (newGathersAmount > 1) {
+        newPositionLimit = shotGatherPositionNumber.max - (newGathersAmount - 1)
+        shotGatherPositionNumber.max = newPositionLimit
+        shotGatherPositionSlider.max = newPositionLimit
+      }
 
-    gathersAmountLoadingIcon.classList.toggle("is-loading")
-    debouncedPythonBridge({ num_loadedgathers: newGathersAmount })
-  })
+      gathersAmountLoadingIcon.classList.toggle("is-loading")
+      debouncedPythonBridge({ num_loadedgathers: newGathersAmount })
+    })
 
   const updateShotGatherPositionNumber = (event) => {
     displayLoadingOnGatherSelection()

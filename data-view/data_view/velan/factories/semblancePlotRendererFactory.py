@@ -1,14 +1,14 @@
 import colorcet
 
 from bokeh.plotting import figure
-from bokeh.models import GlyphRenderer
+from bokeh.models import GlyphRenderer, ColumnDataSource
 import numpy as np
 import numpy.typing as np_types
 
 
 def semblancePlotRendererFactory(
     plot: figure,
-    coherence_matrix: np_types.NDArray,
+    source: ColumnDataSource,
     velocities: np_types.NDArray,
 
     first_time_sample: float,
@@ -20,7 +20,8 @@ def semblancePlotRendererFactory(
     width_velocities = np.abs(last_velocity_value - first_velocity_value)
 
     renderer = plot.image(
-        image=[coherence_matrix],
+        image="image",
+        source=source,
         x=velocities[0],
         y=first_time_sample,
         dw=width_velocities,

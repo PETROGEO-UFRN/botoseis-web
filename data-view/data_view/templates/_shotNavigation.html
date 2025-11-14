@@ -45,7 +45,10 @@
       </span>
     </div>
 
+    {% if not is_velan %}
     <input type="range" id="shot-gather-position-slider" min="1" max="{{total_gathers_amount}}" value="1" />
+    {% endif %}
+
   </div>
 
 </div>

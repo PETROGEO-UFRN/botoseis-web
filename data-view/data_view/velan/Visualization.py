@@ -5,7 +5,7 @@ from seismicio.Models.SuDataModel import SuFile
 
 from bokeh.layouts import row
 from bokeh.plotting import figure
-from bokeh.models import GlyphRenderer
+from bokeh.models import GlyphRenderer, ColumnDataSource
 
 from ..BaseVisualization import BaseVisualization
 from .VelanPlotOptionsState import VelanPlotOptionsState
@@ -29,6 +29,10 @@ class Visualization(BaseVisualization):
         Literal["wiggle", "semblance", "image"],
         figure
     ]
+    sources: dict[
+        Literal["wiggle", "semblance", "image"],
+        ColumnDataSource
+    ]
     renderers: dict[
         Literal["wiggle", "semblance", "image"],
         GlyphRenderer
@@ -40,6 +44,7 @@ class Visualization(BaseVisualization):
         plot_options_state: VelanPlotOptionsState,
     ) -> None:
         self.plots = dict()
+        self.sources = dict()
         self.renderers = dict()
 
         super().__init__(
@@ -55,9 +60,12 @@ class Visualization(BaseVisualization):
             x_label="Velocities (m/s)",
             y_label="Time (s)",
         )
+        self.sources["semblance"] = ColumnDataSource(
+            data={"image": [coherence_matrix]}
+        )
         self.renderers["semblance"] = semblancePlotRendererFactory(
             plot=self.plots["semblance"],
-            coherence_matrix=coherence_matrix,
+            source=self.sources["semblance"],
             velocities=self.velocities,
             first_time_sample=FIRST_TIME_SAMPLE,
             width_time_samples=self.plot_options_state.width_time_samples,
@@ -71,7 +79,7 @@ class Visualization(BaseVisualization):
 
     def __getBaseData(self):
         selected_gathers = self.sufile.gather[
-            self.plot_options_state.first_cdp
+            self.plot_options_state.gather_index_start
         ]
 
         cdp_gather_data = selected_gathers.data
@@ -115,4 +123,9 @@ class Visualization(BaseVisualization):
         return coherence_matrix
 
     def handle_state_change(self):
-        pass
+        data = self.__getBaseData()
+        coherence_matrix = self.__get_semblance_coherence_matrix(data)
+        self.sources["semblance"].data = {"image": [coherence_matrix]}
+        self.renderers["semblance"].glyph.update(
+            dh=self.plot_options_state.width_time_samples,
+        )
