@@ -3,7 +3,7 @@ import numpy as np
 import numpy.typing as np_types
 
 from bokeh.plotting import figure
-from bokeh.models import GlyphRenderer, ColumnDataSource, PointDrawTool
+from bokeh.models import GlyphRenderer, ColumnDataSource
 
 from .pickingFactory import pickingFactory
 
@@ -11,6 +11,8 @@ from .pickingFactory import pickingFactory
 def semblancePlotRendererFactory(
     plot: figure,
     source: ColumnDataSource,
+    picks_source: ColumnDataSource,
+
     velocities: np_types.NDArray,
 
     first_time_sample: float,
@@ -19,7 +21,6 @@ def semblancePlotRendererFactory(
     first_velocity_value: float,
     last_velocity_value: float,
 ) -> GlyphRenderer:
-    picks_source = ColumnDataSource(data={"x": [], "y": []})
     width_velocities = np.abs(last_velocity_value - first_velocity_value)
 
     renderer = plot.image(

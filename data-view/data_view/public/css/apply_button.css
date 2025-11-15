@@ -1,4 +1,4 @@
-#apply-operation-button {
+.velan-operation-button {
   align-self: center;
   height: fit-content;
   padding: 8px 16px;
@@ -6,6 +6,7 @@
   font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 1.6px;
+  text-wrap: nowrap;
 
   border-radius: 4px;
   background-color: var(--primary-color-dark);

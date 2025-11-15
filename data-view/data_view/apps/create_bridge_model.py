@@ -46,11 +46,15 @@ def create_bridge_model(
 
         # ! workarround to bypass difference beetwen different Visualization classes
         # ! This chunk handles loading feedback
-        try:
+        if hasattr(visualization, "plot_manager"):
             visualization.plot_manager.plot.tags = list(
                 flat_new_state_options.keys()
             )
-        except:
+        else:
+            if "apply_nmo_triger" in flat_new_state_options:
+                visualization.apply_nmo()
+                flat_new_state_options.pop("apply_nmo_triger")
+
             visualization.plots_row.tags = list(
                 flat_new_state_options.keys()
             )

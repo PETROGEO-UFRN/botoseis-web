@@ -1,13 +1,15 @@
 <div class="shot-navigation">
   {% if is_velan %}
-  <button id="apply-operation-button">
-    <!-- Saves Data -->
-    Apply
+  <button class="velan-operation-button" onclick="savePicks()">
+    Save picks
   </button>
 
-  <div class="divider"></div>
+  <button class="velan-operation-button" onclick="applyNMO()">
+    Apply NMO
+  </button>
   {% endif %}
 
+  {% if not is_velan %}
   <label class="gathers-amount-label">
     <span>
       Gathers to load
@@ -15,6 +17,7 @@
     <input type="number" id="gathers-amount-input" min="1" value="1" />
     <img class="loading-icon" id="loading-num_loadedgathers-icon" src="{{ STATIC_PATH }}icons/spinning_icon.svg" alt="">
   </label>
+  {% endif %}
 
   <div class="divider"></div>
 
