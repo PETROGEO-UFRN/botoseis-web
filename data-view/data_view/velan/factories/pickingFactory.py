@@ -43,5 +43,6 @@ def pickingFactory(
 def sort_xy_pairs_by_x(x, y):
     x_array = np.asarray(x)
     y_array = np.asarray(y)
-    sorted_indices = np.argsort(x_array)
+    # *** sort by y axis
+    sorted_indices = np.argsort(y_array)
     return x_array[sorted_indices], y_array[sorted_indices]
