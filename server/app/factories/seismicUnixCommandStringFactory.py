@@ -1,4 +1,6 @@
 import json
+from ..models import FileLinkModel
+from ..errors.FileError import FileError
 
 
 def _getParameter(parameterValues: list | str | float | int | bool) -> str:
@@ -16,20 +18,44 @@ def _getParameter(parameterValues: list | str | float | int | bool) -> str:
     return parameterValuesProcessString
 
 
-def _getAllParameters(parameters) -> str:
+def __getFileParameter(file_link_id, commandName):
+    fileLink = FileLinkModel.query.filter_by(id=file_link_id).first()
+    if not fileLink:
+        raise FileError(
+            f"File not located. For parameter 'par' at command {commandName}"
+        )
+    return fileLink.path
+
+
+def _getAllParameters(parameters, commandName) -> str:
     parametersProcessString = ""
     for parameterKey, parameterValues in parameters.items():
         if not parameterValues:
             continue
         parametersProcessString += f' {parameterKey}='
+        # *** "par" value shall be an int(file_link_id)
+        if parameterKey == "par":
+            parametersProcessString += __getFileParameter(
+                file_link_id=int(parameterValues),
+                commandName=commandName
+            )
+            continue
         parametersProcessString += _getParameter(parameterValues)
     return parametersProcessString
 
 
 def createSemicUnixCommandString(commandsQueue: list, source_file_path: str, target_file_path: str) -> str:
-    # It will generate a string based on filled fields,
-    # parameters with empty values (like empty string or empty lists) will be ignored,
-    # leting the command line program handle it if not mandatory
+    """
+    It will generate a string based on filled fields.
+
+    Parameters with empty values (like empty string or empty lists) will be ignored.
+
+    Commands with "is_active" status set to False will be ignored.
+
+    "par" command will be handled as an file input parameter, expecting an int(file_link_id). 
+    Searching for the selected file and creating valid path for filesystem.   
+    Commands with "is_active" status set to False will be ignored. 
+    """
     seismicUnixProcessString = ""
     orderedCommandsList = commandsQueue[0].getCommands()
     for seismicUnixProgramIndex, seismicUnixProgram in enumerate(orderedCommandsList):
@@ -37,7 +63,8 @@ def createSemicUnixCommandString(commandsQueue: list, source_file_path: str, tar
             continue
         seismicUnixProcessString += f'{seismicUnixProgram["name"].lower()}'
         seismicUnixProcessString += _getAllParameters(
-            json.loads((seismicUnixProgram["parameters"]))
+            parameters=json.loads((seismicUnixProgram["parameters"])),
+            commandName=seismicUnixProgram["name"]
         )
         # *** If seismicUnixProcessString has no "<", it means this is first active command
         # *** The first active command needs an file input before adding others
