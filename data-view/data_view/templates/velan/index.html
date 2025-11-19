@@ -38,8 +38,13 @@
   <script src="{{ STATIC_PATH }}js/global/loadPythonBridge.js"></script>
   <script src="{{ STATIC_PATH }}js/global/finishLoading.js"></script>
   <script src="{{ STATIC_PATH }}js/global/displayLoadingOnGatherSelection.js"></script>
-  <script src="{{ STATIC_PATH }}js/global/onShotGatherInputsChange.js"></script>
-  <script src="{{ STATIC_PATH }}js/global/changeGatherPosition.js"></script>
+
+  <script>
+    // global
+    var number_of_gathers_per_time = parseInt("{{ number_of_gathers_per_time }}");
+  </script>
+  <script src="{{ STATIC_PATH }}js/velan/changeGatherPosition.js"></script>
+  <script src="{{ STATIC_PATH }}js/velan/onShotGatherInputsChange.js"></script>
   <script src="{{ STATIC_PATH }}js/velan/applyNMO.js"></script>
   <script src="{{ STATIC_PATH }}js/velan/savePicks.js"></script>
 

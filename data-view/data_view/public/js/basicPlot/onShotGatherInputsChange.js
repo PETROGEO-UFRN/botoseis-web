@@ -9,12 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
     '#shot-gather-position-slider'
   )
 
-  // *** apply custom step size for velan module
-  if (shotGatherPositionSlider.classList.contains("is_velan")) {
-    console.log({ HELLO: "BITCH" })
-    shotGatherPositionSlider.step = 50;
-  }
-
   const gathersAmountLoadingIcon = document.querySelector("#loading-num_loadedgathers-icon")
 
   // *** stop when there is no such input

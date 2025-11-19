@@ -32,7 +32,7 @@
           <img src="{{ STATIC_PATH }}icons/arrow_back.svg" alt="">
         </button>
 
-        <input type="number" id="shot-gather-position-number" max="{{total_gathers_amount}}" value="1" />
+        <input id="shot-gather-position-number" type="number" max="{{last_cdp}}" value="{{ first_cdp }}" />
 
         <button id="next-shot-button" onclick="nextGatherPostion()" class="shot-position-button">
           <img src="{{ STATIC_PATH }}icons/arrow_back.svg" alt="">
@@ -48,10 +48,15 @@
       </span>
     </div>
 
+    {% if is_velan %}
+    <span>
+      {{ first_cdp }} - {{ last_cdp }}
+    </span>
+    {% endif %}
+
     {% if not is_velan %}
     <input type="range" id="shot-gather-position-slider" min="1" max="{{total_gathers_amount}}" value="1" />
     {% endif %}
-
   </div>
 
 </div>

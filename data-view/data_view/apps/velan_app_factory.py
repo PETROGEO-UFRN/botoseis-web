@@ -60,6 +60,9 @@ def velan_app_factory() -> Application:
             workflowId=int(workflowId),
         )
 
+        # *** server uses 0 based index
+        velan_starter_props["first_cdp"] -= 1
+        velan_starter_props["last_cdp"] -= 1
         plot_options_state = VelanPlotOptionsState(
             **velan_starter_props
         )
@@ -74,12 +77,16 @@ def velan_app_factory() -> Application:
             visualization=visualization
         )
 
+        # *** server uses 0 based index
         template_variables = {
             "STATIC_PATH": URL_PATHS.STATIC_FILES,
             "IS_DEVELOPMENT": ENV.IS_DEVELOPMENT,
             "has_gather_key": True,
-            "total_gathers_amount": plot_options_state.num_gathers,
             "is_velan": True,
+            "total_gathers_amount": plot_options_state.num_gathers,
+            "first_cdp": plot_options_state.first_cdp + 1,
+            "last_cdp": plot_options_state.last_cdp + 1,
+            "number_of_gathers_per_time": plot_options_state.number_of_gathers_per_time
         }
         html_template = loadTemplate(
             FOLDERS.VELAN_TEMPLATE_PATH,
