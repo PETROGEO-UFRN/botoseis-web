@@ -15,9 +15,12 @@ from ..repositories.WorkflowParentsAssociationRepository import workflowParentsA
 
 
 def createDataset(userId, originWorkflowId) -> dict:
-    # *** this method duplicate a workflow and keep it as history
-    # *** being chidren of the dataset table.
-    # *** Keeping the generated file and the workflow used to get it
+    """
+    This method duplicate a workflow and keep it as history
+    being chidren of the dataset table.
+
+    Keeping the generated file and the workflow used to get it
+    """
     user = UserModel.query.filter_by(id=UUID(userId)).first()
 
     originWorkflow = WorkflowModel.query.filter_by(
@@ -66,7 +69,7 @@ def createDataset(userId, originWorkflowId) -> dict:
     for command in commands:
         # *** no need to save the commented command at dataset history
         if not command.is_active:
-            tempOrderedCommandsList.remove(int(id))
+            tempOrderedCommandsList.remove(int(command.id))
             continue
         commandRepository.create(
             userId,
