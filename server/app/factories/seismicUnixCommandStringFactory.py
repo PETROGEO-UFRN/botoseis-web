@@ -39,7 +39,9 @@ def createSemicUnixCommandString(commandsQueue: list, source_file_path: str, tar
         seismicUnixProcessString += _getAllParameters(
             json.loads((seismicUnixProgram["parameters"]))
         )
-        if (seismicUnixProgramIndex == 0):
+        # *** If seismicUnixProcessString has no "<", it means this is first active command
+        # *** The first active command needs an file input before adding others
+        if (not "<" in seismicUnixProcessString):
             seismicUnixProcessString += f' < {source_file_path}'
         if (seismicUnixProgramIndex <= len(orderedCommandsList)-2):
             seismicUnixProcessString += ' | '
