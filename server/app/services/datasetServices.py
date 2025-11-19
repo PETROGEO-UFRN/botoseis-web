@@ -15,9 +15,12 @@ from ..repositories.WorkflowParentsAssociationRepository import workflowParentsA
 
 
 def createDataset(userId, originWorkflowId) -> dict:
-    # *** this method duplicate a workflow and keep it as history
-    # *** being chidren of the dataset table.
-    # *** Keeping the generated file and the workflow used to get it
+    """
+    This method duplicate a workflow and keep it as history
+    being chidren of the dataset table.
+
+    Keeping the generated file and the workflow used to get it
+    """
     user = UserModel.query.filter_by(id=UUID(userId)).first()
 
     originWorkflow = WorkflowModel.query.filter_by(
@@ -46,7 +49,7 @@ def createDataset(userId, originWorkflowId) -> dict:
         newWorkflowData,
         dataset.id,
     )
-    orderedCommandsList = orderedCommandsListRepository.create(newWorkflow.id)
+    orderedCommandsListRepository.create(newWorkflow.id)
 
     workflowParentsAssociationRepository.create(
         newWorkflow.id,
@@ -59,14 +62,9 @@ def createDataset(userId, originWorkflowId) -> dict:
         originWorkflow.input_file_link_id
     )
 
-    # ? not sure "copy" is necessary, but removing directly from
-    # ? original orderedCommandsList was not working
-    tempOrderedCommandsList = copy(orderedCommandsList.commandIds)
-
     for command in commands:
         # *** no need to save the commented command at dataset history
         if not command.is_active:
-            tempOrderedCommandsList.remove(int(id))
             continue
         commandRepository.create(
             userId,
