@@ -27,9 +27,13 @@ def _getAllParameters(parameters) -> str:
 
 
 def createSemicUnixCommandString(commandsQueue: list, source_file_path: str, target_file_path: str) -> str:
-    # It will generate a string based on filled fields,
-    # parameters with empty values (like empty string or empty lists) will be ignored,
-    # leting the command line program handle it if not mandatory
+    """
+    It will generate a string based on filled fields.
+
+    Parameters with empty values (like empty string or empty lists) will be ignored.
+
+    Commands with "is_active" status set to False will be ignored. 
+    """
     seismicUnixProcessString = ""
     orderedCommandsList = commandsQueue[0].getCommands()
     for seismicUnixProgramIndex, seismicUnixProgram in enumerate(orderedCommandsList):
@@ -39,7 +43,10 @@ def createSemicUnixCommandString(commandsQueue: list, source_file_path: str, tar
         seismicUnixProcessString += _getAllParameters(
             json.loads((seismicUnixProgram["parameters"]))
         )
-        if (seismicUnixProgramIndex == 0):
+
+        # *** If seismicUnixProcessString is empty, this will be the first active command
+        # *** The first active command needs an file input before adding others
+        if (seismicUnixProcessString):
             seismicUnixProcessString += f' < {source_file_path}'
         if (seismicUnixProgramIndex <= len(orderedCommandsList)-2):
             seismicUnixProcessString += ' | '
