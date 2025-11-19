@@ -15,7 +15,7 @@ from ..factories.filePathFactory import createUploadedSUFilePath, createDatasetF
 from ..factories.seismicUnixCommandStringFactory import createSemicUnixCommandString
 from ..factories.simplifiedProcessStringFactory import createSimplifiedProcessString
 
-from ..errors.FileError import FileError
+from ..errors import FileError, WorkflowRunningError
 
 
 def listByProjectId(projectId):
@@ -106,7 +106,7 @@ def update(userId, workflowId):
         process_details = {
             "executionSimplifiedString": createSimplifiedProcessString(process_output),
             "logMessage": process_output.stderr,
-            "returncode": process_output.returncode,
+            "returncode": process_output.returncode | 1,
             "processStartTime": processStartTime,
             "executionEndTime": datetime.now(),
         }
@@ -134,7 +134,7 @@ def update(userId, workflowId):
             )
         return response
     except Exception as error:
-        return str(error)
+        raise WorkflowRunningError(error)
 
 
 suFileController = SimpleNamespace(
