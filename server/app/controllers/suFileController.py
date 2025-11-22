@@ -103,9 +103,13 @@ def update(userId, workflowId):
         database.session.add(newFileLink)
         database.session.commit()
 
+        if process_output.stderr:
+            logMessage = process_output.stderr
+        else:
+            logMessage = "Success"
         process_details = {
             "executionSimplifiedString": createSimplifiedProcessString(process_output),
-            "logMessage": process_output.stderr,
+            "logMessage": logMessage,
             "returncode": process_output.returncode | 1,
             "processStartTime": processStartTime,
             "executionEndTime": datetime.now(),
