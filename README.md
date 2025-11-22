@@ -4,45 +4,39 @@ CloudSeis is a cloud-based seismic data processing software based on the desktop
 <br />
 CloudSeis is mainly a wrapper for [SeismicUnix](https://github.com/JohnWStockwellJr/SeisUnix) allowing usage through API and web UI, adding tooling for store, track and organize data processing steps.
 
-![Database diagram, simplified version](
+![Workspace main screen with sample workflow](
   ./docs/assets/home_screen.png
 )
 
 ## Getting Started
 
-### Dependencies
+### Requirements
+  - Docker
+  - Docker Compose
+  - Unix based system
+  - Make
 
- - Main dependencies:
-    - [SeismicUnix]() (There is a step to install it bellow)
-    - [Docker]() (Necessary for quiky run)
-    - [Unix]() Based system (SeismicUnix installationg script only work on [Debia]() based systens)
- - Opcional dependancies, for manual run only (docker handle they)
-    - [Python](https://www.python.org/) v3.10.8 or above
-    - [Node.js](https://nodejs.org/en) v16 or above
-    - [yarn](https://yarnpkg.com/) v1.22.19 or above
 
-#### Installing seismic unix
+### Running local demo
 
-run the command line bellow on visit the oficial guide to manual install
+Go to root and run the Makefile for local-demo. It will make available the necessery services for end user.
 ```bash
-bash -c "$(wget -qO- https://gist.githubusercontent.com/botoseis/4ca681cb9ef706c1b8410153c6199cf2/raw/b16ad754839d1ca3657d8e8396db14f5ba791e6b/install_seismic_unix.sh)"
+make local-demo
 ```
+The program workspace can be access through [`http://localhost:4173/`](http://localhost:4173/)
 
-### Quicky start
-   >  Requires **docker-compose**
+By default, local demo mode will accept login with e-mail password `root@admin.com`. This setup is for fast local-demo only and should not be used on a production server.
 
-Go to root and run the Makefile. It will make available the necessery services for end user.
-```bash
-make
-```
 
+</br>
+</br>
 
 For automate tests, make the test database available by runing:
 ```bash
 make test
 ``` 
 
-For manage or make new programs available, run the admin dashboard:
+For managing or making new programs available, run the admin dashboard:
 ```bash
 make adm
 ```
@@ -50,10 +44,23 @@ make adm
 
 Each service can be run and managed individualy with docker-compose.
 
-To manully run any instance without docker, check each folder `README.md`.
+To manully run any instance without docker, check each service `README.md` on each service folder.
 
 
 # Architeture
+
+### Tech Stack
+
+  - [Python](https://www.python.org/) *running v3.12*
+  - [Flask](https://flask.palletsprojects.com/en/stable/)
+  - [Bokeh](https://bokeh.org/)
+  - [Numpy](https://numpy.org/)
+  - [SQLAlchemy](https://www.sqlalchemy.org/)
+  - [Typescript](https://www.typescriptlang.org/) *running v22.18, v16 or above should work*
+  - [React](https://react.dev/) *managed by [Vite](https://vite.dev/)*
+  - [Docker](https://www.docker.com/)
+  - [Docker Compose](https://docs.docker.com/compose/)
+  - [SeismicUnix](https://wiki.seismic-unix.org/start) *pre loaded scripts*
 
 ### Services
 
