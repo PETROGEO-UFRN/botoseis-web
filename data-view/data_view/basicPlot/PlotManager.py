@@ -1,30 +1,36 @@
-from typing import Dict
+from typing import Literal
 from bokeh.models import ColumnDataSource, GlyphRenderer
 from bokeh.plotting import figure
-from bokeh.palettes import Palette, Greys256
+from bokeh.palettes import Palette
 import numpy as np
 import numpy.typing as np_types
 
-
-MAX_TRACES_LINE_HAREA = 150
-WIGGLE_COLOR = "black"
-DEFAULT_PALETTE = Greys256
+from ..BaseVisualization import visualization_factories
+from ..constants.VISUALIZATION import (
+    FIRST_TIME_SAMPLE,
+    MAX_TRACES_LINE_HAREA,
+    DEFAULT_PALETTE,
+    STRETCH_FACTOR,
+)
 
 
 class PlotManager:
     plot: figure
     palette: Palette
-    image_source: ColumnDataSource
-    wiggle_source: ColumnDataSource
-    image_renderer: GlyphRenderer
-    wiggle_renderer: GlyphRenderer
-    hareas_renderer: GlyphRenderer
 
-    is_image_visible: bool
-    is_wiggle_visible: bool
-    is_hareas_visible: bool
-
-    __hareas_source: Dict[str, str]
+    sources: dict[
+        Literal["wiggle", "image"],
+        ColumnDataSource
+    ]
+    renderers: dict[
+        Literal["wiggle", "image", "hareas"],
+        GlyphRenderer
+    ]
+    is_visible: dict[
+        Literal["wiggle", "image"],
+        bool
+    ]
+    __hareas_source: dict[str, str]
 
     def __init__(
         self,
@@ -32,20 +38,19 @@ class PlotManager:
         interval_time_samples: float,
         x_positions: np_types.NDArray | None = None,
         time_unit: str = "s",
-        stretch_factor: float = 0.15,
         gather_key: str | None = None,
     ):
-        # Initial visibility of renderers
-        # -------------------------------
-        self.is_image_visible = True
-        self.is_wiggle_visible = False
-        self.is_hareas_visible = False
+        self.sources = dict()
+        self.renderers = dict()
+        self.is_visible = dict()
+
+        self.is_visible["image"] = True
+        self.is_visible["wiggle"] = False
 
         self.palette = DEFAULT_PALETTE
 
         # Input checks
         # ------------
-        self._check_stretch_factor(stretch_factor)
         self._check_data(data)
         num_time_samples = data.shape[0]
         num_traces = data.shape[1]
@@ -56,20 +61,10 @@ class PlotManager:
 
         # Create and set up figure object
         # -------------------------------
-        self.plot = figure(
-            x_axis_location="above",
-            height=800,
-            width=1000,
-            sizing_mode="stretch_both",
-            active_drag=None,
-            min_border=0,
-            tags=[]
+        self.plot = visualization_factories.plotFactory(
+            x_label="Offset (m)",
+            y_label="Time (s)",
         )
-
-        # Adjust ranges
-        self.plot.x_range.range_padding = 0.0
-        self.plot.y_range.range_padding = 0.0
-        self.plot.y_range.flipped = True
 
         # Adjust axes labels
         if gather_key:
@@ -82,43 +77,49 @@ class PlotManager:
             self.plot.yaxis.axis_label = "Time (ms)"
 
         # Amplitudes rescaled (data for wiggle renderers)
-        data_rescaled = self._rescale_data(data, x_positions, stretch_factor)
+        data_rescaled = self._rescale_data(data, x_positions)
 
         # Time sample instants (data for all renderers)
-        first_time_sample = 0.0
         last_time_sample = (
-            first_time_sample +
+            FIRST_TIME_SAMPLE +
             (num_time_samples - 1) *
             interval_time_samples
         )
         time_sample_instants = np.linspace(
-            start=first_time_sample, stop=last_time_sample, num=num_time_samples
+            start=FIRST_TIME_SAMPLE, stop=last_time_sample, num=num_time_samples
+        )
+        width_time_samples = np.abs(
+            time_sample_instants[0] - time_sample_instants[-1]
         )
 
-        # Create ColumnDataSource objects
-        # -------------------------------
-
-        # Create wiggle renderer's source
-        self.wiggle_source = ColumnDataSource(
+        self.sources["wiggle"] = ColumnDataSource(
             data=self.__compute_wiggle_source_data(
-                data_rescaled, x_positions, time_sample_instants
+                data_rescaled,
+                x_positions,
+                time_sample_instants
             )
         )
-        # Create image source
-        self.image_source = ColumnDataSource(data={"image": [data]})
+        self.sources["image"] = ColumnDataSource(data={"image": [data]})
 
-        # Add renderers
-        # -------------
-        self.__create_image_renderer(
-            num_traces=num_traces,
-            x_positions=x_positions,
-            first_time_sample=first_time_sample,
-            time_sample_instants=time_sample_instants,
+        self.renderers["image"] = visualization_factories.imageRendererFactory(
+            plot=self.plot,
+            source=self.sources["image"],
+
+            offsets=x_positions,
+            first_time_sample=FIRST_TIME_SAMPLE,
+            width_time_samples=width_time_samples,
+
+            is_visible=self.is_visible["image"],
+            palette="Greys256",
         )
         # wiggle_renderer shall be created after image_renderer.
         # Bokeh places the most recently created renderer on top.
         # If image is placed on top, wiggle will be invisible.
-        self.__create_wiggle_renderer()
+        self.renderers["wiggle"] = visualization_factories.wiggleRendererFactory(
+            plot=self.plot,
+            source=self.sources["wiggle"],
+            is_visible=self.is_visible["wiggle"],
+        )
 
         # Add (multiple) harea renderers
         self.__hareas_source = {
@@ -128,64 +129,9 @@ class PlotManager:
         }
         self.add_hareas()
 
-    def __create_wiggle_renderer(self):
-        # Add (single) wiggle renderer
-        self.wiggle_renderer = self.plot.multi_line(
-            xs="xs",
-            ys="ys",
-            source=self.wiggle_source,
-            color=WIGGLE_COLOR,
-            visible=self.is_wiggle_visible,
-        )
-
-    def __create_image_renderer(
-        self,
-        num_traces: int,
-        x_positions: np_types.NDArray,
-        first_time_sample: float,
-        time_sample_instants: np_types.NDArray,
-    ):
-        # --- Add (single) image renderer ---
-        # auxiliary data for image renderer parameters
-        width_time_sample_instants = np.abs(
-            time_sample_instants[0] - time_sample_instants[-1]
-        )
-        shared_plot_attributes = {
-            "image": "image",
-            "source": self.image_source,
-            "y": first_time_sample,
-            "dh": width_time_sample_instants,
-            "palette": self.palette,
-            "anchor": "bottom_left",
-            "origin": "bottom_left",
-            "visible": self.is_image_visible,
-        }
-        if num_traces == 1:
-            self.image_renderer = self.plot.image(
-                x=x_positions[0] - 1,
-                dw=2,
-                **shared_plot_attributes
-            )
-        else:
-            # more auxiliary data for image renderer parameters
-            width_x_positions = np.abs(x_positions[0] - x_positions[-1])
-            distance_first_x_positions = x_positions[1] - x_positions[0]
-            distance_last_x_positions = x_positions[-1] - x_positions[-2]
-            self.image_renderer = self.plot.image(
-                x=x_positions[0] - distance_first_x_positions / 2,
-                dw=width_x_positions +
-                (distance_first_x_positions + distance_last_x_positions) / 2,
-                **shared_plot_attributes
-            )
-
     def updateImagePalette(self, palette: Palette):
         self.palette = palette
-        self.image_renderer.glyph.color_mapper.palette = palette
-
-    @staticmethod
-    def _check_stretch_factor(stretch_factor):
-        if not isinstance(stretch_factor, (int, float)):
-            raise TypeError("stretch_factor must be a number")
+        self.renderers["image"].glyph.color_mapper.palette = palette
 
     @staticmethod
     def _check_data(data):
@@ -208,7 +154,7 @@ class PlotManager:
             )
 
     @staticmethod
-    def _rescale_data(data: np_types.NDArray, x_positions: np_types.NDArray, stretch_factor: int):
+    def _rescale_data(data: np_types.NDArray, x_positions: np_types.NDArray):
         # if there is only one trace, no need to rescale
         if data.shape[1] == 1:
             # normalize between -1 and 1
@@ -219,8 +165,7 @@ class PlotManager:
 
         # Rescale data by trace_x_spacing and stretch_factor
         data_max_std = np.max(np.std(data, axis=0))
-
-        data_rescaled = data / data_max_std * trace_x_spacing * stretch_factor
+        data_rescaled = data / data_max_std * trace_x_spacing * STRETCH_FACTOR
         return data_rescaled
 
     @staticmethod
@@ -244,7 +189,6 @@ class PlotManager:
         data_repositioned = data + x_positions
         xs_list = data_repositioned.T.tolist()
         ys_list = [time_sample_instants for _ in range(num_traces)]
-
         return {"xs": xs_list, "ys": ys_list}
 
     def add_hareas(self):
@@ -259,23 +203,26 @@ class PlotManager:
         if num_traces > MAX_TRACES_LINE_HAREA:
             return
 
-        amplitudes_zeros = np.zeros(shape=(num_time_samples,))
-
-        for trace_index in range(num_traces):
-            x_position = x_positions[trace_index]
-            amplitudes = data[:, trace_index]
-
-            amplitudes_positive = np.clip(amplitudes, a_min=0, a_max=None)
-
-            # Add harea glyph renderer
-            self.plot.harea(
-                x1=amplitudes_zeros + x_position,
-                x2=amplitudes_positive + x_position,
-                y=time_sample_instants,
-                color=WIGGLE_COLOR,
-                name="H",
-                visible=self.is_hareas_visible,
-            )
+        data_positive = np.clip(data, a_min=0, a_max=None)
+        x1_matrix = np.tile(x_positions, (num_time_samples, 1))
+        x2_matrix = x1_matrix + data_positive
+        y_matrix = np.tile(time_sample_instants, (num_traces, 1)).T
+        xs = [
+            np.concatenate([x1_col, x2_col[::-1]])
+            for x1_col, x2_col in zip(x1_matrix.T, x2_matrix.T)
+        ]
+        ys = [
+            np.concatenate([y_col, y_col[::-1]])
+            for y_col in y_matrix.T
+        ]
+        self.plot.patches(
+            xs=xs,
+            ys=ys,
+            color="black",
+            name="H",
+            line_width=0,
+            visible=self.is_visible["wiggle"],
+        )
 
     def _update_image_glyph(self, x_positions: np_types.NDArray, time_sample_instants: np_types.NDArray):
         num_traces = x_positions.size
@@ -284,7 +231,7 @@ class PlotManager:
             time_sample_instants[0] - time_sample_instants[-1]
         )
         if num_traces == 1:
-            self.image_renderer.glyph.update(
+            self.renderers["image"].glyph.update(
                 x=x_positions[0] - 1,
                 dw=2,
                 y=first_time_sample,
@@ -294,7 +241,7 @@ class PlotManager:
             width_x_positions = np.abs(x_positions[0] - x_positions[-1])
             distance_first_x_positions = x_positions[1] - x_positions[0]
             distance_last_x_positions = x_positions[-1] - x_positions[-2]
-            self.image_renderer.glyph.update(
+            self.renderers["image"].glyph.update(
                 x=x_positions[0] - distance_first_x_positions / 2,
                 dw=(
                     width_x_positions +
@@ -311,12 +258,10 @@ class PlotManager:
         x_positions: np_types.NDArray | None,
         interval_time_samples: float,
         time_unit="s",
-        stretch_factor=0.15,
         gather_key: str | None = None,
     ):
         # Input checks
         # ------------
-        self._check_stretch_factor(stretch_factor)
         self._check_data(data)
         num_time_samples = data.shape[0]
         num_traces = data.shape[1]
@@ -326,30 +271,25 @@ class PlotManager:
             self._check_x_positions(x_positions, num_traces)
 
         # Amplitudes rescaled (data for wiggle renderers)
-        data_rescaled = self._rescale_data(data, x_positions, stretch_factor)
+        data_rescaled = self._rescale_data(data, x_positions)
 
         # Time sample instants (data for all renderers)
-        first_time_sample = 0.0
         last_time_sample = (
-            first_time_sample +
+            FIRST_TIME_SAMPLE +
             (num_time_samples - 1) *
             interval_time_samples
         )
         time_sample_instants = np.linspace(
-            start=first_time_sample, stop=last_time_sample, num=num_time_samples
+            start=FIRST_TIME_SAMPLE, stop=last_time_sample, num=num_time_samples
         )
 
         # Update visualization
-        # --------------------
-
-        # Update image renderer's source
-        self._update_image_source(data)
-        # Update image renderer's glyph
+        self.sources["image"].data = {"image": [data]}
         self._update_image_glyph(x_positions, time_sample_instants)
 
-        # Update wiggle renderer's source
-        self._update_wiggle_source(
-            data_rescaled, x_positions,
+        self.sources["wiggle"].data = self.__compute_wiggle_source_data(
+            data_rescaled,
+            x_positions,
             time_sample_instants
         )
 
@@ -362,8 +302,6 @@ class PlotManager:
         }
         self.add_hareas()
 
-        # Update plot setup
-        # -----------------
         # Adjust axes labels
         if gather_key:
             self.plot.xaxis.axis_label = gather_key
@@ -373,19 +311,6 @@ class PlotManager:
             self.plot.yaxis.axis_label = "Time (s)"
         elif time_unit == "ms":
             self.plot.yaxis.axis_label = "Time (ms)"
-
-    def _update_image_source(self, data: np_types.NDArray):
-        self.image_source.data = {"image": [data]}
-
-    def _update_wiggle_source(
-        self,
-        data_rescaled: np_types.NDArray,
-        x_positions: np_types.NDArray,
-        time_sample_instants: np_types.NDArray,
-    ):
-        self.wiggle_source.data = self.__compute_wiggle_source_data(
-            data_rescaled, x_positions, time_sample_instants
-        )
 
     def remove_hareas(self):
         """Remove all harea glyph renderers from this plot"""

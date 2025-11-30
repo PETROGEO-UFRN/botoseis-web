@@ -1,0 +1,10 @@
+from bokeh.palettes import Greys256
+
+FIRST_TIME_SAMPLE = 0.0
+
+MAX_TRACES_LINE_HAREA = 300
+DEFAULT_PALETTE = Greys256
+STRETCH_FACTOR = 0.15
+
+VELAN_GATHER_KEY = "cdp"
+SMUTE = 1.5

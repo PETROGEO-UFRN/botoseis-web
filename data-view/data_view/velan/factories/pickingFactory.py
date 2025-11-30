@@ -17,11 +17,14 @@ def pickingFactory(
             handle_picks_data_change
         )
 
-        x_sorted, y_sorted = sort_xy_pairs_by_x(
+        sorted_velocities, sorted_times = sort_xy_pairs_by_y(
             new_picks_data["x"],
             new_picks_data["y"]
         )
-        picks_source.data.update({"x": x_sorted, "y": y_sorted})
+        picks_source.data.update(
+            {"x": sorted_velocities, "y": sorted_times}
+        )
+
         picks_source.on_change("data", handle_picks_data_change)
 
     picks_scatter_renderer = plot.scatter(
@@ -40,9 +43,14 @@ def pickingFactory(
     picks_source.on_change("data", handle_picks_data_change)
 
 
-def sort_xy_pairs_by_x(x, y):
+def sort_xy_pairs_by_y(x, y):
+    """
+    Sorting by time
+
+    X and Y are default keys given by bokeh event
+    """
     x_array = np.asarray(x)
     y_array = np.asarray(y)
-    # *** sort by y axis
+
     sorted_indices = np.argsort(y_array)
     return x_array[sorted_indices], y_array[sorted_indices]

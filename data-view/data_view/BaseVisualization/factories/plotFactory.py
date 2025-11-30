@@ -10,7 +10,8 @@ def plotFactory(
         x_axis_label=x_label,
         x_axis_location="above",
         y_axis_label=y_label,
-        sizing_mode="stretch_both"
+        sizing_mode="stretch_both",
+        tags=[]
     )
 
     plot.x_range.range_padding = 0.0

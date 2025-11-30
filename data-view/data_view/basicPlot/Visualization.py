@@ -13,7 +13,6 @@ from .transforms.gain import apply_gain
 
 
 class Visualization(BaseVisualization):
-    x_positions: np_types.NDArray | None
     plot_options_state: PlotOptionsState
     plot_manager: PlotManager
 
@@ -29,7 +28,7 @@ class Visualization(BaseVisualization):
             gather_key,
         )
 
-        data = self.__getBaseData()
+        data = self.getBaseData()
 
         self.plot_manager = PlotManager(
             data=data,
@@ -48,40 +47,6 @@ class Visualization(BaseVisualization):
             return data
         return apply_gain(data, gain_option, wagc, dt)
 
-    def __getDataForShotGathers(self) -> np_types.NDArray:
-        gather_index_start = self.plot_options_state.gather_index_start
-        gather_index_stop = gather_index_start + \
-            self.plot_options_state.num_loadedgathers
-
-        data = self.sufile.igather[
-            gather_index_start:gather_index_stop
-        ].data
-
-        if (gather_index_stop - 1 == gather_index_start):
-            # *** Single gather
-            self.x_positions = self.sufile.igather[
-                gather_index_start
-            ].headers["offset"]
-            return data
-
-        # *** Multiple gathers
-        self.x_positions = None
-        return data
-
-    def __getBaseData(self) -> np_types.NDArray:
-        """
-        Get Numpy NDArray for data section on display
-
-        Handles stack or sectioned data (shot gathers) 
-        """
-        # *** "gather_keyword"  must exist for shot gathers
-        if self.sufile.gather_keyword:
-            data = self.__getDataForShotGathers()
-        else:
-            data = self.sufile.traces
-            self.x_positions = None
-        return data
-
     def handle_palette_change(
         self,
         selectedPalette: Literal[
@@ -94,21 +59,17 @@ class Visualization(BaseVisualization):
 
     def toogle_visibility_by_type(
         self,
-        renderer_type: Literal["toggle_image", "toggle_wiggle", "toggle_areas"]
+        renderer_type: Literal["toggle_image", "toggle_wiggle"]
     ) -> bool:
         if renderer_type == "toggle_image":
-            is_visible = not self.plot_manager.is_image_visible
-            self.plot_manager.is_image_visible = is_visible
-            self.plot_manager.image_renderer.visible = is_visible
+            is_visible = not self.plot_manager.is_visible["image"]
+            self.plot_manager.is_visible["image"] = is_visible
+            self.plot_manager.renderers["image"].visible = is_visible
             return is_visible
         if renderer_type == "toggle_wiggle":
-            is_visible = not self.plot_manager.is_wiggle_visible
-            self.plot_manager.is_wiggle_visible = is_visible
-            self.plot_manager.wiggle_renderer.visible = is_visible
-            return is_visible
-        if renderer_type == "toggle_areas":
-            is_visible = not self.plot_manager.is_hareas_visible
-            self.plot_manager.is_hareas_visible = is_visible
+            is_visible = not self.plot_manager.is_visible["wiggle"]
+            self.plot_manager.is_visible["wiggle"] = is_visible
+            self.plot_manager.renderers["wiggle"].visible = is_visible
             if is_visible:
                 self.plot_manager.add_hareas()
                 return is_visible
@@ -119,7 +80,7 @@ class Visualization(BaseVisualization):
         start_time = time.perf_counter()
         print("CALL handle_state_change")
 
-        data = self.__getBaseData()
+        data = self.getBaseData()
 
         data = self.__optionally_apply_gain(
             data,
@@ -134,7 +95,7 @@ class Visualization(BaseVisualization):
 
         self.plot_manager.update_plot(
             data=data,
-            x_positions=self.x_positions,
+            x_positions=self.gather_offsets,
             interval_time_samples=self.plot_options_state.interval_time_samples,
         )
 
