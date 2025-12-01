@@ -34,55 +34,43 @@ class PlotManager:
         data: np_types.NDArray,
         interval_time_samples: float,
         x_positions: np_types.NDArray | None = None,
-        time_unit: str = "s",
         gather_key: str | None = None,
     ):
         self.sources = dict()
         self.renderers = dict()
         self.is_visible = dict()
-
         self.is_visible["image"] = True
         self.is_visible["wiggle"] = False
 
         self._check_data(data)
         num_time_samples = data.shape[0]
         num_traces = data.shape[1]
-
         if x_positions is None:
             x_positions = np.arange(start=1, stop=num_traces + 1)
         self._check_x_positions(x_positions, num_traces)
-
-        self.plot = visualization_factories.plotFactory(
-            x_label="Offset (m)",
-            y_label="Time (s)",
-        )
-
-        # Adjust axes labels
-        if gather_key:
-            self.plot.xaxis.axis_label = gather_key
-        else:
-            self.plot.xaxis.axis_label = "trace sequential number"
-        if time_unit == "s":
-            self.plot.yaxis.axis_label = "Time (s)"
-        elif time_unit == "ms":
-            self.plot.yaxis.axis_label = "Time (ms)"
-
-        # Amplitudes rescaled (data for wiggle renderers)
-        data_rescaled = self._rescale_data(data, x_positions)
-
-        # Time sample instants (data for all renderers)
         last_time_sample = (
             FIRST_TIME_SAMPLE +
             (num_time_samples - 1) *
             interval_time_samples
         )
         time_sample_instants = np.linspace(
-            start=FIRST_TIME_SAMPLE, stop=last_time_sample, num=num_time_samples
+            start=FIRST_TIME_SAMPLE,
+            stop=last_time_sample,
+            num=num_time_samples
         )
+
+        self.plot = visualization_factories.plotFactory(
+            y_label="Time (s)",
+            gather_key=gather_key,
+        )
+
         width_time_samples = np.abs(
             time_sample_instants[0] - time_sample_instants[-1]
         )
 
+        self.sources["image"] = ColumnDataSource(data={"image": [data]})
+        # Amplitudes rescaled (data for wiggle renderers)
+        data_rescaled = self._rescale_data(data, x_positions)
         self.sources["wiggle"] = ColumnDataSource(
             data=self.__compute_wiggle_source_data(
                 data_rescaled,
@@ -90,7 +78,6 @@ class PlotManager:
                 time_sample_instants
             )
         )
-        self.sources["image"] = ColumnDataSource(data={"image": [data]})
 
         self.renderers["image"] = visualization_factories.imageRendererFactory(
             plot=self.plot,
@@ -226,7 +213,7 @@ class PlotManager:
     def _update_image_glyph(self, x_positions: np_types.NDArray, time_sample_instants: np_types.NDArray):
         num_traces = x_positions.size
         first_time_sample = time_sample_instants[0]
-        width_time_sample_instants = np.abs(
+        width_time_samples = np.abs(
             time_sample_instants[0] - time_sample_instants[-1]
         )
         if num_traces == 1:
@@ -234,7 +221,7 @@ class PlotManager:
                 x=x_positions[0] - 1,
                 dw=2,
                 y=first_time_sample,
-                dh=width_time_sample_instants,
+                dh=width_time_samples,
             )
         else:
             width_x_positions = np.abs(x_positions[0] - x_positions[-1])
@@ -248,7 +235,7 @@ class PlotManager:
                     2
                 ),
                 y=first_time_sample,
-                dh=width_time_sample_instants,
+                dh=width_time_samples,
             )
 
     def update_plot(
@@ -256,8 +243,6 @@ class PlotManager:
         data: np_types.NDArray,
         x_positions: np_types.NDArray | None,
         interval_time_samples: float,
-        time_unit="s",
-        gather_key: str | None = None,
     ):
         self._check_data(data)
         num_time_samples = data.shape[0]
@@ -265,14 +250,15 @@ class PlotManager:
         if x_positions is None:
             x_positions = np.arange(start=1, stop=num_traces + 1)
         self._check_x_positions(x_positions, num_traces)
-
         last_time_sample = (
             FIRST_TIME_SAMPLE +
             (num_time_samples - 1) *
             interval_time_samples
         )
         time_sample_instants = np.linspace(
-            start=FIRST_TIME_SAMPLE, stop=last_time_sample, num=num_time_samples
+            start=FIRST_TIME_SAMPLE,
+            stop=last_time_sample,
+            num=num_time_samples
         )
 
         if self.is_visible["image"]:
@@ -293,12 +279,3 @@ class PlotManager:
                 "time_sample_instants": time_sample_instants,
             }
             self.add_patches()
-
-        if gather_key:
-            self.plot.xaxis.axis_label = gather_key
-        else:
-            self.plot.xaxis.axis_label = "trace sequential number"
-        if time_unit == "s":
-            self.plot.yaxis.axis_label = "Time (s)"
-        elif time_unit == "ms":
-            self.plot.yaxis.axis_label = "Time (ms)"

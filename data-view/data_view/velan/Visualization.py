@@ -30,6 +30,7 @@ class Visualization(BaseVisualization):
         Literal["raw_cdp", "semblance", "nmo"],
         GlyphRenderer
     ]
+    velocities: np_types.NDArray
 
     def __init__(
         self,
@@ -49,17 +50,14 @@ class Visualization(BaseVisualization):
             gather_key=VELAN_GATHER_KEY,
         )
 
-        data = self.getBaseData()
-        velocities = np.arange(
+        self.velocities = np.arange(
             self.plot_options_state.first_velocity_value,
             self.plot_options_state.last_velocity_value + 1,
             self.plot_options_state.velocity_step_size,
             dtype=float
         )
-        coherence_matrix = self.__get_semblance_coherence_matrix(
-            data,
-            velocities
-        )
+        data = self.getBaseData()
+        coherence_matrix = self.__get_semblance_coherence_matrix(data)
         shared_image_renderer_parameters = {
             "offsets": self.gather_offsets,
             "first_time_sample": FIRST_TIME_SAMPLE,
@@ -87,7 +85,7 @@ class Visualization(BaseVisualization):
             plot=self.plots["semblance"],
             source=self.sources["semblance"],
             picks_source=self.sources["picking"],
-            velocities=velocities,
+            velocities=self.velocities,
             first_time_sample=FIRST_TIME_SAMPLE,
             width_time_samples=self.plot_options_state.width_time_samples,
             first_velocity_value=self.plot_options_state.first_velocity_value,
@@ -111,23 +109,19 @@ class Visualization(BaseVisualization):
             tags=[]
         )
 
-    def __get_semblance_coherence_matrix(
-        self,
-        data: np_types.NDArray,
-        velocities: np_types.NDArray
-    ):
+    def __get_semblance_coherence_matrix(self, data: np_types.NDArray):
         num_time_samples = data.shape[0]
         num_traces = data.shape[1]
 
         coherence_matrix = operations.semblance(
             sucmpdata=data,
             offsets=self.gather_offsets,
-            velocities=velocities,
+            velocities=self.velocities,
             t0_data=FIRST_TIME_SAMPLE,
             dt=self.plot_options_state.interval_time_samples,
             nt=num_time_samples,
             num_traces=num_traces,
-            velocities_length=len(velocities),
+            velocities_length=len(self.velocities),
         )
         return coherence_matrix
 
@@ -158,5 +152,13 @@ class Visualization(BaseVisualization):
         coherence_matrix = self.__get_semblance_coherence_matrix(data)
         self.sources["semblance"].data = {"image": [coherence_matrix]}
         self.renderers["semblance"].glyph.update(
+            dh=self.plot_options_state.width_time_samples,
+        )
+        self.sources["raw_cdp"].data = {"image": [data]}
+        self.renderers["raw_cdp"].glyph.update(
+            dh=self.plot_options_state.width_time_samples,
+        )
+        self.sources["nmo"].data = {"image": [data]}
+        self.renderers["nmo"].glyph.update(
             dh=self.plot_options_state.width_time_samples,
         )

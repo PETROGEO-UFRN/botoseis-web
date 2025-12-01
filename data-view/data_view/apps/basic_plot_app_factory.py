@@ -88,6 +88,7 @@ def basic_plot_app_factory() -> Application:
         }
         if gather_key:
             template_variables["total_gathers_amount"] = plot_options_state.num_gathers
+            template_variables["first_cdp"] = 1
             template_variables["last_cdp"] = plot_options_state.num_gathers
         html_template = loadTemplate(
             FOLDERS.BASIC_PLOT_TEMPLATE_PATH,
