@@ -1,8 +1,11 @@
 import numpy as np
 import numpy.typing as np_types
 
+from bokeh.palettes import Greys256
 from bokeh.plotting import figure
 from bokeh.models import GlyphRenderer, ColumnDataSource
+
+DEFAULT_PALETTE = Greys256
 
 
 def imageRendererFactory(
@@ -14,7 +17,7 @@ def imageRendererFactory(
     width_time_samples: float,
 
     is_visible: bool = True,
-    palette: any = "Greys256",
+    palette: any = DEFAULT_PALETTE,
 ) -> GlyphRenderer:
     num_traces = source.data["image"][0].shape[1]
 
@@ -25,8 +28,8 @@ def imageRendererFactory(
         dw = np.abs(offsets[0] - offsets[-1])
         distance_first_offset = offsets[1] - offsets[0]
         distance_last_offset = offsets[-1] - offsets[-2]
-        x = offsets[0] - distance_first_offset / 2,
-        dw = dw + (distance_first_offset + distance_last_offset) / 2,
+        x = offsets[0] - distance_first_offset / 2
+        dw = dw + (distance_first_offset + distance_last_offset) / 2
     renderer = plot.image(
         image="image",
         source=source,
