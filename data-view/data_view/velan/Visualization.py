@@ -50,9 +50,6 @@ class Visualization(BaseVisualization):
         )
 
         data = self.getBaseData()
-        width_offsets = np.abs(
-            self.gather_offsets[0] - self.gather_offsets[-1]
-        )
         velocities = np.arange(
             self.plot_options_state.first_velocity_value,
             self.plot_options_state.last_velocity_value + 1,
@@ -67,7 +64,6 @@ class Visualization(BaseVisualization):
             "offsets": self.gather_offsets,
             "first_time_sample": FIRST_TIME_SAMPLE,
             "width_time_samples": self.plot_options_state.width_time_samples,
-            "width_offsets": width_offsets,
         }
 
         self.sources["raw_cdp"] = ColumnDataSource(data={"image": [data]})

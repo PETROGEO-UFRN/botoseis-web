@@ -71,9 +71,9 @@ class Visualization(BaseVisualization):
             self.plot_manager.is_visible["wiggle"] = is_visible
             self.plot_manager.renderers["wiggle"].visible = is_visible
             if is_visible:
-                self.plot_manager.add_hareas()
+                self.plot_manager.add_patches()
                 return is_visible
-            self.plot_manager.remove_hareas()
+            self.plot_manager.remove_patches()
             return is_visible
 
     def handle_state_change(self):

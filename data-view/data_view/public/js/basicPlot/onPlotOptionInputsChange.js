@@ -13,17 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
     debouncedPythonBridge({ toggle_wiggle: event.target.checked });
   });
 
-  const areasCheckbox = document.querySelector("#areas-switch");
-  // *** check if there is no such input
-  // *** tipcaly when the input has no shot gather
-  // *** is will also have no areas-switch
-  if (areasCheckbox)
-    areasCheckbox.addEventListener("change", (event) => {
-      areasCheckbox.checked = event.target.checked;
-
-      debouncedPythonBridge({ toggle_areas: event.target.checked });
-    });
-
   const colormapInput = document.querySelector("#colormap-input")
   colormapInput.addEventListener("change", (event) => {
     const value = event.target.value

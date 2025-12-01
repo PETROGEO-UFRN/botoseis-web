@@ -24,7 +24,7 @@ def create_bridge_model(
             key: value[0] for key, value in new_state_options.items()
         }
 
-        for toggle_key in ["toggle_image", "toggle_wiggle", "toggle_areas"]:
+        for toggle_key in ["toggle_image", "toggle_wiggle"]:
             if toggle_key in flat_new_state_options:
                 visualization.toogle_visibility_by_type(toggle_key)
                 # *** remove "toggle_key" once it will not be accepted by "updatePlotOptionsState()"
