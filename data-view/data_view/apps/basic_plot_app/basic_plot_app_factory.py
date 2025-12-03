@@ -5,11 +5,12 @@ from bokeh.application import Application
 from bokeh.application.handlers import FunctionHandler
 from bokeh.document.document import Document
 
-from ..constants import ENV, FOLDERS, URL_PATHS
-from ..basicPlot import Visualization, PlotOptionsState
-from .loadTemplate import loadTemplate
-from .create_bridge_model import create_bridge_model
-from .addFinishLoadingEvent import addFinishLoadingEvent
+from ...constants import ENV, FOLDERS, URL_PATHS
+from ...basicPlot import Visualization, PlotOptionsState
+from ..loadTemplate import loadTemplate
+from ..create_bridge_model import create_bridge_model
+from ..addFinishLoadingEvent import addFinishLoadingEvent
+from .bridge_callback import bridge_callback
 
 
 def basic_plot_app_factory() -> Application:
@@ -78,7 +79,8 @@ def basic_plot_app_factory() -> Application:
         addFinishLoadingEvent(plot)
 
         state_changer_bridge_model = create_bridge_model(
-            visualization=visualization
+            visualization=visualization,
+            callback=bridge_callback
         )
 
         template_variables = {

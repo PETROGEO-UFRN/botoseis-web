@@ -5,12 +5,13 @@ from bokeh.application import Application
 from bokeh.application.handlers import FunctionHandler
 from bokeh.document.document import Document
 
-from ..constants import ENV, FOLDERS, URL_PATHS
-from ..velan import Visualization, VelanPlotOptionsState
+from ...constants import ENV, FOLDERS, URL_PATHS
+from ...velan import Visualization, VelanPlotOptionsState
 
-from .loadTemplate import loadTemplate
-from .create_bridge_model import create_bridge_model
-from .addFinishLoadingEvent import addFinishLoadingEvent
+from ..loadTemplate import loadTemplate
+from ..create_bridge_model import create_bridge_model
+from ..addFinishLoadingEvent import addFinishLoadingEvent
+from .bridge_callback import bridge_callback
 
 
 def velan_app_factory() -> Application:
@@ -74,7 +75,8 @@ def velan_app_factory() -> Application:
         addFinishLoadingEvent(plots_row)
 
         state_changer_bridge_model = create_bridge_model(
-            visualization=visualization
+            visualization=visualization,
+            callback=bridge_callback
         )
 
         template_variables = {

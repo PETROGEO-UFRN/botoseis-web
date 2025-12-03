@@ -1,2 +1,2 @@
-from .basic_plot_app_factory import basic_plot_app_factory
-from .velan_app_factory import velan_app_factory
+from .basic_plot_app.basic_plot_app_factory import basic_plot_app_factory
+from .velan_app.velan_app_factory import velan_app_factory
