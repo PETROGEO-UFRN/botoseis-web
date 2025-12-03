@@ -4,7 +4,7 @@ function previusGatherPostion() {
   )
 
   const newPosition = parseInt(shotGatherPositionNumber.value) - number_of_gathers_per_time
-  if (newPosition < 1)
+  if (newPosition < first_cdp)
     return
 
   displayLoadingOnGatherSelection()
