@@ -1,10 +1,12 @@
 from bokeh.models import ColumnDataSource
 
-from ..basicPlot import Visualization
+from ..basicPlot import Visualization as BasicVisualization
+from ..velan import Visualization as VelanVisualization
+from .save_picks import save_picks
 
 
 def create_bridge_model(
-    visualization: Visualization
+    visualization: BasicVisualization | VelanVisualization
 ) -> ColumnDataSource:
     """
     Creates a Bokeh ColumnDataSource to act as a bridge for updating plot
@@ -40,10 +42,6 @@ def create_bridge_model(
         if (not flat_new_state_options):
             return
 
-        visualization.plot_options_state.updatePlotOptionsState(
-            **flat_new_state_options
-        )
-
         # ! workarround to bypass difference beetwen different Visualization classes
         # ! This chunk handles loading feedback
         if hasattr(visualization, "plot_manager"):
@@ -51,6 +49,10 @@ def create_bridge_model(
                 flat_new_state_options.keys()
             )
         else:
+            if "save_picks_triger" in flat_new_state_options:
+                print("*** *** RUN save_picks_triger *** ***")
+                save_picks(visualization.picking_data)
+                flat_new_state_options.pop("save_picks_triger")
             if "apply_nmo_triger" in flat_new_state_options:
                 visualization.apply_nmo()
                 flat_new_state_options.pop("apply_nmo_triger")
@@ -58,6 +60,10 @@ def create_bridge_model(
             visualization.plots_row.tags = list(
                 flat_new_state_options.keys()
             )
+
+        visualization.plot_options_state.updatePlotOptionsState(
+            **flat_new_state_options
+        )
 
         visualization.handle_state_change()
 

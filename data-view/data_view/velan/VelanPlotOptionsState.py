@@ -10,7 +10,7 @@ class VelanPlotOptionsState(BasePlotOptionsState):
     last_velocity_value: float
     velocity_step_size: float
 
-    # not input by user
+    # not from user input
     width_time_samples: float
 
     def __init__(

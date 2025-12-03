@@ -1,3 +1,4 @@
+from typing import Callable
 import numpy as np
 
 from bokeh.plotting import figure
@@ -10,6 +11,7 @@ PICKING_LINE_WIDTH = 1.5
 def pickingFactory(
     plot: figure,
     picks_source: ColumnDataSource,
+    on_pick_update: Callable
 ) -> None:
     def handle_picks_data_change(attr, old, new_picks_data):
         picks_source.remove_on_change(
@@ -24,7 +26,7 @@ def pickingFactory(
         picks_source.data.update(
             {"x": sorted_velocities, "y": sorted_times}
         )
-
+        on_pick_update()
         picks_source.on_change("data", handle_picks_data_change)
 
     picks_scatter_renderer = plot.scatter(

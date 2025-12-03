@@ -1,6 +1,7 @@
 import colorcet
 import numpy as np
 import numpy.typing as np_types
+from typing import Callable
 
 from bokeh.plotting import figure
 from bokeh.models import GlyphRenderer, ColumnDataSource
@@ -12,6 +13,7 @@ def semblancePlotRendererFactory(
     plot: figure,
     source: ColumnDataSource,
     picks_source: ColumnDataSource,
+    on_pick_update: Callable,
 
     velocities: np_types.NDArray,
 
@@ -37,7 +39,8 @@ def semblancePlotRendererFactory(
 
     pickingFactory(
         plot=plot,
-        picks_source=picks_source
+        picks_source=picks_source,
+        on_pick_update=on_pick_update,
     )
 
     return renderer

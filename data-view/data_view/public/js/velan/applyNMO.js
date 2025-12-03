@@ -1,6 +1,6 @@
-let trigger = false
+let nmo_trigger = false
 
 function applyNMO() {
-  trigger = !trigger
-  debouncedPythonBridge({ "apply_nmo_triger": trigger })
+  nmo_trigger = !nmo_trigger
+  debouncedPythonBridge({ "apply_nmo_triger": nmo_trigger })
 }
