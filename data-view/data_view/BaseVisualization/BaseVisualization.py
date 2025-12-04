@@ -31,8 +31,12 @@ class BaseVisualization:
                 filename=filename,
             )
 
-    def getShotGathersData(self):
-        index_start = self.plot_options_state.gather_index_start
+    def getShotGathersData(
+        self,
+        index_start: int | None = None
+    ):
+        if not index_start:
+            index_start = self.plot_options_state.gather_index_start
         index_stop = index_start + self.plot_options_state.num_loadedgathers
         # ! igather VS gather
         selected_gathers = self.sufile.igather[

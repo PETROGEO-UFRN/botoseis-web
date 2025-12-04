@@ -24,15 +24,24 @@ class Visualization(BaseVisualization):
         dict[Literal["x", "y"], list[float]]
     ]
     sources: dict[
-        Literal["raw_cdp", "semblance", "nmo", "picking"],
+        Literal[
+            "cdp_1",
+            "semblance_1",
+            "nmo_1",
+            "picking_1"
+            "cdp_2",
+            "semblance_2",
+            "nmo_2",
+            "picking_2"
+        ],
         ColumnDataSource
     ]
     plots: dict[
-        Literal["raw_cdp", "semblance", "nmo"],
+        Literal["cdp_1", "semblance_1", "cdp_2", "semblance_2"],
         figure
     ]
     renderers: dict[
-        Literal["raw_cdp", "semblance", "nmo"],
+        Literal["cdp_1", "semblance_1", "cdp_2", "semblance_2"],
         GlyphRenderer
     ]
     velocities: np_types.NDArray
@@ -46,7 +55,8 @@ class Visualization(BaseVisualization):
         self.sources = dict()
         self.renderers = dict()
         self.picking_data = dict()
-        self.sources["picking"] = ColumnDataSource(data=EMPTY_PICKING_DATA)
+        self.sources["picking_1"] = ColumnDataSource(data=EMPTY_PICKING_DATA)
+        self.sources["picking_2"] = ColumnDataSource(data=EMPTY_PICKING_DATA)
 
         super().__init__(
             filename=filename,
@@ -60,60 +70,66 @@ class Visualization(BaseVisualization):
             self.plot_options_state.velocity_step_size,
             dtype=float
         )
-        data = self.getBaseData()
-        coherence_matrix = self.__get_semblance_coherence_matrix(data)
-        shared_image_renderer_parameters = {
-            "offsets": self.gather_offsets,
-            "first_time_sample": FIRST_TIME_SAMPLE,
-            "width_time_samples": self.plot_options_state.width_time_samples,
-        }
 
-        self.sources["raw_cdp"] = ColumnDataSource(data={"image": [data]})
-        self.plots["raw_cdp"] = visualization_factories.plotFactory(
-            x_label="Offset (m)",
-            y_label="Time (s)",
-        )
-        self.renderers["raw_cdp"] = visualization_factories.imageRendererFactory(
-            plot=self.plots["raw_cdp"],
-            source=self.sources["raw_cdp"],
-            **shared_image_renderer_parameters
-        )
+        # *** duplicate everything
+        for index in [1, 2]:
+            cdp_key = f"cdp_{index}"
+            semblance_key = f"semblance_{index}"
+            picking_key = f"picking_{index}"
 
-        self.sources["semblance"] = ColumnDataSource(
-            data={"image": [coherence_matrix]}
-        )
-        self.plots["semblance"] = visualization_factories.plotFactory(
-            x_label="Velocities (m/s)"
-        )
-        self.renderers["semblance"] = semblancePlotRendererFactory(
-            plot=self.plots["semblance"],
-            source=self.sources["semblance"],
-            picks_source=self.sources["picking"],
-            on_pick_update=self.save_picks_in_memory,
+            current_gather_index = self.__get_current_gather_index(index)
+            data = self.getShotGathersData(index_start=current_gather_index)
+            coherence_matrix = self.__get_semblance_coherence_matrix(data)
 
-            velocities=self.velocities,
-            first_time_sample=FIRST_TIME_SAMPLE,
-            width_time_samples=self.plot_options_state.width_time_samples,
-            first_velocity_value=self.plot_options_state.first_velocity_value,
-            last_velocity_value=self.plot_options_state.last_velocity_value,
-        )
+            shared_image_renderer_parameters = {
+                "offsets": self.gather_offsets,
+                "first_time_sample": FIRST_TIME_SAMPLE,
+                "width_time_samples": self.plot_options_state.width_time_samples,
+            }
+            self.sources[cdp_key] = ColumnDataSource(data={"image": [data]})
+            self.plots[cdp_key] = visualization_factories.plotFactory(
+                x_label="Offset (m)",
+                y_label="Time (s)" if index == 1 else None,
+            )
+            self.renderers[cdp_key] = visualization_factories.imageRendererFactory(
+                plot=self.plots[cdp_key],
+                source=self.sources[cdp_key],
+                **shared_image_renderer_parameters
+            )
 
-        self.sources["nmo"] = ColumnDataSource(data={"image": [data]})
-        self.plots["nmo"] = visualization_factories.plotFactory(
-            x_label="Offset (m)"
-        )
-        self.renderers["nmo"] = visualization_factories.imageRendererFactory(
-            plot=self.plots["nmo"],
-            source=self.sources["nmo"],
-            **shared_image_renderer_parameters
-        )
+            self.sources[semblance_key] = ColumnDataSource(
+                data={"image": [coherence_matrix]}
+            )
+            self.plots[semblance_key] = visualization_factories.plotFactory(
+                x_label="Velocities (m/s)"
+            )
+            self.renderers[semblance_key] = semblancePlotRendererFactory(
+                plot=self.plots[semblance_key],
+                source=self.sources[semblance_key],
+                picks_source=self.sources[picking_key],
+                on_pick_update=self.save_picks_in_memory,
+
+                velocities=self.velocities,
+                first_time_sample=FIRST_TIME_SAMPLE,
+                width_time_samples=self.plot_options_state.width_time_samples,
+                first_velocity_value=self.plot_options_state.first_velocity_value,
+                last_velocity_value=self.plot_options_state.last_velocity_value,
+            )
+
         self.plots_row = row(
-            self.plots["raw_cdp"],
-            self.plots["semblance"],
-            self.plots["nmo"],
+            self.plots["cdp_1"],
+            self.plots["semblance_1"],
+            self.plots["cdp_2"],
+            self.plots["semblance_2"],
             sizing_mode="stretch_both",
             tags=[]
         )
+
+    def __get_current_gather_index(self, plot_index):
+        if plot_index == 1:
+            return self.plot_options_state.gather_index_start
+        return self.plot_options_state.gather_index_start + \
+            self.plot_options_state.number_of_gathers_per_time
 
     def __get_semblance_coherence_matrix(self, data: np_types.NDArray):
         num_time_samples = data.shape[0]
@@ -132,58 +148,60 @@ class Visualization(BaseVisualization):
         return coherence_matrix
 
     def save_picks_in_memory(self):
-        # *** Picking data must be converted to dict again
-        # *** If not converted, data will not be accepted back by CollumnDataSource
-        # *** Bokeh does not allow setting CollumnDataSource data with another CollumnDataSource data
-        self.picking_data[
-            self.plot_options_state.gather_index_start
-        ] = dict(self.sources["picking"].data)
+        for index in [1, 2]:
+            picking_key = f"picking_{index}"
+            current_gather_index = self.__get_current_gather_index(index)
+            # *** Picking data must be converted to dict again
+            # *** If not converted, data will not be accepted back by CollumnDataSource
+            # *** Bokeh does not allow setting CollumnDataSource data with another CollumnDataSource data
+            self.picking_data[current_gather_index] = dict(
+                self.sources[picking_key].data
+            )
 
     def apply_nmo(self):
-        data = self.sources["raw_cdp"].data["image"][0]
-        interpolated_velocities_trace = operations.velocity_picks_to_trace(
-            npicks=len(self.sources["picking"].data["y"]),
-            tnmo=self.sources["picking"].data["y"],
-            vnmo=self.sources["picking"].data["x"],
-            t0_data=FIRST_TIME_SAMPLE,
-            dt=self.plot_options_state.interval_time_samples,
-            nt=data.shape[0],
-        )
-        nmo_corrected_data = operations.apply_nmo(
-            ntracescmp=data.shape[1],
-            nt=data.shape[0],
-            t0_data=FIRST_TIME_SAMPLE,
-            dt=self.plot_options_state.interval_time_samples,
-            cmpdata=data,
-            offsets=self.gather_offsets,
-            vnmo_trace=interpolated_velocities_trace,
-            smute=SMUTE,
-        )
-        self.sources["nmo"].data = {"image": [nmo_corrected_data]}
+        for index in [1, 2]:
+            cdp_key = f"cdp_{index}"
+            picking_key = f"picking_{index}"
+            if len(self.sources[picking_key].data["y"]):
+                data = self.sources[cdp_key].data["image"][0]
+                interpolated_velocities_trace = operations.velocity_picks_to_trace(
+                    npicks=len(self.sources[picking_key].data["y"]),
+                    tnmo=self.sources[picking_key].data["y"],
+                    vnmo=self.sources[picking_key].data["x"],
+                    t0_data=FIRST_TIME_SAMPLE,
+                    dt=self.plot_options_state.interval_time_samples,
+                    nt=data.shape[0],
+                )
+                nmo_corrected_data = operations.apply_nmo(
+                    ntracescmp=data.shape[1],
+                    nt=data.shape[0],
+                    t0_data=FIRST_TIME_SAMPLE,
+                    dt=self.plot_options_state.interval_time_samples,
+                    cmpdata=data,
+                    offsets=self.gather_offsets,
+                    vnmo_trace=interpolated_velocities_trace,
+                    smute=SMUTE,
+                )
+                self.sources[cdp_key].data = {"image": [nmo_corrected_data]}
 
     def handle_state_change(self):
-        data = self.getBaseData()
-        coherence_matrix = self.__get_semblance_coherence_matrix(data)
-        self.sources["semblance"].data = {"image": [coherence_matrix]}
-        self.renderers["semblance"].glyph.update(
-            dh=self.plot_options_state.width_time_samples,
-        )
-        self.sources["raw_cdp"].data = {"image": [data]}
-        self.renderers["raw_cdp"].glyph.update(
-            dh=self.plot_options_state.width_time_samples,
-        )
+        for index in [1, 2]:
+            cdp_key = f"cdp_{index}"
+            semblance_key = f"semblance_{index}"
+            picking_key = f"picking_{index}"
+            current_gather_index = self.__get_current_gather_index(index)
 
-        if self.plot_options_state.gather_index_start in self.picking_data:
-            self.sources["picking"].data = self.picking_data[
-                self.plot_options_state.gather_index_start
-            ]
-        else:
-            self.sources["picking"].data = EMPTY_PICKING_DATA
-
-        if not len(self.sources["picking"].data["y"]):
-            self.sources["nmo"].data = {"image": [data]}
-        else:
-            self.apply_nmo()
-        self.renderers["nmo"].glyph.update(
-            dh=self.plot_options_state.width_time_samples,
-        )
+            data = self.getShotGathersData(index_start=current_gather_index)
+            coherence_matrix = self.__get_semblance_coherence_matrix(data)
+            self.sources[semblance_key].data = {"image": [coherence_matrix]}
+            self.renderers[semblance_key].glyph.update(
+                dh=self.plot_options_state.width_time_samples,
+            )
+            self.sources[cdp_key].data = {"image": [data]}
+            self.renderers[cdp_key].glyph.update(
+                dh=self.plot_options_state.width_time_samples,
+            )
+            if current_gather_index in self.picking_data:
+                self.sources[picking_key].data = self.picking_data[current_gather_index]
+            else:
+                self.sources[picking_key].data = EMPTY_PICKING_DATA
