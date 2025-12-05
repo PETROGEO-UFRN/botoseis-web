@@ -45,6 +45,9 @@ class Visualization(BaseVisualization):
         GlyphRenderer
     ]
     velocities: np_types.NDArray
+    # *** last_selected_gather is used for not triggering picker data updates
+    # *** while changing selected gathers
+    last_selected_gather: int
 
     def __init__(
         self,
@@ -64,6 +67,7 @@ class Visualization(BaseVisualization):
             gather_key=VELAN_GATHER_KEY,
         )
 
+        self.last_selected_gather = self.plot_options_state.gather_index_start
         self.velocities = np.arange(
             self.plot_options_state.first_velocity_value,
             self.plot_options_state.last_velocity_value + 1,
@@ -148,6 +152,8 @@ class Visualization(BaseVisualization):
         return coherence_matrix
 
     def save_picks_in_memory(self):
+        if self.last_selected_gather != self.plot_options_state.gather_index_start:
+            return
         for index in [1, 2]:
             picking_key = f"picking_{index}"
             current_gather_index = self.__get_current_gather_index(index)
@@ -205,3 +211,4 @@ class Visualization(BaseVisualization):
                 self.sources[picking_key].data = self.picking_data[current_gather_index]
             else:
                 self.sources[picking_key].data = EMPTY_PICKING_DATA
+        self.last_selected_gather = self.plot_options_state.gather_index_start
