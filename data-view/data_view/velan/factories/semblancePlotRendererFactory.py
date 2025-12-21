@@ -4,7 +4,7 @@ import numpy.typing as np_types
 from typing import Callable
 
 from bokeh.plotting import figure
-from bokeh.models import GlyphRenderer, ColumnDataSource
+from bokeh.models import GlyphRenderer, ColumnDataSource, HoverTool, CustomJS
 
 from .pickingFactory import pickingFactory
 
@@ -14,6 +14,7 @@ def semblancePlotRendererFactory(
     source: ColumnDataSource,
     picks_source: ColumnDataSource,
     on_pick_update: Callable,
+    index_in_plot_pair: int,
 
     velocities: np_types.NDArray,
 
@@ -42,5 +43,25 @@ def semblancePlotRendererFactory(
         picks_source=picks_source,
         on_pick_update=on_pick_update,
     )
+
+    hover_callback = CustomJS(code=f"""
+        try {{
+            // cb_data contains the geometry of the hover event
+            const geometry = cb_data.geometry;
+            window.plotHoverCallback({{
+                index_in_plot_pair: {index_in_plot_pair},
+                geometry
+            }})
+        }} catch (error) {{
+            console.error('Error in plotHoverCallback at bokeh callback: ', error)
+        }}
+    """)
+
+    hover = HoverTool(
+        tooltips=[("(x,y)", "($x, $y)")],
+        callback=hover_callback,
+        mode='mouse'
+    )
+    plot.add_tools(hover)
 
     return renderer

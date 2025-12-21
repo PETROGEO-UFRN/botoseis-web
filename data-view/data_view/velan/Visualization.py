@@ -1,3 +1,4 @@
+import math
 import numpy as np
 import numpy.typing as np_types
 from typing import Literal
@@ -28,11 +29,13 @@ class Visualization(BaseVisualization):
             "cdp_1",
             "semblance_1",
             "nmo_1",
-            "picking_1"
+            "picking_1",
+            "curve_1",
             "cdp_2",
             "semblance_2",
             "nmo_2",
-            "picking_2"
+            "picking_2",
+            "curve_2",
         ],
         ColumnDataSource
     ]
@@ -60,6 +63,8 @@ class Visualization(BaseVisualization):
         self.picking_data = dict()
         self.sources["picking_1"] = ColumnDataSource(data=EMPTY_PICKING_DATA)
         self.sources["picking_2"] = ColumnDataSource(data=EMPTY_PICKING_DATA)
+        self.sources["curve_1"] = ColumnDataSource(data=EMPTY_PICKING_DATA)
+        self.sources["curve_2"] = ColumnDataSource(data=EMPTY_PICKING_DATA)
 
         super().__init__(
             filename=filename,
@@ -80,6 +85,7 @@ class Visualization(BaseVisualization):
             cdp_key = f"cdp_{index}"
             semblance_key = f"semblance_{index}"
             picking_key = f"picking_{index}"
+            curve_key = f"curve_{index}"
 
             current_gather_index = self.__get_current_gather_index(index)
             data = self.getShotGathersData(index_start=current_gather_index)
@@ -98,6 +104,7 @@ class Visualization(BaseVisualization):
             self.renderers[cdp_key] = visualization_factories.imageRendererFactory(
                 plot=self.plots[cdp_key],
                 source=self.sources[cdp_key],
+                curve_source=self.sources[curve_key],
                 **shared_image_renderer_parameters
             )
 
@@ -112,6 +119,7 @@ class Visualization(BaseVisualization):
                 source=self.sources[semblance_key],
                 picks_source=self.sources[picking_key],
                 on_pick_update=self.save_picks_in_memory,
+                index_in_plot_pair=index,
 
                 velocities=self.velocities,
                 first_time_sample=FIRST_TIME_SAMPLE,
@@ -128,6 +136,20 @@ class Visualization(BaseVisualization):
             sizing_mode="stretch_both",
             tags=[]
         )
+
+    def update_time_curve_source(
+        self,
+        index_in_plot_pair,
+        selected_time: float,
+        selected_velocity: float,
+    ):
+        curve_key = f"curve_{index_in_plot_pair}"
+        ys = []
+        for offset in self.gather_offsets:
+            y = (selected_time ** 2) + (offset ** 2) / (selected_velocity ** 2)
+            ys.append(math.sqrt(y))
+        curve_source_data = {"x": self.gather_offsets, "y": ys}
+        self.sources[curve_key].data = curve_source_data
 
     def __get_current_gather_index(self, plot_index):
         if plot_index == 1:

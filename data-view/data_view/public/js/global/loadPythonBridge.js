@@ -1,4 +1,5 @@
 const DEBOUNCE_TIME_IN_MS = 500
+const THROTTLE_TIME_IN_MS = 2000
 
 let bridgeDebounceTimeoutId
 let debounceWaitingNewValues = {}
@@ -25,6 +26,24 @@ function debouncedPythonBridge(newValues) {
     execute()
   }, DEBOUNCE_TIME_IN_MS)
 }
+
+function throttlePythonBridge() {
+  let inThrottle = false
+
+  return function (newValues) {
+    if (!inThrottle) {
+      inThrottle = true
+      loadPythonBridge(newValues)
+
+      setTimeout(() => {
+        console.log("triggered setTimeout")
+        inThrottle = false
+      }, THROTTLE_TIME_IN_MS)
+    }
+  }
+}
+// *** set function to window making it available on bokeh js callback declared on server-side, running on client-side
+window.throttlePythonBridge = throttlePythonBridge
 
 function loadPythonBridge(newValues) {
   debounceWaitingNewValues = {}
