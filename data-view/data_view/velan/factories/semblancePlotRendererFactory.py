@@ -4,9 +4,12 @@ import numpy.typing as np_types
 from typing import Callable
 
 from bokeh.plotting import figure
-from bokeh.models import GlyphRenderer, ColumnDataSource, HoverTool, CustomJS
+from bokeh.models import GlyphRenderer, ColumnDataSource, HoverTool, CustomJS, CrosshairTool
 
 from .pickingFactory import pickingFactory
+
+CROSSHAIR_COLOR = "red"
+CROSSHAIR_LINE_WIDTH = 1
 
 
 def semblancePlotRendererFactory(
@@ -37,16 +40,22 @@ def semblancePlotRendererFactory(
         origin="bottom_left",
         palette=colorcet.rainbow4,
     )
-
     pickingFactory(
         plot=plot,
         picks_source=picks_source,
         on_pick_update=on_pick_update,
     )
 
+    nativeCrosshair = CrosshairTool(
+        dimensions='height',
+        line_alpha=CROSSHAIR_LINE_WIDTH,
+        line_color=CROSSHAIR_COLOR,
+    )
+
     hover_callback = CustomJS(
         args={
             "picks_source": picks_source,
+            "nativeCrosshair": nativeCrosshair
         },
         code=f"""
             try {{
@@ -58,6 +67,7 @@ def semblancePlotRendererFactory(
                     index_in_plot_pair: {index_in_plot_pair},
                     hasPicks,
                     geometry,
+                    nativeCrosshair,
                 }})
 
             }} catch (error) {{
@@ -74,6 +84,8 @@ def semblancePlotRendererFactory(
         callback=hover_callback,
         mode='mouse'
     )
+
     plot.add_tools(hover)
+    plot.add_tools(nativeCrosshair)
 
     return renderer

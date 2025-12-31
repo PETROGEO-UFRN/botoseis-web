@@ -1,0 +1,14 @@
+#crosshair-horizontal-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: red;
+  pointer-events: none;
+  z-index: 10000;
+  will-change: transform;
+}
+
+#crosshair-horizontal-line {
+  width: 100vw;
+  height: 1px;
+}

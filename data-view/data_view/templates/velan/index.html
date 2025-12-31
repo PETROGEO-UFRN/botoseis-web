@@ -19,6 +19,7 @@
   <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/plot_page.css">
   <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/shot_navigation.css">
   <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/apply_button.css">
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/crosshair.css">
   {% block preamble -%}{%- endblock %}
   {% block resources %}
   {% block css_resources -%}
@@ -55,6 +56,8 @@
   {% if IS_DEVELOPMENT %}
   <script src="{{ STATIC_PATH }}js/global/devWebSocket.js"></script>
   {% endif %}
+
+  <div id="crosshair-horizontal-line"></div>
 
   {% block inner_body %}
   {% block contents %}
