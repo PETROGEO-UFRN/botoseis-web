@@ -196,6 +196,11 @@ class Visualization(BaseVisualization):
                 self.sources[picking_key].data
             )
 
+    def reuse_picks(self):
+        if not len(self.sources["picking_1"].data["x"]):
+            return
+        self.sources["picking_2"].data = dict(self.sources["picking_1"].data)
+
     def apply_nmo(self):
         for index in [1, 2]:
             cdp_key = f"cdp_{index}"

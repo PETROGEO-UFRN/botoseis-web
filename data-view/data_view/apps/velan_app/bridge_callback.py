@@ -20,6 +20,10 @@ def bridge_callback(
             visualization.remove_nmo()
         flat_new_state_options.pop("nmo_trigger")
 
+    if "reuse_picks" in flat_new_state_options:
+        visualization.reuse_picks()
+        flat_new_state_options.pop("reuse_picks")
+
     if "semblance_plot_hover" in flat_new_state_options:
         hover_coordinates = flat_new_state_options["semblance_plot_hover"]
         visualization.update_time_curve_source(
