@@ -205,27 +205,35 @@ class Visualization(BaseVisualization):
         for index in [1, 2]:
             cdp_key = f"cdp_{index}"
             picking_key = f"picking_{index}"
-            if len(self.sources[picking_key].data["y"]):
-                data = self.sources[cdp_key].data["image"][0]
-                interpolated_velocities_trace = operations.velocity_picks_to_trace(
-                    npicks=len(self.sources[picking_key].data["y"]),
-                    tnmo=self.sources[picking_key].data["y"],
-                    vnmo=self.sources[picking_key].data["x"],
-                    t0_data=FIRST_TIME_SAMPLE,
-                    dt=self.plot_options_state.interval_time_samples,
-                    nt=data.shape[0],
-                )
-                nmo_corrected_data = operations.apply_nmo(
-                    ntracescmp=data.shape[1],
-                    nt=data.shape[0],
-                    t0_data=FIRST_TIME_SAMPLE,
-                    dt=self.plot_options_state.interval_time_samples,
-                    cmpdata=data,
-                    offsets=self.gather_offsets,
-                    vnmo_trace=interpolated_velocities_trace,
-                    smute=SMUTE,
-                )
-                self.sources[cdp_key].data = {"image": [nmo_corrected_data]}
+            if not len(self.sources[picking_key].data["y"]):
+                continue
+            data = np.array(self.sources[cdp_key].data["image"][0]).copy()
+            interpolated_velocities_trace = operations.velocity_picks_to_trace(
+                npicks=len(self.sources[picking_key].data["y"]),
+                tnmo=self.sources[picking_key].data["y"],
+                vnmo=self.sources[picking_key].data["x"],
+                t0_data=FIRST_TIME_SAMPLE,
+                dt=self.plot_options_state.interval_time_samples,
+                nt=data.shape[0],
+            )
+            nmo_corrected_data = operations.apply_nmo(
+                ntracescmp=data.shape[1],
+                nt=data.shape[0],
+                t0_data=FIRST_TIME_SAMPLE,
+                dt=self.plot_options_state.interval_time_samples,
+                cmpdata=data,
+                offsets=self.gather_offsets,
+                vnmo_trace=interpolated_velocities_trace,
+                smute=SMUTE,
+            )
+            self.sources[cdp_key].data = {"image": [nmo_corrected_data]}
+
+    def remove_nmo(self):
+        for index in [1, 2]:
+            cdp_key = f"cdp_{index}"
+            current_gather_index = self.__get_current_gather_index(index)
+            data = self.getShotGathersData(index_start=current_gather_index)
+            self.sources[cdp_key].data = {"image": [data]}
 
     def handle_state_change(self):
         for index in [1, 2]:
