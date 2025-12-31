@@ -6,8 +6,6 @@ from bokeh.plotting import figure
 from bokeh.models import GlyphRenderer, ColumnDataSource
 
 DEFAULT_PALETTE = Greys256
-NMO_CURVE_COLOR = "red"
-NMO_CURVE_WIDTH = 1
 
 
 def imageRendererFactory(
@@ -18,7 +16,6 @@ def imageRendererFactory(
     first_time_sample: float,
     width_time_samples: float,
 
-    curve_source: ColumnDataSource | None = None,
     is_visible: bool = True,
     palette: any = DEFAULT_PALETTE,
 ) -> GlyphRenderer:
@@ -45,12 +42,5 @@ def imageRendererFactory(
         palette=palette,
         visible=is_visible
     )
-
-    if curve_source:
-        plot.line(
-            color=NMO_CURVE_COLOR,
-            source=curve_source,
-            line_width=NMO_CURVE_WIDTH,
-        )
 
     return renderer

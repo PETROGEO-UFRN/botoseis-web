@@ -1,5 +1,6 @@
 const DEBOUNCE_TIME_IN_MS = 500
-const THROTTLE_TIME_IN_MS = 2000
+// THROTTLE running in ~30fps
+const THROTTLE_TIME_IN_MS = 41
 
 let bridgeDebounceTimeoutId
 let debounceWaitingNewValues = {}
@@ -28,22 +29,19 @@ function debouncedPythonBridge(newValues) {
 }
 
 function throttlePythonBridge() {
-  let inThrottle = false
+  let isInThrottle = false
 
   return function (newValues) {
-    if (!inThrottle) {
-      inThrottle = true
+    if (!isInThrottle) {
+      isInThrottle = true
       loadPythonBridge(newValues)
 
       setTimeout(() => {
-        console.log("triggered setTimeout")
-        inThrottle = false
+        isInThrottle = false
       }, THROTTLE_TIME_IN_MS)
     }
   }
 }
-// *** set function to window making it available on bokeh js callback declared on server-side, running on client-side
-window.throttlePythonBridge = throttlePythonBridge
 
 function loadPythonBridge(newValues) {
   debounceWaitingNewValues = {}
@@ -59,7 +57,6 @@ function loadPythonBridge(newValues) {
       [key, [value]]
     ))
   )
-
   stopLoadingWhenUnchanged(
     update_plot_options_trigger.data,
     newValuesWrapped
@@ -81,3 +78,8 @@ function stopLoadingWhenUnchanged(oldDataArray, newDataArray) {
   if (keysToStop.length)
     window.finishLoading(keysToStop)
 }
+
+// *** set function to window making it available on bokeh js callback declared on server-side, running on client-side
+window.throttlePythonBridge = throttlePythonBridge()
+window.loadPythonBridge = loadPythonBridge
+

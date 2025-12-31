@@ -43,12 +43,14 @@
     // global
     var first_cdp = parseInt("{{ first_cdp }}");
     var number_of_gathers_per_time = parseInt("{{ number_of_gathers_per_time }}");
+    // global outside "window" could lead to reference mismatches when changing the value
+    window.is_nmo_triggered = false
   </script>
   <script src="{{ STATIC_PATH }}js/velan/changeGatherPosition.js"></script>
   <script src="{{ STATIC_PATH }}js/velan/onShotGatherInputsChange.js"></script>
   <script src="{{ STATIC_PATH }}js/velan/applyNMO.js"></script>
   <script src="{{ STATIC_PATH }}js/velan/savePicks.js"></script>
-  <script src="{{ STATIC_PATH }}js/velan/plotHoverCallback.js"></script>
+  <script src="{{ STATIC_PATH }}js/velan/semblancePlotHoverCallback.js"></script>
 
   {% if IS_DEVELOPMENT %}
   <script src="{{ STATIC_PATH }}js/global/devWebSocket.js"></script>

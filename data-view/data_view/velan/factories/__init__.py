@@ -1,1 +1,2 @@
 from .semblancePlotRendererFactory import semblancePlotRendererFactory
+from .NMOCurveRendererFactory import NMOCurveRendererFactory

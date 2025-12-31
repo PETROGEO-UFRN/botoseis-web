@@ -12,6 +12,7 @@ from ..constants.VISUALIZATION import FIRST_TIME_SAMPLE, VELAN_GATHER_KEY, SMUTE
 from .VelanPlotOptionsState import VelanPlotOptionsState
 from .data_operations import operations
 from .factories import (
+    NMOCurveRendererFactory,
     semblancePlotRendererFactory
 )
 
@@ -104,8 +105,11 @@ class Visualization(BaseVisualization):
             self.renderers[cdp_key] = visualization_factories.imageRendererFactory(
                 plot=self.plots[cdp_key],
                 source=self.sources[cdp_key],
-                curve_source=self.sources[curve_key],
                 **shared_image_renderer_parameters
+            )
+            NMOCurveRendererFactory(
+                plot=self.plots[cdp_key],
+                source=self.sources[curve_key],
             )
 
             self.sources[semblance_key] = ColumnDataSource(
@@ -140,10 +144,16 @@ class Visualization(BaseVisualization):
     def update_time_curve_source(
         self,
         index_in_plot_pair,
-        selected_time: float,
-        selected_velocity: float,
+        selected_time: float | None,
+        selected_velocity: float | None,
     ):
         curve_key = f"curve_{index_in_plot_pair}"
+
+        # *** Comparing directly to "None" avoiding edge cases where the values can be "0"
+        if selected_time == None or selected_velocity == None:
+            self.sources[curve_key].data = {"x": [], "y": []}
+            return
+
         ys = []
         for offset in self.gather_offsets:
             y = (selected_time ** 2) + (offset ** 2) / (selected_velocity ** 2)

@@ -8,14 +8,18 @@ def bridge_callback(
     visualization: BasicVisualization | VelanVisualization,
     flat_new_state_options: dict[str, any]
 ):
+    # *** remove and process triggers that are not accepted by "updatePlotOptionsState()"
     if "save_picks_triger" in flat_new_state_options:
         save_picks(visualization.picking_data)
-        # *** remove "palette" once it will not be accepted by "updatePlotOptionsState()"
         flat_new_state_options.pop("save_picks_triger")
-    if "apply_nmo_triger" in flat_new_state_options:
-        visualization.apply_nmo()
-        # *** remove "palette" once it will not be accepted by "updatePlotOptionsState()"
-        flat_new_state_options.pop("apply_nmo_triger")
+
+    if "nmo_trigger" in flat_new_state_options:
+        if flat_new_state_options["nmo_trigger"]:
+            visualization.apply_nmo()
+        else:
+            visualization.remove_nmo()
+        flat_new_state_options.pop("nmo_trigger")
+
     if "semblance_plot_hover" in flat_new_state_options:
         hover_coordinates = flat_new_state_options["semblance_plot_hover"]
         visualization.update_time_curve_source(
