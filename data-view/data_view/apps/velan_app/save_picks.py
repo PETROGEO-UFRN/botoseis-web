@@ -1,20 +1,19 @@
-import numpy.typing as np_types
+import re
 
 
 def __removeBrackets(text: str):
-    return text.replace("[", "").replace("]", "")
+    text = re.sub(r"[\[\]\n]", "", text)
+    return re.sub(r" +", ",", text)
 
 
 def save_picks(picks: dict[int, list[float]]):
     # todo: get api/helper-file/read .dat file content
     # todo: send api/helper-file/create .dat file
     # todo: run "with open" in memory
-    # import pdb
-    # pdb.set_trace()
     with open("./table.dat", "w") as file:
         cdps = picks.keys()
+        file.write("cdp=")
         for index, key in enumerate(cdps):
-            file.write("cdp=")
             file.write(f"{key+1}")
             if index+1 < len(cdps):
                 file.write(",")
