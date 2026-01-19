@@ -17,6 +17,8 @@ from .factories import (
 )
 
 EMPTY_PICKING_DATA = {"x": [], "y": []}
+OFFSET_BASE_TITLE = "Offset (m) | CDP "
+VELOCITY_BASE_TITLE = "Velocities (m/s) | CDP "
 
 
 class Visualization(BaseVisualization):
@@ -99,7 +101,7 @@ class Visualization(BaseVisualization):
             }
             self.sources[cdp_key] = ColumnDataSource(data={"image": [data]})
             self.plots[cdp_key] = visualization_factories.plotFactory(
-                x_label="Offset (m)",
+                x_label=f"{OFFSET_BASE_TITLE}{current_gather_index + 1}",
                 y_label="Time (s)" if index == 1 else None,
             )
             self.renderers[cdp_key] = visualization_factories.imageRendererFactory(
@@ -116,7 +118,7 @@ class Visualization(BaseVisualization):
                 data={"image": [coherence_matrix]}
             )
             self.plots[semblance_key] = visualization_factories.plotFactory(
-                x_label="Velocities (m/s)"
+                x_label=f"{VELOCITY_BASE_TITLE}{current_gather_index + 1}"
             )
             self.renderers[semblance_key] = semblancePlotRendererFactory(
                 plot=self.plots[semblance_key],
@@ -241,6 +243,11 @@ class Visualization(BaseVisualization):
             semblance_key = f"semblance_{index}"
             picking_key = f"picking_{index}"
             current_gather_index = self.__get_current_gather_index(index)
+
+            self.plots[cdp_key].xaxis.axis_label = f"{OFFSET_BASE_TITLE}{current_gather_index + 1}"
+            self.plots[
+                semblance_key
+            ].xaxis.axis_label = f"{VELOCITY_BASE_TITLE}{current_gather_index + 1}"
 
             data = self.getShotGathersData(index_start=current_gather_index)
             coherence_matrix = self.__get_semblance_coherence_matrix(data)
