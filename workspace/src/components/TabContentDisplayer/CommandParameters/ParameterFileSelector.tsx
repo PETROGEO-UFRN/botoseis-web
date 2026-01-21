@@ -1,10 +1,11 @@
 import { useMemo } from "react"
-import { useLocation } from "@tanstack/react-location"
 import { useShallow } from 'zustand/react/shallow'
 import { FileSelector } from "shared-ui"
 
 import { useTablesStore } from 'store/tablesStore'
+import { useSelectedWorkflowsStore } from 'store/selectedWorkflowsStore'
 import { fileDataTypes } from "constants/fileDataTypes"
+import { useLinesStore } from "store/linesStore"
 
 interface IParameterFileSelector {
   label: string
@@ -19,8 +20,10 @@ export default function ParameterFileSelector({
   selectedFileLinkId,
   setSelectedFileLinkId,
 }: IParameterFileSelector) {
-  const location = useLocation()
-  const projectId = Number(location.current.pathname.split('/')[2])
+  const lines = useLinesStore(useShallow((state) => state.lines))
+  const singleSelectedWorkflowId = useSelectedWorkflowsStore(
+    useShallow((state) => state.singleSelectedWorkflowId)
+  )
   const {
     tables,
     uploadNewTableFile,
@@ -51,15 +54,24 @@ export default function ParameterFileSelector({
     _newFile: File,
     formData: FormData
   ) => {
-    if (fileInputDataType == fileDataTypes.Table)
-      uploadNewTableFile(
-        formData,
-        projectId
-      ).then(newFileLinkId => {
-        if (!newFileLinkId)
-          return
-        setSelectedFileLinkId(newFileLinkId)
-      })
+    if (!singleSelectedWorkflowId || fileInputDataType != fileDataTypes.Table)
+      return
+
+    const selectedLine = lines.find(
+      line => line.workflows.find(
+        workflow => workflow.id == singleSelectedWorkflowId
+      )
+    )
+    if (!selectedLine) return
+
+    uploadNewTableFile(
+      formData,
+      selectedLine.id
+    ).then(newFileLinkId => {
+      if (!newFileLinkId)
+        return
+      setSelectedFileLinkId(newFileLinkId)
+    })
   }
 
   return (

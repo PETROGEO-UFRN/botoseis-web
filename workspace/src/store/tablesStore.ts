@@ -29,11 +29,11 @@ export const useTablesStore = create<ITablesStoreState>((set) => ({
   },
   uploadNewTableFile: (
     formData,
-    projectId
+    lineId
   ) => {
     const data_type = "table"
     return new Promise(resolve => createHelperFile(
-      projectId,
+      lineId,
       formData,
       data_type
     ).then((result) => {

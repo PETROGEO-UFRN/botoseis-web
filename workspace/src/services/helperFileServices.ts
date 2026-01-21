@@ -6,12 +6,12 @@ import api from "./api"
 const notificationStore = useNotificationStore.getState()
 
 export async function listHelperFiles(
-  projectId: number,
+  lineId: number,
   data_type: helperFileTypes
 ): Promise<Array<IfileLink> | null> {
   try {
     const response = await api.get(
-      `/helper-file/list/${projectId}/${data_type}s`
+      `/helper-file/list/${lineId}/${data_type}s`
     )
     return response.data
   } catch (error) {
@@ -25,13 +25,13 @@ export async function listHelperFiles(
 }
 
 export async function createHelperFile(
-  projectId: number,
+  lineId: number,
   formData: any,
   data_type: helperFileTypes
 ): Promise<{ fileLink: IfileLink } | null> {
   try {
     const response = await api.post(
-      `helper-file/create/${projectId}/${data_type}`,
+      `helper-file/create/${lineId}/${data_type}`,
       formData,
       {
         headers: {
