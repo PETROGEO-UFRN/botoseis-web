@@ -46,7 +46,7 @@ def updateName(workflowId, name):
 
 def updateFilePath(workflowId, fileLinkId):
     # ! breaks MVC !
-    workflow = workflowRepository.updateFilePath(workflowId, fileLinkId)
+    workflow = workflowRepository.updateInputFilePath(workflowId, fileLinkId)
     return workflow.getAttributes()
 
 

@@ -83,7 +83,6 @@ class TestSuFileRouter:
                 "fileLink": {
                     "path": file_path,
                     "projectId": self.mock.project['id'],
-                    "data_type": "su",
                 }
             }
             response = self.client.post(
@@ -96,10 +95,8 @@ class TestSuFileRouter:
         assert response.status_code == 200
         assert isinstance(response.json["fileLink"]["id"], int)
         assert response.json["fileLink"]["projectId"] == expeted_response_data["fileLink"]["projectId"]
-        assert response.json["fileLink"]["data_type"] == expeted_response_data["fileLink"]["data_type"]
         self.created_file_link["id"] = response.json["fileLink"]["id"]
         self.created_file_link["projectId"] = response.json["fileLink"]["projectId"]
-        self.created_file_link["data_type"] = response.json["fileLink"]["data_type"]
 
     def test_list_su_files(self):
         response = self.client.get(
@@ -112,7 +109,6 @@ class TestSuFileRouter:
         assert len(response.json) == 1
         assert isinstance(response.json[0]["id"], int)
         assert response.json[0]["projectId"] == self.created_file_link["projectId"]
-        assert response.json[0]["data_type"] == self.created_file_link["data_type"]
 
     def test_update_su_file_with_output_unset(self):
         expeted_response_data = {

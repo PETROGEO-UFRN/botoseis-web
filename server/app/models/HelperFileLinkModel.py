@@ -4,28 +4,16 @@ from os import path
 from ..database.connection import database
 
 
-class FileLinkModel(database.Model):  # type: ignore
-    __tablename__ = "file_link_table"
+class HelperFileLinkModel(database.Model):  # type: ignore
+    __tablename__ = "helper_file_link_table"
 
     id = dbTypes.Column(dbTypes.Integer, primary_key=True)
     path = dbTypes.Column(dbTypes.String)
     data_type = dbTypes.Column(dbTypes.String)
 
-    projectId = dbTypes.Column(dbTypes.ForeignKey(
-        "projects_table.id",
-        name="FK_projects_table_file_link_table",
-        ondelete="CASCADE"
-    ))
-
-    datasetId = dbTypes.Column(dbTypes.ForeignKey(
-        "datasets_table.id",
-        name="FK_datasets_table_file_link_table",
-        ondelete="CASCADE"
-    ))
-
     lineId = dbTypes.Column(dbTypes.ForeignKey(
         "lines_table.id",
-        name="FK_lines_table_file_link_table",
+        name="FK_lines_table_helper_file_link_table",
         ondelete="CASCADE"
     ))
 
@@ -46,6 +34,5 @@ class FileLinkModel(database.Model):  # type: ignore
             "id": self.id,
             "name": self.getFileName(),
             "data_type": self.data_type,
-            "projectId": self.projectId,
             "lineId": self.lineId,
         }

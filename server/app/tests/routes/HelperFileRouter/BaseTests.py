@@ -81,7 +81,6 @@ class BaseTests:
                     "path": file_path,
                     "data_type": self.data_type,
                     "lineId": self.mock.line['id'],
-                    "projectId": None,
                 }
             }
             response = self.client.post(
@@ -95,11 +94,9 @@ class BaseTests:
         assert isinstance(response.json["fileLink"]["id"], int)
         assert response.json["fileLink"]["data_type"] == expeted_response_data["fileLink"]["data_type"]
         assert response.json["fileLink"]["lineId"] == expeted_response_data["fileLink"]["lineId"]
-        assert response.json["fileLink"]["projectId"] == expeted_response_data["fileLink"]["projectId"]
         self.created_file_link["id"] = response.json["fileLink"]["id"]
         self.created_file_link["data_type"] = response.json["fileLink"]["data_type"]
         self.created_file_link["lineId"] = response.json["fileLink"]["lineId"]
-        self.created_file_link["projectId"] = response.json["fileLink"]["projectId"]
 
     def test_list_files(self):
         response = self.client.get(
@@ -113,4 +110,3 @@ class BaseTests:
         assert isinstance(response.json[0]["id"], int)
         assert response.json[0]["data_type"] == self.created_file_link["data_type"]
         assert response.json[0]["lineId"] == self.created_file_link["lineId"]
-        assert response.json[0]["projectId"] == self.created_file_link["projectId"]

@@ -1,12 +1,7 @@
 from uuid import UUID
-from copy import copy
 
 from ..database.connection import database
-from ..models.UserModel import UserModel
-from ..models.DataSetModel import DataSetModel
-from ..models.WorkflowModel import WorkflowModel
-from ..models.WorkflowParentsAssociationModel import WorkflowParentsAssociationModel
-from ..models.CommandModel import CommandModel
+from ..models import UserModel, DataSetModel, WorkflowModel, CommandModel, WorkflowParentsAssociationModel
 
 from ..repositories.WorkflowRepository import workflowRepository
 from ..repositories.CommandRepository import commandRepository
@@ -57,7 +52,7 @@ def createDataset(userId, originWorkflowId) -> dict:
         dataset.id
     )
 
-    workflowRepository.updateFilePath(
+    workflowRepository.updateInputFilePath(
         newWorkflow.id,
         originWorkflow.input_file_link_id
     )

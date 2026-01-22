@@ -6,9 +6,7 @@ from datetime import datetime
 from flask import jsonify, make_response, current_app
 
 from ..database.connection import database
-from ..models.FileLinkModel import FileLinkModel
-from ..models.WorkflowModel import WorkflowModel
-from ..models.WorkflowParentsAssociationModel import WorkflowParentsAssociationModel
+from ..models import SuFileLinkModel, WorkflowModel, WorkflowParentsAssociationModel
 
 from ..services.datasetServices import createDataset, deleteDatasets
 from ..factories.filePathFactory import createUploadedSUFilePath, createDatasetFilePath
@@ -19,9 +17,8 @@ from ..errors import FileError, WorkflowRunningError
 
 
 def listByProjectId(projectId):
-    fileLinks = FileLinkModel.query.filter_by(
+    fileLinks = SuFileLinkModel.query.filter_by(
         projectId=projectId,
-        data_type="su"
     ).all()
 
     # *** iterate fileLinks and convert it to list of dicts
@@ -40,10 +37,9 @@ def create(file, projectId):
         file.filename
     )
 
-    newFileLink = FileLinkModel(
+    newFileLink = SuFileLinkModel(
         projectId=projectId,
         path=filePath,
-        data_type="su",
     )
     database.session.add(newFileLink)
     database.session.commit()
@@ -94,11 +90,10 @@ def update(userId, workflowId):
         deleteDatasets(workflow)
         datasetAttributes = createDataset(userId, workflowId)
 
-        newFileLink = FileLinkModel(
+        newFileLink = SuFileLinkModel(
             projectId=workflowParent.getProjectId(),
             datasetId=datasetAttributes["id"],
             path=target_file_path,
-            data_type="su"
         )
         database.session.add(newFileLink)
         database.session.commit()

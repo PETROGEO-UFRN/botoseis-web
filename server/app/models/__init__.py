@@ -2,7 +2,9 @@ from .CommandModel import CommandModel
 from .LineModel import LineModel
 from .ProjectModel import ProjectModel
 from .WorkflowModel import WorkflowModel
+from .WorkflowParentsAssociationModel import WorkflowParentsAssociationModel
 from .UserModel import UserModel
 from .OrderedCommandsListModel import OrderedCommandsListModel
 from .DataSetModel import DataSetModel
-from .FileLinkModel import FileLinkModel
+from .SuFileLinkModel import SuFileLinkModel
+from .HelperFileLinkModel import HelperFileLinkModel

@@ -4,10 +4,10 @@ from sqlalchemy.orm import relationship, Mapped
 from typing import List
 
 from ..database.connection import database
-from .CommandModel import CommandModel
-from .OrderedCommandsListModel import OrderedCommandsListModel
-from .WorkflowParentsAssociationModel import WorkflowParentsAssociationModel
-from .FileLinkModel import FileLinkModel
+from ..models.CommandModel import CommandModel
+from ..models.OrderedCommandsListModel import OrderedCommandsListModel
+from ..models.WorkflowParentsAssociationModel import WorkflowParentsAssociationModel
+from ..models.SuFileLinkModel import SuFileLinkModel
 
 
 class WorkflowModel(database.Model):  # type: ignore
@@ -20,8 +20,8 @@ class WorkflowModel(database.Model):  # type: ignore
     post_processing_options = dbTypes.Column(dbTypes.Text)
 
     input_file_link_id = dbTypes.Column(dbTypes.ForeignKey(
-        "file_link_table.id",
-        name="FK_file_links_table_workflows_table"
+        "su_file_link_table.id",
+        name="FK_su_file_links_table_workflows_table"
     ))
 
     owner_email = dbTypes.Column(dbTypes.ForeignKey(
@@ -45,7 +45,7 @@ class WorkflowModel(database.Model):  # type: ignore
     )
 
     def getSelectedInputFile(self):
-        fileLink = FileLinkModel.query.filter_by(
+        fileLink = SuFileLinkModel.query.filter_by(
             id=self.input_file_link_id
         ).first()
         return fileLink
