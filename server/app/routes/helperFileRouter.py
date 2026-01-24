@@ -1,9 +1,9 @@
 from flask import Blueprint, request, jsonify
 
-from ..errors.AppError import AppError
-
 from ..middlewares.decoratorsFactory import decorator_factory
 from ..middlewares.requireAuthentication import requireAuthentication
+from ..middlewares.validateRequestBody import validateRequestBody
+from ..serializers.HelperFileSerializer import TableHelperFileUploadSchema
 from ..models.LineModel import LineModel
 from ..controllers.helperFileController import helperFileController
 
@@ -30,12 +30,11 @@ def listHelperFiles(_, lineId):
     return jsonify(fileLinksList)
 
 
-@helperFileRouter.route("/create/<lineId>/model", methods=['POST'])
-@helperFileRouter.route("/create/<lineId>/table", methods=['POST'])
+@helperFileRouter.route("/upload/<lineId>/model", methods=['POST'])
+@helperFileRouter.route("/upload/<lineId>/table", methods=['POST'])
+@decorator_factory(validateRequestBody, SerializerSchema=TableHelperFileUploadSchema)
 @decorator_factory(requireAuthentication, routeModel=LineModel)
 def createHelperFile(_, lineId):
-    if 'file' not in request.files:
-        raise AppError("No file part in the request")
     file = request.files['file']
 
     if "/model" in str(request.url_rule):
@@ -44,8 +43,8 @@ def createHelperFile(_, lineId):
         data_type = "table"
 
     fileLink = helperFileController.create(
-        file,
-        lineId,
-        data_type,
+        file=file,
+        lineId=lineId,
+        data_type=data_type,
     )
     return {"fileLink": fileLink}

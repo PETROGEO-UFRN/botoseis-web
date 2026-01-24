@@ -140,7 +140,7 @@ class Mock():
     def loadSuFileLink(self):
         with open(self.base_marmousi_stack_path, "rb") as file:
             response = self.client.post(
-                f"/su-file/create/{self.workflow['id']}",
+                f"/su-file/upload/{self.workflow['id']}",
                 data={
                     "file": (file, path.basename(file.name))
                 },

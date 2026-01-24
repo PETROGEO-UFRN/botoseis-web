@@ -8,7 +8,10 @@ def validateRequestBody(routeFunction, SerializerSchema):
         try:
             data = request.get_json()
         except:
-            data = request.form
+            data = {
+                **request.form.to_dict(),
+                **request.files.to_dict()
+            }
 
         # *** unexpected fields on request body will be
         # *** excluded and ignored, not raising any error.

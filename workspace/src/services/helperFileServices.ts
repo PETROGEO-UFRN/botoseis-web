@@ -31,7 +31,7 @@ export async function createHelperFile(
 ): Promise<{ fileLink: IfileLink } | null> {
   try {
     const response = await api.post(
-      `helper-file/create/${lineId}/${data_type}`,
+      `/helper-file/upload/${lineId}/${data_type}`,
       formData,
       {
         headers: {

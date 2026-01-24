@@ -52,13 +52,15 @@ class TestSuFileRouter:
 
     def test_create_su_file_with_no_file(self):
         expeted_response_data = {
-            "Error": "No file part in the request"
+            'Error': {
+                'file': ['Missing data for required field.']
+            }
         }
         response = self.client.post(
-            f"{self.url_prefix}/create/{self.mock.project['id']}",
+            f"{self.url_prefix}/upload/{self.mock.project['id']}"
         )
 
-        assert response.status_code == 400
+        assert response.status_code == 422
         assert response.json["Error"] == expeted_response_data["Error"]
 
     def test_create_su_file_with_inexistent_workflow(self):
@@ -67,7 +69,7 @@ class TestSuFileRouter:
         }
         with open(self.mock.base_marmousi_stack_path, "rb") as file:
             response = self.client.post(
-                f"{self.url_prefix}/create/99",
+                f"{self.url_prefix}/upload/99",
                 data={
                     "file": (file, path.basename(file.name))
                 },
@@ -86,7 +88,7 @@ class TestSuFileRouter:
                 }
             }
             response = self.client.post(
-                f"{self.url_prefix}/create/{self.mock.project['id']}",
+                f"{self.url_prefix}/upload/{self.mock.project['id']}",
                 data={
                     "file": (file, file_path)
                 },
@@ -157,3 +159,5 @@ class TestSuFileRouter:
             content_type="multipart/form-data"
         )
         assert response.status_code == 200
+
+# ➜  pytest app/tests/routes/test_SuFileRouter.py::TestSuFileRouter::test_create_su_file_with_no_file

@@ -1,9 +1,9 @@
 from flask import Blueprint, request, jsonify
 
-from ..errors.AppError import AppError
-
 from ..middlewares.decoratorsFactory import decorator_factory
 from ..middlewares.requireAuthentication import requireAuthentication
+from ..middlewares.validateRequestBody import validateRequestBody
+from ..serializers.SuFileSerializer import SuFileUploadSchema
 from ..models.ProjectModel import ProjectModel
 from ..models.WorkflowModel import WorkflowModel
 from ..controllers.suFileController import suFileController
@@ -18,11 +18,10 @@ def listSuFiles(_, projectId):
     return jsonify(fileLinksList)
 
 
-@suFileRouter.route("/create/<projectId>", methods=['POST'])
+@suFileRouter.route("/upload/<projectId>", methods=['POST'])
+@decorator_factory(validateRequestBody, SerializerSchema=SuFileUploadSchema)
 @decorator_factory(requireAuthentication, routeModel=ProjectModel)
 def createSuFile(_, projectId):
-    if 'file' not in request.files:
-        raise AppError("No file part in the request")
     file = request.files['file']
 
     fileLink = suFileController.create(file, projectId)
