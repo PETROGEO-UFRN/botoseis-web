@@ -8,7 +8,7 @@ class Mock():
     client = pytest.client
     base_marmousi_stack_path = path.join(
         path.dirname(__file__),
-        "mock_seismic_data",
+        "files",
         "marmousi_4ms_stack.su"
     )
     user = dict()

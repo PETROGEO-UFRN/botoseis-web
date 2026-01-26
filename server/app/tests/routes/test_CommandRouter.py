@@ -3,7 +3,7 @@ import pytest
 
 from server.app.database.connection import database
 from ..conftest import _app
-from ..Mock import Mock
+from ..mock.Mock import Mock
 
 
 class TestCommandRouter:

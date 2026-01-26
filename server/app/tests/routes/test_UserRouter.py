@@ -2,7 +2,7 @@ import pytest
 
 from server.app.database.connection import database
 from ..conftest import _app
-from ..Mock import Mock, DEFAULT_PASSWORD
+from ..mock.Mock import Mock, DEFAULT_PASSWORD
 
 
 class TestUserRouter:

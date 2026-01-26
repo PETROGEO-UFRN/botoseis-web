@@ -1,4 +1,5 @@
 from .BaseTests import BaseTests
+from ...mock.loadMockPicks import loadMockPicks
 
 
 class TestSubPathTables(BaseTests):
