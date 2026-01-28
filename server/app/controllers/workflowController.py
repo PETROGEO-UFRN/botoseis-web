@@ -63,6 +63,7 @@ def updateWorkflowPicksTable(workflowId, helperFileLinkId):
         raise AppError("Workflow does not exist", 404)
 
     workflow.picks_table_file_id = helperFileLink.id
+    database.session.commit()
 
 
 def updateOutput(workflowId, newOutputValue):
