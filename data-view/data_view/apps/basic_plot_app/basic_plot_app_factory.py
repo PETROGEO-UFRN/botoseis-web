@@ -1,6 +1,3 @@
-from typing import Literal
-from os import path
-from requests import get
 from bokeh.application import Application
 from bokeh.application.handlers import FunctionHandler
 from bokeh.document.document import Document
@@ -10,35 +7,11 @@ from ...basicPlot import Visualization, PlotOptionsState
 from ..loadTemplate import loadTemplate
 from ..create_bridge_model import create_bridge_model
 from ..addFinishLoadingEvent import addFinishLoadingEvent
+from ..RestAPIConsumer import RestAPIConsumer
 from .bridge_callback import bridge_callback
 
 
 def basic_plot_app_factory() -> Application:
-    def __find_file_path(
-        auth_token: str,
-        workflowId: int,
-        origin: Literal["input", "output"]
-    ) -> None | str:
-        api_url = f"{ENV.BASE_API_URL}/su-file-path/{workflowId}/show-path/output"
-        if origin == "input":
-            api_url = api_url.replace("/output", "/input")
-        cookies = {
-            "Authorization": f"Bearer {auth_token}"
-        }
-
-        response = get(api_url, cookies=cookies)
-
-        if response.status_code != 200:
-            return None
-
-        absolute_file_path = path.join(
-            "..",
-            "server",
-            response.json()["file_path"],
-        )
-
-        return absolute_file_path
-
     def __get_request_arguments(document: Document) -> tuple[str, str, str, str]:
         session_context = document.session_context
         request = session_context.request
@@ -63,11 +36,11 @@ def basic_plot_app_factory() -> Application:
             gather_key
         ) = __get_request_arguments(document)
 
-        absolute_file_path = __find_file_path(
-            auth_token=auth_token,
-            workflowId=int(workflowId),
-            origin=origin
+        restAPIConsumer = RestAPIConsumer(
+            workflowId=workflowId,
+            auth_token=auth_token
         )
+        absolute_file_path = restAPIConsumer.find_su_file_path(origin=origin)
 
         plot_options_state = PlotOptionsState(has_gather_key=bool(gather_key))
         visualization = Visualization(

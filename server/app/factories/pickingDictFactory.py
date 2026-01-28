@@ -3,7 +3,9 @@ import numpy as np
 
 
 def createPickingDict(
-    file_path
+    file_path,
+    times_key: str = 'times',
+    velocities_key: str = 'velocities',
 ) -> dict[int, dict[str, list[float]]]:
     with open(file_path, 'r') as file:
         lines = file.read().strip().split('\n')
@@ -14,7 +16,11 @@ def createPickingDict(
         unpackedPicks: dict[int, dict] = dict()
         for pickLinesIndex, pickAsString in enumerate(picksAsString):
             key, valuesAsString = pickAsString.split("=")
-            valuesList = np.fromstring(valuesAsString, sep=',', dtype=float)
+            valuesList = np.fromstring(
+                string=valuesAsString,
+                sep=',',
+                dtype=float
+            ).tolist()
 
             # *** go to next cdp on each second line
             current_cdp = int(cdps[pickLinesIndex // 2])
@@ -27,16 +33,9 @@ def createPickingDict(
             # *** for direct compatibility Bokeh implementation
             if key == 'tnmo':
                 # *** times
-                unpackedPicks[current_cdp]['y'] = valuesList
+                unpackedPicks[current_cdp][times_key] = valuesList
             if key == 'vnmo':
                 # *** velocities
-                unpackedPicks[current_cdp]['x'] = valuesList
-
-    unpackedPicks = orjson.loads(
-        orjson.dumps(
-            unpackedPicks,
-            option=orjson.OPT_SERIALIZE_NUMPY | orjson.OPT_NON_STR_KEYS
-        )
-    )
+                unpackedPicks[current_cdp][velocities_key] = valuesList
 
     return unpackedPicks

@@ -10,7 +10,7 @@ from ..loadTemplate import loadTemplate
 from ..create_bridge_model import create_bridge_model
 from ..addFinishLoadingEvent import addFinishLoadingEvent
 from .create_bridge_callback import create_bridge_callback
-from .RestAPIConsumer import RestAPIConsumer
+from ..RestAPIConsumer import RestAPIConsumer
 
 
 def velan_app_factory() -> Application:
@@ -37,8 +37,12 @@ def velan_app_factory() -> Application:
             auth_token=auth_token
         )
 
-        picks = restAPIConsumer.load_picks()
-        absolute_file_path = restAPIConsumer.find_file_path()
+        picks = restAPIConsumer.load_picks(
+            # *** keys compatible with bokeh data source
+            times_key='y',
+            velocities_key='x',
+        )
+        absolute_file_path = restAPIConsumer.find_su_file_path()
 
         # *** server uses 0 based index
         velan_starter_props["first_cdp"] -= 1

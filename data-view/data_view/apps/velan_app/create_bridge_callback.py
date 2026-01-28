@@ -1,7 +1,7 @@
 from ...basicPlot import Visualization as BasicVisualization
 from ...velan import Visualization as VelanVisualization
 
-from .RestAPIConsumer import RestAPIConsumer
+from ..RestAPIConsumer import RestAPIConsumer
 
 
 def create_bridge_callback(restAPIConsumer: RestAPIConsumer):

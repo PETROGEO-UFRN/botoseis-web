@@ -101,10 +101,10 @@ class Visualization(BaseVisualization):
                 "width_time_samples": self.plot_options_state.width_time_samples,
             }
 
-            if str(current_gather_index) in self.picking_data:
-                self.sources[picking_key].data = self.picking_data[
-                    str(current_gather_index)
-                ]
+            self.__update_picks_page(
+                picking_key=picking_key,
+                current_gather_index=current_gather_index,
+            )
 
             self.sources[cdp_key] = ColumnDataSource(data={"image": [data]})
             self.plots[cdp_key] = visualization_factories.plotFactory(
@@ -149,6 +149,14 @@ class Visualization(BaseVisualization):
             sizing_mode="stretch_both",
             tags=[]
         )
+
+    def __update_picks_page(self, picking_key, current_gather_index):
+        if str(current_gather_index) in self.picking_data:
+            self.sources[picking_key].data = self.picking_data[
+                str(current_gather_index)
+            ]
+            return
+        self.sources[picking_key].data = EMPTY_PICKING_DATA
 
     def update_time_curve_source(
         self,
@@ -266,8 +274,9 @@ class Visualization(BaseVisualization):
             self.renderers[cdp_key].glyph.update(
                 dh=self.plot_options_state.width_time_samples,
             )
-            if current_gather_index in self.picking_data:
-                self.sources[picking_key].data = self.picking_data[current_gather_index]
-            else:
-                self.sources[picking_key].data = EMPTY_PICKING_DATA
+            self.__update_picks_page(
+                picking_key=picking_key,
+                current_gather_index=current_gather_index
+            )
+
         self.last_selected_gather = self.plot_options_state.gather_index_start

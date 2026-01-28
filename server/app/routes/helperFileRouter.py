@@ -60,13 +60,19 @@ def createHelperFile(_, lineId):
 @helperFileRouter.route("/path/<workflowId>/table", methods=['GET'])
 @decorator_factory(requireAuthentication, routeModel=WorkflowModel)
 def getTableHelperFile(_, workflowId):
+    times_key = request.args.get('times_key', 'times')
+    velocities_key = request.args.get('velocities_key', 'velocities')
 
     workflow = WorkflowModel.query.filter_by(id=workflowId).first()
     table_file = HelperFileLinkModel.query.filter_by(
         id=workflow.picks_table_file_id
     ).first()
 
-    picks = createPickingDict(table_file.path)
+    picks = createPickingDict(
+        file_path=table_file.path,
+        times_key=times_key,
+        velocities_key=velocities_key,
+    )
 
     return {'picks': picks}
 

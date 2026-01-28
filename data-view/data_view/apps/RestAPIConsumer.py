@@ -3,7 +3,7 @@ from os import path
 from requests import get, post
 from typing import Literal
 
-from ...constants import ENV
+from ..constants import ENV
 
 
 class RestAPIConsumer():
@@ -22,8 +22,13 @@ class RestAPIConsumer():
             "Authorization": f"Bearer {auth_token}"
         }
 
-    def find_file_path(self) -> None | str:
+    def find_su_file_path(
+        self,
+        origin: Literal["input", "output"] = 'output'
+    ) -> None | str:
         request_url = f"{ENV.BASE_API_URL}/su-file-path/{self.workflowId}/show-path/output"
+        if origin == "input":
+            request_url = request_url.replace("/output", "/input")
 
         response = get(
             url=request_url,
@@ -41,9 +46,16 @@ class RestAPIConsumer():
 
         return absolute_file_path
 
-    def load_picks(self) -> dict[int, dict[str, list[float]]]:
+    def load_picks(
+        self,
+        times_key: str = 'times',
+        velocities_key: str = 'velocities',
+    ) -> dict[int, dict[str, list[float]]]:
         request_url = f"{ENV.BASE_API_URL}/helper-file/path/{self.workflowId}/table"
 
+        if times_key and velocities_key:
+            query_params = f"times_key={times_key}&velocities_key={velocities_key}"
+            request_url = f"{request_url}?{query_params}"
         try:
             response = get(
                 url=request_url,
