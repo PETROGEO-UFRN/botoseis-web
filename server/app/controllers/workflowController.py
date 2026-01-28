@@ -4,6 +4,7 @@ from types import SimpleNamespace
 
 from ..database.connection import database
 from ..models.WorkflowModel import WorkflowModel
+from ..models.HelperFileLinkModel import HelperFileLinkModel
 
 from ..errors.AppError import AppError
 from ..factories.postProcessingOptionsFactory import createPostProcessingOptions
@@ -44,10 +45,24 @@ def updateName(workflowId, name):
     return workflow.getResumedAttributes()
 
 
-def updateFilePath(workflowId, fileLinkId):
+def updateInputFilePath(workflowId, fileLinkId):
     # ! breaks MVC !
     workflow = workflowRepository.updateInputFilePath(workflowId, fileLinkId)
     return workflow.getAttributes()
+
+
+def updateWorkflowPicksTable(workflowId, helperFileLinkId):
+    workflow = WorkflowModel.query.filter_by(id=workflowId).first()
+    if not workflow:
+        raise AppError("Workflow does not exist", 404)
+
+    helperFileLink = HelperFileLinkModel.query.filter_by(
+        id=helperFileLinkId
+    ).first()
+    if not helperFileLink:
+        raise AppError("Workflow does not exist", 404)
+
+    workflow.picks_table_file_id = helperFileLink.id
 
 
 def updateOutput(workflowId, newOutputValue):
@@ -92,7 +107,8 @@ workflowController = SimpleNamespace(
     showById=showById,
     create=create,
     updateName=updateName,
-    updateFilePath=updateFilePath,
+    updateWorkflowPicksTable=updateWorkflowPicksTable,
+    updateInputFilePath=updateInputFilePath,
     updateOutput=updateOutput,
     updatePostProcessingOptions=updatePostProcessingOptions,
     delete=delete,

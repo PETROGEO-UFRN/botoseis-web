@@ -51,12 +51,12 @@ def createDatasetFilePath(originWorkflowId) -> str:
 
 def createHelperFilePath(lineId, data_type, input_file_name):
     line = LineModel.query.filter_by(id=lineId).first()
-    project = ProjectModel.query.filter_by(id=line.id).first()
+    project = ProjectModel.query.filter_by(id=line.projectId).first()
     user = UserModel.query.filter_by(id=str(project.userId)).first()
 
     filePath = path.join(
         _createFolderPath(user.email, project.id),
-        lineId,
+        str(lineId),
         # *** plural of data_type
         f"{data_type}s",
         input_file_name

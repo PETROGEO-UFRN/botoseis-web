@@ -54,7 +54,7 @@ def updateWorkflow(_, workflowId):
 def updateWorkflow(_, workflowId):
     # ! breaks MVC !
     data = request.get_json()
-    updatedWorkflow = workflowController.updateFilePath(
+    updatedWorkflow = workflowController.updateInputFilePath(
         workflowId,
         data["fileLinkId"]
     )

@@ -19,6 +19,11 @@ class WorkflowModel(database.Model):  # type: ignore
     # *** stringfied JSON
     post_processing_options = dbTypes.Column(dbTypes.Text)
 
+    picks_table_file_id = dbTypes.Column(dbTypes.ForeignKey(
+        'helper_file_link_table.id',
+        name='FK_helper_file_link_table_workflows_table'
+    ))
+
     input_file_link_id = dbTypes.Column(dbTypes.ForeignKey(
         "su_file_link_table.id",
         name="FK_su_file_links_table_workflows_table"

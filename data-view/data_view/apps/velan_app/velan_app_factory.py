@@ -1,6 +1,4 @@
 import json
-from os import path
-from requests import get
 from bokeh.application import Application
 from bokeh.application.handlers import FunctionHandler
 from bokeh.document.document import Document
@@ -11,33 +9,11 @@ from ...velan import Visualization, VelanPlotOptionsState
 from ..loadTemplate import loadTemplate
 from ..create_bridge_model import create_bridge_model
 from ..addFinishLoadingEvent import addFinishLoadingEvent
-from .bridge_callback import bridge_callback
+from .create_bridge_callback import create_bridge_callback
+from .RestAPIConsumer import RestAPIConsumer
 
 
 def velan_app_factory() -> Application:
-    def __find_file_path(
-        auth_token: str,
-        workflowId: int,
-    ) -> None | str:
-        api_url = f"{ENV.BASE_API_URL}/su-file-path/{workflowId}/show-path/output"
-
-        cookies = {
-            "Authorization": f"Bearer {auth_token}"
-        }
-
-        response = get(api_url, cookies=cookies)
-
-        if response.status_code != 200:
-            return None
-
-        absolute_file_path = path.join(
-            "..",
-            "server",
-            response.json()["file_path"],
-        )
-
-        return absolute_file_path
-
     def __get_request_arguments(document: Document) -> tuple[str, str]:
         session_context = document.session_context
         request = session_context.request
@@ -56,10 +32,12 @@ def velan_app_factory() -> Application:
             document
         )
 
-        absolute_file_path = __find_file_path(
-            auth_token=auth_token,
-            workflowId=int(workflowId),
+        restAPIConsumer = RestAPIConsumer(
+            workflowId=workflowId,
+            auth_token=auth_token
         )
+
+        absolute_file_path = restAPIConsumer.find_file_path()
 
         # *** server uses 0 based index
         velan_starter_props["first_cdp"] -= 1
@@ -76,7 +54,9 @@ def velan_app_factory() -> Application:
 
         state_changer_bridge_model = create_bridge_model(
             visualization=visualization,
-            callback=bridge_callback
+            callback=create_bridge_callback(
+                restAPIConsumer=restAPIConsumer
+            )
         )
 
         template_variables = {

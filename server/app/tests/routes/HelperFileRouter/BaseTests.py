@@ -25,6 +25,7 @@ class BaseTests:
             self.mock.loadSession()
             self.mock.loadProject()
             self.mock.loadLine()
+            self.mock.loadWorkflowForLine()
         yield
         with _app.app_context():
             database.drop_all()

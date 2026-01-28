@@ -70,12 +70,25 @@ class Mock():
         self.line = line_data
         return line_data
 
+    # def loadWorkflowForProject(self):
     def loadWorkflow(self):
         response = self.client.post(
             f"/workflow/create/{self.project['id']}",
             json={
                 "name": "workflow_test",
                 "parentType": "projectId"
+            },
+        )
+        workflow_data = response.json
+        self.workflow = workflow_data
+        return workflow_data
+
+    def loadWorkflowForLine(self):
+        response = self.client.post(
+            f"/workflow/create/{self.line['id']}",
+            json={
+                "name": "workflow_test",
+                "parentType": "lineId"
             },
         )
         workflow_data = response.json
