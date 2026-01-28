@@ -59,11 +59,12 @@ class Visualization(BaseVisualization):
         self,
         filename: str,
         plot_options_state: VelanPlotOptionsState,
+        loaded_picks: dict[int, dict[str, list[float]]]
     ) -> None:
         self.plots = dict()
         self.sources = dict()
         self.renderers = dict()
-        self.picking_data = dict()
+        self.picking_data = loaded_picks
         self.sources["picking_1"] = ColumnDataSource(data=EMPTY_PICKING_DATA)
         self.sources["picking_2"] = ColumnDataSource(data=EMPTY_PICKING_DATA)
         self.sources["curve_1"] = ColumnDataSource(data=EMPTY_PICKING_DATA)
@@ -99,6 +100,12 @@ class Visualization(BaseVisualization):
                 "first_time_sample": FIRST_TIME_SAMPLE,
                 "width_time_samples": self.plot_options_state.width_time_samples,
             }
+
+            if str(current_gather_index) in self.picking_data:
+                self.sources[picking_key].data = self.picking_data[
+                    str(current_gather_index)
+                ]
+
             self.sources[cdp_key] = ColumnDataSource(data={"image": [data]})
             self.plots[cdp_key] = visualization_factories.plotFactory(
                 x_label=f"{OFFSET_BASE_TITLE}{current_gather_index + 1}",

@@ -37,6 +37,7 @@ def velan_app_factory() -> Application:
             auth_token=auth_token
         )
 
+        picks = restAPIConsumer.load_picks()
         absolute_file_path = restAPIConsumer.find_file_path()
 
         # *** server uses 0 based index
@@ -48,6 +49,7 @@ def velan_app_factory() -> Application:
         visualization = Visualization(
             filename=absolute_file_path,
             plot_options_state=plot_options_state,
+            loaded_picks=picks,
         )
         plots_row = visualization.plots_row
         addFinishLoadingEvent(plots_row)

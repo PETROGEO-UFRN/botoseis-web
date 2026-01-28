@@ -7,7 +7,9 @@ from ..serializers.HelperFileSerializer import HelperFileUploadSchema, TableFile
 from ..models.LineModel import LineModel
 from ..models.WorkflowModel import WorkflowModel
 from ..models.DataSetModel import DataSetModel
+from ..models.HelperFileLinkModel import HelperFileLinkModel
 from ..factories.pickingASCTableFactory import createPickingASCTable
+from ..factories.pickingDictFactory import createPickingDict
 from ..controllers.helperFileController import helperFileController
 from ..controllers.workflowController import workflowController
 from ..errors.AppError import AppError
@@ -53,6 +55,20 @@ def createHelperFile(_, lineId):
         data_type=data_type,
     )
     return {"fileLink": fileLink}
+
+
+@helperFileRouter.route("/path/<workflowId>/table", methods=['GET'])
+@decorator_factory(requireAuthentication, routeModel=WorkflowModel)
+def getTableHelperFile(_, workflowId):
+
+    workflow = WorkflowModel.query.filter_by(id=workflowId).first()
+    table_file = HelperFileLinkModel.query.filter_by(
+        id=workflow.picks_table_file_id
+    ).first()
+
+    picks = createPickingDict(table_file.path)
+
+    return {'picks': picks}
 
 
 @helperFileRouter.route("/generate/<workflowId>/table", methods=['POST'])

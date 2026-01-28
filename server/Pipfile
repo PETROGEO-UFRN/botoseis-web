@@ -4,7 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-bokeh = ">=3.0.3"
 alembic = ">=1.11.1"
 appdirs = ">=1.4.4"
 asttokens = ">=2.4.1"
@@ -50,6 +49,7 @@ werkzeug = ">=3.0.6"
 xyzservices = ">=2022.9.0"
 tqdm = ">=4.67.1"
 flask-jwt-extended = ">=4.7.1"
+orjson = "~=3.11.5"
 
 [dev-packages]
 pytest = ">=7.4.4"

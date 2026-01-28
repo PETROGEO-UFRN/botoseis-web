@@ -41,9 +41,22 @@ class RestAPIConsumer():
 
         return absolute_file_path
 
+    def load_picks(self) -> dict[int, dict[str, list[float]]]:
+        request_url = f"{ENV.BASE_API_URL}/helper-file/path/{self.workflowId}/table"
+
+        try:
+            response = get(
+                url=request_url,
+                cookies=self.cookies
+            )
+            picks = response.json()['picks']
+            return picks
+        except:
+            return dict()
+
     def save_picks(
         self,
-        picks: dict[int, list[float]],
+        picks: dict[int, dict[str, list[float]]],
     ):
         request_url = f"{ENV.BASE_API_URL}/helper-file/generate/{self.workflowId}/table"
 
@@ -52,12 +65,9 @@ class RestAPIConsumer():
             option=orjson.OPT_SERIALIZE_NUMPY | orjson.OPT_NON_STR_KEYS
         )
 
-        response = post(
+        post(
             url=request_url,
             cookies=self.cookies,
             data=json_bytes,
             headers={"Content-Type": "application/json"}
         )
-        import pdb
-        pdb.set_trace()
-        print(response)
