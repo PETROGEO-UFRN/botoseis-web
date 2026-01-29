@@ -1,0 +1,61 @@
+{% from macros import embed %}
+<!DOCTYPE html>
+<html lang="en">
+{% block head %}
+
+<head>
+  {% block inner_head %}
+  <meta charset="utf-8">
+  <title>
+    {% block title %}{{ title | e if title else "Bokeh Plot" }}{% endblock %}
+  </title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/index.css">
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/plot_page.css">
+  {% block preamble -%}{%- endblock %}
+  {% block resources %}
+  {% block css_resources -%}
+  {{- bokeh_css if bokeh_css }}
+  {%- endblock css_resources %}
+  {% block js_resources -%}
+  {{ bokeh_js if bokeh_js }}
+  {%- endblock js_resources %}
+  {% endblock resources %}
+  {% block postamble %}{% endblock %}
+  {% endblock inner_head %}
+</head>
+{% endblock head%}
+{% block body %}
+
+<body class="{% if has_gather_key %}shot-gather-plot-page{% endif %}">
+  {% if IS_DEVELOPMENT %}
+  <script src="{{ STATIC_PATH }}js/global/devWebSocket.js"></script>
+  {% endif %}
+
+  {% block inner_body %}
+  {% block contents %}
+  {% for doc in docs %}
+  {{ embed(doc) if doc.elementid }}
+  {%- for root in doc.roots %}
+  {% block root scoped %}
+  {{ embed(root) }}
+  {% endblock %}
+  {% endfor %}
+  {% endfor %}
+  {% endblock contents %}
+  {{ plot_script | indent(4) }}
+  {% endblock inner_body %}
+
+
+  {% if has_gather_key %}
+  {{ _shotNavigation | safe }}
+  {% endif %}
+</body>
+{% endblock body%}
+
+</html>
