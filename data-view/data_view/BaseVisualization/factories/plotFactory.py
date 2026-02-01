@@ -5,6 +5,7 @@ def plotFactory(
     x_label: str = None,
     y_label: str | None = None,
     gather_key: str | None = None,
+    y_flipped: bool = True,
 ):
     plot = figure(
         active_drag=None,
@@ -15,9 +16,10 @@ def plotFactory(
         tags=[]
     )
 
+    plot.toolbar.logo = None
     plot.x_range.range_padding = 0.0
     plot.y_range.range_padding = 0.0
-    plot.y_range.flipped = True
+    plot.y_range.flipped = y_flipped
 
     # Adjust axes labels
     if gather_key:

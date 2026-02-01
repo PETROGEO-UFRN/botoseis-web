@@ -1,3 +1,6 @@
 from .basic_plot_app.basic_plot_app_factory import basic_plot_app_factory
 from .velan_app.velan_app_factory import velan_app_factory
 from .velocity_model_app.velocity_model_app_factory import velocity_model_app_factory
+from .bandwidth_app.bandwidth_app_factory import bandwidth_app_factory
+
+from .AppsObserver import AppsObserver

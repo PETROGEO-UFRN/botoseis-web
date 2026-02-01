@@ -29,10 +29,10 @@ def loadTemplate(
     """
 
     template_folder = index_template_path.parent
-    root_templates_folder = index_template_path.parent.parent
+    shared_templates_folder = index_template_path.parent.parent / "shared"
     templates_paths = [
         *template_folder.iterdir(),
-        *root_templates_folder.iterdir(),
+        *shared_templates_folder.iterdir(),
     ]
 
     with open(index_template_path, "r", encoding="utf-8") as index_template_file:

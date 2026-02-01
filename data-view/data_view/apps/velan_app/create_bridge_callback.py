@@ -36,6 +36,10 @@ def create_bridge_callback(restAPIConsumer: RestAPIConsumer):
             )
             flat_new_state_options.pop("semblance_plot_hover")
 
+        if "open_bandwidth" in flat_new_state_options:
+            visualization.dispatchBandwidthData()
+            flat_new_state_options.pop("open_bandwidth")
+
         visualization.plots_row.tags = list(
             flat_new_state_options.keys()
         )

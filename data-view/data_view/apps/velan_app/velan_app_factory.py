@@ -11,9 +11,10 @@ from ..create_bridge_model import create_bridge_model
 from ..addFinishLoadingEvent import addFinishLoadingEvent
 from .create_bridge_callback import create_bridge_callback
 from ..RestAPIConsumer import RestAPIConsumer
+from ..AppsObserver import AppsObserver
 
 
-def velan_app_factory() -> Application:
+def velan_app_factory(appsObserver: AppsObserver) -> Application:
     def __get_request_arguments(document: Document) -> tuple[str, str]:
         session_context = document.session_context
         request = session_context.request
@@ -25,6 +26,10 @@ def velan_app_factory() -> Application:
         )
         workflowId = arguments.get('workflowId', [b''])[0].decode('utf-8')
 
+        # *** convert client 1 based index to server 0 based index
+        velan_starter_props["first_cdp"] -= 1
+        velan_starter_props["last_cdp"] -= 1
+
         return auth_token, workflowId, velan_starter_props
 
     def modify_document(document: Document) -> None:
@@ -32,11 +37,11 @@ def velan_app_factory() -> Application:
             document
         )
 
+        # *** Load external data
         restAPIConsumer = RestAPIConsumer(
             workflowId=workflowId,
             auth_token=auth_token
         )
-
         picks = restAPIConsumer.load_picks(
             # *** keys compatible with bokeh data source
             times_key='y',
@@ -44,9 +49,7 @@ def velan_app_factory() -> Application:
         )
         absolute_file_path = restAPIConsumer.find_su_file_path()
 
-        # *** server uses 0 based index
-        velan_starter_props["first_cdp"] -= 1
-        velan_starter_props["last_cdp"] -= 1
+        # *** Build plot
         plot_options_state = VelanPlotOptionsState(
             **velan_starter_props
         )
@@ -54,10 +57,15 @@ def velan_app_factory() -> Application:
             filename=absolute_file_path,
             plot_options_state=plot_options_state,
             loaded_picks=picks,
+            onUpdateDispatcher=lambda data: appsObserver.publish(
+                workflowId,
+                data
+            ),
         )
         plots_row = visualization.plots_row
-        addFinishLoadingEvent(plots_row)
 
+        # *** Set client events
+        addFinishLoadingEvent(plots_row)
         state_changer_bridge_model = create_bridge_model(
             visualization=visualization,
             callback=create_bridge_callback(
@@ -65,6 +73,7 @@ def velan_app_factory() -> Application:
             )
         )
 
+        # *** Render HTML
         template_variables = {
             "workflowId": workflowId,
 
@@ -73,10 +82,11 @@ def velan_app_factory() -> Application:
             "has_gather_key": True,
             "is_velan": True,
             "total_gathers_amount": plot_options_state.num_gathers,
-            # *** server uses 0 based index
+            "number_of_gathers_per_time": plot_options_state.number_of_gathers_per_time,
+
+            # *** convert back server 0 based index to client 1 based index
             "first_cdp": plot_options_state.first_cdp + 1,
-            "last_cdp": plot_options_state.last_cdp + 1,
-            "number_of_gathers_per_time": plot_options_state.number_of_gathers_per_time
+            "last_cdp": plot_options_state.last_cdp + 1
         }
         html_template = loadTemplate(
             FOLDERS.VELAN_TEMPLATE_PATH,

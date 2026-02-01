@@ -1,7 +1,7 @@
 import math
 import numpy as np
 import numpy.typing as np_types
-from typing import Literal
+from typing import Literal, Callable
 
 from bokeh.layouts import row
 from bokeh.plotting import figure
@@ -55,16 +55,22 @@ class Visualization(BaseVisualization):
     # *** while changing selected gathers
     last_selected_gather: int
 
+    onUpdateDispatcher: Callable[[dict], None]
+
     def __init__(
         self,
         filename: str,
         plot_options_state: VelanPlotOptionsState,
-        loaded_picks: dict[int, dict[str, list[float]]]
+        loaded_picks: dict[int, dict[str, list[float]]],
+        onUpdateDispatcher: Callable[[dict], None],
     ) -> None:
+        self.onUpdateDispatcher = onUpdateDispatcher
+
         self.plots = dict()
         self.sources = dict()
         self.renderers = dict()
         self.picking_data = loaded_picks
+
         self.sources["picking_1"] = ColumnDataSource(data=EMPTY_PICKING_DATA)
         self.sources["picking_2"] = ColumnDataSource(data=EMPTY_PICKING_DATA)
         self.sources["curve_1"] = ColumnDataSource(data=EMPTY_PICKING_DATA)
@@ -141,6 +147,8 @@ class Visualization(BaseVisualization):
                 last_velocity_value=self.plot_options_state.last_velocity_value,
             )
 
+        self.dispatchBandwidthData()
+
         self.plots_row = row(
             self.plots["cdp_1"],
             self.plots["semblance_1"],
@@ -157,6 +165,10 @@ class Visualization(BaseVisualization):
             ]
             return
         self.sources[picking_key].data = EMPTY_PICKING_DATA
+
+    def dispatchBandwidthData(self):
+        data_to_publish = self.sources['cdp_1'].data['image'][0]
+        self.onUpdateDispatcher(data_to_publish)
 
     def update_time_curve_source(
         self,
@@ -280,3 +292,5 @@ class Visualization(BaseVisualization):
             )
 
         self.last_selected_gather = self.plot_options_state.gather_index_start
+
+        self.dispatchBandwidthData()
