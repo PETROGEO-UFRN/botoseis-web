@@ -1,7 +1,12 @@
 <div class="shot-navigation">
   {% if is_velan %}
+  <button class="velan-operation-button" onclick="changeSideMenuVisibility()">
+    <img src="{{ STATIC_PATH }}icons/menu_icon.svg" alt="">
+    Options
+  </button>
+
   <button class="velan-operation-button" onclick="savePicks()">
-    Save picks
+    Save
   </button>
 
   <button id="apply-nmo" class="velan-operation-button" onclick="applyNMO()">
@@ -27,7 +32,12 @@
 
   <div class="gather-position-box">
     <div class="gathers-numbers-box">
+
       <label for="shot-gather-position-number" class=label-title>
+        {% if is_velan %}
+        {{ first_cdp }} - {{ last_cdp }} |
+        {% endif %}
+
         Gather(s)
       </label>
 
@@ -51,12 +61,6 @@
         {{total_gathers_amount}}
       </span>
     </div>
-
-    {% if is_velan %}
-    <span>
-      {{ first_cdp }} - {{ last_cdp }}
-    </span>
-    {% endif %}
 
     {% if not is_velan %}
     <input type="range" id="shot-gather-position-slider" min="1" max="{{total_gathers_amount}}" value="1" />

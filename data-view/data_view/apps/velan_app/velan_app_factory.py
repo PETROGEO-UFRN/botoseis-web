@@ -66,6 +66,8 @@ def velan_app_factory() -> Application:
         )
 
         template_variables = {
+            "workflowId": workflowId,
+
             "STATIC_PATH": URL_PATHS.STATIC_FILES,
             "IS_DEVELOPMENT": ENV.IS_DEVELOPMENT,
             "has_gather_key": True,

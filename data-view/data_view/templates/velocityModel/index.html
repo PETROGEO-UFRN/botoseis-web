@@ -32,7 +32,7 @@
 {% endblock head%}
 {% block body %}
 
-<body class="{% if has_gather_key %}shot-gather-plot-page{% endif %}">
+<body>
   {% if IS_DEVELOPMENT %}
   <script src="{{ STATIC_PATH }}js/global/devWebSocket.js"></script>
   {% endif %}
@@ -53,7 +53,7 @@
 
 
   {% if has_gather_key %}
-  {{ _shotNavigation | safe }}
+  {{ shotNavigation | safe }}
   {% endif %}
 </body>
 {% endblock body%}

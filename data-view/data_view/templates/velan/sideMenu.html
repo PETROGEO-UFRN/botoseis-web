@@ -1,0 +1,29 @@
+<aside class="side-menu larger">
+  <button class="close-button" onclick="changeSideMenuVisibility()">
+    <img src="{{ STATIC_PATH }}icons/close_icon.svg" alt="Close Plot Options Menu">
+  </button>
+
+  <div class="selectors-box">
+    <h2>
+      External Tools
+    </h2>
+
+    <button onclick="window.open('/model?workflowId={{workflowId}}')" class="open-window">
+      Offset-Frequency Heatmap
+      <img class="loading-icon" id="loading-percentile_clip-icon" src="{{ STATIC_PATH }}icons/spinning_icon_white.svg"
+        alt="">
+    </button>
+
+    <button onclick="window.open('/model?workflowId={{workflowId}}')" class="open-window">
+      Sectiion Bandwidth
+      <img class="loading-icon" id="loading-percentile_clip-icon" src="{{ STATIC_PATH }}icons/spinning_icon_white.svg"
+        alt="">
+    </button>
+
+    <button onclick="window.open('/model?workflowId={{workflowId}}')" class="open-window">
+      Velocity Model
+      <img class="loading-icon" id="loading-percentile_clip-icon" src="{{ STATIC_PATH }}icons/spinning_icon_white.svg"
+        alt="">
+    </button>
+  </div>
+</aside>

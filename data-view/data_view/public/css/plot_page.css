@@ -11,6 +11,10 @@ body.shot-gather-plot-page {
   grid-template-rows: 1fr 72px;
 }
 
+body.shot-gather-plot-page.compact-menu {
+  grid-template-rows: 1fr 48px;
+}
+
 .side-menu {
   grid-area: side-menu;
 }

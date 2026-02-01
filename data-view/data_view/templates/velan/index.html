@@ -20,6 +20,8 @@
   <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/shot_navigation.css">
   <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/apply_button.css">
   <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/crosshair.css">
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_PATH }}css/side_menu.css">
+
   {% block preamble -%}{%- endblock %}
   {% block resources %}
   {% block css_resources -%}
@@ -35,10 +37,11 @@
 {% endblock head%}
 {% block body %}
 
-<body class="{% if has_gather_key %}shot-gather-plot-page{% endif %}">
+<body class="compact-menu {% if has_gather_key %}shot-gather-plot-page{% endif %}">
   <script src="{{ STATIC_PATH }}js/global/loadPythonBridge.js"></script>
   <script src="{{ STATIC_PATH }}js/global/finishLoading.js"></script>
   <script src="{{ STATIC_PATH }}js/global/displayLoadingOnGatherSelection.js"></script>
+  <script src="{{ STATIC_PATH }}js/global/changeSideMenuVisibility.js"></script>
 
   <script>
     // global
@@ -60,6 +63,8 @@
 
   <div id="crosshair-horizontal-line"></div>
 
+  {{ sideMenu | safe }}
+
   {% block inner_body %}
   {% block contents %}
   {% for doc in docs %}
@@ -76,7 +81,7 @@
 
 
   {% if has_gather_key %}
-  {{ _shotNavigation | safe }}
+  {{ shotNavigation | safe }}
   {% endif %}
 </body>
 {% endblock body%}
