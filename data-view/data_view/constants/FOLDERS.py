@@ -18,4 +18,8 @@ BANDWIDTH_TEMPLATE_PATH = (
     __TAMPLATES_FOLDER / "bandwidth" / "index.html"
 ).resolve()
 
+FREQUENCY_HEATMAP_TEMPLATE_PATH = (
+    __TAMPLATES_FOLDER / "frequencyHeatmap" / "index.html"
+).resolve()
+
 STATIC_FILES_PATH = (Path(__file__).parent.parent / "public").resolve()
