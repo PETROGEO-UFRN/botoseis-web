@@ -30,7 +30,7 @@ def bandwidth_app_factory(appsObserver: AppsObserver) -> Application:
                 callback=callback
             ),
         )
-        plot = visualization.plot
+        plots_row = visualization.plots_row
 
         # *** Render HTML
         template_variables = {
@@ -48,7 +48,7 @@ def bandwidth_app_factory(appsObserver: AppsObserver) -> Application:
         )
 
         document.template = html_template
-        document.add_root(plot)
+        document.add_root(plots_row)
 
     # *** Create a new Bokeh Application
     bokeh_app = Application(

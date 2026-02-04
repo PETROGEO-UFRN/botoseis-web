@@ -1,4 +1,5 @@
 import numpy as np
+from bokeh.layouts import row
 from bokeh.plotting import figure
 from bokeh.models import GlyphRenderer, ColumnDataSource
 from typing import Callable
@@ -8,47 +9,68 @@ from .heatmapRendererFactory import heatmapRendererFactory
 
 
 class Visualization:
-    plots: figure
-    source: ColumnDataSource
-    renderer: GlyphRenderer
+    plots_row: row
+
+    plots: list[figure]
+    sources: list[ColumnDataSource]
+    renderers: list[GlyphRenderer]
 
     def __init__(
         self,
         subscribeListener: Callable[
-            [Callable[[dict], None]],
+            [Callable[[list[dict]], None]],
             None
         ],
     ):
-        self.source = ColumnDataSource(data=dict(x=[], y=[]))
+        self.plots = []
+        self.sources = []
+        self.renderers = []
 
-        self.plot = plotFactory(
-            y_label="Magnitude",
-            x_label="Frequency (Hz)",
-            y_flipped=False
-        )
-
-        self.renderer = heatmapRendererFactory(
-            plot=self.plot,
-            source=self.source,
+        self.plots_row = row(
+            sizing_mode="stretch_both"
         )
 
         subscribeListener(self.updateHeatmap)
 
-    def updateHeatmap(self, data):
-        gather = data
-        number_samples, number_traces = gather.shape
-        interval_time_samples = 0.004  # 4 ms
-
-        frequencies_axis = np.fft.rfftfreq(
-            number_samples,
-            interval_time_samples
+    def createNewPlotSet(self):
+        self.sources.append(ColumnDataSource(data=dict(x=[], y=[])))
+        self.plots.append(
+            plotFactory(
+                y_label="Frequency (Hz)",
+                x_label="Offset",
+                y_flipped=False
+            )
         )
+        self.renderers.append(
+            heatmapRendererFactory(
+                plot=self.plots[-1],
+                source=self.sources[-1],
+            )
+        )
+        self.plots_row.children = self.plots
 
-        complex_frequencies_by_trace = np.fft.rfft(gather, axis=0)
-        # *** +ℝ Real positive frequencies map
-        frequencies_by_trace = np.abs(complex_frequencies_by_trace)
+    def updateHeatmap(self, dataList: list[dict]):
+        for index, data in enumerate(dataList):
+            # *** Create required amount of plots sets on the first load
+            if index >= len(self.plots):
+                self.createNewPlotSet()
+                if index != 0:
+                    self.plots[index].yaxis.axis_label = None
 
-        self.source.data = {'image': [frequencies_by_trace]}
+            gather = data
+            number_samples, number_traces = gather.shape
+            interval_time_samples = 0.004  # 4 ms
 
-        self.renderer.glyph.dw = number_traces
-        self.renderer.glyph.dh = frequencies_axis[-1]
+            frequencies_axis = np.fft.rfftfreq(
+                number_samples,
+                interval_time_samples
+            )
+
+            complex_frequencies_by_trace = np.fft.rfft(gather, axis=0)
+            # *** +ℝ Real positive frequencies map
+            frequencies_by_trace = np.abs(complex_frequencies_by_trace)
+
+            self.sources[index].data = {'image': [frequencies_by_trace]}
+
+            self.renderers[index].glyph.dw = number_traces
+            self.renderers[index].glyph.dh = frequencies_axis[-1]

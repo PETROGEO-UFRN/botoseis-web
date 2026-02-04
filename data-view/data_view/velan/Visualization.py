@@ -55,7 +55,7 @@ class Visualization(BaseVisualization):
     # *** while changing selected gathers
     last_selected_gather: int
 
-    onUpdateDispatcher: Callable[[dict], None]
+    onUpdateDispatcher: Callable[[list[dict]], None]
 
     def __init__(
         self,
@@ -167,7 +167,10 @@ class Visualization(BaseVisualization):
         self.sources[picking_key].data = EMPTY_PICKING_DATA
 
     def dispatchBandwidthData(self):
-        data_to_publish = self.sources['cdp_1'].data['image'][0]
+        data_to_publish = [
+            self.sources['cdp_1'].data['image'][0],
+            self.sources['cdp_2'].data['image'][0]
+        ]
         self.onUpdateDispatcher(data_to_publish)
 
     def update_time_curve_source(
@@ -256,6 +259,7 @@ class Visualization(BaseVisualization):
                 smute=SMUTE,
             )
             self.sources[cdp_key].data = {"image": [nmo_corrected_data]}
+        self.dispatchBandwidthData()
 
     def remove_nmo(self):
         for index in [1, 2]:
@@ -263,6 +267,7 @@ class Visualization(BaseVisualization):
             current_gather_index = self.__get_current_gather_index(index)
             data = self.getShotGathersData(index_start=current_gather_index)
             self.sources[cdp_key].data = {"image": [data]}
+        self.dispatchBandwidthData()
 
     def handle_state_change(self):
         for index in [1, 2]:

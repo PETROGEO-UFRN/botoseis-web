@@ -49,7 +49,7 @@ class AppsObserver():
     def publish(
         self,
         workflowId: int | str,
-        data: dict,
+        dataList: list[dict],
     ):
         """
         Broadcast data to all other apps sharing the same workflowId.
@@ -62,4 +62,7 @@ class AppsObserver():
 
         for document, callback in self.subscribers[workflowId]:
             # *** Use add_next_tick_callback to ensure thread-safety for the target document
-            document.add_next_tick_callback(lambda: callback(data))
+            # document.add_next_tick_callback(lambda: callback(data))
+            document.add_next_tick_callback(
+                lambda callback=callback, dataList=dataList: callback(dataList)
+            )

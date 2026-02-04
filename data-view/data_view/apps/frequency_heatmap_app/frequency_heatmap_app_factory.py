@@ -30,7 +30,7 @@ def frequency_heatmap_app_factory(appsObserver: AppsObserver) -> Application:
                 callback=callback
             ),
         )
-        plots_row = visualization.plot
+        plots_row = visualization.plots_row
 
         # *** Render HTML
         template_variables = {
