@@ -5,6 +5,11 @@ name = "pypi"
 
 [packages]
 bokeh = "~=3.8.2"
+requests = "~=2.32.3"
+orjson = "~=3.11.5"
+seismicio = "==0.0.22"
+numpy = "~=1.26"
+python-dotenv = "~=1.0.1"
 
 [dev-packages]
 bokeh-sampledata = "*"

@@ -1,5 +1,6 @@
 interface IBridgeValidActions {
   ping?: boolean
+  gatherIndex?: number
 }
 
 interface IEmptyApiResponse {
