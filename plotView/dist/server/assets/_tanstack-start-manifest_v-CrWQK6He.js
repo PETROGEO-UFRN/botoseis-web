@@ -1,0 +1,4 @@
+const tsrStartManifest = () => ({ routes: { __root__: { filePath: "/home/jorb/code/botoBokehRemake/botoseis-web/plotView/src/routes/__root.tsx", children: ["/", "/plot/sample/$workflowId"], assets: void 0, preloads: ["/assets/index-Bh2KIeEb.js"] }, "/": { filePath: "/home/jorb/code/botoBokehRemake/botoseis-web/plotView/src/routes/index.tsx", children: void 0, assets: void 0, preloads: ["/assets/index-DtSlSPn9.js", "/assets/createSimplePaletteValueFilter-CRfnNHsh.js"] }, "/plot/sample/$workflowId": { filePath: "/home/jorb/code/botoBokehRemake/botoseis-web/plotView/src/routes/plot/sample.$workflowId.tsx", children: void 0, assets: void 0, preloads: ["/assets/sample._workflowId-D7JJ7ZLH.js", "/assets/createSimplePaletteValueFilter-CRfnNHsh.js"] } }, clientEntry: "/assets/index-Bh2KIeEb.js" });
+export {
+  tsrStartManifest
+};

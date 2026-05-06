@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+bokeh = "~=3.8.2"
+
+[dev-packages]
+bokeh-sampledata = "*"
+
+[requires]
+python_version = "3.12"
+
+[scripts]
+dev = "python -m plotServer"

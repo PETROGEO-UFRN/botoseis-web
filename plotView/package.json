@@ -1,0 +1,37 @@
+{
+  "name": "plot-view",
+  "private": true,
+  "sideEffects": false,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build && tsc --noEmit",
+    "preview": "vite preview",
+    "start": "pnpx srvx --prod -s ../client dist/server/server.js"
+  },
+  "dependencies": {
+    "@biomejs/biome": "2.4.2",
+    "@emotion/cache": "11.14.0",
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.0",
+    "@fontsource-variable/roboto": "5.2.5",
+    "@mui/material": "6.4.7",
+    "@tanstack/react-router": "^1.159.5",
+    "@tanstack/react-router-devtools": "^1.159.5",
+    "@tanstack/react-start": "^1.159.5",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "use-debounce": "^10.1.0",
+    "zustand": "^5.0.0"
+  },
+  "devDependencies": {
+    "@bokeh/bokehjs": "^3.8.2",
+    "@types/node": "^22.5.4",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.7.2",
+    "vite": "^7.3.1",
+    "vite-tsconfig-paths": "^5.1.4"
+  }
+}
