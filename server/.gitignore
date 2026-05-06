@@ -1,8 +1,0 @@
-venv/
-*.sqlite3
-__pycache__
-.pytest_cache
-static/*
-vars.sh
-*.vim
-!.gitkeep
