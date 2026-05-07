@@ -1,6 +1,10 @@
 interface IBridgeValidActions {
   ping?: boolean
   gatherIndex?: number
+  imageVisible?: boolean
+  wiggleVisible?: boolean
+  colormap?: ColormapType
+  gain?: IGainOptions
 }
 
 interface IEmptyApiResponse {

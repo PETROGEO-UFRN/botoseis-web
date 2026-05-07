@@ -9,6 +9,7 @@ requests = "~=2.32.3"
 orjson = "~=3.11.5"
 seismicio = "==0.0.22"
 numpy = "~=1.26"
+scipy = "~=1.13"
 python-dotenv = "~=1.0.1"
 
 [dev-packages]
