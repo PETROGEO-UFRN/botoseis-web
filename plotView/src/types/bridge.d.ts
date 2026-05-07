@@ -1,6 +1,7 @@
 interface IBridgeValidActions {
   ping?: boolean
   gatherIndex?: number
+  loadCount?: number
   imageVisible?: boolean
   wiggleVisible?: boolean
   colormap?: ColormapType

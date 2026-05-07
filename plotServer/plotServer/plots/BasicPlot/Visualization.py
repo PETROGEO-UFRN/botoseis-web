@@ -50,6 +50,18 @@ class Visualization(BaseVisualization):
         self.gain = {**self.gain, **gain}
         self.handle_state_change()
 
+    def updateGatherIndex(self, gatherIndex: int):
+        self.plot_options_state.updatePlotOptionsState(
+            gather_index_start=gatherIndex - 1,
+        )
+        self.handle_state_change()
+
+    def updateLoadCount(self, loadCount: int):
+        self.plot_options_state.updatePlotOptionsState(
+            num_loadedgathers=loadCount,
+        )
+        self.handle_state_change()
+
     def handle_state_change(self):
         data = self.getBaseData()
         data = applyGain(

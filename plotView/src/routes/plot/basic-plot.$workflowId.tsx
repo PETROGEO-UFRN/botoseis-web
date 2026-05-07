@@ -16,8 +16,36 @@ import {
 import { PLOT_TYPES_ENUM } from '@/constants/PLOT_TYPES'
 import { useBokeh } from '@/hooks/useBokehConnection'
 
+interface IBasicPlotSearch {
+  gatherKey: string | undefined
+  firstCdp: number | undefined
+  lastCdp: number | undefined
+  numberOfGathersPerTime: number | undefined
+}
+
 export const Route = createFileRoute('/plot/basic-plot/$workflowId')({
-  component: BasicPlotPage
+  component: BasicPlotPage,
+  validateSearch: (search: Record<string, unknown>): IBasicPlotSearch => {
+    const gatherKey =
+      typeof search.gatherKey === 'string' ? search.gatherKey : undefined
+    const firstCdpRaw = search.firstCdp
+    const lastCdpRaw = search.lastCdp
+    const numberOfGathersPerTimeRaw = search.numberOfGathersPerTime
+
+    const toNumberOrUndefined = (value: unknown): number | undefined => {
+      if (value === undefined || value === null || value === '')
+        return undefined
+      const n = Number(value)
+      return Number.isFinite(n) ? n : undefined
+    }
+
+    return {
+      gatherKey,
+      firstCdp: toNumberOrUndefined(firstCdpRaw),
+      lastCdp: toNumberOrUndefined(lastCdpRaw),
+      numberOfGathersPerTime: toNumberOrUndefined(numberOfGathersPerTimeRaw)
+    }
+  }
 })
 
 const RANGE: Record<
@@ -30,6 +58,8 @@ const RANGE: Record<
 
 function BasicPlotPage() {
   const { workflowId } = Route.useParams()
+  const { gatherKey, firstCdp, lastCdp, numberOfGathersPerTime } =
+    Route.useSearch()
   const { emitDebouncedTrigger } = useBokeh()
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [imageVisible, setImageVisible] = useState(true)
@@ -42,6 +72,19 @@ function BasicPlotPage() {
     AUTOMATIC_GAIN: 0.5,
     PERCENTILE_CLIPPING: 100
   })
+  const [gatherIndex, setGatherIndex] = useState<number>(firstCdp ?? 0)
+  const [loadCount, setLoadCount] = useState<number>(
+    numberOfGathersPerTime ?? 1
+  )
+
+  const setupProps = gatherKey
+    ? {
+        gather_key: gatherKey,
+        first_cdp: firstCdp ?? 1,
+        last_cdp: lastCdp ?? null,
+        number_of_gathers_per_time: numberOfGathersPerTime ?? 1
+      }
+    : undefined
 
   const handleApplyGain = () => {
     emitDebouncedTrigger({
@@ -64,11 +107,23 @@ function BasicPlotPage() {
         >
           <ChevronRight fontSize="small" /> Options
         </Button>
+        {gatherKey && (
+          <PlotFloatActions.GatherNavigation
+            gatherIndex={gatherIndex}
+            setGatherIndex={setGatherIndex}
+            setupProps={{
+              first_cdp: firstCdp ?? 0,
+              last_cdp: lastCdp ?? null,
+              number_of_gathers_per_time: numberOfGathersPerTime ?? 1
+            }}
+          />
+        )}
       </PlotFloatActions.Root>
 
       <BokehPlot
         plotType={PLOT_TYPES_ENUM.BASIC_PLOT}
         workflowId={workflowId}
+        setupProps={setupProps}
       />
 
       <PlotActionsDrawer.Root isOpen={isDrawerOpen} setIsOpen={setIsDrawerOpen}>
@@ -90,6 +145,23 @@ function BasicPlotPage() {
             }}
           />
         </PlotActionsDrawer.Group>
+
+        {gatherKey && (
+          <PlotActionsDrawer.Group title="Gathers per load">
+            <PlotActionsDrawer.NumberInput
+              type="number"
+              label="Gathers per load"
+              value={loadCount}
+              min={1}
+              step={1}
+              onChange={event => {
+                const next = Number(event.target.value)
+                setLoadCount(next)
+                emitDebouncedTrigger({ loadCount: next })
+              }}
+            />
+          </PlotActionsDrawer.Group>
+        )}
 
         <PlotActionsDrawer.Group title="Colormap">
           <SmallSelectMenu

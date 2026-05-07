@@ -11,6 +11,8 @@ def bridgeCallbackFactory(visualization: Visualization) -> Callable:
         'wiggleVisible': lambda value: visualization.updateWiggleVisibility(value[0]),
         'colormap': lambda value: visualization.updateColormap(value[0]),
         'gain': lambda value: visualization.updateGain(value[0]) if isinstance(value[0], dict) else None,
+        'gatherIndex': lambda value: visualization.updateGatherIndex(value[0]),
+        'loadCount': lambda value: visualization.updateLoadCount(value[0]),
     }
 
     def onBridgeTrigger(feedbackBridgeModel: ColumnDataSource, attr, old, new):
