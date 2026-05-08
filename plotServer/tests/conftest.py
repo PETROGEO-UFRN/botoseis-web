@@ -9,7 +9,6 @@ from bokeh.server.server import Server
 
 from plotServer.apps import (
     BasicPlotAppFactory,
-    SamplePlotAppFactory,
     VelanAppFactory,
     VelocityModelAppFactory,
 )
@@ -34,7 +33,6 @@ def bokeh_server():
             asyncio.set_event_loop(asyncio.new_event_loop())
             server = Server(
                 applications={
-                    ROUTE_PATHS.SAMPLE_PLOT: SamplePlotAppFactory(),
                     ROUTE_PATHS.BASIC_PLOT: BasicPlotAppFactory(),
                     ROUTE_PATHS.VELOCITY_MODEL: VelocityModelAppFactory(),
                     ROUTE_PATHS.VELAN: VelanAppFactory(),
@@ -62,7 +60,7 @@ def bokeh_server():
     deadline = time.time() + 5
     while time.time() < deadline:
         try:
-            requests.get(f"{base_url}/api/bokeh-script/sample-plot", timeout=1)
+            requests.get(f"{base_url}/api/bokeh-script/basic-plot", timeout=1)
             break
         except requests.RequestException:
             time.sleep(0.1)

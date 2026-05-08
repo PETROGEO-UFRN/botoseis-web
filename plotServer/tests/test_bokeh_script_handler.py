@@ -4,7 +4,7 @@ import json
 import pytest
 import requests
 
-REGISTERED_PLOTS = ["sample-plot", "basic-plot", "velocity-model", "velan"]
+REGISTERED_PLOTS = ["basic-plot", "velocity-model", "velan"]
 
 
 @pytest.mark.parametrize("plot", REGISTERED_PLOTS)
@@ -68,7 +68,7 @@ def test_options_preflight_returns_204(bokeh_server):
 
 def test_response_includes_cors_headers(bokeh_server):
     res = requests.get(
-        f"{bokeh_server}/api/bokeh-script/sample-plot",
+        f"{bokeh_server}/api/bokeh-script/basic-plot",
         params={"workflowId": "demo"},
         timeout=5,
     )

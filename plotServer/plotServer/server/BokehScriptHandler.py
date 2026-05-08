@@ -8,7 +8,6 @@ from ..constants.ROUTE_PATHS import ROUTE_PATHS
 REGISTERED_APP_NAMES = frozenset(
     path.lstrip("/")
     for path in (
-        ROUTE_PATHS.SAMPLE_PLOT,
         ROUTE_PATHS.BASIC_PLOT,
         ROUTE_PATHS.VELOCITY_MODEL,
         ROUTE_PATHS.VELAN,
