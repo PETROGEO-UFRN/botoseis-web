@@ -6,6 +6,10 @@ interface IBridgeValidActions {
   wiggleVisible?: boolean
   colormap?: ColormapType
   gain?: IGainOptions
+  applyNMO?: boolean
+  reusePicks?: boolean
+  savePicks?: boolean
+  isNMOHyperboleOn?: boolean
 }
 
 interface IEmptyApiResponse {

@@ -14,10 +14,12 @@ python-dotenv = "~=1.0.1"
 colorcet = "~=3.1.0"
 
 [dev-packages]
-bokeh-sampledata = "*"
+meson = "*"
+ninja = "*"
 
 [requires]
 python_version = "3.12"
 
 [scripts]
 dev = "python -m plotServer"
+f2py-velan = "bash -c 'cd plotServer/plots/Velan/data_operations && f2py -c -m operations operations.f90'"

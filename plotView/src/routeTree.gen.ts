@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlotVelocityModelWorkflowIdRouteImport } from './routes/plot/velocity-model.$workflowId'
+import { Route as PlotVelanWorkflowIdRouteImport } from './routes/plot/velan.$workflowId'
 import { Route as PlotSampleWorkflowIdRouteImport } from './routes/plot/sample.$workflowId'
 import { Route as PlotBasicPlotWorkflowIdRouteImport } from './routes/plot/basic-plot.$workflowId'
 
@@ -25,6 +26,11 @@ const PlotVelocityModelWorkflowIdRoute =
     path: '/plot/velocity-model/$workflowId',
     getParentRoute: () => rootRouteImport,
   } as any)
+const PlotVelanWorkflowIdRoute = PlotVelanWorkflowIdRouteImport.update({
+  id: '/plot/velan/$workflowId',
+  path: '/plot/velan/$workflowId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlotSampleWorkflowIdRoute = PlotSampleWorkflowIdRouteImport.update({
   id: '/plot/sample/$workflowId',
   path: '/plot/sample/$workflowId',
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/plot/basic-plot/$workflowId': typeof PlotBasicPlotWorkflowIdRoute
   '/plot/sample/$workflowId': typeof PlotSampleWorkflowIdRoute
+  '/plot/velan/$workflowId': typeof PlotVelanWorkflowIdRoute
   '/plot/velocity-model/$workflowId': typeof PlotVelocityModelWorkflowIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/plot/basic-plot/$workflowId': typeof PlotBasicPlotWorkflowIdRoute
   '/plot/sample/$workflowId': typeof PlotSampleWorkflowIdRoute
+  '/plot/velan/$workflowId': typeof PlotVelanWorkflowIdRoute
   '/plot/velocity-model/$workflowId': typeof PlotVelocityModelWorkflowIdRoute
 }
 export interface FileRoutesById {
@@ -53,6 +61,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/plot/basic-plot/$workflowId': typeof PlotBasicPlotWorkflowIdRoute
   '/plot/sample/$workflowId': typeof PlotSampleWorkflowIdRoute
+  '/plot/velan/$workflowId': typeof PlotVelanWorkflowIdRoute
   '/plot/velocity-model/$workflowId': typeof PlotVelocityModelWorkflowIdRoute
 }
 export interface FileRouteTypes {
@@ -61,18 +70,21 @@ export interface FileRouteTypes {
     | '/'
     | '/plot/basic-plot/$workflowId'
     | '/plot/sample/$workflowId'
+    | '/plot/velan/$workflowId'
     | '/plot/velocity-model/$workflowId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/plot/basic-plot/$workflowId'
     | '/plot/sample/$workflowId'
+    | '/plot/velan/$workflowId'
     | '/plot/velocity-model/$workflowId'
   id:
     | '__root__'
     | '/'
     | '/plot/basic-plot/$workflowId'
     | '/plot/sample/$workflowId'
+    | '/plot/velan/$workflowId'
     | '/plot/velocity-model/$workflowId'
   fileRoutesById: FileRoutesById
 }
@@ -80,6 +92,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PlotBasicPlotWorkflowIdRoute: typeof PlotBasicPlotWorkflowIdRoute
   PlotSampleWorkflowIdRoute: typeof PlotSampleWorkflowIdRoute
+  PlotVelanWorkflowIdRoute: typeof PlotVelanWorkflowIdRoute
   PlotVelocityModelWorkflowIdRoute: typeof PlotVelocityModelWorkflowIdRoute
 }
 
@@ -97,6 +110,13 @@ declare module '@tanstack/react-router' {
       path: '/plot/velocity-model/$workflowId'
       fullPath: '/plot/velocity-model/$workflowId'
       preLoaderRoute: typeof PlotVelocityModelWorkflowIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/plot/velan/$workflowId': {
+      id: '/plot/velan/$workflowId'
+      path: '/plot/velan/$workflowId'
+      fullPath: '/plot/velan/$workflowId'
+      preLoaderRoute: typeof PlotVelanWorkflowIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/plot/sample/$workflowId': {
@@ -120,6 +140,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PlotBasicPlotWorkflowIdRoute: PlotBasicPlotWorkflowIdRoute,
   PlotSampleWorkflowIdRoute: PlotSampleWorkflowIdRoute,
+  PlotVelanWorkflowIdRoute: PlotVelanWorkflowIdRoute,
   PlotVelocityModelWorkflowIdRoute: PlotVelocityModelWorkflowIdRoute,
 }
 export const routeTree = rootRouteImport
