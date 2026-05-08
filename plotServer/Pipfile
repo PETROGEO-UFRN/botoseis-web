@@ -11,6 +11,7 @@ seismicio = "==0.0.22"
 numpy = "~=1.26"
 scipy = "~=1.13"
 python-dotenv = "~=1.0.1"
+colorcet = "~=3.1.0"
 
 [dev-packages]
 bokeh-sampledata = "*"

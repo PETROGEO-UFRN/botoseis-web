@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PlotVelocityModelWorkflowIdRouteImport } from './routes/plot/velocity-model.$workflowId'
 import { Route as PlotSampleWorkflowIdRouteImport } from './routes/plot/sample.$workflowId'
 import { Route as PlotBasicPlotWorkflowIdRouteImport } from './routes/plot/basic-plot.$workflowId'
 
@@ -18,6 +19,12 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlotVelocityModelWorkflowIdRoute =
+  PlotVelocityModelWorkflowIdRouteImport.update({
+    id: '/plot/velocity-model/$workflowId',
+    path: '/plot/velocity-model/$workflowId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const PlotSampleWorkflowIdRoute = PlotSampleWorkflowIdRouteImport.update({
   id: '/plot/sample/$workflowId',
   path: '/plot/sample/$workflowId',
@@ -33,34 +40,47 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/plot/basic-plot/$workflowId': typeof PlotBasicPlotWorkflowIdRoute
   '/plot/sample/$workflowId': typeof PlotSampleWorkflowIdRoute
+  '/plot/velocity-model/$workflowId': typeof PlotVelocityModelWorkflowIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/plot/basic-plot/$workflowId': typeof PlotBasicPlotWorkflowIdRoute
   '/plot/sample/$workflowId': typeof PlotSampleWorkflowIdRoute
+  '/plot/velocity-model/$workflowId': typeof PlotVelocityModelWorkflowIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/plot/basic-plot/$workflowId': typeof PlotBasicPlotWorkflowIdRoute
   '/plot/sample/$workflowId': typeof PlotSampleWorkflowIdRoute
+  '/plot/velocity-model/$workflowId': typeof PlotVelocityModelWorkflowIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/plot/basic-plot/$workflowId' | '/plot/sample/$workflowId'
+  fullPaths:
+    | '/'
+    | '/plot/basic-plot/$workflowId'
+    | '/plot/sample/$workflowId'
+    | '/plot/velocity-model/$workflowId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/plot/basic-plot/$workflowId' | '/plot/sample/$workflowId'
+  to:
+    | '/'
+    | '/plot/basic-plot/$workflowId'
+    | '/plot/sample/$workflowId'
+    | '/plot/velocity-model/$workflowId'
   id:
     | '__root__'
     | '/'
     | '/plot/basic-plot/$workflowId'
     | '/plot/sample/$workflowId'
+    | '/plot/velocity-model/$workflowId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PlotBasicPlotWorkflowIdRoute: typeof PlotBasicPlotWorkflowIdRoute
   PlotSampleWorkflowIdRoute: typeof PlotSampleWorkflowIdRoute
+  PlotVelocityModelWorkflowIdRoute: typeof PlotVelocityModelWorkflowIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -70,6 +90,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/plot/velocity-model/$workflowId': {
+      id: '/plot/velocity-model/$workflowId'
+      path: '/plot/velocity-model/$workflowId'
+      fullPath: '/plot/velocity-model/$workflowId'
+      preLoaderRoute: typeof PlotVelocityModelWorkflowIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/plot/sample/$workflowId': {
@@ -93,6 +120,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PlotBasicPlotWorkflowIdRoute: PlotBasicPlotWorkflowIdRoute,
   PlotSampleWorkflowIdRoute: PlotSampleWorkflowIdRoute,
+  PlotVelocityModelWorkflowIdRoute: PlotVelocityModelWorkflowIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
