@@ -1,0 +1,368 @@
+{
+    "count_programs": 4,
+    "programGroups": [
+        {
+            "name": "noise",
+            "description": "",
+            "programs": [
+                {
+                    "name": "SUADDNOISE",
+                    "description": "add noise to traces",
+                    "path_to_executable_file": "SUADDNOISE",
+                    "parameters": [
+                        {
+                            "name": "sn",
+                            "description": "signal to noise ratio",
+                            "example": "20",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "noise",
+                            "description": "noise probability distribution",
+                            "example": "gauss",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "seed",
+                            "description": "random number seed (integer)",
+                            "example": "from_clock",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "f",
+                            "description": "array of filter frequencies (as in sufilter)",
+                            "example": "f1,f2,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "amps",
+                            "description": "array of filter amplitudes",
+                            "example": "a1,a2,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for echoing useful information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUGROLL",
+                    "description": "Ground roll supression using Karhunen-Loeve transform",
+                    "path_to_executable_file": "SUGROLL",
+                    "parameters": [
+                        {
+                            "name": "dt",
+                            "description": "(from header) \ttime sampling interval (secs)",
+                            "example": "tr.dt",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nx",
+                            "description": "(counted from data)\tnumber of horizontal samples (traces)",
+                            "example": "ntr",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sb",
+                            "description": "1 for the graund-roll",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "verbose = 1 echoes information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nrot",
+                            "description": "the principal components for the m largest eigenvalues",
+                            "example": "3",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUHARLAN",
+                    "description": "signal-noise separation by the invertible linear",
+                    "path_to_executable_file": "SUHARLAN",
+                    "parameters": [
+                        {
+                            "name": "niter",
+                            "description": "number of requested iterations",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "anenv",
+                            "description": "=1 for positive analytic envelopes",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "scl",
+                            "description": "=1 to scale output traces (not recommended)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "plot",
+                            "description": "=0 for no plots. =1 for 1-D plots only",
+                            "example": "3",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "norm",
+                            "description": "=0 not to normalize reliability values",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=0 not to print processing information",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "rgt",
+                            "description": "=1 for uniform random generator",
+                            "example": "2",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sts",
+                            "description": "=0 for no smoothing (not recommended)",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "offset sampling interval (m)",
+                            "example": "20",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fx",
+                            "description": "offset on first trace (m)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "time sampling interval (s)",
+                            "example": "0.004",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "gopt",
+                            "description": "=1 for parabolic transform. =2 for Foster/Mosher",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pmax1",
+                            "description": "maximum moveout at farthest offset for fwd transf(ms)",
+                            "example": "400",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pmin2",
+                            "description": "minimum moveout at farthest offset for inv transf(ms)",
+                            "example": "pmin1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pmax2",
+                            "description": "maximum moveout at farthest offset for inv transf(ms)",
+                            "example": "pmax1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "np",
+                            "description": "number of p-values for taup transform",
+                            "example": "100",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "prewhite",
+                            "description": "prewhitening value (suggested between 0.1 and 0,01)",
+                            "example": "0.01",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "offref",
+                            "description": "reference offset for p-values (m)",
+                            "example": "2000",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "depthref",
+                            "description": "reference depth for Foster/Mosher taup (if gopt=4)",
+                            "example": "500",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pmula",
+                            "description": "maximum p-value preserved in the data (ms)",
+                            "example": "pmax1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pmulb",
+                            "description": "minimum p-value muted on the data (ms)",
+                            "example": "pmax1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ninterp",
+                            "description": "number of traces to interpolate in input data",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nintlh",
+                            "description": "number of intervals (bins) in histograms",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sditer",
+                            "description": "number of steepest descent iterations to compute ps",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "c",
+                            "description": "maximum noise allowed in a sample of signal(%)",
+                            "example": "0.04",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "rel1",
+                            "description": "reliability value for first pass of the extraction",
+                            "example": "0.5",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "rel2",
+                            "description": "reliability value for second pass of the extraction",
+                            "example": "0.75",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "r1",
+                            "description": "number of points for damped lsq vertical smoothing",
+                            "example": "10",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "r2",
+                            "description": "number of points for damped lsq horizontal smoothing",
+                            "example": "2",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "signal",
+                            "description": "name of output file for extracted signal",
+                            "example": "out_signal",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "noise",
+                            "description": "name of output file for extracted noise",
+                            "example": "out_noise",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUJITTER",
+                    "description": "Add random time shifts to seismic traces",
+                    "path_to_executable_file": "SUJITTER",
+                    "parameters": [
+                        {
+                            "name": "seed",
+                            "description": "random number seed (integer)",
+                            "example": "from_clock",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "min",
+                            "description": "minimum random time shift (samples)",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "max",
+                            "description": "maximum random time shift (samples)",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pon",
+                            "description": "shift can be positive or negative",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fldr",
+                            "description": "each trace has new shift",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

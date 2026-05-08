@@ -1,0 +1,1499 @@
+{
+    "count_programs": 34,
+    "programGroups": [
+        {
+            "name": "headers",
+            "description": "",
+            "programs": [
+                {
+                    "name": "BHEDTOPAR",
+                    "description": "convert a Binary tape HEaDer file to PAR file format",
+                    "path_to_executable_file": "BHEDTOPAR",
+                    "parameters": [
+                        {
+                            "name": "swap",
+                            "description": "=1 to swap bytes",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SU3DCHART",
+                    "description": "plot x-midpoints vs. y-midpoints for 3-D data",
+                    "path_to_executable_file": "SU3DCHART",
+                    "parameters": [
+                        {
+                            "name": "outpar",
+                            "description": "name of parameter file",
+                            "example": "null",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "degree",
+                            "description": "=1 convert seconds of arc to degrees",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "linewidth",
+                            "description": "marksize=2 mark=8 | ...",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "linewidth",
+                            "description": "marksize=2 mark=8 | ...",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUABSHW",
+                    "description": "replace header key word by its absolute value",
+                    "path_to_executable_file": "SUABSHW",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "header key word",
+                            "example": "offset",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUADDHEAD",
+                    "description": "put headers on bare traces and set the tracl and ns fields",
+                    "path_to_executable_file": "SUADDHEAD",
+                    "parameters": [
+                        {
+                            "name": "ns",
+                            "description": "number of samples per trace",
+                            "example": "the",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "ftn",
+                            "description": "Fortran flag",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tsort",
+                            "description": "trace sorting code:",
+                            "example": "3",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntrpr",
+                            "description": "number of data traces per record",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUAHW",
+                    "description": "Assign Header Word using another header word",
+                    "path_to_executable_file": "SUAHW",
+                    "parameters": [
+                        {
+                            "name": "key1",
+                            "description": "output key",
+                            "example": "ep",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "key2",
+                            "description": "input key",
+                            "example": "fldr",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "mode",
+                            "description": "how to assign a key1-value, when the key2-value",
+                            "example": "extrapolate",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "key3",
+                            "description": "input key",
+                            "example": "tracf",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUAZIMUTH",
+                    "description": "compute trace AZIMUTH, offset, and midpoint coordinates",
+                    "path_to_executable_file": "SUAZIMUTH",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "header field to store computed azimuths in",
+                            "example": "otrav",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "scale",
+                            "description": "value(key) = scale * azimuth",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "az",
+                            "description": "azimuth convention flag",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sector",
+                            "description": "if set, defines output in sectors of size",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sector",
+                            "description": "the default mode is",
+                            "example": "degrees_per_sector,",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "offset",
+                            "description": "if offset=1 then set offset header field",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "signedflag",
+                            "description": "is offset signed? if =1 signedflag=1",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "offkey",
+                            "description": "header field to store computed offsets in",
+                            "example": "offset",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "offkey",
+                            "description": "header field to store computed offsets in",
+                            "example": "offset",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "cmp",
+                            "description": "if cmp=1, then compute midpoint coordinates and",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mxkey",
+                            "description": "header field to store computed cmpx in",
+                            "example": "ep",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mykey",
+                            "description": "header field to store computed cmpy in",
+                            "example": "cdp",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUBINBIGCSV",
+                    "description": "Make Some CDPs Larger and Delete All Traces Outside Them.",
+                    "path_to_executable_file": "SUBINBIGCSV",
+                    "parameters": [
+                        {
+                            "name": "igiout",
+                            "description": "Output igi range. If specified, all 3 integers required.",
+                            "example": "f,l,i",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "igcout",
+                            "description": "Output igc range. If specified, all 3 integers required.",
+                            "example": "f,l,i",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "igiext",
+                            "description": "Output igi extent (default 0 means extent is only igiout itself)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "igcext",
+                            "description": "Output igc extent (default 0 means extent is only igcout itself)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "intype",
+                            "description": "Default 3 if a 3D Grid is input, otherwise -2.",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "recdp",
+                            "description": "Reset the trace cdp key to its central cdp number.",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "reigi",
+                            "description": "Reset the trace igi key to its central igi number.",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "reigc",
+                            "description": "Reset the trace igc key to its central igc number.",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "check",
+                            "description": "Do not print checking details.",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUBINCSV",
+                    "description": "3D Grid Resolve and output and assign traces to cdps (cells).",
+                    "path_to_executable_file": "SUBINCSV",
+                    "parameters": [
+                        {
+                            "name": "check",
+                            "description": "Do not print checking details.",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "point_crz",
+                            "description": "and point_cru=2 means receiver point 100 will",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUBINQCSV",
+                    "description": "Input Q-records or parameters. interpolate, output Q-records.",
+                    "path_to_executable_file": "SUBINQCSV",
+                    "parameters": [
+                        {
+                            "name": "check",
+                            "description": "Do not print checking details. The options of this program",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "inloc",
+                            "description": "Location options. The option here determines which input names",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "extrapi",
+                            "description": "do not extrapolate at ends in igi direction.",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "extrapc",
+                            "description": "do not extrapolate at ends in igc direction.",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "extrapt",
+                            "description": "do not extrapolate at ends in independent values.",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "igiout",
+                            "description": "Output igi range (default is entire igi range of grid).",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "igcout",
+                            "description": "Output igc range (default is entire igc range of grid).",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "outind",
+                            "description": "Output independent dimension range. One, two, or three numbers.",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "invp2",
+                            "description": "Square and inverse values before applying bilinear weighting.",
+                            "example": "v",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "iecho",
+                            "description": "Full spatial output (do not just output at the input locations).",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUBINXXCSV",
+                    "description": "Expand Size and Exchange Corners of 3D Grid Definition.",
+                    "path_to_executable_file": "SUBINXXCSV",
+                    "parameters": [
+                        {
+                            "name": "igilow",
+                            "description": "Add cells at low igi end (default is not to add cells).",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "igihigh",
+                            "description": "Add cells at high igi end (default is not to add cells).",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "igclow",
+                            "description": "Add cells at low igc end (default is not to add cells).",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "igchigh",
+                            "description": "Add cells at high igc end (default is not to add cells).",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "iflip",
+                            "description": "Defaults to not exchanging any grid corners.",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "check",
+                            "description": "Do not print grid checking details.",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUCDPBIN",
+                    "description": "Compute CDP bin number",
+                    "path_to_executable_file": "SUCDPBIN",
+                    "parameters": [
+                        {
+                            "name": "verbose",
+                            "description": "<>0 output informations",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "cdpmin",
+                            "description": "min cdp bin number",
+                            "example": "1001",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "distmax",
+                            "description": "search radius",
+                            "example": "dcdp",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUCHART",
+                    "description": "prepare data for x vs. y plot",
+                    "path_to_executable_file": "SUCHART",
+                    "parameters": [
+                        {
+                            "name": "key1",
+                            "description": "abscissa",
+                            "example": "sx",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "key2",
+                            "description": "ordinate",
+                            "example": "gx",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "outpar",
+                            "description": "name of parameter file",
+                            "example": "null",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "linewidth",
+                            "description": "marksize=2 mark=8 | ...",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "linewidth",
+                            "description": "marksize=2 mark=8 | ...",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "linewidth",
+                            "description": "marksize=2 mark=8 > chart.ps",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUCHW",
+                    "description": "Change Header Word using one or two header word fields",
+                    "path_to_executable_file": "SUCHW",
+                    "parameters": [
+                        {
+                            "name": "key1",
+                            "description": "output key(s)",
+                            "example": "cdp,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "key2",
+                            "description": "input key(s)",
+                            "example": "cdp,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "key3",
+                            "description": "input key(s)",
+                            "example": "cdp,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "a",
+                            "description": "overall shift(s)",
+                            "example": "0,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "b",
+                            "description": "scale(s) on first input key(s)",
+                            "example": "1,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "c",
+                            "description": "scale on second input key(s)",
+                            "example": "0,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "d",
+                            "description": "overall scale(s)",
+                            "example": "1,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "e",
+                            "description": "exponent on first input key(s)",
+                            "example": "1,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "f",
+                            "description": "exponent on second input key(s)",
+                            "example": "1,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUCLIPHEAD",
+                    "description": "Clip header values",
+                    "path_to_executable_file": "SUCLIPHEAD",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "header key word(s) to clip",
+                            "example": "cdp,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "min",
+                            "description": "minimum value to clip",
+                            "example": "0,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "max",
+                            "description": "maximum value to clip",
+                            "example": "ULONG_MAX,ULONG_MAX,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUCOUNTKEY",
+                    "description": "COUNT the number of unique values for a given KEYword.",
+                    "path_to_executable_file": "SUCOUNTKEY",
+                    "parameters": [
+                        {
+                            "name": "verbose",
+                            "description": "chatty, =0 just print keyword number",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUDUMPTRACE",
+                    "description": "print selected header values and data.",
+                    "path_to_executable_file": "SUDUMPTRACE",
+                    "parameters": [
+                        {
+                            "name": "num",
+                            "description": "number of traces to dump",
+                            "example": "4",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "key",
+                            "description": "key(s) to print above trace values",
+                            "example": "key1,key2,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "hpf",
+                            "description": "header print format is float",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUEDIT",
+                    "description": "examine segy diskfiles and edit headers",
+                    "path_to_executable_file": "SUEDIT",
+                    "parameters": []
+                },
+                {
+                    "name": "SUGEOM",
+                    "description": "Fill up geometry in trace headers.",
+                    "path_to_executable_file": "SUGEOM",
+                    "parameters": [
+                        {
+                            "name": "rev",
+                            "description": "for SPS revision 0 format.",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "(Default)   silent run.",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ibin",
+                            "description": "(default)   inline binsize (cdp interval)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUGEOMCSV",
+                    "description": "3D/2D land/OBotm geometry from Comma Separated or fixed text.",
+                    "path_to_executable_file": "SUGEOMCSV",
+                    "parameters": [
+                        {
+                            "name": "setid",
+                            "description": "says only read values from text records that start with S.",
+                            "example": "S",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "match",
+                            "description": "says get the value of es from input trace header.",
+                            "example": "es",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "names",
+                            "description": "assigns names to the 3 values in the_text_file",
+                            "example": "C_su_id,es,selev",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "missing",
+                            "description": "or pass (or pre-delete the traces).                 ,",
+                            "example": "delete",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "match",
+                            "description": ",",
+                            "example": "fldr,tracf",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "match",
+                            "description": "This is just a standard way to specify the match= list  ,",
+                            "example": "SPS2",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "match",
+                            "description": "This is just a standard way to specify the match= list  ,",
+                            "example": "SPS1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "names",
+                            "description": ",",
+                            "example": "C_su_id,cdp,null3,cx,cy,,ce",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "names",
+                            "description": "This is just a standard way to specify the names= list  ,",
+                            "example": "SPS2",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "names",
+                            "description": "This is just a standard way to specify the names= list  ,",
+                            "example": "SPS1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "names",
+                            "description": "Same as SPS2. The SUTOOLCSV program has this option ,",
+                            "example": "SPS2ALL",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "names",
+                            "description": "Same as SPS1.                                       ,",
+                            "example": "SPS1ALL",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "setid",
+                            "description": "means accept text records if their first field is S   ,",
+                            "example": "S",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "setid",
+                            "description": "means read all records (except those starting C_SU)   ,",
+                            "example": "ANY",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "setid",
+                            "description": "means read all records (except those starting C_SU)   ,",
+                            "example": "NONE",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "setid",
+                            "description": ",",
+                            "example": "S",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "unrepeat",
+                            "description": "Read the text file and generate an integer from 1 and    ,",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "unrepeat",
+                            "description": "(any integer). The input text record incrementing integer,",
+                            "example": "n",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "missing",
+                            "description": "means delete all traces for which this occurs.      ,",
+                            "example": "delete",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "missing",
+                            "description": "means pass those traces to output without update.   ,",
+                            "example": "pass",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "action",
+                            "description": "Add the text values to the trace header values.     ,",
+                            "example": "add",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "action",
+                            "description": "Subtract text values from the trace header values.  ,",
+                            "example": "subtract",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "create",
+                            "description": "create traces for all data records in the rfile text file  ,",
+                            "example": "all",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "create",
+                            "description": "create n or all (whichever is fewer)                       ,",
+                            "example": "n",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "spikes",
+                            "description": "Where n is the sequential number of an input trace. The    ,",
+                            "example": "n",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUGETHW",
+                    "description": "sugethw writes the values of the selected key words",
+                    "path_to_executable_file": "SUGETHW",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "At least one key word.",
+                            "example": "key1,...",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "output",
+                            "description": "output written as ascii for display",
+                            "example": "ascii",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "quiet",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUHTMATH",
+                    "description": "do unary arithmetic operation on segy traces with",
+                    "path_to_executable_file": "SUHTMATH",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "header word to use",
+                            "example": "tracl",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "op",
+                            "description": "operation flag",
+                            "example": "nop",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "scale",
+                            "description": "scalar multiplier for header value",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "const",
+                            "description": "additive constant for header value",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUKEYCOUNT",
+                    "description": "sukeycount writes a count of a selected key",
+                    "path_to_executable_file": "SUKEYCOUNT",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "One key word.",
+                            "example": "keyword",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "quiet",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SULCTHW",
+                    "description": "Linear Coordinate Transformation of Header Words",
+                    "path_to_executable_file": "SULCTHW",
+                    "parameters": [
+                        {
+                            "name": "xt",
+                            "description": "Translation of X",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "yt",
+                            "description": "Translation of Y",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "zt",
+                            "description": "Translation of Z",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "xr",
+                            "description": "Rotation around X in degrees",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "yr",
+                            "description": "Rotation aroun Y  in degrees",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "zr",
+                            "description": "Rotation around Z in degrees",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SULHEAD",
+                    "description": "Load information from an ascii column file into HEADERS based",
+                    "path_to_executable_file": "SULHEAD",
+                    "parameters": [
+                        {
+                            "name": "cf",
+                            "description": "of column file",
+                            "example": "Name",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "key",
+                            "description": "of column entires",
+                            "example": "key1,key2,...Number",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "mc",
+                            "description": "Column number to use to match rows to traces",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "key",
+                            "description": "mc=1\tcf=file",
+                            "example": "cdp,ep,sx",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUPASTE",
+                    "description": "paste existing SU headers on existing binary data",
+                    "path_to_executable_file": "SUPASTE",
+                    "parameters": [
+                        {
+                            "name": "ns",
+                            "description": "number of samples per trace",
+                            "example": "the",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "head",
+                            "description": "file with segy headers",
+                            "example": "headers",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ftn",
+                            "description": "Fortran flag",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "1= echo number of traces pasted",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "surandhw",
+                    "description": "set header word to random variable",
+                    "path_to_executable_file": "surandhw",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "header key word to set",
+                            "example": "tstat",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "a",
+                            "description": "=1 flag to add original value to final key",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "noise",
+                            "description": "noise probability distribution",
+                            "example": "gauss",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "seed",
+                            "description": "random number seed (integer)",
+                            "example": "from_clock",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "min",
+                            "description": "minimum random number",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "max",
+                            "description": "maximum radnom number",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SURANGE",
+                    "description": "get max and min values for non-zero header entries",
+                    "path_to_executable_file": "SURANGE",
+                    "parameters": [
+                        {
+                            "name": "dim",
+                            "description": "dim seismic flag",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSEHW",
+                    "description": "Set the value the Header Word denoting trace number within",
+                    "path_to_executable_file": "SUSEHW",
+                    "parameters": [
+                        {
+                            "name": "key1",
+                            "description": "Key header word defining the ensemble",
+                            "example": "cdp",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "key2",
+                            "description": "Key header word defining the count within the ensemble",
+                            "example": "cdpt",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "a",
+                            "description": "starting value of the count in the ensemble",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "b",
+                            "description": "increment or decrement within the ensemble",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSHW",
+                    "description": "Set one or more Header Words using trace number, mod and",
+                    "path_to_executable_file": "SUSHW",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "... is the list of header fields as they appear in infile",
+                            "example": "key1,key2",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "key",
+                            "description": "header key word(s) to set",
+                            "example": "cdp,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "a",
+                            "description": "value(s) on first trace",
+                            "example": "0,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "b",
+                            "description": "increment(s) within group",
+                            "example": "0,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "c",
+                            "description": "group increment(s)",
+                            "example": "0,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "d",
+                            "description": "trace number shift(s)",
+                            "example": "0,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "j",
+                            "description": "number of elements in group",
+                            "example": "ULONG_MAX,ULONG_MAX,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSTRIP",
+                    "description": "remove the SEGY headers from the traces",
+                    "path_to_executable_file": "SUSTRIP",
+                    "parameters": [
+                        {
+                            "name": "ftn",
+                            "description": "Fortran flag",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUTOOLCSV",
+                    "description": "Tools for Comma Separated Values and fixed text files.",
+                    "path_to_executable_file": "SUTOOLCSV",
+                    "parameters": [
+                        {
+                            "name": "match",
+                            "description": "names=sps2 forms=sps2",
+                            "example": "sps2",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "match",
+                            "description": "names=sps2 forms=sps2",
+                            "example": "sps2",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "match",
+                            "description": "names=sps2 forms=sps2",
+                            "example": "sps2",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "names",
+                            "description": "forms=c_su_id,%.0f",
+                            "example": "C_su_id,2_es_10,11_selev_15",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "match",
+                            "description": ",",
+                            "example": "fldr,tracf",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "match",
+                            "description": "This is just a standard way to specify the match= list  ,",
+                            "example": "SPS2",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "match",
+                            "description": "This is just a standard way to specify the match= list  ,",
+                            "example": "SPS1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "setid",
+                            "description": "means accept data records if their first field is S   ,",
+                            "example": "S",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "setid",
+                            "description": "means read all records (except those starting C_SU)   ,",
+                            "example": "ANY",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "setid",
+                            "description": "means read all records (except those starting C_SU)   ,",
+                            "example": "NONE",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "setid",
+                            "description": ",",
+                            "example": "S",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "names",
+                            "description": ",",
+                            "example": "C_su_id,cdp,null3,cx,cy,,ce",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "names",
+                            "description": "This is just a standard way to specify the names= list  ,",
+                            "example": "SPS2",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "names",
+                            "description": "This is just a standard way to specify the names= list  ,",
+                            "example": "SPS1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "names",
+                            "description": "This is a standard way to specify names= to output  ,",
+                            "example": "SPS2ALL",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "names",
+                            "description": "This is a standard way to specify names= to output  ,",
+                            "example": "SPS1ALL",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "forms",
+                            "description": "This is just a standard way to specify the forms= list  ,",
+                            "example": "SPS2",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "forms",
+                            "description": "The formats for SPS1 option are the same as SPS2 option.,",
+                            "example": "SPS1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "rtype",
+                            "description": "is required. These options were chosen for    ,",
+                            "example": "fixed",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "wtype",
+                            "description": "(-1 also allowed for wtype= not fixed).      ,",
+                            "example": "fixed",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "unrepeat",
+                            "description": "Read the text file and generate an integer from 1 and    ,",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "match",
+                            "description": "names=sps1 forms=sps1",
+                            "example": "sps1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "names",
+                            "description": "forms=sps2 forms=sps2",
+                            "example": "sps2",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUTRCOUNT",
+                    "description": "SU program to count the TRaces in infile",
+                    "path_to_executable_file": "SUTRCOUNT",
+                    "parameters": []
+                },
+                {
+                    "name": "SUUTM",
+                    "description": "UTM projection of longitude and latitude in SU trace headers",
+                    "path_to_executable_file": "SUUTM",
+                    "parameters": [
+                        {
+                            "name": "counit",
+                            "description": "header) input coordinate units code:",
+                            "example": "(from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "idx",
+                            "description": "reference ellipsoid index (default is WGS 1984)",
+                            "example": "23",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "a",
+                            "description": "idx)    user-specified semimajor axis of ellipsoid",
+                            "example": "(from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "f",
+                            "description": "idx)    user-specified flattening of ellipsoid",
+                            "example": "(from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1: echo ellipsoid parameters",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "xoff",
+                            "description": "false Easting (default: UTM)",
+                            "example": "500000",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ysoff",
+                            "description": "false Northing, southern hemisphere (default: UTM)",
+                            "example": "10000000",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ynoff",
+                            "description": "false Northing, northern hemisphere (default: UTM)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUXEDIT",
+                    "description": "examine segy diskfiles and edit headers",
+                    "path_to_executable_file": "SUXEDIT",
+                    "parameters": []
+                }
+            ]
+        }
+    ]
+}

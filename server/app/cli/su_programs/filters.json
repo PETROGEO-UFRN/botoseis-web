@@ -1,0 +1,746 @@
+{
+    "count_programs": 17,
+    "programGroups": [
+        {
+            "name": "filters",
+            "description": "",
+            "programs": [
+                {
+                    "name": "SUBFILT",
+                    "description": "apply Butterworth bandpass filter",
+                    "path_to_executable_file": "SUBFILT",
+                    "parameters": [
+                        {
+                            "name": "zerophase",
+                            "description": "=0 for minimum phase filter",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "locut",
+                            "description": "=0 for no low cut filter",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "hicut",
+                            "description": "=0 for no high cut filter",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "astoplo",
+                            "description": "upper bound on amp at fstoplo",
+                            "example": "0.05",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "apasslo",
+                            "description": "lower bound on amp at fpasslo",
+                            "example": "0.95",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "apasshi",
+                            "description": "lower bound on amp at fpasshi",
+                            "example": "0.95",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "astophi",
+                            "description": "upper bound on amp at fstophi",
+                            "example": "0.05",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for filter design info",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "npoleselo",
+                            "description": "number of poles of the lo pass band",
+                            "example": "calculated",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "npolesehi",
+                            "description": "number of poles of the lo pass band",
+                            "example": "calculated",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "f3dblo",
+                            "description": "frequency of 3db cutoff frequency",
+                            "example": "calculated",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "f3dbhi",
+                            "description": "frequency of 3db cutoff frequency",
+                            "example": "calculated",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUCCFILT",
+                    "description": "FX domain Correlation Coefficient FILTER",
+                    "path_to_executable_file": "SUCCFILT",
+                    "parameters": [
+                        {
+                            "name": "cch",
+                            "description": "Correlation coefficient high pass value",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ccl",
+                            "description": "Correlation coefficient low pass value",
+                            "example": "0.3",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "key",
+                            "description": "ensemble identifier",
+                            "example": "ep",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "padd",
+                            "description": "FFT padding in percentage",
+                            "example": "25",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUDEGHOST",
+                    "description": "applies a DEGHOSTING filter in (t,x) or (tau,p) data",
+                    "path_to_executable_file": "SUDEGHOST",
+                    "parameters": [
+                        {
+                            "name": "h",
+                            "description": "or receiver depth",
+                            "example": "source",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "v",
+                            "description": "speed of sound in the top layer",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "r",
+                            "description": "surface reflectivity 0 < r < .8",
+                            "example": "0.5",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "lambert",
+                            "description": "Lambert's cosine law obliquity factor",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for advisory messages, =2 debugging",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "deghost",
+                            "description": "deghosting filter; =0 ghosting filter",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "f2",
+                            "description": "and d2=0, then the program assumes that the ghost signal is normally",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUDIPFILT",
+                    "description": "DIP--or better--SLOPE Filter in f-k domain",
+                    "path_to_executable_file": "SUDIPFILT",
+                    "parameters": [
+                        {
+                            "name": "dt",
+                            "description": "header)\tif not set in header then mandatory",
+                            "example": "(from",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "dx",
+                            "description": "header, d1)\tif not set in header then mandatory",
+                            "example": "(from",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "slopes",
+                            "description": "monotonically increasing slopes",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "amps",
+                            "description": "amplitudes corresponding to slopes",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "bias",
+                            "description": "slope made horizontal before filtering",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "verbose = 1 echoes information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUFILTER",
+                    "description": "applies a zero-phase, sine-squared tapered filter",
+                    "path_to_executable_file": "SUFILTER",
+                    "parameters": [
+                        {
+                            "name": "f",
+                            "description": "array of filter frequencies(HZ)",
+                            "example": "f1,f2,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "amps",
+                            "description": "array of filter amplitudes",
+                            "example": "a1,a2,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for advisory messages",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "amps",
+                            "description": "trapezoid-like bandpass filter",
+                            "example": "0.,1.,...,1.,0.",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUFRAC",
+                    "description": "- take general (fractional) time derivative or integral of",
+                    "path_to_executable_file": "SUFRAC",
+                    "parameters": [
+                        {
+                            "name": "power",
+                            "description": "exponent of (-i*omega)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "header)\ttime sample interval (in seconds)",
+                            "example": "(from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "phasefac",
+                            "description": "phase shift by phase=phasefac*PI",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for advisory messages",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUFWATRIM",
+                    "description": "FX domain Alpha TRIM",
+                    "path_to_executable_file": "SUFWATRIM",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "Header words defining mixing dimesnion",
+                            "example": "key1,key2,..",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "dx",
+                            "description": "Distance units for each header word",
+                            "example": "d1,d2,..",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "keyg",
+                            "description": "Header word indicating the start of gather",
+                            "example": "ep",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vf",
+                            "description": "=1 Do a frequency dependent mix",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vmin",
+                            "description": "Velocity of the reflection slope",
+                            "example": "5000",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUK1K2FILTER",
+                    "description": "symmetric box-like K-domain filter defined by the",
+                    "path_to_executable_file": "SUK1K2FILTER",
+                    "parameters": [
+                        {
+                            "name": "k1",
+                            "description": "array of K1 filter wavenumbers",
+                            "example": "val1,val2,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "k2",
+                            "description": "array of K2 filter wavenumbers",
+                            "example": "val1,val2,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "amps1",
+                            "description": "array of K1 filter amplitudes",
+                            "example": "a1,a2,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "amps2",
+                            "description": "array of K2 filter amplitudes",
+                            "example": "a1,a2,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "d1",
+                            "description": "or 1.0\tsampling interval in first (fast) dimension",
+                            "example": "tr.d1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "d2",
+                            "description": "or 1.0\tsampling interval in second (slow) dimension",
+                            "example": "tr.d1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "quad",
+                            "description": "=0 all four quandrants",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "amps1",
+                            "description": "trapezoid-like bandpass filter",
+                            "example": "0.,1.,...,1.,0.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "amps2",
+                            "description": "trapezoid-like bandpass filter",
+                            "example": "0.,1.,...,1.,0.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "verbose = 1 echoes information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUKFILTER",
+                    "description": "radially symmetric K-domain, sin^2-tapered, polygonal",
+                    "path_to_executable_file": "SUKFILTER",
+                    "parameters": [
+                        {
+                            "name": "k",
+                            "description": "array of K filter wavenumbers",
+                            "example": "val1,val2,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "amps",
+                            "description": "array of K filter amplitudes",
+                            "example": "a1,a2,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "d1",
+                            "description": "or 1.0\tsampling interval in first (fast) dimension",
+                            "example": "tr.d1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "d2",
+                            "description": "or 1.0\tsampling interval in second (slow) dimension",
+                            "example": "tr.d1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "amps",
+                            "description": "trapezoid-like bandpass filter",
+                            "example": "0.,1.,...,1.,0.",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUKFRAC",
+                    "description": "apply FRACtional powers of i|k| to data, with phase shift",
+                    "path_to_executable_file": "SUKFRAC",
+                    "parameters": [
+                        {
+                            "name": "power",
+                            "description": "exponent of (i*sqrt(k1^2 + k2^2))^power",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sign",
+                            "description": "sign on transform exponent",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "d1",
+                            "description": "x1 sampling interval",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "d2",
+                            "description": "x2 sampling interval",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "phasefac",
+                            "description": "phase shift by phase=phasefac*PI",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SULFAF",
+                    "description": "Low frequency array forming\t\t\t\t\t,",
+                    "path_to_executable_file": "SULFAF",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "header keyword describing the gathers",
+                            "example": "ep",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "f1",
+                            "description": "lower frequency\tcutof",
+                            "example": "3",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "f2",
+                            "description": "high frequency cutof",
+                            "example": "20",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fr",
+                            "description": "frequency ramp",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vel",
+                            "description": "surface wave velocity",
+                            "example": "1000",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "trace spacing",
+                            "example": "10",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "maxmix",
+                            "description": "default is the entire gather",
+                            "example": "tr.ntr",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "adb",
+                            "description": "add back ratio 1.0=pure filtered 0.0=origibal",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tri",
+                            "description": "1 Triangular weight in mixing window",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMEDIAN",
+                    "description": "MEDIAN filter about a user-defined polygonal curve with",
+                    "path_to_executable_file": "SUMEDIAN",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "Key header word specifying trace number",
+                            "example": "tracl",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mix",
+                            "description": "array of weights for mix (weighted moving average)",
+                            "example": ".6,1,1,1,.6",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "median",
+                            "description": "=0  for mix",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nmed",
+                            "description": "odd no. of traces to median filter",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "subtract",
+                            "description": "=1  subtract filtered data from input",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1  echoes information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMINPHASE",
+                    "description": "convert input to minimum phase",
+                    "path_to_executable_file": "SUMINPHASE",
+                    "parameters": [
+                        {
+                            "name": "sign1",
+                            "description": "sign of first transform\t(1 or -1)",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for advisory messages",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUPHASE",
+                    "description": "PHASE manipulation by linear transformation",
+                    "path_to_executable_file": "SUPHASE",
+                    "parameters": [
+                        {
+                            "name": "a",
+                            "description": "constant phase shift",
+                            "example": "90",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "c",
+                            "description": "phase = a +b*(old_phase)+c*f;",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSMGAUSS2",
+                    "description": "-- SMOOTH a uniformly sampled 2d array of velocities",
+                    "path_to_executable_file": "SUSMGAUSS2",
+                    "parameters": [
+                        {
+                            "name": "a1",
+                            "description": "smoothing parameter in the 1 direction",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "a2",
+                            "description": "smoothing parameter in the 2 direction",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSVDFILT",
+                    "description": "SVD (Eigen) filter",
+                    "path_to_executable_file": "SUSVDFILT",
+                    "parameters": [
+                        {
+                            "name": "ntrw",
+                            "description": "traces   number of traces in window",
+                            "example": "all",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "1 = echo additional information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "numpp",
+                            "description": "number of principal planes to retain",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "subtract",
+                            "description": "subtarct selected principal planes from i/p",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUTVBAND",
+                    "description": "time-variant bandpass filter (sine-squared taper)",
+                    "path_to_executable_file": "SUTVBAND",
+                    "parameters": [
+                        {
+                            "name": "f",
+                            "description": "Corner frequencies corresponding to the",
+                            "example": "f1,f2,f3,f4",
+                            "input_type": "string",
+                            "isRequired": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

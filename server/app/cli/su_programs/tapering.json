@@ -1,0 +1,178 @@
+{
+    "count_programs": 4,
+    "programGroups": [
+        {
+            "name": "tapering",
+            "description": "",
+            "programs": [
+                {
+                    "name": "SUGAUSSTAPER",
+                    "description": "Multiply traces with gaussian taper",
+                    "path_to_executable_file": "SUGAUSSTAPER",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "keyword of header field to weight traces by",
+                            "example": "offset",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "x0",
+                            "description": "key value defining the center of gaussian window,",
+                            "example": "300",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "xw",
+                            "description": "width of gaussian window in units of key value",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SURAMP",
+                    "description": "Linearly taper the start and/or end of traces to zero.",
+                    "path_to_executable_file": "SURAMP",
+                    "parameters": []
+                },
+                {
+                    "name": "SUTAPER",
+                    "description": "Taper the edge traces of a data panel to zero.",
+                    "path_to_executable_file": "SUTAPER",
+                    "parameters": [
+                        {
+                            "name": "ntr",
+                            "description": "number of traces. If tr.ntr is not set, then",
+                            "example": "tr.ntr",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tr1",
+                            "description": "number of traces to be tapered at beginning",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tr2",
+                            "description": "number of traces to be tapered at end",
+                            "example": "tr1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "min",
+                            "description": "minimum amplitude factor of taper",
+                            "example": "0.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tbeg",
+                            "description": "length of taper (ms) at trace start",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tend",
+                            "description": "length of taper (ms) at trace end",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "taper",
+                            "description": "taper type",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUTXTAPER",
+                    "description": "TAPER in (X,T) the edges of a data panel to zero.",
+                    "path_to_executable_file": "SUTXTAPER",
+                    "parameters": [
+                        {
+                            "name": "low",
+                            "description": "minimum amplitude factor of taper",
+                            "example": "0.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tbeg",
+                            "description": "length of taper (ms) at trace start",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tend",
+                            "description": "length of taper (ms) at trace end",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "taper",
+                            "description": "taper type",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "key",
+                            "description": "set key to compute x-domain taper weights",
+                            "example": "tr",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tr1",
+                            "description": "number of traces to be tapered at beg (key=tr)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tr2",
+                            "description": "number of traces to be tapered at end (key=tr)",
+                            "example": "tr1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "min",
+                            "description": "minimum value of key where taper starts (amp=1.)",
+                            "example": "0.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "max",
+                            "description": "maximum value of key where taper starts (amp=1.)",
+                            "example": "0.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "length of taper (in key units)",
+                            "example": "1.",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

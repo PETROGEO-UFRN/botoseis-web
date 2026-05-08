@@ -1,0 +1,206 @@
+{
+    "count_programs": 5,
+    "programGroups": [
+        {
+            "name": "stacking",
+            "description": "",
+            "programs": [
+                {
+                    "name": "SUCVS4FOWLER",
+                    "description": "-compute constant velocity stacks for input to Fowler codes",
+                    "path_to_executable_file": "SUCVS4FOWLER",
+                    "parameters": [
+                        {
+                            "name": "vminstack",
+                            "description": "minimum velocity panel in m/s to output",
+                            "example": "1500.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nvstack",
+                            "description": "number of stacking velocity panels to compute",
+                            "example": "180",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "lmute",
+                            "description": "length of mute taper in ms",
+                            "example": "24",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nonhyp",
+                            "description": "1 if do mute at 2*offset/vhyp to avoid",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vhyp",
+                            "description": "velocity to use for non-hyperbolic moveout mute",
+                            "example": "2500.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "lbtaper",
+                            "description": "length of bottom taper in ms",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "lstaper",
+                            "description": "length of side taper in traces",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mxfold",
+                            "description": "maximum number of offsets/input cmp",
+                            "example": "120",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "salias",
+                            "description": "fraction of output frequencies to force within sloth",
+                            "example": "0.8",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUDIVSTACK",
+                    "description": "Diversity Stacking using either average power or peak",
+                    "path_to_executable_file": "SUDIVSTACK",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "key header word to stack on",
+                            "example": "tracf",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "winlen",
+                            "description": "window length in seconds.",
+                            "example": "0.064",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "peak",
+                            "description": "peak power option default is average power",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUPWS",
+                    "description": "Phase stack or phase-weighted stack (PWS) of adjacent traces",
+                    "path_to_executable_file": "SUPWS",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "key header word to stack on",
+                            "example": "cdp",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pwr",
+                            "description": "raise phase stack to power pwr",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "header)  time sampling intervall in seconds",
+                            "example": "(from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sl",
+                            "description": "window length in seconds used for smoothing",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ps",
+                            "description": "0 = output is PWS, 1 = output is phase stack",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "1 = echo additional information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SURECIP",
+                    "description": "sum opposing offsets in prepared data (see below)",
+                    "path_to_executable_file": "SURECIP",
+                    "parameters": []
+                },
+                {
+                    "name": "SUSTACK",
+                    "description": "stack adjacent traces having the same key header word",
+                    "path_to_executable_file": "SUSTACK",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "header key word to stack on",
+                            "example": "cdp",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "normpow",
+                            "description": "each sample is divided by the",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "repeat",
+                            "description": "=1 repeats the stack trace nrepeat times",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nrepeat",
+                            "description": "repeats stack trace nrepeat times in",
+                            "example": "10",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "verbose = 1 echos information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

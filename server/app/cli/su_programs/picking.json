@@ -1,0 +1,130 @@
+{
+    "count_programs": 3,
+    "programGroups": [
+        {
+            "name": "picking",
+            "description": "",
+            "programs": [
+                {
+                    "name": "SUFBPICKW",
+                    "description": "First break auto picker",
+                    "path_to_executable_file": "SUFBPICKW",
+                    "parameters": [
+                        {
+                            "name": "window",
+                            "description": "Length of forward and backward windows (s)",
+                            "example": ".03",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "test",
+                            "description": "Output the characteristic function",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tdv",
+                            "description": "Half length of the search window",
+                            "example": ".05",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUFNZERO",
+                    "description": "get Time of First Non-ZERO sample by trace",
+                    "path_to_executable_file": "SUFNZERO",
+                    "parameters": [
+                        {
+                            "name": "mode",
+                            "description": "Output time of first non-zero sample",
+                            "example": "first",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "min",
+                            "description": "Threshold value for considering as zero",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "key",
+                            "description": "Keyword(s) to print",
+                            "example": "key1,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUPICKAMP",
+                    "description": "pick amplitudes within user defined and resampled window",
+                    "path_to_executable_file": "SUPICKAMP",
+                    "parameters": [
+                        {
+                            "name": "dt_resamp",
+                            "description": "resampling interval within pick window",
+                            "example": "dt",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tmin",
+                            "description": "minimum time in input trace",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "x2beg",
+                            "description": "first lateral position",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "format",
+                            "description": "write ascii data to stdout",
+                            "example": "ascii",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "writes complete  pick information into outpar",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "arg1",
+                            "description": "output (first dimension) to stdout",
+                            "example": "max",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "arg2",
+                            "description": "output (second dimension) to stdout",
+                            "example": "i2",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "or 2 writes min, max, abs[max], energy and associated times",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

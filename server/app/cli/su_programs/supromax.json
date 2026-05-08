@@ -1,0 +1,39 @@
+{
+    "count_programs": 2,
+    "programGroups": [
+        {
+            "name": "supromax",
+            "description": "",
+            "programs": [
+                {
+                    "name": "SUGET",
+                    "description": "Connect SU program to file descriptor for input stream.",
+                    "path_to_executable_file": "SUGET",
+                    "parameters": [
+                        {
+                            "name": "verbose",
+                            "description": "minimal listing",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUPUT",
+                    "description": "Connect SU program to file descriptor for output stream.",
+                    "path_to_executable_file": "SUPUT",
+                    "parameters": [
+                        {
+                            "name": "verbose",
+                            "description": "minimal listing",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

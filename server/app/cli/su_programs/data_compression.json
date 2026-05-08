@@ -1,0 +1,79 @@
+{
+    "count_programs": 5,
+    "programGroups": [
+        {
+            "name": "data_compression",
+            "description": "",
+            "programs": [
+                {
+                    "name": "DCTCOMP",
+                    "description": "Compression by Discrete Cosine Transform",
+                    "path_to_executable_file": "DCTCOMP",
+                    "parameters": [
+                        {
+                            "name": "blocksize1",
+                            "description": "blocksize in direction 1",
+                            "example": "16",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "blocksize2",
+                            "description": "blocksize in direction 2",
+                            "example": "16",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "error",
+                            "description": "acceptable error",
+                            "example": "0.01",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUPACK1",
+                    "description": "pack segy trace data into chars",
+                    "path_to_executable_file": "SUPACK1",
+                    "parameters": [
+                        {
+                            "name": "gpow",
+                            "description": "exponent used to compress the dynamic",
+                            "example": "0.5",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUPACK2",
+                    "description": "pack segy trace data into 2 byte shorts",
+                    "path_to_executable_file": "SUPACK2",
+                    "parameters": [
+                        {
+                            "name": "gpow",
+                            "description": "exponent used to compress the dynamic",
+                            "example": "0.5",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUUNPACK1",
+                    "description": "unpack segy trace data from chars to floats",
+                    "path_to_executable_file": "SUUNPACK1",
+                    "parameters": []
+                },
+                {
+                    "name": "SUUNPACK2",
+                    "description": "unpack segy trace data from shorts to floats",
+                    "path_to_executable_file": "SUUNPACK2",
+                    "parameters": []
+                }
+            ]
+        }
+    ]
+}

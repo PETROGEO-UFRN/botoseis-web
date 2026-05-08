@@ -1,0 +1,298 @@
+{
+    "count_programs": 6,
+    "programGroups": [
+        {
+            "name": "dip_moveout",
+            "description": "",
+            "programs": [
+                {
+                    "name": "SUDMOFK",
+                    "description": "DMO via F-K domain (log-stretch) method for common-offset gathers",
+                    "path_to_executable_file": "SUDMOFK",
+                    "parameters": [
+                        {
+                            "name": "tdmo",
+                            "description": "times corresponding to rms velocities in vdmo (s)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vdmo",
+                            "description": "rms velocities corresponding to times in tdmo (m/s)",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sdmo",
+                            "description": "DMO stretch factor; try 0.6 for typical v(z)",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic print",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUDMOFKCW",
+                    "description": "converted-wave DMO via F-K domain (log-stretch) method for",
+                    "path_to_executable_file": "SUDMOFKCW",
+                    "parameters": [
+                        {
+                            "name": "tdmo",
+                            "description": "times corresponding to rms velocities in vdmo (s)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vdmo",
+                            "description": "rms velocities corresponding to times in tdmo (m/s)",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "gamma",
+                            "description": "velocity ratio, upgoing/downgoing",
+                            "example": "0.5",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntable",
+                            "description": "number of tabulated z/h and b/h (see notes)",
+                            "example": "1000",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sdmo",
+                            "description": "DMO stretch factor; try 0.6 for typical v(z)",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "flip",
+                            "description": "=1 for negative shifts and exchanging s1 and s2",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic print",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUDMOTIVZ",
+                    "description": "DMO for Transeversely Isotropic V(Z) media for common-offset",
+                    "path_to_executable_file": "SUDMOTIVZ",
+                    "parameters": [
+                        {
+                            "name": "tdmo",
+                            "description": "times corresponding to interval velocities in vdmo (s)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vndmo",
+                            "description": "NMO interval velocities corresponding to times in tdmo (m/s)",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vdmo",
+                            "description": "interval velocities corresponding to times in tdmo (m/s)",
+                            "example": "vndmo",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "etadmo",
+                            "description": "eta interval values corresponding to times in tdmo (m/s)",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "smute",
+                            "description": "stretch mute used for NMO correction",
+                            "example": "1.5",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "speed",
+                            "description": "twist this knob for speed (and aliasing)",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic print",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUDMOTX",
+                    "description": "DMO via T-X domain (Kirchhoff) method for common-offset gathers",
+                    "path_to_executable_file": "SUDMOTX",
+                    "parameters": [
+                        {
+                            "name": "offmax",
+                            "description": "maximum offset",
+                            "example": "3000.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tmute",
+                            "description": "mute time at maximum offset offmax",
+                            "example": "2.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vrms",
+                            "description": "RMS velocity at mute time tmute",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic print",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUDMOVZ",
+                    "description": "DMO for V(Z) media for common-offset gathers",
+                    "path_to_executable_file": "SUDMOVZ",
+                    "parameters": [
+                        {
+                            "name": "tdmo",
+                            "description": "times corresponding to interval velocities in vdmo (s)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vdmo",
+                            "description": "interval velocities corresponding to times in tdmo (m/s)",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "smute",
+                            "description": "stretch mute used for NMO correction",
+                            "example": "1.5",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "speed",
+                            "description": "twist this knob for speed (and aliasing)",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic print",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUTIHALEDMO",
+                    "description": "TI Hale Dip MoveOut (based on Hale's PhD thesis)",
+                    "path_to_executable_file": "SUTIHALEDMO",
+                    "parameters": [
+                        {
+                            "name": "option",
+                            "description": "1 = traditional Hale DMO (from PhD thesis)",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "midpoint sampling interval between traces",
+                            "example": "50.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "v",
+                            "description": "velocity (in meters/sec)",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "h",
+                            "description": "source-receiver half-offset (in meters)",
+                            "example": "200.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntpad",
+                            "description": "number of time samples to pad",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "file",
+                            "description": "name of file with vnmo as a function of p",
+                            "example": "vnmo",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "e",
+                            "description": "Thompsen's epsilon",
+                            "example": "0.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "d",
+                            "description": "Thompsen's delta",
+                            "example": "0.",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

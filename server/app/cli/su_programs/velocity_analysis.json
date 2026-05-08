@@ -1,0 +1,697 @@
+{
+    "count_programs": 9,
+    "programGroups": [
+        {
+            "name": "velocity_analysis",
+            "description": "",
+            "programs": [
+                {
+                    "name": "SURELAN",
+                    "description": "compute residual-moveout semblance for cdp gathers based",
+                    "path_to_executable_file": "SURELAN",
+                    "parameters": [
+                        {
+                            "name": "nr",
+                            "description": "number of r-parameter samples",
+                            "example": "51",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dr",
+                            "description": "r-parameter sampling interval",
+                            "example": "0.01",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "smute",
+                            "description": "samples with RMO stretch exceeding smute are zeroed",
+                            "example": "1.5",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dzratio",
+                            "description": "ratio of output to input depth sampling intervals",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic print on stderr",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SURELANAN",
+                    "description": "REsiduaL-moveout semblance ANalysis for ANisotropic media",
+                    "path_to_executable_file": "SURELANAN",
+                    "parameters": [
+                        {
+                            "name": "nr1",
+                            "description": "number of r1-parameter samples",
+                            "example": "51",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dr1",
+                            "description": "r1-parameter sampling interval",
+                            "example": "0.01",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nr2",
+                            "description": "number of r2-parameter samples",
+                            "example": "51",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dr2",
+                            "description": "r2-parameter sampling interval",
+                            "example": "0.01",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dzratio",
+                            "description": "ratio of output to input depth sampling intervals",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic print on stderr",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "method",
+                            "description": "for linear interpolation of the interface",
+                            "example": "linear",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUTIVEL",
+                    "description": "SU Transversely Isotropic velocity table builder",
+                    "path_to_executable_file": "SUTIVEL",
+                    "parameters": [
+                        {
+                            "name": "a",
+                            "description": "alpha (vertical p velocity)",
+                            "example": "2500.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "b",
+                            "description": "beta (vertical sv velocity)",
+                            "example": "1250.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "e",
+                            "description": "epsilon (horiz p-wave anisotropy)",
+                            "example": ".20",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "d",
+                            "description": "delta (strange parameter)",
+                            "example": ".10",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "maxangle",
+                            "description": "max angle in degrees",
+                            "example": "90.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nangle",
+                            "description": "number of angles to compute",
+                            "example": "9001",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "set to 1 to see full listing",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "np",
+                            "description": "number of slowness values to output",
+                            "example": "8001",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "option",
+                            "description": "1=output vnmo(p) (result used for TI DMO)",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "2",
+                            "description": "vnmo(theta) in degrees",
+                            "example": "output",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "3",
+                            "description": "vnmo(theta) in radians",
+                            "example": "output",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "4",
+                            "description": "vphase(p)",
+                            "example": "output",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "5",
+                            "description": "vphase(theta) in degrees",
+                            "example": "output",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "6",
+                            "description": "vphase(theta) in radians",
+                            "example": "output",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "7",
+                            "description": "first derivative vphase(p)",
+                            "example": "output",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "8",
+                            "description": "first derivative vphase(theta) in degrees",
+                            "example": "output",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "9",
+                            "description": "first derivative vphase(theta) in radians",
+                            "example": "output",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "10",
+                            "description": "second derivative vphase(p)",
+                            "example": "output",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "11",
+                            "description": "second derivative vphase(theta) in degrees",
+                            "example": "output",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "12",
+                            "description": "second derivative vphase(theta) in radians",
+                            "example": "output",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "13",
+                            "description": "1/vnmo(0)^2 -1/vnmo(theta)^2 )/p^2 test vs theta",
+                            "example": "(",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "14",
+                            "description": "vnmo(p) for weak anisotropy",
+                            "example": "return",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "normalize",
+                            "description": "=1 means scale vnmo by cosine and scale vphase by",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUVEL2DF",
+                    "description": "compute stacking VELocity semblance for a single time in",
+                    "path_to_executable_file": "SUVEL2DF",
+                    "parameters": [
+                        {
+                            "name": "nv",
+                            "description": "number of velocities",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dv",
+                            "description": "velocity sampling interval",
+                            "example": "50.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fv",
+                            "description": "first velocity",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nvh",
+                            "description": "number of horizotal velocities",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dvh",
+                            "description": "horizontal velocity sampling interval",
+                            "example": "50.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fvh",
+                            "description": "first horizontal velocity",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "xod",
+                            "description": "maximum offset-to-depth ratio to resolve",
+                            "example": "1.5",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dtratio",
+                            "description": "ratio of output to input time sampling intervals",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic print on stderr",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUVELAN",
+                    "description": "compute stacking velocity semblance for cdp gathers",
+                    "path_to_executable_file": "SUVELAN",
+                    "parameters": [
+                        {
+                            "name": "nv",
+                            "description": "number of velocities",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dv",
+                            "description": "velocity sampling interval",
+                            "example": "50.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fv",
+                            "description": "first velocity",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "anis1",
+                            "description": "quartic term, numerator of an extended quartic term",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "anis2",
+                            "description": "in denominator of an extended quartic term",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "smute",
+                            "description": "samples with NMO stretch exceeding smute are zeroed",
+                            "example": "1.5",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dtratio",
+                            "description": "ratio of output to input time sampling intervals",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic print on stderr",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pwr",
+                            "description": "semblance value to the power",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUVELAN_NCCS",
+                    "description": "compute stacking VELocity panel for cdp gathers",
+                    "path_to_executable_file": "SUVELAN_NCCS",
+                    "parameters": [
+                        {
+                            "name": "nx",
+                            "description": "number of traces in cdp",
+                            "example": "tr.cdpt",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nv",
+                            "description": "number of velocities",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dv",
+                            "description": "velocity sampling interval",
+                            "example": "50.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fv",
+                            "description": "first velocity",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "smute",
+                            "description": "samples with NMO stretch exceeding smute are zeroed",
+                            "example": "1.5",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dtratio",
+                            "description": "ratio of output to input time sampling intervals",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic print on stderr",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pwr",
+                            "description": "semblance value to the power",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUVELAN_NSEL",
+                    "description": "compute stacking VELocity panel for cdp gathers",
+                    "path_to_executable_file": "SUVELAN_NSEL",
+                    "parameters": [
+                        {
+                            "name": "nx",
+                            "description": "number of traces in cdp",
+                            "example": "tr.cdpt",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "offset increment",
+                            "example": "tr.d2",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nv",
+                            "description": "number of velocities",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dv",
+                            "description": "velocity sampling interval",
+                            "example": "100.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fv",
+                            "description": "first velocity",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tau",
+                            "description": "threshold for significance values",
+                            "example": "0.5",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "smute",
+                            "description": "samples with NMO stretch exceeding smute are zeroed",
+                            "example": "1.5",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dtratio",
+                            "description": "ratio of output to input time sampling intervals",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic print on stderr",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pwr",
+                            "description": "semblance value to the power",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUVELAN_UCCS",
+                    "description": "compute stacking VELocity panel for cdp gathers",
+                    "path_to_executable_file": "SUVELAN_UCCS",
+                    "parameters": [
+                        {
+                            "name": "nx",
+                            "description": "number of traces in cdp",
+                            "example": "tr.cdpt",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nv",
+                            "description": "number of velocities",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dv",
+                            "description": "velocity sampling interval",
+                            "example": "50.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fv",
+                            "description": "first velocity",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "smute",
+                            "description": "samples with NMO stretch exceeding smute are zeroed",
+                            "example": "1.5",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dtratio",
+                            "description": "ratio of output to input time sampling intervals",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic print on stderr",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pwr",
+                            "description": "semblance value to the power",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUVELAN_USEL",
+                    "description": "compute stacking velocity panel for cdp gathers",
+                    "path_to_executable_file": "SUVELAN_USEL",
+                    "parameters": [
+                        {
+                            "name": "nx",
+                            "description": "number of traces in cdp",
+                            "example": "tr.cdpt",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "offset increment",
+                            "example": "tr.d2",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nv",
+                            "description": "number of velocities",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dv",
+                            "description": "velocity sampling interval",
+                            "example": "50.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fv",
+                            "description": "first velocity",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tau",
+                            "description": "threshold for significance values",
+                            "example": "0.5",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "smute",
+                            "description": "samples with NMO stretch exceeding smute are zeroed",
+                            "example": "1.5",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dtratio",
+                            "description": "ratio of output to input time sampling intervals",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic print on stderr",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pwr",
+                            "description": "semblance value to the power",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

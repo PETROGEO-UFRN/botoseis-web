@@ -1,0 +1,312 @@
+{
+    "count_programs": 6,
+    "programGroups": [
+        {
+            "name": "statics",
+            "description": "",
+            "programs": [
+                {
+                    "name": "SUADDSTATICS",
+                    "description": "ADD random STATICS on seismic data",
+                    "path_to_executable_file": "SUADDSTATICS",
+                    "parameters": [
+                        {
+                            "name": "dt",
+                            "description": "time sampling interval (ms)",
+                            "example": "tr.dt",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "seed",
+                            "description": "seed for random number generator",
+                            "example": "getpid()",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 print useful information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SURANDSTAT",
+                    "description": "Add RANDom time shifts STATIC errors to seismic traces",
+                    "path_to_executable_file": "SURANDSTAT",
+                    "parameters": [
+                        {
+                            "name": "seed",
+                            "description": "random number seed (integer)",
+                            "example": "from_clock",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "max",
+                            "description": "maximum random time shift (ms)",
+                            "example": "tr.dt",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "scale",
+                            "description": "scale factor for shifts",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SURESSTAT",
+                    "description": "Surface consistent source and receiver statics calculation",
+                    "path_to_executable_file": "SURESSTAT",
+                    "parameters": [
+                        {
+                            "name": "ntpick",
+                            "description": "maximum static shift (samples)",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "niter",
+                            "description": "number of iterations",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nshot",
+                            "description": "largest shot number (fldr=1 to nshot)",
+                            "example": "240",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nr",
+                            "description": "largest receiver number (tracf=1 to nr)",
+                            "example": "335",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nc",
+                            "description": "maximum number of cmp's (for array allocation)",
+                            "example": "574",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sfold",
+                            "description": "maximum shot gather fold",
+                            "example": "96",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "rfold",
+                            "description": "maximum receiver gather fold",
+                            "example": "96",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "cfold",
+                            "description": "maximum cmp gather fold",
+                            "example": "48",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sub",
+                            "description": "subtract super trace 1 from super trace 2 (=1)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sub",
+                            "description": "strongly biases static to a value of 0",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mode",
+                            "description": "use global maximum in cross-correllation window",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "perc",
+                            "description": "percent of global max (used only for mode=1)",
+                            "example": "10.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "print diagnostic output (verbose=1)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSTATIC",
+                    "description": "Elevation static corrections, apply corrections from",
+                    "path_to_executable_file": "SUSTATIC",
+                    "parameters": [
+                        {
+                            "name": "v0",
+                            "description": "or user-defined\tor from header, weathering velocity",
+                            "example": "v1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "hdrs",
+                            "description": "=1 to read statics from headers",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sign",
+                            "description": "apply static correction (add tstat values)",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ns",
+                            "description": "number of souces",
+                            "example": "240",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nr",
+                            "description": "number of receivers",
+                            "example": "335",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "no",
+                            "description": "number of offsets",
+                            "example": "96",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSTATICB",
+                    "description": "Elevation static corrections, apply corrections from",
+                    "path_to_executable_file": "SUSTATICB",
+                    "parameters": [
+                        {
+                            "name": "v0",
+                            "description": "or user-defined\tor from header, weathering velocity",
+                            "example": "v1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "hdrs",
+                            "description": "=1 to read statics from headers",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sign",
+                            "description": "apply static correction (add tstat values)",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ns",
+                            "description": "(2)number of sources; (3) max fldr",
+                            "example": "240",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nr",
+                            "description": "number of receivers",
+                            "example": "335",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "no",
+                            "description": "number of offsets",
+                            "example": "96",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSTATICRRS",
+                    "description": "Elevation STATIC corrections, apply corrections from",
+                    "path_to_executable_file": "SUSTATICRRS",
+                    "parameters": [
+                        {
+                            "name": "v0",
+                            "description": "or user-defined\tor from header, weathering velocity",
+                            "example": "v1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "hdrs",
+                            "description": "=1 to read statics from headers",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sign",
+                            "description": "=-1 to subtract statics from traces(up shift)",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ns",
+                            "description": "number of sources",
+                            "example": "240",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nr",
+                            "description": "number of receivers",
+                            "example": "335",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "no",
+                            "description": "number of offsets",
+                            "example": "96",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
