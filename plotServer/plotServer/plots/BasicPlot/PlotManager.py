@@ -164,7 +164,7 @@ class PlotManager:
             ys_list.append(time_sample_instants)
 
         data_repositioned = data + x_positions
-        xs_list = data_repositioned.T.tolist()
+        xs_list = list(data_repositioned.T)
         ys_list = [time_sample_instants for _ in range(num_traces)]
         return {"xs": xs_list, "ys": ys_list}
 
