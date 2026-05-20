@@ -15,8 +15,7 @@ def BasicPlotAppFactory() -> Application:
     def __getRequestArguments(document: Document):
         request = document.session_context.request
         arguments = request.arguments
-        auth_token = request.cookies.get('Authorization')
-        auth_token = auth_token.value if auth_token else ''
+        auth_token = request.cookies.get('Authorization') or ''
         workflowId = arguments.get('workflowId', [b''])[0].decode('utf-8')
         origin = arguments.get('origin', [b'output'])[0].decode('utf-8') or 'output'
 
@@ -40,31 +39,32 @@ def BasicPlotAppFactory() -> Application:
         if not absolute_file_path:
             raise ValueError(f"SU file path not found for workflowId={workflowId}")
 
-        gather_key = setup.get('gather_key') if setup else None
+        try:
+            gather_key = setup.get('gather_key') if setup else None
 
-        if gather_key:
-            plot_options_state = PlotOptionsState(has_gather_key=True)
-            plot_options_state.updatePlotOptionsState(
-                gather_index_start=int(setup.get('first_cdp', 1)) - 1,
-                num_loadedgathers=int(setup.get('number_of_gathers_per_time', 1)),
-            )
+            if gather_key:
+                plot_options_state = PlotOptionsState(has_gather_key=True)
+                plot_options_state.updatePlotOptionsState(
+                    gather_index_start=int(setup.get('first_cdp', 1)) - 1,
+                    num_loadedgathers=int(setup.get('number_of_gathers_per_time', 1)),
+                )
+            else:
+                plot_options_state = PlotOptionsState(has_gather_key=False)
+
             visualization = Visualization(
                 filename=absolute_file_path,
                 plot_options_state=plot_options_state,
                 gather_key=gather_key,
             )
-        else:
-            plot_options_state = PlotOptionsState(has_gather_key=False)
-            visualization = Visualization(
-                filename=absolute_file_path,
-                plot_options_state=plot_options_state,
-                gather_key=None,
-            )
 
-        document.add_root(visualization.plot_manager.plot)
-        bridgeModelFactory(
-            document=document,
-            callback=bridgeCallbackFactory(visualization=visualization),
-        )
+            document.add_root(visualization.plot_manager.plot)
+            bridgeModelFactory(
+                document=document,
+                callback=bridgeCallbackFactory(visualization=visualization),
+            )
+        except Exception as exc:
+            import traceback
+            traceback.print_exc()
+            raise
 
     return Application(FunctionHandler(func=modify_document))

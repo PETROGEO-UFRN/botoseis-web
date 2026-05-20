@@ -1,4 +1,4 @@
 export const plotAPI = {
-  baseURL: import.meta.env.VITE_PLOT_API_URL,
+  baseURL: '',
   path: '/api/bokeh-script'
 }

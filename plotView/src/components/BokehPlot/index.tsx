@@ -31,29 +31,30 @@ export default function BokehPlot({
 
   useEffect(() => {
     let retryTimeout: NodeJS.Timeout | null = null
+    let cancelled = false
 
     setRequestLog(null)
     setRequestLog('Connecting to Bokeh server...')
 
-    loadBokehScripts({ plotType, workflowId, setupProps }).then(result => {
-      if (result.ok) {
-        if (retryTimeout) clearTimeout(retryTimeout)
-        setRequestLog(null)
-        setLoading(false)
-        return
-      }
+    const attempt = () => {
+      loadBokehScripts({ plotType, workflowId, setupProps }).then(result => {
+        if (cancelled) return
+        if (result.ok) {
+          setRequestLog(null)
+          setLoading(false)
+          return
+        }
+        console.warn(
+          `Connection failed, retrying in ${CONNECTION_RETRY_TIMEOUT_MS / 1000}s...`
+        )
+        retryTimeout = setTimeout(attempt, CONNECTION_RETRY_TIMEOUT_MS)
+      })
+    }
 
-      console.warn(
-        `Connection failed, retrying in ${CONNECTION_RETRY_TIMEOUT_MS / 1000}s...`
-      )
-      retryTimeout = setTimeout(
-        () => loadBokehScripts({ plotType, workflowId, setupProps }),
-        CONNECTION_RETRY_TIMEOUT_MS
-      )
-    })
+    attempt()
 
     return () => {
-      // *** Stop retries and clear refs if the component unmounts
+      cancelled = true
       if (retryTimeout) clearTimeout(retryTimeout)
     }
   }, [loadBokehScripts, plotType, workflowId, setupProps])

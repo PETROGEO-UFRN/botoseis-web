@@ -15,6 +15,10 @@ def serverFactory() -> Server:
         },
         extra_patterns=[(r'/api/bokeh-script/(.*)', BokehScriptHandler)],
         allow_websocket_origin=allowedWebSocketOrigins,
+        use_xheaders=True,
+        websocket_max_message_size=1024 * 1024 * 1024,
+        check_unused_sessions_milliseconds=5000,
+        unused_session_lifetime_milliseconds=5000,
         address=getenv('SERVER_ADDRESS', None),
         port=5006,
     )

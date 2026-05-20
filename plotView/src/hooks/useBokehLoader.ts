@@ -6,7 +6,7 @@ import { getPlotScript } from '@/services/plotScriptServices'
 import { useBokehDocumentStore } from '@/stores/bokehDocumentStore'
 
 const RETRY_MS = 500
-const MAX_RESOLVE_ATTEMPTS = 20
+const MAX_RESOLVE_ATTEMPTS = 120
 
 interface ILoadBokehScriptsReturn {
   ok: boolean
@@ -58,12 +58,16 @@ export function useBokehLoader(containerRef: RefObject<HTMLDivElement | null>) {
           return resolve(null)
         attempts += 1
 
+        if (attempts % 10 === 1)
+          console.log(`[resolveBokehDocument] attempt=${attempts} hasBokeh=${!!window.Bokeh} docCount=${window.Bokeh?.documents?.length ?? 0}`)
+
         if (!window.Bokeh?.documents)
           return setTimeout(tryResolveDocument, RETRY_MS)
         const document = window.Bokeh.documents.findLast(document =>
           document.get_model_by_name(BOKEH_BRIDGE_MODEL_NAME)
         )
         if (document) {
+          console.log('[resolveBokehDocument] document found after', attempts, 'attempts')
           setBokehDocument(document)
           return resolve(document)
         }

@@ -12,8 +12,7 @@ def VelocityModelAppFactory() -> Application:
     def __getRequestArguments(document: Document):
         request = document.session_context.request
         arguments = request.arguments
-        auth_token_morsel = request.cookies.get('Authorization')
-        auth_token = auth_token_morsel.value if auth_token_morsel else ''
+        auth_token = request.cookies.get('Authorization') or ''
         workflowId = arguments.get('workflowId', [b''])[0].decode('utf-8')
         return workflowId, auth_token
 

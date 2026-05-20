@@ -5,6 +5,7 @@ import {
   type ChangeEvent,
   type Dispatch,
   type SetStateAction,
+  useMemo,
   useState
 } from 'react'
 
@@ -94,16 +95,26 @@ function VelanPage() {
   const [isNMOApplied, setIsNMOApplied] = useState(false)
   const [isNMOHyperboleOn, setIsNMOHyperboleOn] = useState(true)
 
-  const setupProps = {
-    first_cdp: firstCdp ?? VELAN_DEFAULTS.firstCdp,
-    last_cdp: lastCdp ?? VELAN_DEFAULTS.lastCdp,
-    number_of_gathers_per_time:
-      numberOfGathersPerTime ?? VELAN_DEFAULTS.numberOfGathersPerTime,
-    first_velocity_value:
-      firstVelocityValue ?? VELAN_DEFAULTS.firstVelocityValue,
-    last_velocity_value: lastVelocityValue ?? VELAN_DEFAULTS.lastVelocityValue,
-    velocity_step_size: velocityStepSize ?? VELAN_DEFAULTS.velocityStepSize
-  }
+  const setupProps = useMemo(
+    () => ({
+      first_cdp: firstCdp ?? VELAN_DEFAULTS.firstCdp,
+      last_cdp: lastCdp ?? VELAN_DEFAULTS.lastCdp,
+      number_of_gathers_per_time:
+        numberOfGathersPerTime ?? VELAN_DEFAULTS.numberOfGathersPerTime,
+      first_velocity_value:
+        firstVelocityValue ?? VELAN_DEFAULTS.firstVelocityValue,
+      last_velocity_value: lastVelocityValue ?? VELAN_DEFAULTS.lastVelocityValue,
+      velocity_step_size: velocityStepSize ?? VELAN_DEFAULTS.velocityStepSize
+    }),
+    [
+      firstCdp,
+      lastCdp,
+      numberOfGathersPerTime,
+      firstVelocityValue,
+      lastVelocityValue,
+      velocityStepSize
+    ]
+  )
 
   const handleApplyGain = () => {
     emitDebouncedTrigger({

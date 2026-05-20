@@ -37,7 +37,12 @@ class BokehScriptHandler(tornado.web.RequestHandler):
             self.write({"error": f"App {app_name} not found"})
             return
         setup = self.get_argument("setup", "")
-        bokeh_url = f"{baseServerURL}/{app_name}"
+        forwarded_host = self.request.headers.get("X-Forwarded-Host")
+        forwarded_proto = self.request.headers.get("X-Forwarded-Proto", "http")
+        if forwarded_host:
+            bokeh_url = f"{forwarded_proto}://{forwarded_host}/{app_name}"
+        else:
+            bokeh_url = f"{baseServerURL}/{app_name}"
         arguments = {"workflowId": workflowId}
         if setup:
             arguments["setup"] = setup

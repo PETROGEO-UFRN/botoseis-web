@@ -1,7 +1,7 @@
 import ChevronRight from '@mui/icons-material/ChevronRight'
 import { Box, Button } from '@mui/material'
 import { createFileRoute } from '@tanstack/react-router'
-import { type ChangeEvent, useState } from 'react'
+import { type ChangeEvent, useMemo, useState } from 'react'
 
 import BokehPlot from '@/components/BokehPlot'
 import CustomSwitch from '@/components/CustomSwitch'
@@ -77,14 +77,18 @@ function BasicPlotPage() {
     numberOfGathersPerTime ?? 1
   )
 
-  const setupProps = gatherKey
-    ? {
-        gather_key: gatherKey,
-        first_cdp: firstCdp ?? 1,
-        last_cdp: lastCdp ?? null,
-        number_of_gathers_per_time: numberOfGathersPerTime ?? 1
-      }
-    : undefined
+  const setupProps = useMemo(
+    () =>
+      gatherKey
+        ? {
+            gather_key: gatherKey,
+            first_cdp: firstCdp ?? 1,
+            last_cdp: lastCdp ?? null,
+            number_of_gathers_per_time: numberOfGathersPerTime ?? 1
+          }
+        : undefined,
+    [gatherKey, firstCdp, lastCdp, numberOfGathersPerTime]
+  )
 
   const handleApplyGain = () => {
     emitDebouncedTrigger({

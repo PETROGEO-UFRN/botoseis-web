@@ -23,7 +23,10 @@ export const PlotBox = styled('div')({
   },
   '& .bk-Figure': {
     width: '100%',
-    height: '100%',
-    background: 'blue'
+    height: '100%'
+  },
+  '& .bk-Row': {
+    width: '100%',
+    height: '100%'
   }
 })
