@@ -1,0 +1,40 @@
+name: Automated Gemini PR Reviewer
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Gemini AI Code Review
+        uses: sshnaidm/gemini-code-review-action@v2
+        with:
+          gemini-key: ${{ secrets.GEMINI_API_KEY }}
+          model: gemini-2.5-pro
+          prompt: |
+            You are a Staff Engineer reviewing a pull request in a monorepo. Analyze the file paths in the diff and apply the following domain-specific rules:
+
+            1. For the React Clients (`*.ts`, `*.tsx`):
+               - Scrutinize VTK-Wasm integration, specifically looking for memory leaks across the JS/Wasm boundary.
+               - Flag state changes that trigger expensive, unnecessary re-renders in 3D views.
+
+            2. For the Flask API (`*.py` backend routes):
+               - Focus on the efficiency of I/O operations and data pipelines, especially when reading heavy binary formats or headers (e.g., SEGY to OpenVDS conversions).
+               - Ensure proper error handling and timeout management for long-running data extraction processes.
+
+            3. For the Bokeh Server:
+               - Scrutinize heavy mathematical operations. Ensure calculations (like interval velocity or Dix formula implementations) utilize vectorized NumPy/Pandas operations rather than standard Python loops.
+               - Watch for massive data payloads being pushed through the Bokeh websockets that could freeze the browser.
+
+            General Rules:
+            - Skip minor formatting nitpicks.
+            - If you spot an issue, provide a direct, actionable code snippet demonstrating the fix.
