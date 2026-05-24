@@ -6,10 +6,10 @@ from .suFilePathRouter import suFilePathRouter
 from .userRouter import userRouter
 from .sessionRouter import sessionRouter
 
+from .commandRouter import commandRouter
 from .projectRouter import projectRouter
 from .lineRouter import lineRouter
 from .workflowRouter import workflowRouter
-from .commandRouter import commandRouter
 
 from .datasetRouter import datasetRouter
 
