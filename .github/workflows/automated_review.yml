@@ -19,7 +19,7 @@ jobs:
         uses: sshnaidm/gemini-code-review-action@v2
         with:
           gemini-key: ${{ secrets.GEMINI_API_KEY }}
-          model: gemini-3.5-flash
+          model: gemini-2.0-flash
           prompt: |
             You are a Staff Engineer reviewing a pull request in a monorepo. Analyze the file paths in the diff and apply the following domain-specific rules:
 
