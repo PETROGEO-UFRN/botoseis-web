@@ -34,7 +34,7 @@ jobs:
       with:
         repository: PETROGEO-UFRN/mock_large_files
         path: fixtures
-        token: ${{ secrets.GITHUB_TOKEN }}
+        lfs: true
 
     - name: Copy fixtures
       run: |
