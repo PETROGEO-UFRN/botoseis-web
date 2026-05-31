@@ -4,7 +4,14 @@ import json
 import pytest
 import requests
 
-REGISTERED_PLOTS = ["basic-plot", "velocity-model", "velan"]
+REGISTERED_PLOTS = [
+    "basic-plot",
+    "velocity-model",
+    "velan",
+    "bandwidth",
+    "frequency-heatmap",
+    "fk",
+]
 
 
 @pytest.mark.parametrize("plot", REGISTERED_PLOTS)

@@ -2,18 +2,25 @@ import asyncio
 import socket
 import threading
 import time
+from pathlib import Path
 
 import pytest
 import requests
 from bokeh.server.server import Server
 
 from plotServer.apps import (
+    BandwidthAppFactory,
     BasicPlotAppFactory,
+    FKAppFactory,
+    FrequencyHeatmapAppFactory,
     VelanAppFactory,
     VelocityModelAppFactory,
 )
 from plotServer.constants.ROUTE_PATHS import ROUTE_PATHS
 from plotServer.server.BokehScriptHandler import BokehScriptHandler
+
+FIXTURES_DIR = Path(__file__).parent / "fixtures"
+MARMOUSI_STACK = FIXTURES_DIR / "marmousi_4ms_stack.su"
 
 
 def _free_port() -> int:
@@ -36,6 +43,9 @@ def bokeh_server():
                     ROUTE_PATHS.BASIC_PLOT: BasicPlotAppFactory(),
                     ROUTE_PATHS.VELOCITY_MODEL: VelocityModelAppFactory(),
                     ROUTE_PATHS.VELAN: VelanAppFactory(),
+                    ROUTE_PATHS.BANDWIDTH: BandwidthAppFactory(),
+                    ROUTE_PATHS.FREQUENCY_HEATMAP: FrequencyHeatmapAppFactory(),
+                    ROUTE_PATHS.FK: FKAppFactory(),
                 },
                 extra_patterns=[(r"/api/bokeh-script/(.*)", BokehScriptHandler)],
                 allow_websocket_origin=[f"localhost:{port}", f"127.0.0.1:{port}"],
@@ -68,3 +78,19 @@ def bokeh_server():
         raise RuntimeError(f"Bokeh server did not become reachable at {base_url}")
 
     yield base_url
+
+
+@pytest.fixture(scope="session")
+def marmousi_stack_path() -> Path:
+    """Path to the local SU fixture used by Bandwidth/FrequencyHeatmap/FK tests.
+
+    Tests that depend on real seismic data should request this fixture; if the
+    file is missing they will be skipped with a clear message rather than fail.
+    Populate plotServer/tests/fixtures/ per the README in that directory.
+    """
+    if not MARMOUSI_STACK.exists():
+        pytest.skip(
+            f"SU fixture not found at {MARMOUSI_STACK}. "
+            "See plotServer/tests/fixtures/README.md to populate."
+        )
+    return MARMOUSI_STACK

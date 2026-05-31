@@ -5,6 +5,7 @@ on:
       - master
     paths:
       - 'server/**'
+      - 'plotServer/**'
       - '.github/workflows/tests.yml'
   pull_request:
     types:
@@ -16,6 +17,7 @@ on:
       - master
     paths:
       - 'server/**'
+      - 'plotServer/**'
       - 'workspace/**'
       - 'Makefile'
       - 'docker-compose.yml'
@@ -53,3 +55,40 @@ jobs:
 
     - name: run tests
       run: cd server/ && pytest
+
+  plotServer-tests:
+    name: Test plotServer
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Checkout fixtures
+      uses: actions/checkout@v4
+      with:
+        repository: PETROGEO-UFRN/mock_large_files
+        path: fixtures
+        lfs: true
+
+    - name: Copy fixtures
+      run: |
+        mkdir -p plotServer/tests/fixtures/
+        cp fixtures/marmousi_4ms_stack.su plotServer/tests/fixtures/
+
+    # Python must match the committed Velan Fortran .so ABI tag
+    # (operations.cpython-312-x86_64-linux-gnu.so), imported via conftest.
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install pipenv
+      run: pip install pipenv
+
+    # NOTE: not using --deploy because Pipfile.lock is currently out of sync
+    # with Pipfile. Re-sync the lock (pipenv lock) and switch back to --deploy
+    # for reproducible installs once that hygiene fix lands.
+    - name: Install dependencies
+      run: cd plotServer/ && pipenv install --dev
+
+    - name: run tests
+      run: cd plotServer/ && pipenv run pytest
