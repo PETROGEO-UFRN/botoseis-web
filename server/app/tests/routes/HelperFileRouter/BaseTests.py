@@ -3,14 +3,14 @@ from os import path
 
 from server.app.database.connection import database
 from ...conftest import _app
-from ...Mock import Mock
+from ...mock.Mock import Mock
 
 
 class BaseTests:
     url_prefix = "/helper-file"
     client = pytest.client
     mock = Mock()
-    created_file_link = dict()
+    stored_file_link = dict()
     # *** used as subpath, set by derived classes
     data_type = ""
 
@@ -25,6 +25,7 @@ class BaseTests:
             self.mock.loadSession()
             self.mock.loadProject()
             self.mock.loadLine()
+            self.mock.loadWorkflowForLine()
         yield
         with _app.app_context():
             database.drop_all()
@@ -47,24 +48,25 @@ class BaseTests:
         assert response.status_code == 404
         assert response.json["Error"] == expeted_response_data["Error"]
 
-    def test_create_file_with_no_file(self):
+    def test_upload_file_with_no_file(self):
         expeted_response_data = {
-            "Error": "No file part in the request"
+            'Error': {
+                'file': ['Missing data for required field.']
+            }
         }
         response = self.client.post(
-            f"{self.url_prefix}/create/{self.mock.line['id']}/{self.data_type}",
+            f"{self.url_prefix}/upload/{self.mock.line['id']}/{self.data_type}",
         )
-
-        assert response.status_code == 400
+        assert response.status_code == 422
         assert response.json["Error"] == expeted_response_data["Error"]
 
-    def test_create_file_with_inexistent_line(self):
+    def test_upload_file_with_inexistent_line(self):
         expeted_response_data = {
             "Error": "No instance found for this id"
         }
         with open(self.mock.base_marmousi_stack_path, "rb") as file:
             response = self.client.post(
-                f"{self.url_prefix}/create/99/{self.data_type}",
+                f"{self.url_prefix}/upload/99/{self.data_type}",
                 data={
                     "file": (file, path.basename(file.name))
                 },
@@ -73,7 +75,7 @@ class BaseTests:
         assert response.status_code == 404
         assert response.json["Error"] == expeted_response_data["Error"]
 
-    def test_create_file(self):
+    def test_upload_file(self):
         with open(self.mock.base_marmousi_stack_path, "rb") as file:
             file_path = path.basename(file.name)
             expeted_response_data = {
@@ -81,11 +83,10 @@ class BaseTests:
                     "path": file_path,
                     "data_type": self.data_type,
                     "lineId": self.mock.line['id'],
-                    "projectId": None,
                 }
             }
             response = self.client.post(
-                f"{self.url_prefix}/create/{self.mock.line['id']}/{self.data_type}",
+                f"{self.url_prefix}/upload/{self.mock.line['id']}/{self.data_type}",
                 data={
                     "file": (file, file_path)
                 },
@@ -95,11 +96,9 @@ class BaseTests:
         assert isinstance(response.json["fileLink"]["id"], int)
         assert response.json["fileLink"]["data_type"] == expeted_response_data["fileLink"]["data_type"]
         assert response.json["fileLink"]["lineId"] == expeted_response_data["fileLink"]["lineId"]
-        assert response.json["fileLink"]["projectId"] == expeted_response_data["fileLink"]["projectId"]
-        self.created_file_link["id"] = response.json["fileLink"]["id"]
-        self.created_file_link["data_type"] = response.json["fileLink"]["data_type"]
-        self.created_file_link["lineId"] = response.json["fileLink"]["lineId"]
-        self.created_file_link["projectId"] = response.json["fileLink"]["projectId"]
+        self.stored_file_link["id"] = response.json["fileLink"]["id"]
+        self.stored_file_link["data_type"] = response.json["fileLink"]["data_type"]
+        self.stored_file_link["lineId"] = response.json["fileLink"]["lineId"]
 
     def test_list_files(self):
         response = self.client.get(
@@ -111,6 +110,5 @@ class BaseTests:
         assert isinstance(response.json, list)
         assert len(response.json) == 1
         assert isinstance(response.json[0]["id"], int)
-        assert response.json[0]["data_type"] == self.created_file_link["data_type"]
-        assert response.json[0]["lineId"] == self.created_file_link["lineId"]
-        assert response.json[0]["projectId"] == self.created_file_link["projectId"]
+        assert response.json[0]["data_type"] == self.stored_file_link["data_type"]
+        assert response.json[0]["lineId"] == self.stored_file_link["lineId"]

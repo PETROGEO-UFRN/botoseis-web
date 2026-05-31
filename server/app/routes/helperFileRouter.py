@@ -1,11 +1,18 @@
 from flask import Blueprint, request, jsonify
 
-from ..errors.AppError import AppError
-
 from ..middlewares.decoratorsFactory import decorator_factory
 from ..middlewares.requireAuthentication import requireAuthentication
+from ..middlewares.validateRequestBody import validateRequestBody
+from ..serializers.HelperFileSerializer import HelperFileUploadSchema, TableFileGenerateSchema
 from ..models.LineModel import LineModel
+from ..models.WorkflowModel import WorkflowModel
+from ..models.DataSetModel import DataSetModel
+from ..models.HelperFileLinkModel import HelperFileLinkModel
+from ..factories.pickingASCTableFactory import createPickingASCTable
+from ..factories.pickingDictFactory import createPickingDict
 from ..controllers.helperFileController import helperFileController
+from ..controllers.workflowController import workflowController
+from ..errors.AppError import AppError
 
 helperFileRouter = Blueprint(
     "helper-file-routes",
@@ -30,12 +37,11 @@ def listHelperFiles(_, lineId):
     return jsonify(fileLinksList)
 
 
-@helperFileRouter.route("/create/<lineId>/model", methods=['POST'])
-@helperFileRouter.route("/create/<lineId>/table", methods=['POST'])
+@helperFileRouter.route("/upload/<lineId>/model", methods=['POST'])
+@helperFileRouter.route("/upload/<lineId>/table", methods=['POST'])
+@decorator_factory(validateRequestBody, SerializerSchema=HelperFileUploadSchema)
 @decorator_factory(requireAuthentication, routeModel=LineModel)
 def createHelperFile(_, lineId):
-    if 'file' not in request.files:
-        raise AppError("No file part in the request")
     file = request.files['file']
 
     if "/model" in str(request.url_rule):
@@ -44,8 +50,67 @@ def createHelperFile(_, lineId):
         data_type = "table"
 
     fileLink = helperFileController.create(
-        file,
-        lineId,
-        data_type,
+        file=file,
+        lineId=lineId,
+        data_type=data_type,
     )
+    return {"fileLink": fileLink}
+
+
+@helperFileRouter.route("/path/<workflowId>/table", methods=['GET'])
+@decorator_factory(requireAuthentication, routeModel=WorkflowModel)
+def getTableHelperFile(_, workflowId):
+    times_key = request.args.get('times_key', 'times')
+    velocities_key = request.args.get('velocities_key', 'velocities')
+
+    workflow = WorkflowModel.query.filter_by(id=workflowId).first()
+    table_file = HelperFileLinkModel.query.filter_by(
+        id=workflow.picks_table_file_id
+    ).first()
+
+    picks = createPickingDict(
+        file_path=table_file.path,
+        times_key=times_key,
+        velocities_key=velocities_key,
+    )
+
+    return {'picks': picks}
+
+
+@helperFileRouter.route("/generate/<workflowId>/table", methods=['POST'])
+@decorator_factory(validateRequestBody, SerializerSchema=TableFileGenerateSchema)
+@decorator_factory(requireAuthentication, routeModel=WorkflowModel)
+def generateTableHelperFile(_, workflowId):
+    data = request.get_json()
+
+    workflow = WorkflowModel.query.filter_by(id=workflowId).first()
+
+    lineId = workflow.workflowParent.lineId
+    if not lineId:
+        try:
+            # *** consider workflow as dataset result
+            originWorkflowId = DataSetModel.query.filter_by(
+                id=workflow.workflowParent.datasetId
+            ).first().originWorkflowId
+            originWorkflow = WorkflowModel.query.filter_by(
+                id=originWorkflowId
+            ).first()
+            lineId = originWorkflow.workflowParent.lineId
+        except:
+            raise AppError("Workflow missing lineId", 500)
+
+    file = createPickingASCTable(data['picks'])
+    file.filename = f"table_from_workflow_{workflow.id}.dat"
+
+    fileLink = helperFileController.create(
+        file=file,
+        lineId=lineId,
+        data_type='table',
+    )
+
+    workflowController.updateWorkflowPicksTable(
+        helperFileLinkId=fileLink["id"],
+        workflowId=workflowId,
+    )
+
     return {"fileLink": fileLink}

@@ -2,13 +2,13 @@ from os import path, makedirs
 from types import SimpleNamespace
 
 from ..database.connection import database
-from ..models.FileLinkModel import FileLinkModel
+from ..models import HelperFileLinkModel
 
 from ..factories.filePathFactory import createHelperFilePath
 
 
 def listByLineId(lineId, data_type):
-    fileLinks = FileLinkModel.query.filter_by(
+    fileLinks = HelperFileLinkModel.query.filter_by(
         lineId=lineId,
         data_type=data_type,
     ).all()
@@ -30,7 +30,7 @@ def create(file, lineId, data_type) -> str:
         file.filename
     )
 
-    newFileLink = FileLinkModel(
+    newFileLink = HelperFileLinkModel(
         lineId=lineId,
         path=filePath,
         data_type=data_type,

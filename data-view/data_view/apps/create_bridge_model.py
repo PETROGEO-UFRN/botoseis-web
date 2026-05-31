@@ -1,10 +1,19 @@
+from typing import Callable
 from bokeh.models import ColumnDataSource
 
-from ..basicPlot import Visualization
+from ..basicPlot import Visualization as BasicVisualization
+from ..velan import Visualization as VelanVisualization
 
 
 def create_bridge_model(
-    visualization: Visualization
+    visualization: BasicVisualization | VelanVisualization,
+    callback: Callable[
+        [
+            BasicVisualization | VelanVisualization,
+            dict[str, any]
+        ],
+        None
+    ]
 ) -> ColumnDataSource:
     """
     Creates a Bokeh ColumnDataSource to act as a bridge for updating plot
@@ -24,18 +33,10 @@ def create_bridge_model(
             key: value[0] for key, value in new_state_options.items()
         }
 
-        for toggle_key in ["toggle_image", "toggle_wiggle", "toggle_areas"]:
-            if toggle_key in flat_new_state_options:
-                visualization.toogle_visibility_by_type(toggle_key)
-                # *** remove "toggle_key" once it will not be accepted by "updatePlotOptionsState()"
-                flat_new_state_options.pop(toggle_key)
-
-        if "palette" in flat_new_state_options:
-            visualization.handle_palette_change(
-                flat_new_state_options["palette"]
-            )
-            # *** remove "palette" once it will not be accepted by "updatePlotOptionsState()"
-            flat_new_state_options.pop("palette")
+        callback(
+            visualization=visualization,
+            flat_new_state_options=flat_new_state_options
+        )
 
         if (not flat_new_state_options):
             return
@@ -43,21 +44,6 @@ def create_bridge_model(
         visualization.plot_options_state.updatePlotOptionsState(
             **flat_new_state_options
         )
-
-        # ! workarround to bypass difference beetwen different Visualization classes
-        # ! This chunk handles loading feedback
-        if hasattr(visualization, "plot_manager"):
-            visualization.plot_manager.plot.tags = list(
-                flat_new_state_options.keys()
-            )
-        else:
-            if "apply_nmo_triger" in flat_new_state_options:
-                visualization.apply_nmo()
-                flat_new_state_options.pop("apply_nmo_triger")
-
-            visualization.plots_row.tags = list(
-                flat_new_state_options.keys()
-            )
 
         visualization.handle_state_change()
 

@@ -1,0 +1,7 @@
+node_modules/
+build/
+dist/
+.tanstack/
+.env
+*.wasm
+/src/wasm/**/*.js

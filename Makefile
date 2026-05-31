@@ -61,7 +61,7 @@ build-test-db:
 	docker compose build db-test
 
 up-test-db: build-test-db
-	docker compose up db-test -d
+	docker compose up db-test -d --wait
 
 upgrade-test-db: up-test-db
 	@echo "Applying database migrations..."

@@ -34,7 +34,7 @@ export async function createSUFile(
 ): Promise<{ fileLink: IfileLink } | null> {
   try {
     const response = await api.post(
-      `/su-file/create/${projectId}`,
+      `/su-file/upload/${projectId}`,
       formData,
       {
         headers: {

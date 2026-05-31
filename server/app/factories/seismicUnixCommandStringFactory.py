@@ -1,5 +1,5 @@
 import json
-from ..models import FileLinkModel
+from ..models import SuFileLinkModel
 from ..errors.FileError import FileError
 
 
@@ -19,7 +19,7 @@ def _getParameter(parameterValues: list | str | float | int | bool) -> str:
 
 
 def __getFileParameter(file_link_id, commandName):
-    fileLink = FileLinkModel.query.filter_by(id=file_link_id).first()
+    fileLink = SuFileLinkModel.query.filter_by(id=file_link_id).first()
     if not fileLink:
         raise FileError(
             f"File not located. For parameter 'par' at command {commandName}"

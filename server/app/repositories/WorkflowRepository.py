@@ -2,9 +2,7 @@ from uuid import UUID
 from types import SimpleNamespace
 
 from ..database.connection import database
-from ..models.UserModel import UserModel
-from ..models.WorkflowModel import WorkflowModel
-from ..models.FileLinkModel import FileLinkModel
+from ..models import UserModel, WorkflowModel, SuFileLinkModel
 from ..factories.postProcessingOptionsFactory import createPostProcessingOptions
 
 from ..errors.AppError import AppError
@@ -33,12 +31,12 @@ def create(userId, newWorkflowData, parentId):
     return newWorkflow
 
 
-def updateFilePath(workflowId, fileLinkId):
+def updateInputFilePath(workflowId, fileLinkId):
     workflow = WorkflowModel.query.filter_by(id=workflowId).first()
     if not workflow:
         raise AppError("Workflow does not exist", 409)
 
-    fileLink = FileLinkModel.query.filter_by(id=fileLinkId).first()
+    fileLink = SuFileLinkModel.query.filter_by(id=fileLinkId).first()
     if not fileLink:
         raise AppError("FileLink does not exist", 409)
 
@@ -50,5 +48,5 @@ def updateFilePath(workflowId, fileLinkId):
 
 workflowRepository = SimpleNamespace(
     create=create,
-    updateFilePath=updateFilePath,
+    updateInputFilePath=updateInputFilePath,
 )

@@ -5,7 +5,7 @@ from sqlalchemy import text
 
 from server.app.database.connection import database
 from ..conftest import _app
-from ..Mock import Mock
+from ..mock.Mock import Mock
 
 
 class TestSuFileRouter:
@@ -52,13 +52,15 @@ class TestSuFileRouter:
 
     def test_create_su_file_with_no_file(self):
         expeted_response_data = {
-            "Error": "No file part in the request"
+            'Error': {
+                'file': ['Missing data for required field.']
+            }
         }
         response = self.client.post(
-            f"{self.url_prefix}/create/{self.mock.project['id']}",
+            f"{self.url_prefix}/upload/{self.mock.project['id']}"
         )
 
-        assert response.status_code == 400
+        assert response.status_code == 422
         assert response.json["Error"] == expeted_response_data["Error"]
 
     def test_create_su_file_with_inexistent_workflow(self):
@@ -67,7 +69,7 @@ class TestSuFileRouter:
         }
         with open(self.mock.base_marmousi_stack_path, "rb") as file:
             response = self.client.post(
-                f"{self.url_prefix}/create/99",
+                f"{self.url_prefix}/upload/99",
                 data={
                     "file": (file, path.basename(file.name))
                 },
@@ -83,11 +85,10 @@ class TestSuFileRouter:
                 "fileLink": {
                     "path": file_path,
                     "projectId": self.mock.project['id'],
-                    "data_type": "su",
                 }
             }
             response = self.client.post(
-                f"{self.url_prefix}/create/{self.mock.project['id']}",
+                f"{self.url_prefix}/upload/{self.mock.project['id']}",
                 data={
                     "file": (file, file_path)
                 },
@@ -96,10 +97,8 @@ class TestSuFileRouter:
         assert response.status_code == 200
         assert isinstance(response.json["fileLink"]["id"], int)
         assert response.json["fileLink"]["projectId"] == expeted_response_data["fileLink"]["projectId"]
-        assert response.json["fileLink"]["data_type"] == expeted_response_data["fileLink"]["data_type"]
         self.created_file_link["id"] = response.json["fileLink"]["id"]
         self.created_file_link["projectId"] = response.json["fileLink"]["projectId"]
-        self.created_file_link["data_type"] = response.json["fileLink"]["data_type"]
 
     def test_list_su_files(self):
         response = self.client.get(
@@ -112,7 +111,6 @@ class TestSuFileRouter:
         assert len(response.json) == 1
         assert isinstance(response.json[0]["id"], int)
         assert response.json[0]["projectId"] == self.created_file_link["projectId"]
-        assert response.json[0]["data_type"] == self.created_file_link["data_type"]
 
     def test_update_su_file_with_output_unset(self):
         expeted_response_data = {
@@ -161,3 +159,5 @@ class TestSuFileRouter:
             content_type="multipart/form-data"
         )
         assert response.status_code == 200
+
+# ➜  pytest app/tests/routes/test_SuFileRouter.py::TestSuFileRouter::test_create_su_file_with_no_file

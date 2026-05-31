@@ -29,6 +29,19 @@ jobs:
     steps:
     - uses: actions/checkout@master
 
+    - name: Checkout fixtures
+      uses: actions/checkout@v4
+      with:
+        repository: PETROGEO-UFRN/mock_large_files
+        path: fixtures
+        lfs: true
+
+    - name: Copy fixtures
+      run: |
+        mkdir -p server/app/tests/mock/files/
+        cp fixtures/marmousi_4ms_stack.su server/app/tests/mock/files/
+        cp fixtures/marmousi_velstk_picks.dat server/app/tests/mock/files/
+
     - name: Install dependecies
       run: pip install -r server/requirements.txt
 
@@ -37,6 +50,6 @@ jobs:
 
     - name: Make
       run: make test
-    
+
     - name: run tests
       run: cd server/ && pytest

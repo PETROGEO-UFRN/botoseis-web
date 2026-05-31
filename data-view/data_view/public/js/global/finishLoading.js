@@ -1,9 +1,16 @@
+const ignoredTags = [
+  "semblance_plot_hover"
+]
+
 // *** set function o window to make it available on bokeh js callback declared on server-side, running on client-side
 window.finishLoading = (tagsToStop) => {
   // *** prevents infinity loop
   if (tagsToStop.length === 0) return;
 
   tagsToStop.forEach(tag => {
+    if (ignoredTags.includes(tag))
+      return
+
     const loadingIconHTMLId = `#loading-${tag}-icon`
 
     try {

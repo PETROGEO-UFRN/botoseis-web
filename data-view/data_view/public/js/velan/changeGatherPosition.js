@@ -4,7 +4,7 @@ function previusGatherPostion() {
   )
 
   const newPosition = parseInt(shotGatherPositionNumber.value) - number_of_gathers_per_time
-  if (newPosition < 1)
+  if (newPosition < first_cdp)
     return
 
   displayLoadingOnGatherSelection()
@@ -19,7 +19,13 @@ function nextGatherPostion() {
   )
 
   const newPosition = parseInt(shotGatherPositionNumber.value) + number_of_gathers_per_time
-  if (newPosition > shotGatherPositionNumber.max)
+  // *** adding number_of_gathers_per_time twice
+  // *** considering 2 gathers are rendered per time
+  const secondDisplayedGatherOnNewPosition = (
+    newPosition +
+    number_of_gathers_per_time
+  )
+  if (secondDisplayedGatherOnNewPosition > shotGatherPositionNumber.max)
     return
 
   displayLoadingOnGatherSelection()
