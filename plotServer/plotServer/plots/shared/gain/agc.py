@@ -19,7 +19,9 @@ def applyAgcGain(
     intervalTimeSamples : float
         Time step between samples in seconds.
     """
-    half_window_samples = round(wagc / intervalTimeSamples)
+    # *** At least one sample each side, so the averaging window is never empty
+    # *** (round() can hit 0 when wagc is small relative to the sample interval).
+    half_window_samples = max(round(wagc / intervalTimeSamples), 1)
 
     # *** Define the physical window dimensions
     fullWindowSamples = 2 * half_window_samples

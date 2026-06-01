@@ -21,9 +21,12 @@ def applyPercentileClipping(
     np_types.NDArray
         Clipped data array.
     """
+    # np.percentile requires q in [0, 100]; clamp so out-of-range input from the
+    # UI degrades gracefully instead of raising.
+    percentile = min(max(percentile, 0), 100)
     maxTraceAmplitude = np.percentile(
         np.absolute(data),
         percentile
     )
-    clipedTraces = np.clip(data, a_min=-maxTraceAmplitude, a_max=maxTraceAmplitude)
-    return clipedTraces
+    clippedTraces = np.clip(data, a_min=-maxTraceAmplitude, a_max=maxTraceAmplitude)
+    return clippedTraces

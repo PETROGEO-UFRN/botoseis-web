@@ -35,7 +35,7 @@ class BaseVisualization:
         self,
         index_start: int | None = None
     ):
-        if not index_start:
+        if index_start is None:
             index_start = self.plot_options_state.gather_index_start
         index_stop = index_start + self.plot_options_state.num_loadedgathers
         # ! igather VS gather
