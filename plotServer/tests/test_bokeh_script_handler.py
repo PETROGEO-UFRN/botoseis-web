@@ -46,6 +46,16 @@ def test_returns_200_with_setup_param(bokeh_server):
     assert "script" in res.json()
 
 
+def test_returns_200_with_origin_param(bokeh_server):
+    res = requests.get(
+        f"{bokeh_server}/api/bokeh-script/basic-plot",
+        params={"workflowId": "demo", "origin": "input"},
+        timeout=5,
+    )
+    assert res.status_code == 200
+    assert "script" in res.json()
+
+
 def test_returns_400_when_workflowId_missing(bokeh_server):
     res = requests.get(
         f"{bokeh_server}/api/bokeh-script/basic-plot",
