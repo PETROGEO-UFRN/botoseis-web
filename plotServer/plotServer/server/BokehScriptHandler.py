@@ -11,6 +11,9 @@ REGISTERED_APP_NAMES = frozenset(
         ROUTE_PATHS.BASIC_PLOT,
         ROUTE_PATHS.VELOCITY_MODEL,
         ROUTE_PATHS.VELAN,
+        ROUTE_PATHS.BANDWIDTH,
+        ROUTE_PATHS.FREQUENCY_HEATMAP,
+        ROUTE_PATHS.FK,
     )
 )
 
@@ -37,6 +40,7 @@ class BokehScriptHandler(tornado.web.RequestHandler):
             self.write({"error": f"App {app_name} not found"})
             return
         setup = self.get_argument("setup", "")
+        origin = self.get_argument("origin", "")
         forwarded_host = self.request.headers.get("X-Forwarded-Host")
         forwarded_proto = self.request.headers.get("X-Forwarded-Proto", "http")
         if forwarded_host:
@@ -44,6 +48,8 @@ class BokehScriptHandler(tornado.web.RequestHandler):
         else:
             bokeh_url = f"{baseServerURL}/{app_name}"
         arguments = {"workflowId": workflowId}
+        if origin:
+            arguments["origin"] = origin
         if setup:
             arguments["setup"] = setup
         try:

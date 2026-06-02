@@ -17,6 +17,7 @@ import { PLOT_TYPES_ENUM } from '@/constants/PLOT_TYPES'
 import { useBokeh } from '@/hooks/useBokehConnection'
 
 interface IBasicPlotSearch {
+  origin: OriginType | undefined
   gatherKey: string | undefined
   firstCdp: number | undefined
   lastCdp: number | undefined
@@ -39,7 +40,10 @@ export const Route = createFileRoute('/plot/basic-plot/$workflowId')({
       return Number.isFinite(n) ? n : undefined
     }
 
+    const origin = search.origin === 'input' ? 'input' : undefined
+
     return {
+      origin,
       gatherKey,
       firstCdp: toNumberOrUndefined(firstCdpRaw),
       lastCdp: toNumberOrUndefined(lastCdpRaw),
@@ -58,7 +62,7 @@ const RANGE: Record<
 
 function BasicPlotPage() {
   const { workflowId } = Route.useParams()
-  const { gatherKey, firstCdp, lastCdp, numberOfGathersPerTime } =
+  const { origin, gatherKey, firstCdp, lastCdp, numberOfGathersPerTime } =
     Route.useSearch()
   const { emitDebouncedTrigger } = useBokeh()
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
@@ -127,6 +131,7 @@ function BasicPlotPage() {
       <BokehPlot
         plotType={PLOT_TYPES_ENUM.BASIC_PLOT}
         workflowId={workflowId}
+        origin={origin}
         setupProps={setupProps}
       />
 

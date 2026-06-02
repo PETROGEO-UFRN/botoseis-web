@@ -34,6 +34,24 @@ export default defineConfig({
         changeOrigin: true,
         xfwd: true,
         ws: true
+      },
+      '/bandwidth': {
+        target: 'http://localhost:5006',
+        changeOrigin: true,
+        xfwd: true,
+        ws: true
+      },
+      '/frequency-heatmap': {
+        target: 'http://localhost:5006',
+        changeOrigin: true,
+        xfwd: true,
+        ws: true
+      },
+      '/fk': {
+        target: 'http://localhost:5006',
+        changeOrigin: true,
+        xfwd: true,
+        ws: true
       }
     }
   },

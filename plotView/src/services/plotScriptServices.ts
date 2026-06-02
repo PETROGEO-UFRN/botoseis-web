@@ -4,6 +4,7 @@ import type { PLOT_TYPES_ENUM } from '@/constants/PLOT_TYPES'
 interface IGetPlotScriptProps {
   plotType: PLOT_TYPES_ENUM
   workflowId: string
+  origin?: OriginType
   setupProps?: plotSetupPropsType
 }
 
@@ -15,10 +16,14 @@ interface IGetPlotScriptResult {
 export async function getPlotScript({
   plotType,
   workflowId,
+  origin,
   setupProps
 }: IGetPlotScriptProps): Promise<IGetPlotScriptResult> {
   try {
     let queryParams = `workflowId=${workflowId}`
+    if (origin) {
+      queryParams += `&origin=${encodeURIComponent(origin)}`
+    }
     if (setupProps) {
       const setup = btoa(JSON.stringify(setupProps))
       queryParams += `&setup=${encodeURIComponent(setup)}`

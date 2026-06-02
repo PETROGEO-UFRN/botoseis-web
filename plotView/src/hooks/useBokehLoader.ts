@@ -15,6 +15,7 @@ interface ILoadBokehScriptsReturn {
 interface ILoadBokehScriptsProps {
   plotType: PLOT_TYPES_ENUM
   workflowId: string
+  origin?: OriginType
   setupProps?: plotSetupPropsType
 }
 
@@ -83,11 +84,13 @@ export function useBokehLoader(containerRef: RefObject<HTMLDivElement | null>) {
     async ({
       plotType,
       workflowId,
+      origin,
       setupProps
     }: ILoadBokehScriptsProps): Promise<ILoadBokehScriptsReturn> => {
       const result = await getPlotScript({
         plotType,
         workflowId,
+        origin,
         setupProps
       })
 

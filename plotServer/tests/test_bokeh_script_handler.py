@@ -4,7 +4,14 @@ import json
 import pytest
 import requests
 
-REGISTERED_PLOTS = ["basic-plot", "velocity-model", "velan"]
+REGISTERED_PLOTS = [
+    "basic-plot",
+    "velocity-model",
+    "velan",
+    "bandwidth",
+    "frequency-heatmap",
+    "fk",
+]
 
 
 @pytest.mark.parametrize("plot", REGISTERED_PLOTS)
@@ -33,6 +40,16 @@ def test_returns_200_with_setup_param(bokeh_server):
     res = requests.get(
         f"{bokeh_server}/api/bokeh-script/velan",
         params={"workflowId": "demo", "setup": setup_b64},
+        timeout=5,
+    )
+    assert res.status_code == 200
+    assert "script" in res.json()
+
+
+def test_returns_200_with_origin_param(bokeh_server):
+    res = requests.get(
+        f"{bokeh_server}/api/bokeh-script/basic-plot",
+        params={"workflowId": "demo", "origin": "input"},
         timeout=5,
     )
     assert res.status_code == 200
