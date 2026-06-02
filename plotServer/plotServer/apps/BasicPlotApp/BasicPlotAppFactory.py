@@ -57,7 +57,7 @@ def BasicPlotAppFactory() -> Application:
                 gather_key=gather_key,
             )
 
-            document.add_root(visualization.plot_manager.plot)
+            document.add_root(visualization.plot)
             bridgeModelFactory(
                 document=document,
                 callback=bridgeCallbackFactory(visualization=visualization),

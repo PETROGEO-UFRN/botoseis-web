@@ -21,3 +21,6 @@ type PackedBridgeValidActionsType = {
 }
 
 type plotSetupPropsType = Record<string, unknown>
+
+/** Which SU file a plot reads: the workflow's input section or its output. */
+type OriginType = 'input' | 'output'

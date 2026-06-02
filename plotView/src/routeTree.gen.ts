@@ -13,7 +13,10 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlotVelocityModelWorkflowIdRouteImport } from './routes/plot/velocity-model.$workflowId'
 import { Route as PlotVelanWorkflowIdRouteImport } from './routes/plot/velan.$workflowId'
 import { Route as PlotSampleWorkflowIdRouteImport } from './routes/plot/sample.$workflowId'
+import { Route as PlotFrequencyHeatmapWorkflowIdRouteImport } from './routes/plot/frequency-heatmap.$workflowId'
+import { Route as PlotFkWorkflowIdRouteImport } from './routes/plot/fk.$workflowId'
 import { Route as PlotBasicPlotWorkflowIdRouteImport } from './routes/plot/basic-plot.$workflowId'
+import { Route as PlotBandwidthWorkflowIdRouteImport } from './routes/plot/bandwidth.$workflowId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -36,22 +39,44 @@ const PlotSampleWorkflowIdRoute = PlotSampleWorkflowIdRouteImport.update({
   path: '/plot/sample/$workflowId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlotFrequencyHeatmapWorkflowIdRoute =
+  PlotFrequencyHeatmapWorkflowIdRouteImport.update({
+    id: '/plot/frequency-heatmap/$workflowId',
+    path: '/plot/frequency-heatmap/$workflowId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PlotFkWorkflowIdRoute = PlotFkWorkflowIdRouteImport.update({
+  id: '/plot/fk/$workflowId',
+  path: '/plot/fk/$workflowId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlotBasicPlotWorkflowIdRoute = PlotBasicPlotWorkflowIdRouteImport.update({
   id: '/plot/basic-plot/$workflowId',
   path: '/plot/basic-plot/$workflowId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlotBandwidthWorkflowIdRoute = PlotBandwidthWorkflowIdRouteImport.update({
+  id: '/plot/bandwidth/$workflowId',
+  path: '/plot/bandwidth/$workflowId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/plot/bandwidth/$workflowId': typeof PlotBandwidthWorkflowIdRoute
   '/plot/basic-plot/$workflowId': typeof PlotBasicPlotWorkflowIdRoute
+  '/plot/fk/$workflowId': typeof PlotFkWorkflowIdRoute
+  '/plot/frequency-heatmap/$workflowId': typeof PlotFrequencyHeatmapWorkflowIdRoute
   '/plot/sample/$workflowId': typeof PlotSampleWorkflowIdRoute
   '/plot/velan/$workflowId': typeof PlotVelanWorkflowIdRoute
   '/plot/velocity-model/$workflowId': typeof PlotVelocityModelWorkflowIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/plot/bandwidth/$workflowId': typeof PlotBandwidthWorkflowIdRoute
   '/plot/basic-plot/$workflowId': typeof PlotBasicPlotWorkflowIdRoute
+  '/plot/fk/$workflowId': typeof PlotFkWorkflowIdRoute
+  '/plot/frequency-heatmap/$workflowId': typeof PlotFrequencyHeatmapWorkflowIdRoute
   '/plot/sample/$workflowId': typeof PlotSampleWorkflowIdRoute
   '/plot/velan/$workflowId': typeof PlotVelanWorkflowIdRoute
   '/plot/velocity-model/$workflowId': typeof PlotVelocityModelWorkflowIdRoute
@@ -59,7 +84,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/plot/bandwidth/$workflowId': typeof PlotBandwidthWorkflowIdRoute
   '/plot/basic-plot/$workflowId': typeof PlotBasicPlotWorkflowIdRoute
+  '/plot/fk/$workflowId': typeof PlotFkWorkflowIdRoute
+  '/plot/frequency-heatmap/$workflowId': typeof PlotFrequencyHeatmapWorkflowIdRoute
   '/plot/sample/$workflowId': typeof PlotSampleWorkflowIdRoute
   '/plot/velan/$workflowId': typeof PlotVelanWorkflowIdRoute
   '/plot/velocity-model/$workflowId': typeof PlotVelocityModelWorkflowIdRoute
@@ -68,21 +96,30 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/plot/bandwidth/$workflowId'
     | '/plot/basic-plot/$workflowId'
+    | '/plot/fk/$workflowId'
+    | '/plot/frequency-heatmap/$workflowId'
     | '/plot/sample/$workflowId'
     | '/plot/velan/$workflowId'
     | '/plot/velocity-model/$workflowId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/plot/bandwidth/$workflowId'
     | '/plot/basic-plot/$workflowId'
+    | '/plot/fk/$workflowId'
+    | '/plot/frequency-heatmap/$workflowId'
     | '/plot/sample/$workflowId'
     | '/plot/velan/$workflowId'
     | '/plot/velocity-model/$workflowId'
   id:
     | '__root__'
     | '/'
+    | '/plot/bandwidth/$workflowId'
     | '/plot/basic-plot/$workflowId'
+    | '/plot/fk/$workflowId'
+    | '/plot/frequency-heatmap/$workflowId'
     | '/plot/sample/$workflowId'
     | '/plot/velan/$workflowId'
     | '/plot/velocity-model/$workflowId'
@@ -90,7 +127,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PlotBandwidthWorkflowIdRoute: typeof PlotBandwidthWorkflowIdRoute
   PlotBasicPlotWorkflowIdRoute: typeof PlotBasicPlotWorkflowIdRoute
+  PlotFkWorkflowIdRoute: typeof PlotFkWorkflowIdRoute
+  PlotFrequencyHeatmapWorkflowIdRoute: typeof PlotFrequencyHeatmapWorkflowIdRoute
   PlotSampleWorkflowIdRoute: typeof PlotSampleWorkflowIdRoute
   PlotVelanWorkflowIdRoute: typeof PlotVelanWorkflowIdRoute
   PlotVelocityModelWorkflowIdRoute: typeof PlotVelocityModelWorkflowIdRoute
@@ -126,6 +166,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlotSampleWorkflowIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/plot/frequency-heatmap/$workflowId': {
+      id: '/plot/frequency-heatmap/$workflowId'
+      path: '/plot/frequency-heatmap/$workflowId'
+      fullPath: '/plot/frequency-heatmap/$workflowId'
+      preLoaderRoute: typeof PlotFrequencyHeatmapWorkflowIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/plot/fk/$workflowId': {
+      id: '/plot/fk/$workflowId'
+      path: '/plot/fk/$workflowId'
+      fullPath: '/plot/fk/$workflowId'
+      preLoaderRoute: typeof PlotFkWorkflowIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/plot/basic-plot/$workflowId': {
       id: '/plot/basic-plot/$workflowId'
       path: '/plot/basic-plot/$workflowId'
@@ -133,12 +187,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlotBasicPlotWorkflowIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/plot/bandwidth/$workflowId': {
+      id: '/plot/bandwidth/$workflowId'
+      path: '/plot/bandwidth/$workflowId'
+      fullPath: '/plot/bandwidth/$workflowId'
+      preLoaderRoute: typeof PlotBandwidthWorkflowIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PlotBandwidthWorkflowIdRoute: PlotBandwidthWorkflowIdRoute,
   PlotBasicPlotWorkflowIdRoute: PlotBasicPlotWorkflowIdRoute,
+  PlotFkWorkflowIdRoute: PlotFkWorkflowIdRoute,
+  PlotFrequencyHeatmapWorkflowIdRoute: PlotFrequencyHeatmapWorkflowIdRoute,
   PlotSampleWorkflowIdRoute: PlotSampleWorkflowIdRoute,
   PlotVelanWorkflowIdRoute: PlotVelanWorkflowIdRoute,
   PlotVelocityModelWorkflowIdRoute: PlotVelocityModelWorkflowIdRoute,

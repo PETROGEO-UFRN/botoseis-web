@@ -8,6 +8,7 @@ import { Container, PlotBox } from './styles'
 interface IBokehPlotProps {
   plotType: PLOT_TYPES_ENUM
   workflowId: string
+  origin?: OriginType
   setupProps?: plotSetupPropsType
 }
 
@@ -21,6 +22,7 @@ const CONNECTION_RETRY_TIMEOUT_MS = 5000
 export default function BokehPlot({
   plotType,
   workflowId,
+  origin,
   setupProps
 }: IBokehPlotProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -37,7 +39,7 @@ export default function BokehPlot({
     setRequestLog('Connecting to Bokeh server...')
 
     const attempt = () => {
-      loadBokehScripts({ plotType, workflowId, setupProps }).then(result => {
+      loadBokehScripts({ plotType, workflowId, origin, setupProps }).then(result => {
         if (cancelled) return
         if (result.ok) {
           setRequestLog(null)
@@ -57,7 +59,7 @@ export default function BokehPlot({
       cancelled = true
       if (retryTimeout) clearTimeout(retryTimeout)
     }
-  }, [loadBokehScripts, plotType, workflowId, setupProps])
+  }, [loadBokehScripts, plotType, workflowId, origin, setupProps])
 
   return (
     <Container>
