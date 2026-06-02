@@ -10,14 +10,14 @@ import numpy as np
 import pytest
 from bokeh.models import Plot
 
-from plotServer.constants.VISUALIZATION import MAX_TRACES_LINE_HAREA
 from plotServer.plots.BasicPlot import Visualization, PlotOptionsState
 from plotServer.plots.BasicPlot.transforms import image_x_extent
 from plotServer.plots.shared.colormaps import getColormap
 
-# marmousi_4ms_stack.su: traces shape (723, 574), dt = 0.004 s
-NUM_SAMPLES = 723
-NUM_TRACES = 574
+# Properties of THE fixture (marmousi_4ms_stack.su), enforced by the
+# marmousi_stack_path fixture guard in conftest.py: traces (724, 457), dt 0.004 s.
+NUM_SAMPLES = 724
+NUM_TRACES = 457
 
 
 @pytest.fixture
@@ -68,10 +68,12 @@ class TestInteractions:
         assert viz.wiggle.fill_renderer.visible is True
         assert len(viz.wiggle.line_source.data["xs"]) == NUM_TRACES
 
-    def test_fill_empty_over_trace_threshold(self, viz):
-        assert NUM_TRACES > MAX_TRACES_LINE_HAREA
+    def test_fill_populated_for_this_fixture(self, viz):
+        # This fixture has 457 traces (< MAX_TRACES_LINE_HAREA), so the filled
+        # area is rendered: one polygon per trace. The over-threshold suppression
+        # path is covered fixture-free in test_wiggle_display.py.
         viz.updateWiggleVisibility(True)
-        assert viz.wiggle.fill_source.data["xs"] == []
+        assert len(viz.wiggle.fill_source.data["xs"]) == NUM_TRACES
 
     def test_colormap_update(self, viz):
         viz.updateColormap("red_black")

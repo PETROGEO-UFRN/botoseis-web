@@ -20,7 +20,9 @@ BF = importlib.import_module(
     "plotServer.apps.BandwidthApp.BandwidthAppFactory"
 )
 
-NUM_SAMPLES = 723  # marmousi_4ms_stack.su
+# Property of THE fixture (marmousi_4ms_stack.su), enforced by the
+# marmousi_stack_path fixture guard in conftest.py.
+NUM_SAMPLES = 724
 
 
 def _make_doc(arguments: dict, cookies: dict | None = None) -> Document:

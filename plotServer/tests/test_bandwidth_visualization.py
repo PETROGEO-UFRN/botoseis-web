@@ -13,9 +13,9 @@ import pytest
 
 from plotServer.plots.Bandwidth import Visualization
 
-# Fixture properties (verified by inspecting marmousi_4ms_stack.su):
-#   traces shape = (723, 574)    dt = 4000 us (0.004 s)    num_samples = 723
-NUM_SAMPLES = 723
+# Properties of THE fixture (marmousi_4ms_stack.su), enforced by the
+# marmousi_stack_path fixture guard in conftest.py: 724 samples, dt 0.004 s.
+NUM_SAMPLES = 724
 NYQUIST_HZ = 125.0  # 1 / (2 * 0.004)
 
 
