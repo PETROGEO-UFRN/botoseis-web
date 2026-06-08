@@ -15,6 +15,7 @@ import {
 } from '@/constants/BOKEH_REACT_BRIDGE'
 import { PLOT_TYPES_ENUM } from '@/constants/PLOT_TYPES'
 import { useBokeh } from '@/hooks/useBokehConnection'
+import { useBokehMetadata } from '@/hooks/useBokehMetadata'
 
 interface IBasicPlotSearch {
   origin: OriginType | undefined
@@ -65,6 +66,7 @@ function BasicPlotPage() {
   const { origin, gatherKey, firstCdp, lastCdp, numberOfGathersPerTime } =
     Route.useSearch()
   const { emitDebouncedTrigger } = useBokeh()
+  const { numGathers } = useBokehMetadata()
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [imageVisible, setImageVisible] = useState(true)
   const [wiggleVisible, setWiggleVisible] = useState(false)
@@ -86,7 +88,7 @@ function BasicPlotPage() {
       gatherKey
         ? {
             gather_key: gatherKey,
-            first_cdp: firstCdp ?? 1,
+            first_cdp: firstCdp ?? 0,
             last_cdp: lastCdp ?? null,
             number_of_gathers_per_time: numberOfGathersPerTime ?? 1
           }
@@ -119,10 +121,11 @@ function BasicPlotPage() {
           <PlotFloatActions.GatherNavigation
             gatherIndex={gatherIndex}
             setGatherIndex={setGatherIndex}
-            setupProps={{
-              first_cdp: firstCdp ?? 0,
-              last_cdp: lastCdp ?? null,
-              number_of_gathers_per_time: numberOfGathersPerTime ?? 1
+            bounds={{
+              firstGather: firstCdp ?? 0,
+              lastGather:
+                numGathers != null && numGathers > 0 ? numGathers - 1 : null,
+              gathersPerLoad: numberOfGathersPerTime ?? 1
             }}
           />
         )}
@@ -136,6 +139,17 @@ function BasicPlotPage() {
       />
 
       <PlotActionsDrawer.Root isOpen={isDrawerOpen} setIsOpen={setIsDrawerOpen}>
+        <PlotActionsDrawer.Group title="Analysis">
+          <Button
+            variant="outlined"
+            onClick={() =>
+              window.open(`/plot/bandwidth/${workflowId}`, '_blank')
+            }
+          >
+            Open Bandwidth
+          </Button>
+        </PlotActionsDrawer.Group>
+
         <PlotActionsDrawer.Group title="Renderers">
           <CustomSwitch
             label="Image"

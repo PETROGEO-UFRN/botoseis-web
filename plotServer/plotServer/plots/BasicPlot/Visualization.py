@@ -64,7 +64,16 @@ class Visualization(BaseVisualization):
         self.handle_state_change()
 
     def updateGatherIndex(self, gatherIndex: int):
-        self.plot_options_state.updatePlotOptionsState(gather_index_start=gatherIndex - 1)
+        # gatherIndex is 0-based (the gather actually shown). Clamp into range so
+        # a stale/over-shooting client index never yields a negative slice (which
+        # wraps to the last gather) or an out-of-range empty section.
+        num_gathers = self.plot_options_state.num_gathers
+        num_loaded = self.plot_options_state.num_loadedgathers or 1
+        start = int(gatherIndex)
+        if num_gathers is not None:
+            start = min(start, max(0, num_gathers - num_loaded))
+        start = max(0, start)
+        self.plot_options_state.updatePlotOptionsState(gather_index_start=start)
         self.handle_state_change()
 
     def updateLoadCount(self, loadCount: int):

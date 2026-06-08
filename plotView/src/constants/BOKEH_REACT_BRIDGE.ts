@@ -1,5 +1,6 @@
 export const BOKEH_BRIDGE_MODEL_NAME = 'BRIDGE_ACTIONS_TRIGGER_MODEL'
 export const BOKEH_BRIDGE_FEEDBACK_MODEL_NAME = 'BRIDGE_FEEDBACK_MODEL'
+export const BOKEH_BRIDGE_METADATA_MODEL_NAME = 'BRIDGE_METADATA_MODEL'
 
 export const COLORMAP_OPTIONS: Array<{ id: ColormapType; label: string }> = [
   { id: 'grey', label: 'Greyscale' },

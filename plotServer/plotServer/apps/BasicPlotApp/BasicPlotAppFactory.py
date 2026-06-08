@@ -45,7 +45,8 @@ def BasicPlotAppFactory() -> Application:
             if gather_key:
                 plot_options_state = PlotOptionsState(has_gather_key=True)
                 plot_options_state.updatePlotOptionsState(
-                    gather_index_start=int(setup.get('first_cdp', 1)) - 1,
+                    # first_cdp arrives 0-based (the gather to show); no -1.
+                    gather_index_start=max(0, int(setup.get('first_cdp', 0))),
                     num_loadedgathers=int(setup.get('number_of_gathers_per_time', 1)),
                 )
             else:

@@ -38,10 +38,10 @@ function SamplePage() {
         <PlotFloatActions.GatherNavigation
           gatherIndex={gatherIndex}
           setGatherIndex={setGatherIndex}
-          setupProps={{
-            first_cdp: 0,
-            last_cdp: 100,
-            number_of_gathers_per_time: 1
+          bounds={{
+            firstGather: 0,
+            lastGather: 100,
+            gathersPerLoad: 1
           }}
         />
       </PlotFloatActions.Root>

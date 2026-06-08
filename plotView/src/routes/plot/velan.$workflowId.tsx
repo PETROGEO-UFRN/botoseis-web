@@ -1,13 +1,7 @@
 import ChevronRight from '@mui/icons-material/ChevronRight'
 import { Box, Button } from '@mui/material'
 import { createFileRoute } from '@tanstack/react-router'
-import {
-  type ChangeEvent,
-  type Dispatch,
-  type SetStateAction,
-  useMemo,
-  useState
-} from 'react'
+import { type ChangeEvent, useMemo, useState } from 'react'
 
 import BokehPlot from '@/components/BokehPlot'
 import CustomSwitch from '@/components/CustomSwitch'
@@ -145,16 +139,11 @@ function VelanPage() {
         </Button>
         <PlotFloatActions.GatherNavigation
           gatherIndex={gatherIndex}
-          setGatherIndex={
-            ((idx: number) => {
-              setGatherIndex(idx)
-              emitDebouncedTrigger({ gatherIndex: idx })
-            }) as Dispatch<SetStateAction<number>>
-          }
-          setupProps={{
-            first_cdp: firstCdp ?? VELAN_DEFAULTS.firstCdp,
-            last_cdp: lastCdp ?? VELAN_DEFAULTS.lastCdp,
-            number_of_gathers_per_time:
+          setGatherIndex={setGatherIndex}
+          bounds={{
+            firstGather: firstCdp ?? VELAN_DEFAULTS.firstCdp,
+            lastGather: lastCdp ?? VELAN_DEFAULTS.lastCdp,
+            gathersPerLoad:
               numberOfGathersPerTime ?? VELAN_DEFAULTS.numberOfGathersPerTime
           }}
         />

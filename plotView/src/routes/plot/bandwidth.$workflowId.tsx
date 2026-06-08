@@ -4,28 +4,19 @@ import { createFileRoute } from '@tanstack/react-router'
 import BokehPlot from '@/components/BokehPlot'
 import { PLOT_TYPES_ENUM } from '@/constants/PLOT_TYPES'
 
-interface IBandwidthSearch {
-  origin: OriginType | undefined
-}
-
 export const Route = createFileRoute('/plot/bandwidth/$workflowId')({
-  component: BandwidthPage,
-  validateSearch: (search: Record<string, unknown>): IBandwidthSearch => ({
-    origin: search.origin === 'input' ? 'input' : undefined
-  })
+  component: BandwidthPage
 })
 
 function BandwidthPage() {
   const { workflowId } = Route.useParams()
-  const { origin } = Route.useSearch()
 
+  // Bandwidth reads no file of its own: it is driven by the cross-tab observer
+  // feed (the section BasicPlot is showing for this workflowId), so it needs no
+  // origin / gather params.
   return (
     <Box sx={{ height: '100vh' }} id="bandwidth-page">
-      <BokehPlot
-        plotType={PLOT_TYPES_ENUM.BANDWIDTH}
-        workflowId={workflowId}
-        origin={origin}
-      />
+      <BokehPlot plotType={PLOT_TYPES_ENUM.BANDWIDTH} workflowId={workflowId} />
     </Box>
   )
 }
