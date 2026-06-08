@@ -64,6 +64,20 @@ def test_modify_document_builds_spectrum(marmousi_stack_path):
     assert len(sources[0].data["x"]) == (NUM_SAMPLES // 2) + 1  # rfft length
 
 
+def test_origin_query_param_is_propagated(marmousi_stack_path):
+    app = BF.BandwidthAppFactory()
+    handler = app.handlers[0]
+    args = {"workflowId": [b"demo"], "origin": [b"input"]}
+    with patch.object(
+        BF.RestAPIConsumer,
+        "find_su_file_path",
+        return_value=str(marmousi_stack_path),
+    ) as mocked:
+        doc = _make_doc(args)
+        handler.modify_document(doc)
+    mocked.assert_called_once_with(origin="input")
+
+
 def test_modify_document_missing_workflowId_raises():
     app = BF.BandwidthAppFactory()
     handler = app.handlers[0]

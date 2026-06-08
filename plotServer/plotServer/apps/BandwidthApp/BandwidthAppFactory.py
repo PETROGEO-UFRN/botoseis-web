@@ -14,15 +14,16 @@ def BandwidthAppFactory() -> Application:
         arguments = request.arguments
         auth_token = request.cookies.get('Authorization') or ''
         workflowId = arguments.get('workflowId', [b''])[0].decode('utf-8')
-        return workflowId, auth_token
+        origin = arguments.get('origin', [b'output'])[0].decode('utf-8') or 'output'
+        return workflowId, auth_token, origin
 
     def modify_document(document: Document):
-        workflowId, auth_token = __getRequestArguments(document)
+        workflowId, auth_token, origin = __getRequestArguments(document)
         if not workflowId:
             raise ValueError("workflowId query param is required")
 
         consumer = RestAPIConsumer(workflowId=workflowId, auth_token=auth_token)
-        absolute_file_path = consumer.find_su_file_path(origin='output')
+        absolute_file_path = consumer.find_su_file_path(origin=origin)
         if not absolute_file_path:
             raise ValueError(f"SU file path not found for workflowId={workflowId}")
 
