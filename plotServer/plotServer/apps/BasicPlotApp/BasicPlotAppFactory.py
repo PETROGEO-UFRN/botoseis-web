@@ -5,13 +5,14 @@ from bokeh.application import Application
 from bokeh.application.handlers import FunctionHandler
 from bokeh.document.document import Document
 
+from ..AppsObserver import AppsObserver
 from ..bridgeModelFactory import bridgeModelFactory
 from ...services.RestAPIConsumer import RestAPIConsumer
 from ...plots.BasicPlot import Visualization, PlotOptionsState
 from .bridgeCallbackFactory import bridgeCallbackFactory
 
 
-def BasicPlotAppFactory() -> Application:
+def BasicPlotAppFactory(observer: AppsObserver | None = None) -> Application:
     def __getRequestArguments(document: Document):
         request = document.session_context.request
         arguments = request.arguments
@@ -52,16 +53,34 @@ def BasicPlotAppFactory() -> Application:
             else:
                 plot_options_state = PlotOptionsState(has_gather_key=False)
 
+            # *** Broadcast the displayed section to other tabs (e.g. Bandwidth)
+            # sharing this workflowId. No-op when no observer is wired.
+            on_section_change = None
+            if observer is not None:
+                def on_section_change(data, dt):
+                    observer.publish(
+                        workflowId,
+                        [{"traces": data, "dt": dt}],
+                        origin_document=document,
+                    )
+
             visualization = Visualization(
                 filename=absolute_file_path,
                 plot_options_state=plot_options_state,
                 gather_key=gather_key,
+                on_section_change=on_section_change,
             )
 
             document.add_root(visualization.plot)
+            # *** Expose the real gather count so the client bounds navigation to
+            # the actual end of the file (0 in stack mode = no pagination).
+            num_gathers = getattr(
+                visualization.plot_options_state, "num_gathers", None
+            )
             bridgeModelFactory(
                 document=document,
                 callback=bridgeCallbackFactory(visualization=visualization),
+                metadata={"num_gathers": num_gathers if num_gathers is not None else 0},
             )
         except Exception as exc:
             import traceback

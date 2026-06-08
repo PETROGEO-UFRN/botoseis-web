@@ -1,3 +1,4 @@
+from .AppsObserver import AppsObserver
 from .BasicPlotApp import BasicPlotAppFactory
 from .VelocityModelApp import VelocityModelAppFactory
 from .VelanApp import VelanAppFactory

@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Callable, Literal
 
 import numpy as np
 import numpy.typing as np_types
@@ -38,15 +38,20 @@ class Visualization(BaseVisualization):
         filename: str,
         plot_options_state: PlotOptionsState,
         gather_key: str | None = None,
+        on_section_change: Callable[[np_types.NDArray, float], None] | None = None,
     ) -> None:
         super().__init__(filename, plot_options_state, gather_key)
         self.gain = dict(DEFAULT_GAIN)
+        # Optional listener for the displayed section (e.g. the cross-tab observer
+        # feeding Bandwidth). Kept as a plain callback so this stays decoupled.
+        self.on_section_change = on_section_change
 
         data, x_positions, instants = self._prepare_render()
         self.plot = plotFactory(yAxisLabel="Time (s)", isYAxisFlipped=True)
         # Image first, wiggle second, so the wiggle draws on top of the image.
         self.image = ImageDisplay(self.plot, data, x_positions, instants, visible=True)
         self.wiggle = WiggleDisplay(self.plot, data, x_positions, instants, visible=False)
+        self._emit_section_change(data)
 
     # *** Bridge actions (contract preserved) ***
 
@@ -86,6 +91,15 @@ class Visualization(BaseVisualization):
         data, x_positions, instants = self._prepare_render()
         self.image.update(data, x_positions, instants)
         self.wiggle.update(data, x_positions, instants)
+        self._emit_section_change(data)
+
+    def _emit_section_change(self, data: np_types.NDArray) -> None:
+        """Notify the listener (if any) that the displayed section changed,
+        passing the current data and its time-sample interval."""
+        if self.on_section_change is not None:
+            self.on_section_change(
+                data, self.plot_options_state.interval_time_samples
+            )
 
     def _prepare_render(self) -> tuple[np_types.NDArray, np_types.NDArray, np_types.NDArray]:
         """Load the current section, apply gain, and derive trace positions and

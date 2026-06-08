@@ -1,37 +1,24 @@
 """Wiring tests for BandwidthAppFactory.modify_document.
 
-The handler-level test in test_bokeh_script_handler.py only exercises Bokeh's
-script generation (server_document). The actual file-path resolution ->
-Visualization construction runs lazily inside modify_document when a session
-opens, so it is covered here by driving modify_document directly against a real
-Bokeh Document with RestAPIConsumer mocked.
+Bandwidth reads no file -- it builds an empty plot and subscribes to the
+observer feed -- so these drive modify_document directly against a real Bokeh
+Document with no RestAPIConsumer involved.
 """
 import importlib
 from types import SimpleNamespace
-from unittest.mock import patch
 
+import numpy as np
 import pytest
 from bokeh.document import Document
 from bokeh.models import ColumnDataSource
 
-# Import the *module* (not the package attr) to get a stable patch target: the
-# package __init__ rebinds the name `BandwidthAppFactory` to the function.
+# Import the *module* (not the package attr) for a stable reference.
 BF = importlib.import_module(
     "plotServer.apps.BandwidthApp.BandwidthAppFactory"
 )
 
-# Property of THE fixture (marmousi_4ms_stack.su), enforced by the
-# marmousi_stack_path fixture guard in conftest.py.
-NUM_SAMPLES = 724
-
 
 def _make_doc(arguments: dict, cookies: dict | None = None) -> Document:
-    """A Document whose session_context.request exposes Bokeh-style args.
-
-    Bokeh reads request args as {name: [bytes, ...]}. session_context is a
-    zero-arg callable internally; stubbing _session_context is enough to drive
-    modify_document outside a live server (validated on Bokeh 3.8.2).
-    """
     doc = Document()
     request = SimpleNamespace(arguments=arguments, cookies=cookies or {})
     doc._session_context = lambda: SimpleNamespace(request=request)
@@ -46,57 +33,55 @@ def _spectrum_sources(doc: Document):
     ]
 
 
-def test_modify_document_builds_spectrum(marmousi_stack_path):
+class _RecordingObserver:
+    """Captures subscribe() so the test can invoke the registered callback
+    directly -- exactly what AppsObserver would deliver on next tick."""
+
+    def __init__(self):
+        self.calls = []
+
+    def subscribe(self, workflowId, document, callback):
+        self.calls.append((workflowId, document, callback))
+
+
+def test_modify_document_builds_empty_plot_and_bridge():
     app = BF.BandwidthAppFactory()
     handler = app.handlers[0]
-    args = {"workflowId": [b"demo"]}
-    with patch.object(
-        BF.RestAPIConsumer,
-        "find_su_file_path",
-        return_value=str(marmousi_stack_path),
-    ) as mocked:
-        doc = _make_doc(args)
-        handler.modify_document(doc)
+    doc = _make_doc({"workflowId": [b"demo"]})
+    handler.modify_document(doc)
 
-    mocked.assert_called_once_with(origin="output")
+    # An (empty) spectrum source exists and the figure is a root.
     sources = _spectrum_sources(doc)
     assert len(sources) == 1
-    assert len(sources[0].data["x"]) == (NUM_SAMPLES // 2) + 1  # rfft length
-
-
-def test_origin_query_param_is_propagated(marmousi_stack_path):
-    app = BF.BandwidthAppFactory()
-    handler = app.handlers[0]
-    args = {"workflowId": [b"demo"], "origin": [b"input"]}
-    with patch.object(
-        BF.RestAPIConsumer,
-        "find_su_file_path",
-        return_value=str(marmousi_stack_path),
-    ) as mocked:
-        doc = _make_doc(args)
-        handler.modify_document(doc)
-    mocked.assert_called_once_with(origin="input")
+    assert list(sources[0].data["x"]) == []
 
 
 def test_modify_document_missing_workflowId_raises():
     app = BF.BandwidthAppFactory()
     handler = app.handlers[0]
-    args = {"workflowId": [b""]}
-    # Must fail before any file lookup is attempted.
-    with patch.object(BF.RestAPIConsumer, "find_su_file_path") as mocked:
-        doc = _make_doc(args)
-        with pytest.raises(ValueError, match="workflowId"):
-            handler.modify_document(doc)
-    mocked.assert_not_called()
+    doc = _make_doc({"workflowId": [b""]})
+    with pytest.raises(ValueError, match="workflowId"):
+        handler.modify_document(doc)
 
 
-def test_modify_document_missing_file_raises():
-    app = BF.BandwidthAppFactory()
+def test_subscribes_to_observer_and_updates_on_publish():
+    observer = _RecordingObserver()
+    app = BF.BandwidthAppFactory(observer)
     handler = app.handlers[0]
-    args = {"workflowId": [b"demo"]}
-    with patch.object(
-        BF.RestAPIConsumer, "find_su_file_path", return_value=None
-    ):
-        doc = _make_doc(args)
-        with pytest.raises(ValueError, match="SU file path not found"):
-            handler.modify_document(doc)
+    doc = _make_doc({"workflowId": [b"demo"]})
+    handler.modify_document(doc)
+
+    # Subscribed for this workflow + this document.
+    assert len(observer.calls) == 1
+    workflowId, sub_doc, callback = observer.calls[0]
+    assert workflowId == "demo"
+    assert sub_doc is doc
+
+    # A published section recomputes the spectrum to that section's length.
+    traces = np.zeros((100, 5), dtype=np.float32)
+    traces[1, :] = 1.0
+    callback([{"traces": traces, "dt": 0.004}])
+
+    sources = _spectrum_sources(doc)
+    assert len(sources) == 1
+    assert len(sources[0].data["x"]) == (100 // 2) + 1

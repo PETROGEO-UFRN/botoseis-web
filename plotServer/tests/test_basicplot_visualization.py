@@ -85,6 +85,39 @@ class TestInteractions:
         assert viz.gain["PERCENTILE_CLIPPING"] == 100  # untouched default
 
 
+class TestSectionChangeHook:
+    """The cross-tab publish point: an optional callback fires with the current
+    displayed section on first paint and on every repaint. Defaults to a no-op."""
+
+    def test_fires_on_init_with_data_and_dt(self, marmousi_stack_path):
+        calls = []
+        Visualization(
+            filename=str(marmousi_stack_path),
+            plot_options_state=PlotOptionsState(has_gather_key=False),
+            gather_key=None,
+            on_section_change=lambda data, dt: calls.append((data, dt)),
+        )
+        assert len(calls) == 1
+        data, dt = calls[0]
+        assert data.shape == (NUM_SAMPLES, NUM_TRACES)
+        assert dt == pytest.approx(0.004)
+
+    def test_fires_again_on_state_change(self, marmousi_stack_path):
+        calls = []
+        viz = Visualization(
+            filename=str(marmousi_stack_path),
+            plot_options_state=PlotOptionsState(has_gather_key=False),
+            gather_key=None,
+            on_section_change=lambda data, dt: calls.append((data, dt)),
+        )
+        viz.handle_state_change()
+        assert len(calls) == 2
+
+    def test_hook_is_optional(self, viz):
+        # The `viz` fixture passes no on_section_change; repaint must not raise.
+        viz.handle_state_change()
+
+
 class TestRenderPipeline:
     def test_prepare_render_applies_active_gain(self, viz):
         raw = viz.getBaseData()
@@ -100,3 +133,36 @@ class TestRenderPipeline:
         viz.updateGain({"AGC": 0.1})
         after = viz.image.source.data["image"][0]
         assert not np.array_equal(before, after)
+
+
+class TestGatherNavigation:
+    """Gather-mode pagination: updateGatherIndex is 0-based and clamped so a
+    stale client index never wraps to the last gather (negative slice) or reads
+    past the end. Reading the stack file with gather_key='cdp' gives a real
+    multi-gather grouping (same as VelocityModel)."""
+
+    @pytest.fixture
+    def gather_viz(self, marmousi_stack_path):
+        return Visualization(
+            filename=str(marmousi_stack_path),
+            plot_options_state=PlotOptionsState(has_gather_key=True),
+            gather_key="cdp",
+        )
+
+    def test_num_gathers_is_known(self, gather_viz):
+        assert gather_viz.plot_options_state.num_gathers > 1
+
+    def test_update_is_zero_based(self, gather_viz):
+        gather_viz.updateGatherIndex(3)
+        assert gather_viz.plot_options_state.gather_index_start == 3
+
+    def test_negative_index_clamps_to_zero(self, gather_viz):
+        # Regression: gatherIndex 0 used to become -1 and wrap to the last gather.
+        gather_viz.updateGatherIndex(-5)
+        assert gather_viz.plot_options_state.gather_index_start == 0
+
+    def test_overshoot_clamps_to_last_loadable(self, gather_viz):
+        state = gather_viz.plot_options_state
+        gather_viz.updateGatherIndex(state.num_gathers + 100)
+        loaded = state.num_loadedgathers or 1
+        assert state.gather_index_start == state.num_gathers - loaded

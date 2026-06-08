@@ -3,6 +3,7 @@ from bokeh.server.server import Server
 from ..config.allowedOrigins import allowedWebSocketOrigins
 from ..constants.ROUTE_PATHS import ROUTE_PATHS
 from ..apps import (
+    AppsObserver,
     BasicPlotAppFactory,
     VelocityModelAppFactory,
     VelanAppFactory,
@@ -14,12 +15,14 @@ from .BokehScriptHandler import BokehScriptHandler
 
 
 def serverFactory() -> Server:
+    # *** One shared observer wires cross-tab feeds (e.g. BasicPlot -> Bandwidth)
+    apps_observer = AppsObserver()
     return Server(
         applications={
-            ROUTE_PATHS.BASIC_PLOT: BasicPlotAppFactory(),
+            ROUTE_PATHS.BASIC_PLOT: BasicPlotAppFactory(apps_observer),
             ROUTE_PATHS.VELOCITY_MODEL: VelocityModelAppFactory(),
             ROUTE_PATHS.VELAN: VelanAppFactory(),
-            ROUTE_PATHS.BANDWIDTH: BandwidthAppFactory(),
+            ROUTE_PATHS.BANDWIDTH: BandwidthAppFactory(apps_observer),
             ROUTE_PATHS.FREQUENCY_HEATMAP: FrequencyHeatmapAppFactory(),
             ROUTE_PATHS.FK: FKAppFactory(),
         },
