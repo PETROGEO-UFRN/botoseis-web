@@ -7,6 +7,7 @@ import { isOriginAllowed } from '@/config/cors'
 import { errorHandlerFactory } from '@/presentation/middlewares/errorHandler'
 import { lineRouterFactory } from '@/presentation/routes/lineRoutes'
 import { programGroupRouterFactory } from '@/presentation/routes/programGroupRoutes'
+import { programRouterFactory } from '@/presentation/routes/programRoutes'
 import { projectRouterFactory } from '@/presentation/routes/projectRoutes'
 import { sessionRouterFactory } from '@/presentation/routes/sessionRoutes'
 import { userRouterFactory } from '@/presentation/routes/userRoutes'
@@ -23,7 +24,8 @@ export default function appFactory({
     projectRouterFactory({ environment }),
     lineRouterFactory({ environment }),
     workflowRouterFactory({ environment }),
-    programGroupRouterFactory({ environment })
+    programGroupRouterFactory({ environment }),
+    programRouterFactory({ environment })
   ]
 
   app.use(errorHandlerFactory({ environment }))
