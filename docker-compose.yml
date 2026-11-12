@@ -109,10 +109,13 @@ services:
       - ALL
     tmpfs:
       - /tmp:rw,noexec,nosuid,nodev
-      # *** Masks the secrets inside the repo mount below
-      - /workspace/.secrets:notmpcopyup
-    # *** GH_APP_ID for the GitHub App identity the agent opens PRs with.
-    # *** Optional for compose so other services start without it; `make agent` checks it.
+      # *** Masks the secrets inside the repo mount below. podman needs notmpcopyup or it
+      # *** copies them into the mask; docker rejects that option, so `make agent` sets "ro"
+      - /workspace/.secrets:${AGENT_SECRETS_TMPFS:-ro,notmpcopyup}
+    # *** GH_APP_ID for the GitHub App identity the agent opens PRs with. Optional: without
+    # *** it the agent works, but cannot push or open PRs.
+    # *** Root and service .env files and keys are hidden by the override `make agent`
+    # *** generates (agent/secret-masks.sh), only for the files that exist.
     env_file:
       - path: ./.secrets/agent.env
         required: false

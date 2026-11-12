@@ -18,16 +18,26 @@ The image (`agent/dockerfile`) is built on the same Seismic Unix image as the se
 | `Makefile`, `docker-compose.yml`, `agent/`, `.agents/` | read-only | its own container and config |
 | `.agents/hermes.yaml` | read-write | mounted as its Hermes config, so `hermes config set` works |
 | `.secrets/` | hidden | credentials, only the GitHub App key is mounted read-only at `/run/secrets` |
+| `.env` files (root and per service), `*.pem`, `*.key` | hidden | each one that exists is covered by an empty read-only file |
+
+The hidden files are listed by `agent/secret-masks.sh` when `make agent` runs, into the
+gitignored `.secrets/agent-masks.yml` compose override. A secret file added later stays
+visible until the next `make agent`, which recreates the container with its mask.
 
 Python virtualenvs go in `~/.venvs` (the `agent-venv` volume), never in the repo, e.g.
 `uv venv ~/.venvs/server --python 3.12 && uv pip install --python ~/.venvs/server -r server/requirements.txt -r server/requirements-dev.txt`.
 
 ## Setup
 
-1. Credentials, in `.secrets/` (gitignored, hidden inside the container):
+1. Optional, for pushes and PRs: GitHub App credentials in `.secrets/` (gitignored,
+   hidden inside the container):
    - `agent.env` with `GH_APP_ID=<GitHub App id>`;
    - the GitHub App private key (`*.private-key.pem`), mounted read-only at `/run/secrets`.
-2. `make agent`. On the first start, log in to Claude: `claude` -> `/login`, then
+
+   Without them the agent still starts and works on the code; `make agent` just warns
+   that it cannot push or open PRs.
+2. `make agent` (always through it: it hides the secret files and sets the engine's
+   options). On the first start, log in to Claude: `claude` -> `/login`, then
    `hermes chat --provider anthropic`. Detach without stopping it with `ctrl + P + Q`.
 
 The agent's repo skills live in `.agents/skills/` (`github-prs`: pushes and PRs as the

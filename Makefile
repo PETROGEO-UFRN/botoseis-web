@@ -79,15 +79,23 @@ agent: export USERNS_MODE := keep-id
 # *** podman-compose (>= 1.1) applies keep-id natively; its default pod conflicts with it.
 agent: export PODMAN_COMPOSE_PROVIDER := podman-compose
 AGENT_COMPOSE_FLAGS := --in-pod false
+else
+# *** docker rejects podman's notmpcopyup and never copies into the mask anyway.
+agent: export AGENT_SECRETS_TMPFS := ro
 endif
 
 # *** The container runs as the host user, so files the agent writes belong to it.
 agent: export UID := $(shell id -u)
 agent: export GID := $(shell id -g)
 
+# *** Hides the secret files present now; `make agent` again after adding one.
+AGENT_MASKS := .secrets/agent-masks.yml
+
 agent:
-	@test -f .secrets/agent.env || { echo "Missing .secrets/agent.env, see docs/agentContainer.md"; exit 1; }
+	@{ test -f .secrets/agent.env && ls .secrets/*.private-key.pem >/dev/null 2>&1; } || \
+		echo "No GitHub App credentials in .secrets/: the agent starts, but cannot push or open PRs (see docs/agentContainer.md)"
+	@sh agent/secret-masks.sh > $(AGENT_MASKS)
 	# Build (cached, so cheap when nothing changed) and start the agent detached
-	$(CONTAINER_ENGINE) compose $(AGENT_COMPOSE_FLAGS) --profile agent up -d --build boto-dev-agent
+	$(CONTAINER_ENGINE) compose $(AGENT_COMPOSE_FLAGS) -f docker-compose.yml -f $(AGENT_MASKS) --profile agent up -d --build boto-dev-agent
 	# Attach to it. Detach without stopping it with "ctrl + P + Q".
 	$(CONTAINER_ENGINE) attach boto-dev-agent

@@ -18,6 +18,6 @@ __pycache__
 *.dat
 
 # Agent container
-!agent/entrypoint.sh
+!agent/*.sh
 .secrets/*
 !.secrets/.gitkeep
