@@ -95,6 +95,8 @@ class TestCommandRouter:
             self.created_commands.append(response.json)
 
     def test_show_command(self):
+        # *** Precondition: records created by test_create_new_command
+        assert len(self.created_commands) == 3, "expected 3 commands from test_create_new_command"
         for command in self.created_commands:
             response = self.client.get(
                 f"{self.url_prefix}/show/{command['id']}",
@@ -107,6 +109,8 @@ class TestCommandRouter:
 
     # todo: this test as well as its domains need repair
     def test_update_command_parameters(self):
+        # *** Precondition: records created by test_create_new_command
+        assert len(self.created_commands) == 3, "expected 3 commands from test_create_new_command"
         for index, command in enumerate(self.created_commands):
             expected_response_data = {
                 "parameters": f"SUDEFAULT-updated-{command['id']}",
@@ -126,6 +130,8 @@ class TestCommandRouter:
             self.created_commands[index] = response.json
 
     def test_update_command_is_active(self):
+        # *** Precondition: records created by test_create_new_command
+        assert len(self.created_commands) == 3, "expected 3 commands from test_create_new_command"
         for index, command in enumerate(self.created_commands):
             response = self.client.put(
                 f"{self.url_prefix}/update/{command['id']}/is_active",
@@ -139,6 +145,8 @@ class TestCommandRouter:
             self.created_commands[index] = response.json
 
     def test_update_order_command(self):
+        # *** Precondition: records created by test_create_new_command
+        assert len(self.created_commands) == 3, "expected 3 commands from test_create_new_command"
         order = [command["id"] for command in self.created_commands]
         # *** swap first and last item from command order
         order[0], order[-1] = order[-1], order[0]
@@ -165,6 +173,8 @@ class TestCommandRouter:
         self.created_commands = expected_response_data
 
     def test_delete_command_with_invalid(self):
+        # *** Precondition: records created by test_create_new_command
+        assert len(self.created_commands) == 3, "expected 3 commands from test_create_new_command"
         self.client.set_cookie("Authorization", "!NV4L1dT0k3N")
         for command in self.created_commands:
             response = self.client.delete(
@@ -176,6 +186,8 @@ class TestCommandRouter:
             assert response.status_code == 401
 
     def test_delete_command(self):
+        # *** Precondition: records created by test_create_new_command
+        assert len(self.created_commands) == 3, "expected 3 commands from test_create_new_command"
         self.mock.loadSession()
         for command in self.created_commands:
             response = self.client.delete(

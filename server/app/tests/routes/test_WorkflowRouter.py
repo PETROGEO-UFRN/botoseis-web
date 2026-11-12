@@ -128,6 +128,8 @@ class TestWorkflowRouter:
         pass
 
     def test_invalid_token_workflow(self):
+        # *** Precondition: records created by test_create_new_workflow_at_line and test_create_new_workflow_at_project
+        assert len(self.created_workflows) == 6, "expected 6 workflows from test_create_new_workflow_at_line and test_create_new_workflow_at_project"
         self.client.set_cookie("Authorization", "!NV4L1dT0k3N")
         for workflow in self.created_workflows:
             response = self.client.delete(
@@ -136,6 +138,8 @@ class TestWorkflowRouter:
             assert response.status_code == 401
 
     def test_delete_workflow(self):
+        # *** Precondition: records created by test_create_new_workflow_at_line and test_create_new_workflow_at_project
+        assert len(self.created_workflows) == 6, "expected 6 workflows from test_create_new_workflow_at_line and test_create_new_workflow_at_project"
         self.mock.loadSession()
         for workflow in self.created_workflows:
             response = self.client.delete(

@@ -64,6 +64,8 @@ class TestParameterRouter:
             self.created_parameters.append(response.json)
 
     def test_update_parameter_only_name(self):
+        # *** Precondition: records created by test_create_new_parameter
+        assert len(self.created_parameters) == 3, "expected 3 parameters from test_create_new_parameter"
         for index, parameter in enumerate(self.created_parameters):
             expected_response_data = deepcopy(parameter)
             expected_response_data["name"] = f"new name - {parameter['id']}"
@@ -79,6 +81,8 @@ class TestParameterRouter:
             self.created_parameters[index]["name"] = response.json["name"]
 
     def test_update_parameter_only_description(self):
+        # *** Precondition: records created by test_create_new_parameter
+        assert len(self.created_parameters) == 3, "expected 3 parameters from test_create_new_parameter"
         for index, parameter in enumerate(self.created_parameters):
             expected_response_data = deepcopy(parameter)
             expected_response_data["description"] = "New description"
@@ -94,6 +98,8 @@ class TestParameterRouter:
             self.created_parameters[index]["description"] = response.json["description"]
 
     def test_update_parameter_only_example(self):
+        # *** Precondition: records created by test_create_new_parameter
+        assert len(self.created_parameters) == 3, "expected 3 parameters from test_create_new_parameter"
         for index, parameter in enumerate(self.created_parameters):
             expected_response_data = deepcopy(parameter)
             expected_response_data["example"] = "New Usage Example: 0.,1.,...,1.,0."
@@ -109,6 +115,8 @@ class TestParameterRouter:
             self.created_parameters[index]["example"] = response.json["example"]
 
     def test_update_parameter_only_input_type(self):
+        # *** Precondition: records created by test_create_new_parameter
+        assert len(self.created_parameters) == 3, "expected 3 parameters from test_create_new_parameter"
         for index, parameter in enumerate(self.created_parameters):
             expected_response_data = deepcopy(parameter)
             # ! could test allowed types
@@ -125,6 +133,8 @@ class TestParameterRouter:
             self.created_parameters[index]["input_type"] = response.json["input_type"]
 
     def test_update_parameter_only_isRequired(self):
+        # *** Precondition: records created by test_create_new_parameter
+        assert len(self.created_parameters) == 3, "expected 3 parameters from test_create_new_parameter"
         for index, parameter in enumerate(self.created_parameters):
             expected_response_data = deepcopy(parameter)
             expected_response_data["isRequired"] = True
@@ -140,6 +150,8 @@ class TestParameterRouter:
             self.created_parameters[index]["isRequired"] = response.json["isRequired"]
 
     def test_update_parameter_multiple_fields(self):
+        # *** Precondition: records created by test_create_new_parameter
+        assert len(self.created_parameters) == 3, "expected 3 parameters from test_create_new_parameter"
         for index, parameter in enumerate(self.created_parameters):
             expected_response_data = deepcopy(parameter)
             expected_response_data['description'] = "Description and type update"
@@ -158,6 +170,8 @@ class TestParameterRouter:
             self.created_parameters[index]["input_type"] = response.json["input_type"]
 
     def test_show_parameter(self):
+        # *** Precondition: records created by test_create_new_parameter
+        assert len(self.created_parameters) == 3, "expected 3 parameters from test_create_new_parameter"
         response = self.client.get(
             f"{self.url_prefix}/list/{self.mock.program['id']}",
         )
@@ -175,6 +189,8 @@ class TestParameterRouter:
             assert response.json[index]['isRequired'] == parameter['isRequired']
 
     def test_delete_parameter(self):
+        # *** Precondition: records created by test_create_new_parameter
+        assert len(self.created_parameters) == 3, "expected 3 parameters from test_create_new_parameter"
         for program in self.created_parameters:
             response = self.client.delete(
                 f"{self.url_prefix}/delete/{program['id']}",

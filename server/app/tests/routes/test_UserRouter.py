@@ -72,6 +72,8 @@ class TestUserRouter:
 
     def test_list_users(self):
         """Test that listing users returns the users that were created."""
+        # *** Precondition: records created by test_create_new_user
+        assert len(self.created_users) == 3, "expected 3 users from test_create_new_user"
         response = self.client.get(f"{self.url_prefix}/list")
         assert response.status_code == 200
         assert isinstance(response.json, list)
@@ -79,6 +81,8 @@ class TestUserRouter:
 
     def test_update_user(self):
         """Test updating a user's name with a valid session token."""
+        # *** Precondition: records created by test_create_new_user
+        assert len(self.created_users) == 3, "expected 3 users from test_create_new_user"
         for user in self.created_users:
             self.mock.loadSession(email=user['email'])
             response = self.client.put(
@@ -90,6 +94,8 @@ class TestUserRouter:
 
     def test_invalid_token_user(self):
         """Test updating a user with an invalid token."""
+        # *** Precondition: records created by test_create_new_user
+        assert len(self.created_users) == 3, "expected 3 users from test_create_new_user"
         for _ in self.created_users:
             self.client.set_cookie("Authorization", "!NV4L1dT0k3N")
             response = self.client.delete(
@@ -100,6 +106,8 @@ class TestUserRouter:
 
     def test_delete_user(self):
         """Test deleting users with a valid session token."""
+        # *** Precondition: records created by test_create_new_user
+        assert len(self.created_users) == 3, "expected 3 users from test_create_new_user"
         for user in self.created_users:
             self.mock.loadSession(email=user['email'])
             response = self.client.delete(

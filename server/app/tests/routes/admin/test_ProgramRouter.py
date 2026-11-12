@@ -89,6 +89,8 @@ class TestProgramRouter:
             self.created_programs.append(response.json)
 
     def test_list_program_groups(self):
+        # *** Precondition: records created by test_create_new_program
+        assert len(self.created_programs) == 3, "expected 3 programs from test_create_new_program"
         response = self.client.get(
             f"{self.url_prefix}/list/{self.mock.programGroup['id']}",
         )
@@ -106,6 +108,8 @@ class TestProgramRouter:
             assert response.json[index]['groupId'] == program['groupId']
 
     def test_delete_program(self):
+        # *** Precondition: records created by test_create_new_program
+        assert len(self.created_programs) == 3, "expected 3 programs from test_create_new_program"
         for program in self.created_programs:
             response = self.client.delete(
                 f"{self.url_prefix}/delete/{program['id']}",

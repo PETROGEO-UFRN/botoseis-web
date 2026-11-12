@@ -51,6 +51,8 @@ class TestProjectRouter:
             self.created_projects.append(response.json)
 
     def test_list_projects(self):
+        # *** Precondition: records created by test_create_new_project
+        assert len(self.created_projects) == 3, "expected 3 projects from test_create_new_project"
         response = self.client.get(
             f"{self.url_prefix}/list",
         )
@@ -59,6 +61,8 @@ class TestProjectRouter:
         assert response.json == self.created_projects
 
     def test_update_project_name(self):
+        # *** Precondition: records created by test_create_new_project
+        assert len(self.created_projects) == 3, "expected 3 projects from test_create_new_project"
         for project in self.created_projects:
             new_name = f"new_project_name_{project['id']}"
             project['name'] = new_name
@@ -73,6 +77,8 @@ class TestProjectRouter:
             assert response.json == project
 
     def test_invalid_token_project(self):
+        # *** Precondition: records created by test_create_new_project
+        assert len(self.created_projects) == 3, "expected 3 projects from test_create_new_project"
         self.client.set_cookie("Authorization", "!NV4L1dT0k3N")
         for project in self.created_projects:
             response = self.client.delete(
@@ -84,6 +90,8 @@ class TestProjectRouter:
             assert response.status_code == 401
 
     def test_delete_project(self):
+        # *** Precondition: records created by test_create_new_project
+        assert len(self.created_projects) == 3, "expected 3 projects from test_create_new_project"
         self.mock.loadSession()
         for project in self.created_projects:
             response = self.client.delete(

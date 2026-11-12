@@ -55,6 +55,8 @@ class TestLineRouter:
             self.created_lines.append(response.json)
 
     def test_list_lines(self):
+        # *** Precondition: records created by test_create_new_line
+        assert len(self.created_lines) == 3, "expected 3 lines from test_create_new_line"
         response = self.client.get(
             f"{self.url_prefix}/list/{self.mock.project['id']}",
         )
@@ -63,6 +65,8 @@ class TestLineRouter:
         assert response.json == self.created_lines
 
     def test_update_line_name(self):
+        # *** Precondition: records created by test_create_new_line
+        assert len(self.created_lines) == 3, "expected 3 lines from test_create_new_line"
         for line in self.created_lines:
             expected_response_data = {
                 "id": line['id'],
@@ -81,6 +85,8 @@ class TestLineRouter:
             assert response.json == expected_response_data
 
     def test_invalid_token_line(self):
+        # *** Precondition: records created by test_create_new_line
+        assert len(self.created_lines) == 3, "expected 3 lines from test_create_new_line"
         self.client.set_cookie("Authorization", "!NV4L1dT0k3N")
         for line in self.created_lines:
             response = self.client.delete(
@@ -92,6 +98,8 @@ class TestLineRouter:
             assert response.status_code == 401
 
     def test_delete_line(self):
+        # *** Precondition: records created by test_create_new_line
+        assert len(self.created_lines) == 3, "expected 3 lines from test_create_new_line"
         self.mock.loadSession()
         for line in self.created_lines:
             response = self.client.delete(

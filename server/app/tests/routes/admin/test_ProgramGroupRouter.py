@@ -54,6 +54,8 @@ class TestProgramGroupRouter:
             self.created_groups.append(response.json)
 
     def test_update_program_group_name(self):
+        # *** Precondition: records created by test_create_new_program_group
+        assert len(self.created_groups) == 3, "expected 3 groups from test_create_new_program_group"
         for index, group in enumerate(self.created_groups):
             expected_response_data = {
                 "id": group['id'],
@@ -73,6 +75,8 @@ class TestProgramGroupRouter:
             self.created_groups[index]['name'] = response.json['name']
 
     def test_update_program_group_description(self):
+        # *** Precondition: records created by test_create_new_program_group
+        assert len(self.created_groups) == 3, "expected 3 groups from test_create_new_program_group"
         for index, group in enumerate(self.created_groups):
             expected_response_data = {
                 "id": group['id'],
@@ -92,6 +96,8 @@ class TestProgramGroupRouter:
             self.created_groups[index]['description'] = response.json['description']
 
     def test_list_program_groups(self):
+        # *** Precondition: records created by test_create_new_program_group
+        assert len(self.created_groups) == 3, "expected 3 groups from test_create_new_program_group"
         response = self.client.get(
             f"{self.url_prefix}/list",
         )
@@ -108,6 +114,8 @@ class TestProgramGroupRouter:
             assert response.json[index]['programs'] == group['programs']
 
     def test_delete_program(self):
+        # *** Precondition: records created by test_create_new_program_group
+        assert len(self.created_groups) == 3, "expected 3 groups from test_create_new_program_group"
         for program_group in self.created_groups:
             response = self.client.delete(
                 f"{self.url_prefix}/delete/{program_group['id']}",
