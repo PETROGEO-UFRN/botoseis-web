@@ -1,19 +1,36 @@
+import os
+
 import pytest
 from dotenv import load_dotenv, find_dotenv
 
 from server.app.create_app import create_app
+from server.app.tests.httpClient import GenericHttpClient
 
 dotenv_path = find_dotenv()
 result = load_dotenv(dotenv_path, override=True)
+
+# *** Base URL of the API under test
+API_URL = os.getenv("API_URL", "http://localhost:8080")
+
+# *** App instance for direct database access (reset and seeding), not for requests.
+# *** The server at API_URL must use the same test database.
 _app = create_app("TEST")
 
 
-def _client():
-    return _app.test_client()
-
-
 def pytest_configure():
-    pytest.client = _client()
+    # *** Created at configure time: test classes read `pytest.client` on import
+    pytest.client = GenericHttpClient(API_URL)
+
+
+def pytest_unconfigure():
+    client = getattr(pytest, "client", None)
+    if isinstance(client, GenericHttpClient):
+        client.close()
+
+
+@pytest.fixture(scope="session")
+def client():
+    yield pytest.client
 
 
 def pytest_collection_modifyitems(items):
