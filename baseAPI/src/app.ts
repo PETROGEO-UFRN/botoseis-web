@@ -5,6 +5,7 @@ import { koaBody } from 'koa-body'
 
 import { isOriginAllowed } from '@/config/cors'
 import { errorHandlerFactory } from '@/presentation/middlewares/errorHandler'
+import { projectRouterFactory } from '@/presentation/routes/projectRoutes'
 import { sessionRouterFactory } from '@/presentation/routes/sessionRoutes'
 import { userRouterFactory } from '@/presentation/routes/userRoutes'
 
@@ -15,7 +16,8 @@ export default function appFactory({
 
   const routers: Router[] = [
     userRouterFactory({ environment }),
-    sessionRouterFactory({ environment })
+    sessionRouterFactory({ environment }),
+    projectRouterFactory({ environment })
   ]
 
   app.use(errorHandlerFactory({ environment }))

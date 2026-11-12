@@ -3,8 +3,9 @@ import { eq } from 'drizzle-orm'
 
 import database from '@/database/connection'
 import { AppError } from '@/errors/AppError'
-import { type IUser, users } from '@/models/index'
+import { type IUser, projects, users } from '@/models/index'
 import { passwordService } from '@/services/passwordService'
+import { removeProjects } from '@/services/projectService'
 
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
@@ -59,11 +60,19 @@ export const userService = {
     return user
   },
 
+  // *** Projects go along, with their own cascade
   async delete(id: string): Promise<IUser> {
-    const [user] = await database
-      .delete(users)
-      .where(eq(users.id, id))
-      .returning()
+    const [user] = await database.transaction(async transaction => {
+      const userProjects = await transaction
+        .select({ id: projects.id })
+        .from(projects)
+        .where(eq(projects.userId, id))
+      await removeProjects(
+        transaction,
+        userProjects.map(project => project.id)
+      )
+      return transaction.delete(users).where(eq(users.id, id)).returning()
+    })
     if (!user) throw new AppError('User does not exist', 404)
     return user
   }
