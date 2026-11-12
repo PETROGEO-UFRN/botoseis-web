@@ -102,6 +102,81 @@ class TestProgramRouter:
             assert response.json[index]['path_to_executable_file'] == program['path_to_executable_file']
             assert response.json[index]['groupId'] == program['groupId']
 
+    def test_update_program(self):
+        # *** Precondition: records created by test_create_new_program
+        assert len(self.created_programs) == 3, "expected 3 programs from test_create_new_program"
+        for program in self.created_programs:
+            expected_response_data = {
+                **program,
+                "name": f"UPDATED - {program['id']}",
+                "description": "updated description",
+                "path_to_executable_file": "updated_executable",
+            }
+            response = self.client.put(
+                f"{self.url_prefix}/update/{program['id']}",
+                data={
+                    "name": expected_response_data["name"],
+                    "description": expected_response_data["description"],
+                    "path_to_executable_file": expected_response_data["path_to_executable_file"],
+                },
+            )
+            assert response.status_code == 200
+            assert response.json == expected_response_data
+            program.update(expected_response_data)
+
+        # *** the update must be stored, not only answered
+        response = self.client.get(
+            f"{self.url_prefix}/list/{self.mock.programGroup['id']}",
+        )
+        assert response.json == self.created_programs
+
+    def test_update_program_with_json(self):
+        # *** Precondition: records created by test_create_new_program
+        assert len(self.created_programs) == 3, "expected 3 programs from test_create_new_program"
+        response = self.client.put(
+            f"{self.url_prefix}/update/{self.created_programs[0]['id']}",
+            json={
+                "name": "NOTSUFILTER",
+                "description": "description of NOTSUFILTER",
+                "path_to_executable_file": "notsufilter",
+            },
+        )
+        assert response.status_code == 415
+        assert response.json['Error'] == "No body, JSON is not accepted for this route"
+
+    def test_non_numeric_group_id(self):
+        response = self.client.get(
+            f"{self.url_prefix}/list/not-an-id",
+        )
+        assert response.status_code == 404
+        assert response.json['Error'] == "Program Group does not exist"
+
+    def test_delete_program_with_parameters(self):
+        response = self.client.post(
+            f"{self.url_prefix}/create/{self.mock.programGroup['id']}",
+            data={
+                "name": "WITH PARAMETERS",
+                "description": "description",
+                "path_to_executable_file": "with_parameters",
+            },
+        )
+        program = response.json
+        for _ in range(2):
+            self.client.post(f"/programs/parameters/create/{program['id']}")
+
+        response = self.client.delete(
+            f"{self.url_prefix}/delete/{program['id']}",
+        )
+        assert response.status_code == 200
+        assert response.json == program
+
+        # *** parameters go along with their program
+        response = self.client.get(
+            f"/programs/parameters/list/{program['id']}",
+        )
+        assert response.status_code == 404
+        assert response.json['Error'] == "Program does not exist"
+
     def test_delete_program(self):
         # *** Precondition: records created by test_create_new_program
         assert len(self.created_programs) == 3, "expected 3 programs from test_create_new_program"

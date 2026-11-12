@@ -122,6 +122,42 @@ class TestWorkflowRouter:
     def test_update_workflow_name(self):
         pass
 
+    def test_update_post_processing(self):
+        # *** Precondition: records created by test_create_new_workflow_at_line and test_create_new_workflow_at_project
+        assert len(self.created_workflows) == 6, "expected 6 workflows from test_create_new_workflow_at_line and test_create_new_workflow_at_project"
+        for workflow in self.created_workflows:
+            expected_options = {
+                "key": "tab-vizualizer",
+                "options": {"gain": 2, "label": "stack", "clip": 0.5, "flip": True},
+            }
+            response = self.client.put(
+                f"{self.url_prefix}/update/{workflow['id']}/post-processing",
+                json=expected_options,
+            )
+            assert response.status_code == 200
+            assert response.json == {"post_processing_options": expected_options}
+            workflow["post_processing_options"] = expected_options
+
+    def test_update_post_processing_with_invalid_body(self):
+        # *** Precondition: records created by test_create_new_workflow_at_line and test_create_new_workflow_at_project
+        assert len(self.created_workflows) == 6, "expected 6 workflows from test_create_new_workflow_at_line and test_create_new_workflow_at_project"
+        workflow_id = self.created_workflows[0]['id']
+        response = self.client.put(
+            f"{self.url_prefix}/update/{workflow_id}/post-processing",
+            json={"key": "tab-vizualizer", "options": {"nested": {"gain": 2}}},
+        )
+        assert response.status_code == 422
+        assert response.json['Error'] == {
+            "options": ["Value for key 'nested' at 'options' must be a primite. Got dict."]
+        }
+
+        response = self.client.put(
+            f"{self.url_prefix}/update/{workflow_id}/post-processing",
+            json={"options": {}},
+        )
+        assert response.status_code == 422
+        assert response.json['Error'] == {"key": ["Missing data for required field."]}
+
     def test_invalid_token_workflow(self):
         # *** Precondition: records created by test_create_new_workflow_at_line and test_create_new_workflow_at_project
         assert len(self.created_workflows) == 6, "expected 6 workflows from test_create_new_workflow_at_line and test_create_new_workflow_at_project"

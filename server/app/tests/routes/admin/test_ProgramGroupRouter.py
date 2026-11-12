@@ -28,6 +28,21 @@ class TestProgramGroupRouter:
         assert response.status_code == 200
         assert response.json == []
 
+    def test_create_program_group_without_name(self):
+        response = self.client.post(
+            f"{self.url_prefix}/create",
+            json={"description": "some description"},
+        )
+        assert response.status_code == 422
+        assert response.json['Error'] == {"name": ["Missing data for required field."]}
+
+    def test_non_numeric_group_id(self):
+        response = self.client.delete(
+            f"{self.url_prefix}/delete/not-an-id",
+        )
+        assert response.status_code == 404
+        assert response.json['Error'] == "Group does not exist"
+
     def test_create_new_program_group(self):
         for i in range(3):
             expected_response_data = {

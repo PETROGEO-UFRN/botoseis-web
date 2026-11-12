@@ -1,3 +1,6 @@
+import os
+
+import jwt
 import pytest
 
 from ..conftest import reset_database
@@ -86,6 +89,37 @@ class TestUserRouter:
             )
             assert response.status_code == 200
             assert response.json['name'] == f"updated_{user['name']}"
+
+    def test_update_user_ignores_email(self):
+        """Test that the update route only changes the name, never the email."""
+        # *** Precondition: records created by test_create_new_user
+        assert len(self.created_users) == 3, "expected 3 users from test_create_new_user"
+        for user in self.created_users:
+            self.mock.loadSession(email=user['email'])
+            response = self.client.put(
+                f"{self.url_prefix}/update",
+                json={
+                    "name": f"updated_{user['name']}",
+                    "email": f"changed_{user['email']}",
+                },
+            )
+            assert response.status_code == 200
+            assert response.json['email'] == user['email']
+
+    def test_token_with_malformed_user_id(self):
+        """Test that a signed token holding a non UUID user id is not authorized."""
+        # *** Signed with the secret both servers read from SECRET
+        token = jwt.encode(
+            {"id": "not-a-uuid", "name": "nobody", "email": "nobody@email.com"},
+            os.getenv("SECRET", "private_key"),
+            algorithm="HS256",
+        )
+        self.client.set_cookie("Authorization", token)
+        response = self.client.put(
+            f"{self.url_prefix}/update",
+            json={"name": "nobody"},
+        )
+        assert response.status_code == 401
 
     def test_invalid_token_user(self):
         """Test updating a user with an invalid token."""

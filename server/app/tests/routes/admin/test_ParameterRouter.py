@@ -44,6 +44,20 @@ class TestParameterRouter:
         assert response.status_code == 404
         assert response.json['Error'] == expected_response_data['Error']
 
+    def test_non_numeric_ids(self):
+        response = self.client.get(
+            f"{self.url_prefix}/list/not-an-id",
+        )
+        assert response.status_code == 404
+        assert response.json['Error'] == "Program does not exist"
+
+        response = self.client.put(
+            f"{self.url_prefix}/update/not-an-id",
+            json={"name": "any"},
+        )
+        assert response.status_code == 404
+        assert response.json['Error'] == "Parameter does not exist"
+
     def test_create_new_parameter(self):
         # *** parameters shall be initialized empty
         for _ in range(3):

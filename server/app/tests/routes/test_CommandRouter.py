@@ -167,6 +167,26 @@ class TestCommandRouter:
             assert response.json[index]["parameters"] == command["parameters"]
         self.created_commands = expected_response_data
 
+    def test_update_order_with_unknown_ids(self):
+        # *** Precondition: records created by test_create_new_command
+        assert len(self.created_commands) == 3, "expected 3 commands from test_create_new_command"
+        order = [command["id"] for command in self.created_commands]
+        for bad_order in (order[:-1], order + [9999], [order[0]] * 3):
+            response = self.client.put(
+                f"{self.url_prefix}/order/{self.mock.workflow['id']}",
+                json={"newOrder": bad_order},
+            )
+            assert response.status_code == 400
+            assert response.json['Error'] == "newOrder must hold exactly the workflow command ids"
+
+    def test_delete_program_in_use(self):
+        # *** Precondition: records created by test_create_new_command
+        assert len(self.created_commands) == 3, "expected 3 commands from test_create_new_command"
+        response = self.client.delete(
+            f"/programs/delete/{self.mock.program['id']}",
+        )
+        assert response.status_code == 409
+
     def test_delete_command_with_invalid(self):
         # *** Precondition: records created by test_create_new_command
         assert len(self.created_commands) == 3, "expected 3 commands from test_create_new_command"
