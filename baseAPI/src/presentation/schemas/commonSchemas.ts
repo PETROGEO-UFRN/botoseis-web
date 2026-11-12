@@ -55,15 +55,11 @@ export const optionalBoolean = () => z.boolean({ error: MESSAGES.boolean })
 export const requestBody = <T extends z.ZodRawShape>(shape: T) =>
   z.object(shape, { error: MESSAGES.invalidInput })
 
-// *** Requires at least one of the given keys to be present
-export const atLeastOneOf =
-  (keys: readonly string[]) => (data: Record<string, unknown>) => {
-    if (Object.keys(data).length === 0) return false
-    return keys.some(key => data[key] !== undefined)
-  }
+// *** Update bodies need one known field at least, unknown ones are dropped
+export const hasAnyField = (data: Record<string, unknown>) =>
+  Object.values(data).some(value => value !== undefined)
 
-export const atLeastOneOfMessage = (keys: readonly string[]) =>
-  `At least one of [${keys.map(key => `'${key}'`).join(', ')}] is required.`
+export const AT_LEAST_ONE_FIELD = 'At least one field must be provided.'
 
 // *** Groups issues by top level field, matching the legacy error body
 export function toValidationMessages(error: ZodError): IValidationMessages {
