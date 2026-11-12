@@ -14,7 +14,7 @@ volumes:
 services:
 
   db:
-    image: postgres
+    image: docker.io/library/postgres
     restart: always
     environment:
       - POSTGRES_DB=${DATABASE_NAME:-admin}
@@ -24,7 +24,7 @@ services:
       - 5432:5432
 
   db-test:
-    image: postgres
+    image: docker.io/library/postgres
     restart: always
     environment:
       - POSTGRES_DB=${DATABASE_NAME:-admin}

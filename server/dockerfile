@@ -1,4 +1,4 @@
-FROM cadu21/seismic-unix:latest
+FROM docker.io/cadu21/seismic-unix:latest
 WORKDIR /home/server
 
 ENV FLASK_APP=app.create_app:create_app

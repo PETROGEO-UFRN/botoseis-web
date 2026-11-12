@@ -1,4 +1,4 @@
-# *** Makefile for building and managing Docker services
+# *** Makefile for building and managing container services
 
 .PHONY: build-db build-server build-workspace build-data-view up-default \
 				adm build-admin up-admin \
@@ -10,34 +10,44 @@
 FLASK_APP := app.main
 TEST_DATABASE_PORT := 5431
 
+# *** Container engine: podman first, docker as fallback.
+# *** Override with `make <target> CONTAINER_ENGINE=docker`.
+CONTAINER_ENGINE ?= $(shell command -v podman >/dev/null 2>&1 && echo podman || echo docker)
+COMPOSE := $(CONTAINER_ENGINE) compose
+
+ifeq ($(CONTAINER_ENGINE),podman)
+# *** Make `podman compose` use podman-compose rather than a docker-compose binary.
+export PODMAN_COMPOSE_PROVIDER ?= podman-compose
+endif
+
 # *** Default targets, production like build (end user only, no admin module)
 default: build-db build-server build-workspace build-data-view up-default
 
 build-db:
-	docker compose build db
+	$(COMPOSE) build db
 
 build-server:
-	docker compose build server
+	$(COMPOSE) build server
 
 build-workspace:
-	docker compose build workspace
+	$(COMPOSE) build workspace
 
 build-data-view:
-	docker compose build data-view
+	$(COMPOSE) build data-view
 
 up-default:
 	@echo "Starting default services..."
-	docker compose up db server workspace data-view -d
+	$(COMPOSE) up db server workspace data-view -d
 
 # *** Admin module and dependencies. 
 adm: build-db build-server build-admin up-admin
 
 build-admin:
-	docker compose build admin
+	$(COMPOSE) build admin
 
 up-admin:
 	@echo "Starting admin service and dependencies..."
-	docker compose up db server admin -d
+	$(COMPOSE) up db server admin -d
 
 # *** Full demo in dedicated docker-stack
 # *** To keep a local fully functional version of the application while developing
@@ -45,24 +55,24 @@ local-demo: build-local-demo up-local-demo
 
 build-local-demo:
 	@echo "Building images..."
-	docker compose build db
-	docker compose build server
-	docker compose build data-view
-	docker compose build workspace
-	docker compose build admin
+	$(COMPOSE) build db
+	$(COMPOSE) build server
+	$(COMPOSE) build data-view
+	$(COMPOSE) build workspace
+	$(COMPOSE) build admin
 
 up-local-demo:
 	@echo "Starting local demo instances..."
-	docker compose up db server data-view workspace admin -d
+	$(COMPOSE) up db server data-view workspace admin -d
 
 # *** get test database ready
 test: build-test-db up-test-db upgrade-test-db
 
 build-test-db:
-	docker compose build db-test
+	$(COMPOSE) build db-test
 
 up-test-db: build-test-db
-	docker compose up db-test -d --wait
+	$(COMPOSE) up db-test -d --wait
 
 upgrade-test-db: up-test-db
 	@echo "Applying database migrations..."
@@ -70,8 +80,6 @@ upgrade-test-db: up-test-db
 	@echo "Database migrations applied successfully."
 
 # *** Development agent (boto-dev-agent), see docs/agentContainer.md
-# *** Prefers podman when installed, falls back to docker.
-CONTAINER_ENGINE := $(shell command -v podman >/dev/null 2>&1 && echo podman || echo docker)
 
 ifeq ($(CONTAINER_ENGINE),podman)
 # *** Rootless podman maps container UIDs to host subuids; keep-id maps the host user 1:1.
@@ -96,6 +104,6 @@ agent:
 		echo "No GitHub App credentials in .secrets/: the agent starts, but cannot push or open PRs (see docs/agentContainer.md)"
 	@sh agent/secret-masks.sh > $(AGENT_MASKS)
 	# Build (cached, so cheap when nothing changed) and start the agent detached
-	$(CONTAINER_ENGINE) compose $(AGENT_COMPOSE_FLAGS) -f docker-compose.yml -f $(AGENT_MASKS) --profile agent up -d --build boto-dev-agent
+	$(COMPOSE) $(AGENT_COMPOSE_FLAGS) -f docker-compose.yml -f $(AGENT_MASKS) --profile agent up -d --build boto-dev-agent
 	# Attach to it. Detach without stopping it with "ctrl + P + Q".
 	$(CONTAINER_ENGINE) attach boto-dev-agent
