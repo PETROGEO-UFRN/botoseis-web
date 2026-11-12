@@ -5,13 +5,14 @@ import { koaBody } from 'koa-body'
 
 import { isOriginAllowed } from '@/config/cors'
 import { errorHandlerFactory } from '@/presentation/middlewares/errorHandler'
+import { userRouterFactory } from '@/presentation/routes/userRoutes'
 
 export default function appFactory({
   environment = 'development'
 }: IAppFactoryProps) {
   const app = new Koa()
 
-  const routers: Router[] = []
+  const routers: Router[] = [userRouterFactory({ environment })]
 
   app.use(errorHandlerFactory({ environment }))
   app.use(
