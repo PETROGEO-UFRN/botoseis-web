@@ -24,7 +24,7 @@ export const programs = pgTable(
       name: 'FK_program_groups_table_programs_table',
       columns: [table.groupId],
       foreignColumns: [programGroups.id]
-    })
+    }).onDelete('set null')
   ]
 )
 

@@ -113,26 +113,29 @@ Errors answer `{ "Error": "message" }`; validation errors answer 422 with
 ## Tests
 
 The Flask integration suite drives this API over HTTP, with the server on port
-8080 and both sides on the same test database. From the repository root,
-`make test` starts the `db-test` container (port 5431) and migrates it; the
-Flask migrations build the same schema as `drizzle/`, so baseAPI runs on it
-as is.
+8080 and both sides on the same test database. The schema must come from
+`pnpm db:migrate`: it matches the Flask (Alembic) schema except for the
+foreign key delete actions in `drizzle/0001_database_cascades.sql`, which
+baseAPI relies on. From the repository root, `make test` starts the `db-test`
+container (port 5431) and migrates its `admin` database for Flask; use a
+separate database for baseAPI:
 
 ```bash
 make test
+podman compose exec db-test createdb -U admin baseapi   # or docker compose
 
 # baseAPI/
-DATABASE_URL=postgresql://admin:mysecretpassword@localhost:5431/admin \
-  NODE_ENV=test PORT=8080 pnpm server:dev
+export DATABASE_URL=postgresql://admin:mysecretpassword@localhost:5431/baseapi
+pnpm db:migrate
+NODE_ENV=test PORT=8080 pnpm server:dev
 
 # server/, in another terminal, with the Python dev requirements installed
-pytest -m "not file_routes"
+TEST_DATABASE_URL=postgresql://admin:mysecretpassword@localhost:5431/baseapi \
+  pytest -m "not file_routes"
 ```
 
-On a database without the Flask migrations, run `pnpm db:migrate` first and
-point the tests at it with `TEST_DATABASE_URL`. Never run both migration sets
-on one database. Every test class truncates the public tables, so never point
-the tests at a database holding real data.
+Never run both migration sets on one database. Every test class truncates the
+public tables, so never point the tests at a database holding real data.
 
 ## Programs catalog
 

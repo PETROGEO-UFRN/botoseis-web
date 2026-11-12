@@ -5,7 +5,8 @@ import { lines } from './lines'
 import { projects } from './projects'
 import { workflows } from './workflows'
 
-// *** One row per workflow, only one of the parent columns is set
+// *** One row per workflow, only one of the parent columns is set. Deleting a
+// *** line keeps the row with no parent, so its workflows survive unparented
 export const workflowParentsAssociations = pgTable(
   'workflow_parents_association_table',
   {
@@ -24,7 +25,7 @@ export const workflowParentsAssociations = pgTable(
       name: 'FK_workflow_parents_association_table_lines_table',
       columns: [table.lineId],
       foreignColumns: [lines.id]
-    }).onDelete('cascade'),
+    }).onDelete('set null'),
     foreignKey({
       name: 'FK_workflow_parents_association_table_projects_table',
       columns: [table.projectId],

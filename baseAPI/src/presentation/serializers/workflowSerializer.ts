@@ -1,6 +1,6 @@
+import { parsePostProcessingOptions } from '@/factories/postProcessingOptionsFactory'
+import type { IWorkflowDetails } from '@/factories/workflowFactory'
 import { serializeCommand } from '@/presentation/serializers/commandSerializer'
-import { parsePostProcessingOptions } from '@/services/postProcessingOptions'
-import type { IWorkflowDetails } from '@/services/workflowService'
 
 export function serializeWorkflow(workflow: IWorkflowDetails) {
   return {

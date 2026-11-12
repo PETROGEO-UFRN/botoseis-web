@@ -3,9 +3,8 @@ import { eq } from 'drizzle-orm'
 
 import database from '@/database/connection'
 import { AppError } from '@/errors/AppError'
-import { type IUser, projects, users } from '@/models/index'
+import { type IUser, users } from '@/models/index'
 import { passwordService } from '@/services/passwordService'
-import { removeProjects } from '@/services/projectService'
 import { UUID_PATTERN } from '@/services/tokenService'
 
 export const userService = {
@@ -13,9 +12,12 @@ export const userService = {
     return database.select().from(users)
   },
 
-  async findById(id: string): Promise<IUser | undefined> {
-    if (!UUID_PATTERN.test(id)) return undefined
-    const [user] = await database.select().from(users).where(eq(users.id, id))
+  async findById(userId: string): Promise<IUser | undefined> {
+    if (!UUID_PATTERN.test(userId)) return undefined
+    const [user] = await database
+      .select()
+      .from(users)
+      .where(eq(users.id, userId))
     return user
   },
 
@@ -27,12 +29,12 @@ export const userService = {
     return user
   },
 
-  async create(data: {
+  async create(userData: {
     name: string
     email: string
     password: string
   }): Promise<IUser> {
-    if (await userService.findByEmail(data.email)) {
+    if (await userService.findByEmail(userData.email)) {
       throw new AppError('Email alredy used')
     }
 
@@ -40,37 +42,31 @@ export const userService = {
       .insert(users)
       .values({
         id: randomUUID(),
-        name: data.name,
-        email: data.email,
-        password: await passwordService.hash(data.password)
+        name: userData.name,
+        email: userData.email,
+        password: await passwordService.hash(userData.password)
       })
       .returning()
     return user
   },
 
-  async update(id: string, data: { name: string }): Promise<IUser> {
+  async update(userId: string, userData: { name: string }): Promise<IUser> {
     const [user] = await database
       .update(users)
-      .set({ name: data.name })
-      .where(eq(users.id, id))
+      .set({ name: userData.name })
+      .where(eq(users.id, userId))
       .returning()
     if (!user) throw new AppError('User does not exist', 404)
     return user
   },
 
-  // *** Projects go along, with their own cascade
-  async delete(id: string): Promise<IUser> {
-    const [user] = await database.transaction(async transaction => {
-      const userProjects = await transaction
-        .select({ id: projects.id })
-        .from(projects)
-        .where(eq(projects.userId, id))
-      await removeProjects(
-        transaction,
-        userProjects.map(project => project.id)
-      )
-      return transaction.delete(users).where(eq(users.id, id)).returning()
-    })
+  // *** Projects and lines go along by the database cascade; a user who still
+  // *** owns workflows or commands can not be deleted (409)
+  async delete(userId: string): Promise<IUser> {
+    const [user] = await database
+      .delete(users)
+      .where(eq(users.id, userId))
+      .returning()
     if (!user) throw new AppError('User does not exist', 404)
     return user
   }

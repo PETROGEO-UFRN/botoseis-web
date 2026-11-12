@@ -25,7 +25,7 @@ export const parameters = pgTable(
       name: 'FK_programs_table_parameters_table',
       columns: [table.programId],
       foreignColumns: [programs.id]
-    })
+    }).onDelete('cascade')
   ]
 )
 

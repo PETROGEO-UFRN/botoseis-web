@@ -1,11 +1,10 @@
 import { asc, eq, inArray } from 'drizzle-orm'
 
-import database, { type ITransaction } from '@/database/connection'
+import database from '@/database/connection'
 import { AppError } from '@/errors/AppError'
 import {
   type ILine,
   lines,
-  projects,
   workflowParentsAssociations,
   workflows
 } from '@/models/index'
@@ -17,11 +16,11 @@ export interface ILineWithWorkflows extends ILine {
 
 async function attachWorkflows(
   executor: IDatabaseExecutor,
-  lineRows: ILine[]
+  targetLines: ILine[]
 ): Promise<ILineWithWorkflows[]> {
-  if (lineRows.length === 0) return []
+  if (targetLines.length === 0) return []
 
-  const rows = await executor
+  const lineWorkflows = await executor
     .select({
       lineId: workflowParentsAssociations.lineId,
       id: workflows.id,
@@ -35,43 +34,26 @@ async function attachWorkflows(
     .where(
       inArray(
         workflowParentsAssociations.lineId,
-        lineRows.map(line => line.id)
+        targetLines.map(line => line.id)
       )
     )
     .orderBy(asc(workflows.id))
 
-  return lineRows.map(line => ({
+  return targetLines.map(line => ({
     ...line,
-    workflows: rows
-      .filter(row => row.lineId === line.id)
+    workflows: lineWorkflows
+      .filter(lineWorkflow => lineWorkflow.lineId === line.id)
       .map(({ id, name }) => ({ id, name }))
   }))
 }
 
-type IDatabaseExecutor = typeof database | ITransaction
-
-// *** Same cascade as the Flask models: workflows parented by the lines lose
-// *** their parent, helper file links go by the database cascade
-export async function removeLines(
-  transaction: ITransaction,
-  lineIds: number[]
-): Promise<ILine[]> {
-  if (lineIds.length === 0) return []
-
-  await transaction
-    .update(workflowParentsAssociations)
-    .set({ lineId: null })
-    .where(inArray(workflowParentsAssociations.lineId, lineIds))
-  return transaction.delete(lines).where(inArray(lines.id, lineIds)).returning()
-}
-
 export const lineService = {
-  async findOwner(id: number): Promise<IEntityOwner | undefined> {
-    const [line] = await database
+  async findOwner(lineId: number): Promise<IEntityOwner | undefined> {
+    const [lineOwner] = await database
       .select({ ownerEmail: lines.ownerEmail })
       .from(lines)
-      .where(eq(lines.id, id))
-    return line
+      .where(eq(lines.id, lineId))
+    return lineOwner
   },
 
   async listByProjectId(projectId: number): Promise<ILineWithWorkflows[]> {
@@ -88,12 +70,6 @@ export const lineService = {
     projectId: number,
     name: string
   ): Promise<ILineWithWorkflows> {
-    const [project] = await database
-      .select({ id: projects.id })
-      .from(projects)
-      .where(eq(projects.id, projectId))
-    if (!project) throw new AppError('Project does not exist', 404)
-
     const [line] = await database
       .insert(lines)
       .values({ name, projectId, ownerEmail })
@@ -101,11 +77,11 @@ export const lineService = {
     return { ...line, workflows: [] }
   },
 
-  async updateName(id: number, name: string): Promise<ILineWithWorkflows> {
+  async updateName(lineId: number, name: string): Promise<ILineWithWorkflows> {
     const [line] = await database
       .update(lines)
       .set({ name })
-      .where(eq(lines.id, id))
+      .where(eq(lines.id, lineId))
       .returning()
     if (!line) throw new AppError('Line does not exist', 404)
     const [lineWithWorkflows] = await attachWorkflows(database, [line])
@@ -113,16 +89,16 @@ export const lineService = {
   },
 
   // *** Answers the line as it was, workflows included
-  async delete(id: number): Promise<ILineWithWorkflows> {
+  async delete(lineId: number): Promise<ILineWithWorkflows> {
     return database.transaction(async transaction => {
       const [line] = await transaction
         .select()
         .from(lines)
-        .where(eq(lines.id, id))
+        .where(eq(lines.id, lineId))
       if (!line) throw new AppError('Line does not exist', 404)
 
       const [lineWithWorkflows] = await attachWorkflows(transaction, [line])
-      await removeLines(transaction, [id])
+      await transaction.delete(lines).where(eq(lines.id, lineId))
       return lineWithWorkflows
     })
   }

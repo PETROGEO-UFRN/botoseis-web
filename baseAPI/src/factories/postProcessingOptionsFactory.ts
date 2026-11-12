@@ -9,7 +9,9 @@ export interface IPostProcessingOptions {
 
 export const DEFAULT_POST_PROCESSING_KEY = 'tab-vizualizer'
 
-export function stringifyPostProcessingOptions({
+// *** Stringified JSON stored at workflows_table.post_processing_options,
+// *** set to the visualizer with no options by default
+export function createPostProcessingOptions({
   key = DEFAULT_POST_PROCESSING_KEY,
   options = {}
 }: Partial<IPostProcessingOptions> = {}): string {
@@ -17,7 +19,7 @@ export function stringifyPostProcessingOptions({
 }
 
 export function parsePostProcessingOptions(
-  value: string | null
+  storedOptions: string | null
 ): Partial<IPostProcessingOptions> {
-  return JSON.parse(value || '{}')
+  return JSON.parse(storedOptions || '{}')
 }

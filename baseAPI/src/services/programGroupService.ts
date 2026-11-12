@@ -46,53 +46,50 @@ export const programGroupService = {
     return attachPrograms(groups)
   },
 
-  async findById(id: number): Promise<IProgramGroup | undefined> {
+  async findById(groupId: number): Promise<IProgramGroup | undefined> {
     const [group] = await database
       .select()
       .from(programGroups)
-      .where(eq(programGroups.id, id))
+      .where(eq(programGroups.id, groupId))
     return group
   },
 
-  async create(data: {
+  async create(groupData: {
     name: string
     description?: string
   }): Promise<IProgramGroupWithPrograms> {
     const [group] = await database
       .insert(programGroups)
-      .values({ name: data.name, description: data.description || '' })
+      .values({
+        name: groupData.name,
+        description: groupData.description || ''
+      })
       .returning()
     return { ...group, programs: [] }
   },
 
   async update(
-    id: number,
-    data: { name?: string; description?: string }
+    groupId: number,
+    groupData: { name?: string; description?: string }
   ): Promise<IProgramGroupWithPrograms> {
     const [group] = await database
       .update(programGroups)
-      .set(data)
-      .where(eq(programGroups.id, id))
+      .set(groupData)
+      .where(eq(programGroups.id, groupId))
       .returning()
     if (!group) throw new AppError(PROGRAM_GROUP_NOT_FOUND, 404)
     const [groupWithPrograms] = await attachPrograms([group])
     return groupWithPrograms
   },
 
-  // *** Answers the group as it was; its programs stay, without a group, as
-  // *** the Flask model relationship does
-  async delete(id: number): Promise<IProgramGroupWithPrograms> {
-    const group = await programGroupService.findById(id)
+  // *** Answers the group as it was; its programs stay, without a group, by
+  // *** the database foreign key action
+  async delete(groupId: number): Promise<IProgramGroupWithPrograms> {
+    const group = await programGroupService.findById(groupId)
     if (!group) throw new AppError(PROGRAM_GROUP_NOT_FOUND, 404)
     const [groupWithPrograms] = await attachPrograms([group])
 
-    await database.transaction(async transaction => {
-      await transaction
-        .update(programs)
-        .set({ groupId: null })
-        .where(eq(programs.groupId, id))
-      await transaction.delete(programGroups).where(eq(programGroups.id, id))
-    })
+    await database.delete(programGroups).where(eq(programGroups.id, groupId))
     return groupWithPrograms
   }
 }

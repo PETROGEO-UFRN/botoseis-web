@@ -22,12 +22,14 @@ export const lines = pgTable(
       name: 'FK_projects_table_lines_table',
       columns: [table.projectId],
       foreignColumns: [projects.id]
-    }),
+    }).onDelete('cascade'),
     foreignKey({
       name: 'FK_users_table_lines_table',
       columns: [table.ownerEmail],
       foreignColumns: [users.email]
-    })
+      // *** also cascades: PostgreSQL checks this key before the nested
+      // *** users > projects > lines cascade reaches the user lines
+    }).onDelete('cascade')
   ]
 )
 
