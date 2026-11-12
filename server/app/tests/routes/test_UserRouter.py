@@ -1,7 +1,6 @@
 import pytest
 
-from server.app.database.connection import database
-from ..conftest import _app
+from ..conftest import reset_database
 from ..mock.Mock import Mock, DEFAULT_PASSWORD
 
 
@@ -14,14 +13,10 @@ class TestUserRouter:
     @pytest.fixture(scope='class', autouse=True)
     def _init_and_clean_database(self):
         """Fixture to set up and clean up the database for the test class."""
-        with _app.app_context():
-            database.drop_all()
-            database.create_all()
+        reset_database()
 
         yield
-        with _app.app_context():
-            database.drop_all()
-            database.create_all()
+        reset_database()
 
     def test_empty_get(self):
         """Test that listing users returns empty list if no users exist."""

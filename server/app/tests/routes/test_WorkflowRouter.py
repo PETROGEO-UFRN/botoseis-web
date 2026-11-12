@@ -1,7 +1,6 @@
 import pytest
 
-from server.app.database.connection import database
-from ..conftest import _app
+from ..conftest import reset_database
 from ..mock.Mock import Mock
 
 
@@ -13,18 +12,14 @@ class TestWorkflowRouter:
 
     @pytest.fixture(autouse=True, scope='class')
     def _init_and_clean_database(self):
-        with _app.app_context():
-            database.drop_all()
-            database.create_all()
-            self.mock.loadUser()
-            self.mock.loadSession()
-            self.mock.loadProject()
-            self.mock.loadLine()
+        reset_database()
+        self.mock.loadUser()
+        self.mock.loadSession()
+        self.mock.loadProject()
+        self.mock.loadLine()
 
         yield
-        with _app.app_context():
-            database.drop_all()
-            database.create_all()
+        reset_database()
 
     def test_empty_get(self):
         expected_response_data = {

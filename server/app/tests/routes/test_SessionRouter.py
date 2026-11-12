@@ -2,8 +2,7 @@ import pytest
 import base64
 import json
 
-from server.app.database.connection import database
-from ..conftest import _app
+from ..conftest import reset_database
 from ..mock.Mock import Mock, DEFAULT_PASSWORD
 
 
@@ -17,15 +16,11 @@ class TestSessionRouter:
     @pytest.fixture(scope='class', autouse=True)
     def _init_and_clean_database(self):
         """Fixture to set up and clean up the database for the test class."""
-        with _app.app_context():
-            database.drop_all()
-            database.create_all()
-            self.mock.loadUser()
+        reset_database()
+        self.mock.loadUser()
 
         yield
-        with _app.app_context():
-            database.drop_all()
-            database.create_all()
+        reset_database()
 
     def test_create_session(self):
         response = self.client.post(

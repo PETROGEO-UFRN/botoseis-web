@@ -1,8 +1,7 @@
 import pytest
 from copy import deepcopy
 
-from server.app.database.connection import database
-from ...conftest import _app
+from ...conftest import reset_database
 from ...mock.Mock import Mock
 
 
@@ -16,18 +15,14 @@ class TestParameterRouter:
     #! fully adopted on ent-to-end tests at this app
     @pytest.fixture(autouse=True, scope='class')
     def _init_and_clean_database(self):
-        with _app.app_context():
-            database.drop_all()
-            database.create_all()
-            self.mock.loadUser()
-            self.mock.loadSession()
-            self.mock.loadProgramGroup()
-            self.mock.loadProgram()
+        reset_database()
+        self.mock.loadUser()
+        self.mock.loadSession()
+        self.mock.loadProgramGroup()
+        self.mock.loadProgram()
 
         yield
-        with _app.app_context():
-            database.drop_all()
-            database.create_all()
+        reset_database()
 
     def test_empty_get(self):
         expected_response_data = {

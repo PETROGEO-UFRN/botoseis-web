@@ -1,7 +1,6 @@
 import pytest
 
-from server.app.database.connection import database
-from ..conftest import _app
+from ..conftest import reset_database
 from ..mock.Mock import Mock
 
 
@@ -14,16 +13,12 @@ class TestProjectRouter:
     @pytest.fixture(scope='class', autouse=True)
     def _init_and_clean_database(self):
         """Fixture to set up and clean up the database for the test class."""
-        with _app.app_context():
-            database.drop_all()
-            database.create_all()
-            self.mock.loadUser()
-            self.mock.loadSession()
+        reset_database()
+        self.mock.loadUser()
+        self.mock.loadSession()
 
         yield
-        with _app.app_context():
-            database.drop_all()
-            database.create_all()
+        reset_database()
 
     def test_empty_get(self):
         response = self.client.get(

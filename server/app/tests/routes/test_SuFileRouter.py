@@ -3,11 +3,11 @@ from os import path
 
 from sqlalchemy import text
 
-from server.app.database.connection import database
-from ..conftest import _app
+from ..conftest import database_engine, reset_database
 from ..mock.Mock import Mock
 
 
+@pytest.mark.file_routes
 class TestSuFileRouter:
     url_prefix = "/su-file"
     client = pytest.client
@@ -18,20 +18,16 @@ class TestSuFileRouter:
     #! fully adopted on ent-to-end tests at this app
     @pytest.fixture(autouse=True, scope='class')
     def _init_and_clean_database(self):
-        with _app.app_context():
-            database.drop_all()
-            database.create_all()
-            self.mock.loadUser()
-            self.mock.loadSession()
-            self.mock.loadProject()
-            self.mock.loadWorkflow()
+        reset_database()
+        self.mock.loadUser()
+        self.mock.loadSession()
+        self.mock.loadProject()
+        self.mock.loadWorkflow()
 
-            self.mock.loadProgramGroup()
-            self.mock.loadSufilterCommand()
+        self.mock.loadProgramGroup()
+        self.mock.loadSufilterCommand()
         yield
-        with _app.app_context():
-            database.drop_all()
-            database.create_all()
+        reset_database()
 
     def test_empty_get(self):
         response = self.client.get(
@@ -128,9 +124,9 @@ class TestSuFileRouter:
         pass
         # ! Needs documentation and/or refactoring
         # ! broken test, needs more mocking
-        with _app.app_context():
+        with database_engine.begin() as connection:
             # *** sets output file target to mock workflow
-            database.session.execute(
+            connection.execute(
                 text(
                     "UPDATE workflows_table SET output_name = :output_name WHERE id = :id"
                 ),
@@ -142,7 +138,7 @@ class TestSuFileRouter:
             # *** sets input_file_link_id to mock workflow
             # ! probably needs "created_file_link" to be created
             # ! or there is some bug on "created_file_link"
-            database.session.execute(
+            connection.execute(
                 text(
                     "UPDATE workflows_table SET input_file_link_id = :input_file_link_id WHERE id = :id"
                 ),
@@ -152,7 +148,6 @@ class TestSuFileRouter:
                     "id": self.mock.workflow["id"]
                 }
             )
-            database.session.commit()
 
         response = self.client.put(
             f"{self.url_prefix}/update/{self.mock.project['id']}",
