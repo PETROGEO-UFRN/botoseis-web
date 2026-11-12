@@ -1,0 +1,396 @@
+{
+    "count_programs": 6,
+    "programGroups": [
+        {
+            "name": "well_logs",
+            "description": "",
+            "programs": [
+                {
+                    "name": "LAS2SU",
+                    "description": "convert las2 format well log curves to su traces",
+                    "path_to_executable_file": "LAS2SU",
+                    "parameters": [
+                        {
+                            "name": "ncurve",
+                            "description": "number of log curves in the las file",
+                            "example": "automatic",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dz",
+                            "description": "input depth sampling (ft)",
+                            "example": "0.5",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "m",
+                            "description": "output (d1,f1) in feet",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ss",
+                            "description": "do not subsample (unless nz > 32767 )",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 to echo las header lines to screen",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "outhdr",
+                            "description": "name of file for las headers",
+                            "example": "las_header.asc",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tracl",
+                            "description": "is depth",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUBACKUS",
+                    "description": "calculate Thomsen anisotropy parameters from",
+                    "path_to_executable_file": "SUBACKUS",
+                    "parameters": [
+                        {
+                            "name": "navg",
+                            "description": "number of depth samples in Backus avg window",
+                            "example": "201",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "all",
+                            "description": "=1 to output extra parameters",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ang",
+                            "description": "angle (deg) for use in vang",
+                            "example": "30",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUBACKUSH",
+                    "description": "calculate Thomsen anisotropy parameters from",
+                    "path_to_executable_file": "SUBACKUSH",
+                    "parameters": [
+                        {
+                            "name": "navg",
+                            "description": "number of depth samples in Backus avg window",
+                            "example": "101",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "gr",
+                            "description": "no gamma ray log input for shale",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "grs",
+                            "description": "pure shale gamma ray value (API units)",
+                            "example": "100",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "grc",
+                            "description": "0% shale gamma ray value (API units)",
+                            "example": "10",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "smode",
+                            "description": "include shale anis params prop to shale volume",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "se",
+                            "description": "shale epsilon (Thomsen parameter)",
+                            "example": "0.209",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sd",
+                            "description": "shale delta (Thomsen parameter)",
+                            "example": "0.033",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sg",
+                            "description": "shale gamma (Thomsen parameter)",
+                            "example": "0.203",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUGASSMAN",
+                    "description": "Model reflectivity change with rock/fluid properties",
+                    "path_to_executable_file": "SUGASSMAN",
+                    "parameters": [
+                        {
+                            "name": "nt",
+                            "description": "number of time samples",
+                            "example": "500",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntr",
+                            "description": "number of traces",
+                            "example": "200",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "time sampling interval in seconds",
+                            "example": "0.004",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mode",
+                            "description": "model isolated gassmann refl coefficient",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "p",
+                            "description": "parameter sensitivity test range (if mode=2)",
+                            "example": "0.15",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "temp",
+                            "description": "Temperature in degrees C",
+                            "example": "140",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pres",
+                            "description": "Pressure in megaPascals",
+                            "example": "20",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "v1",
+                            "description": "caprock P-wave speed (m/s)",
+                            "example": "37900",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "r1",
+                            "description": "caprock mass density (g/cc)",
+                            "example": "44300",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "g",
+                            "description": "Gas specific gravity 0.56 (methane)-1.8 (condensate)",
+                            "example": "0.56",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "api",
+                            "description": "Gas specific gravity 10 (heavy)-50 (ultra light)",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "s",
+                            "description": "Brine salinity in ppm/(1000 000",
+                            "example": "35",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "so",
+                            "description": "Oil saturation (0-1)",
+                            "example": ".7",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sg",
+                            "description": "Gas saturation (0-1)",
+                            "example": ".2",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "kmin",
+                            "description": "Bulk modulus (MPa) of rock frame mineral(s) [default=quartz]",
+                            "example": "37900",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mumin",
+                            "description": "Shear modulus (MPa) of rock frame mineral(s) [default=quartz]",
+                            "example": "44300",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "rmin",
+                            "description": "Mass density (g/cc) of rock frame mineral(s) [default=quartz]",
+                            "example": "2.67",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "phi",
+                            "description": "Rock frame porosity (0-1)",
+                            "example": ".24",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "a",
+                            "description": "Fitting parameters: Mdry/Mmineral ~ 1/(a + b phi^c)",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "b",
+                            "description": "... where M is P-wave modulus and defaults are for",
+                            "example": "15",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "c",
+                            "description": "... Glenn sandstone [see Liner (2nd ed, table 26.2)]",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "h",
+                            "description": "Reservoir thickness (m)",
+                            "example": "20",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SULPRIME",
+                    "description": "find appropriate Backus average length for",
+                    "path_to_executable_file": "SULPRIME",
+                    "parameters": [
+                        {
+                            "name": "b",
+                            "description": "target value of Backus number",
+                            "example": "2.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "b",
+                            "description": "is transmission limit (ok for proc, mig, etc.)",
+                            "example": "2",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "b",
+                            "description": "is scattering limit (ok for modeling)",
+                            "example": "0.3",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dz",
+                            "description": "input depth sample interval (ft)",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "f",
+                            "description": "frequency (Hz)... dominant or max (to be safe)",
+                            "example": "60",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nmax",
+                            "description": "maximum averaging length (samples)",
+                            "example": "301",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "print intermediate results",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUWELLRF",
+                    "description": "convert WELL log depth, velocity, density data into a",
+                    "path_to_executable_file": "SUWELLRF",
+                    "parameters": [
+                        {
+                            "name": "dtout",
+                            "description": "desired time sampling interval (sec) in output",
+                            "example": ".004",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntr",
+                            "description": "number of traces to output",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

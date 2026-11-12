@@ -1,0 +1,325 @@
+{
+    "count_programs": 11,
+    "programGroups": [
+        {
+            "name": "operations",
+            "description": "",
+            "programs": [
+                {
+                    "name": "SUFLIP",
+                    "description": "flip a data set in various ways",
+                    "path_to_executable_file": "SUFLIP",
+                    "parameters": [
+                        {
+                            "name": "flip",
+                            "description": "rotational sense of flip",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "verbose = 1 echoes flip info",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUFWMIX",
+                    "description": "FX domain multidimensional Weighted Mix",
+                    "path_to_executable_file": "SUFWMIX",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "Header words defining mixing dimension",
+                            "example": "key1,key2,..",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "dx",
+                            "description": "Distance units for each header word",
+                            "example": "d1,d2,..",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "keyg",
+                            "description": "Header word indicating the start of gather",
+                            "example": "ep",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vf",
+                            "description": "=1 Do a frequency dependent mix",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vmin",
+                            "description": "Velocity of the reflection slope",
+                            "example": "5000",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMATH",
+                    "description": "do math operation on su data",
+                    "path_to_executable_file": "SUMATH",
+                    "parameters": [
+                        {
+                            "name": "op",
+                            "description": "operation flag",
+                            "example": "mult",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "copy",
+                            "description": "n>1 copy each trace n times",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMIX",
+                    "description": "compute weighted moving average (trace MIX) on a panel",
+                    "path_to_executable_file": "SUMIX",
+                    "parameters": [
+                        {
+                            "name": "mix",
+                            "description": "array of weights for weighted average",
+                            "example": ".6,1,1,1,.6",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUOP",
+                    "description": "do unary arithmetic operation on segys",
+                    "path_to_executable_file": "SUOP",
+                    "parameters": [
+                        {
+                            "name": "op",
+                            "description": "operation flag",
+                            "example": "abs",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nw",
+                            "description": "number of time samples in window",
+                            "example": "21",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUOP2",
+                    "description": "do a binary operation on two data sets",
+                    "path_to_executable_file": "SUOP2",
+                    "parameters": [
+                        {
+                            "name": "op",
+                            "description": "difference of two panels of seismic data",
+                            "example": "diff",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "trid",
+                            "description": "output trace identification code. (This option",
+                            "example": "FUNPACKNYQ",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUPERMUTE",
+                    "description": "permute or transpose a 3d datacube",
+                    "path_to_executable_file": "SUPERMUTE",
+                    "parameters": [
+                        {
+                            "name": "n1",
+                            "description": "from header\t\tnumber of samples in the fast direction",
+                            "example": "ns",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "n2",
+                            "description": "from header\t\tnumber of samples in the med direction\t,",
+                            "example": "ntr",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "n3",
+                            "description": "number of samples in the slow direction",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "o1",
+                            "description": "new fast direction",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "o2",
+                            "description": "new med direction",
+                            "example": "2",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "o3",
+                            "description": "new slow direction",
+                            "example": "3",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "d1",
+                            "description": "output interval in new fast direction",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "d2",
+                            "description": "output interval in new med direction",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "d3",
+                            "description": "output interval in new slow direction",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SURECMO",
+                    "description": "compensate for the continuously moving streamer in marine",
+                    "path_to_executable_file": "SURECMO",
+                    "parameters": [
+                        {
+                            "name": "fill",
+                            "description": "value to pad",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSIMAT",
+                    "description": "Correlation similarity matrix for two traces.",
+                    "path_to_executable_file": "SUSIMAT",
+                    "parameters": [
+                        {
+                            "name": "panel",
+                            "description": "use only the first trace of sufile as filter",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mt",
+                            "description": "operator window length (odd integer)",
+                            "example": "21",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "taper",
+                            "description": "no taper to data fragments",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "method",
+                            "description": "use xcorrelation as similarity meausure",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUVCAT",
+                    "description": "append one data set to another, with or without an  ,",
+                    "path_to_executable_file": "SUVCAT",
+                    "parameters": [
+                        {
+                            "name": "taplen",
+                            "description": "Length of overlap in integer number of",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "taptype",
+                            "description": "Type of taper or combination method in the",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "taptype",
+                            "description": "output is assigned the unweighted average of",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "taptype",
+                            "description": "output is assigned the value of the maximum",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "taptype",
+                            "description": "output is assigned the weighted average of",
+                            "example": "2",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "taptype",
+                            "description": "output is assigned the sum of the amplitudes",
+                            "example": "3",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUVLENGTH",
+                    "description": "Adjust variable length traces to common length",
+                    "path_to_executable_file": "SUVLENGTH",
+                    "parameters": []
+                }
+            ]
+        }
+    ]
+}

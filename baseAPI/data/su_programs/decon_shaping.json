@@ -1,0 +1,228 @@
+{
+    "count_programs": 5,
+    "programGroups": [
+        {
+            "name": "decon_shaping",
+            "description": "",
+            "programs": [
+                {
+                    "name": "SUCDDECON",
+                    "description": "DECONvolution with user-supplied filter by straightforward",
+                    "path_to_executable_file": "SUCDDECON",
+                    "parameters": [
+                        {
+                            "name": "panel",
+                            "description": "use only the first trace of sufile as filter",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pnoise",
+                            "description": "white noise factor for stabilizing results",
+                            "example": "0.001",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sym",
+                            "description": "not centered, =1 center the output on each trace",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "silent, =1 chatty",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUFXDECON",
+                    "description": "random noise attenuation by FX-DECONvolution",
+                    "path_to_executable_file": "SUFXDECON",
+                    "parameters": [
+                        {
+                            "name": "taper",
+                            "description": "length of taper",
+                            "example": ".1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fmin",
+                            "description": "minimum frequency to process in Hz  (accord to twlen)",
+                            "example": "6.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "twlen",
+                            "description": "trace  time window length (minimum .3 for lower freqs)",
+                            "example": "entire",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntrw",
+                            "description": "number of traces in window",
+                            "example": "10",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntrf",
+                            "description": "number of traces for filter (smaller than ntrw)",
+                            "example": "4",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic print",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUPEF",
+                    "description": "Wiener (least squares) predictive error filtering",
+                    "path_to_executable_file": "SUPEF",
+                    "parameters": [
+                        {
+                            "name": "minlag",
+                            "description": "first lag of prediction filter (sec)",
+                            "example": "dt",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "maxlag",
+                            "description": "lag default is (tmax-tmin)/20",
+                            "example": "last",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pnoise",
+                            "description": "relative additive noise level",
+                            "example": "0.001",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mincorr",
+                            "description": "start of autocorrelation window (sec)",
+                            "example": "tmin",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "maxcorr",
+                            "description": "end of autocorrelation window (sec)",
+                            "example": "tmax",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "wienerout",
+                            "description": "=1 to show Wiener filter on each trace",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mix",
+                            "description": "array of weights (floats) for moving",
+                            "example": "1,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "method",
+                            "description": "for linear interpolation of cdp values",
+                            "example": "linear",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "minlag",
+                            "description": "maxlag=max1,max2,...",
+                            "example": "min1,min2,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUPHIDECON",
+                    "description": "PHase Inversion Deconvolution",
+                    "path_to_executable_file": "SUPHIDECON",
+                    "parameters": [
+                        {
+                            "name": "pad",
+                            "description": "percentage padding for nt prior to cepstrum calculation",
+                            "example": ".1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pnoise",
+                            "description": "Pre-withening (assumed noise to prevent division by zero)",
+                            "example": "0.001",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSHAPE",
+                    "description": "Wiener shaping filter",
+                    "path_to_executable_file": "SUSHAPE",
+                    "parameters": [
+                        {
+                            "name": "dt",
+                            "description": "if tr.dt is not set in header, then dt is mandatory",
+                            "example": "tr.dt",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "nshape",
+                            "description": "length of shaping filter",
+                            "example": "trace",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pnoise",
+                            "description": "relative additive noise level",
+                            "example": "0.001",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "showshaper",
+                            "description": "=1 to show shaping filter",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "silent; =1 chatty",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

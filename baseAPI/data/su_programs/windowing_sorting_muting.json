@@ -1,0 +1,717 @@
+{
+    "count_programs": 16,
+    "programGroups": [
+        {
+            "name": "windowing_sorting_muting",
+            "description": "",
+            "programs": [
+                {
+                    "name": "SUBRAID",
+                    "description": "Braid traces from files together and output.",
+                    "path_to_executable_file": "SUBRAID",
+                    "parameters": [
+                        {
+                            "name": "trac",
+                            "description": "Reset tracl and tracr keys to the output trace count",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUCLEAVE",
+                    "description": "Cleave traces from 1 input into multiple output files.",
+                    "path_to_executable_file": "SUCLEAVE",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "name of key used to seperate traces to output files.",
+                            "example": "offset",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "abs",
+                            "description": "Use absolute value of key.",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "size",
+                            "description": "size of key ranges for output files. Must be > 0.",
+                            "example": "100",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "high",
+                            "description": "base value in highest magnitude range for output files.",
+                            "example": "100000",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "print",
+                            "description": "Do not print.",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUCOMMAND",
+                    "description": "pipe traces having the same key header word to command",
+                    "path_to_executable_file": "SUCOMMAND",
+                    "parameters": [
+                        {
+                            "name": "verbose",
+                            "description": "wordy output",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "key",
+                            "description": "header key word to pipe on",
+                            "example": "cdp",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dir",
+                            "description": "0:  change of header key",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUGETGTHR",
+                    "description": "Gets su files from a directory and put them",
+                    "path_to_executable_file": "SUGETGTHR",
+                    "parameters": [
+                        {
+                            "name": "verbose",
+                            "description": "=1 more chatty",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vt",
+                            "description": "=1 allows gathers with variable length traces",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUGPRFB",
+                    "description": "SU program to remove First Breaks from GPR data",
+                    "path_to_executable_file": "SUGPRFB",
+                    "parameters": [
+                        {
+                            "name": "nx",
+                            "description": "number of traces to sum to create pilot trace (odd)",
+                            "example": "51",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fbt",
+                            "description": "length of first break in number of samples",
+                            "example": "60",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUKILL",
+                    "description": "zero out traces",
+                    "path_to_executable_file": "SUKILL",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "header name to select traces to kill",
+                            "example": "trid",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "a",
+                            "description": "header value identifying tracces to kill",
+                            "example": "2",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "count",
+                            "description": "number of traces to kill",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMIXGATHERS",
+                    "description": "mix two gathers",
+                    "path_to_executable_file": "SUMIXGATHERS",
+                    "parameters": [
+                        {
+                            "name": "ntr",
+                            "description": "if ntr header field is not set, then ntr is mandatory",
+                            "example": "tr.ntr",
+                            "input_type": "string",
+                            "isRequired": true
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMUTE",
+                    "description": "MUTE above (or below) a user-defined polygonal curve with\t,",
+                    "path_to_executable_file": "SUMUTE",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "Key header word specifying trace offset",
+                            "example": "offset",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntaper",
+                            "description": "number of points to taper before hard",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mode",
+                            "description": "mute ABOVE the polygonal curve",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "linvel",
+                            "description": "constant velocity for linear or hyperbolic mute",
+                            "example": "330",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tm0",
+                            "description": "time shift of linear or hyperbolic mute at",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMUTECSV",
+                    "description": "MUTE above (or below) bilinearly interpolated polygonal curves",
+                    "path_to_executable_file": "SUMUTECSV",
+                    "parameters": [
+                        {
+                            "name": "offkey",
+                            "description": "Key header word specifying trace offset",
+                            "example": "offset",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "abs",
+                            "description": "use the absolute value of offkey.",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntaper",
+                            "description": "number of samples to taper (sine-squared) from",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mode",
+                            "description": "mute ABOVE the polygonal curves",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vel",
+                            "description": "constant velocity for linear or hyperbolic mute",
+                            "example": "330",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tzero",
+                            "description": "time shift (ms.) of linear or hyperbolic mute at the",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "extrapi",
+                            "description": "do not extrapolate at ends in igi direction.",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "extrapc",
+                            "description": "do not extrapolate at ends in igc direction.",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "extrapt",
+                            "description": "do not extrapolate at ends in offset direction.",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "check",
+                            "description": "Do not print grid checking and function locations.",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "print",
+                            "description": "Do not print INPUT mute functions.",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUPAD",
+                    "description": "Pad zero traces",
+                    "path_to_executable_file": "SUPAD",
+                    "parameters": [
+                        {
+                            "name": "key1",
+                            "description": "panel key",
+                            "example": "ep",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "key2",
+                            "description": "trace key",
+                            "example": "tracf",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "key3",
+                            "description": "flag key",
+                            "example": "trid",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "val3",
+                            "description": "value assigned to padded traces",
+                            "example": "2",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "d",
+                            "description": "trace key spacing",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUPUTGTHR",
+                    "description": "split the stdout flow to gathers on the bases of given",
+                    "path_to_executable_file": "SUPUTGTHR",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "header key word to watch",
+                            "example": "ep",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "verbose = 1 echos information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "numlength",
+                            "description": "Length of numeric part of filename",
+                            "example": "7",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSORT",
+                    "description": "sort on any segy header keywords",
+                    "path_to_executable_file": "SUSORT",
+                    "parameters": []
+                },
+                {
+                    "name": "SUSORTY",
+                    "description": "make a small 2-D common shot off-end",
+                    "path_to_executable_file": "SUSORTY",
+                    "parameters": [
+                        {
+                            "name": "nt",
+                            "description": "number of time samples",
+                            "example": "100",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nshot",
+                            "description": "number of shots",
+                            "example": "10",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dshot",
+                            "description": "shot interval (m)",
+                            "example": "10",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "noff",
+                            "description": "number of offsets",
+                            "example": "20",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "doff",
+                            "description": "offset increment (m)",
+                            "example": "20",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSPLIT",
+                    "description": "Split traces into different output files by keyword value",
+                    "path_to_executable_file": "SUSPLIT",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "Key header word to split on (see segy.h)",
+                            "example": "cdp",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "stem",
+                            "description": "Stem name for output files",
+                            "example": "split_",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "middle",
+                            "description": "middle of name of output files",
+                            "example": "key",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "suffix",
+                            "description": "Suffix for output files",
+                            "example": ".su",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "numlength",
+                            "description": "Length of numeric part of filename",
+                            "example": "7",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 to echo filenames, etc.",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "close",
+                            "description": "=1 to close files before opening new ones",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUWIND",
+                    "description": "window traces by key word",
+                    "path_to_executable_file": "SUWIND",
+                    "parameters": [
+                        {
+                            "name": "verbose",
+                            "description": "=1 for verbose",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "key",
+                            "description": "Key header word to window on (see segy.h)",
+                            "example": "tracl",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "min",
+                            "description": "min value of key header word to pass",
+                            "example": "LONG_MIN",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "max",
+                            "description": "max value of key header word to pass",
+                            "example": "LONG_MAX",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "abs",
+                            "description": "=1 to take absolute value of key header word",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "j",
+                            "description": "Pass every j-th trace ...",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "s",
+                            "description": "... based at s  (if ((key - s)%j) == 0)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "skip",
+                            "description": "skip the initial N traces",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "count",
+                            "description": "... up to count traces",
+                            "example": "ULONG_MAX",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "reject",
+                            "description": "Skip traces with specified key values",
+                            "example": "none",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "accept",
+                            "description": "Pass traces with specified key values(see notes)",
+                            "example": "none",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ordered",
+                            "description": "=1 if traces sorted in increasing keyword value",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "(from header) time sampling interval (sec)\t(seismic data)",
+                            "example": "tr.dt",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "f1",
+                            "description": "(from header) first sample\t\t(seismic data)",
+                            "example": "tr.delrt",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tmin",
+                            "description": "min time to pass",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tmax",
+                            "description": "header)\tmax time to pass",
+                            "example": "(from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "itmin",
+                            "description": "min time sample to pass",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "itmax",
+                            "description": "header)   max time sample to pass",
+                            "example": "(from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "max",
+                            "description": "option (rejecting everything).  For example, to accept",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "trid",
+                            "description": "designates traces as being seismic traces. Other traces,",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUWINDPOLY",
+                    "description": "WINDow data to extract traces on or within a respective",
+                    "path_to_executable_file": "SUWINDPOLY",
+                    "parameters": [
+                        {
+                            "name": "x",
+                            "description": "list of X coordinates for vertices",
+                            "example": "x1,x2,...",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "y",
+                            "description": "list of Y coordinates for vertices",
+                            "example": "y1,y2,...",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "file",
+                            "description": "output filename(s)",
+                            "example": "file1,file2,..",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "xkey",
+                            "description": "X coordinate header key",
+                            "example": "fldr",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ykey",
+                            "description": "Y coordinate header key",
+                            "example": "ep",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pass",
+                            "description": "polyline mode: pass traces near the polygonal line",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "unit increment distance in X direction",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dy",
+                            "description": "unit increment distance in Y direction",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ilkey",
+                            "description": "key for resulting inline index in polyline mode",
+                            "example": "tracl",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "xlkey",
+                            "description": "key for resulting xline index in polyline mode",
+                            "example": "tracr",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dw",
+                            "description": "distance in X-Y coordinate units of extracted line",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pass",
+                            "description": "or pass=2.",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

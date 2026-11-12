@@ -1,0 +1,242 @@
+{
+    "count_programs": 3,
+    "programGroups": [
+        {
+            "name": "interp_extrap",
+            "description": "",
+            "programs": [
+                {
+                    "name": "SUINTERP",
+                    "description": "interpolate traces using automatic event picking",
+                    "path_to_executable_file": "SUINTERP",
+                    "parameters": [
+                        {
+                            "name": "ninterp",
+                            "description": "number of traces to output between each pair of input traces",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxmax",
+                            "description": "maximum number of input traces",
+                            "example": "500",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "freq1",
+                            "description": "starting corner frequency of unaliased range",
+                            "example": "4.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "freq2",
+                            "description": "ending corner frequency of unaliased range",
+                            "example": "20.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "deriv",
+                            "description": "=1 means take vertical derivative on pick section",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "linear",
+                            "description": "=0 means use 8 point sinc temporal interpolation",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "lent",
+                            "description": "number of time samples to smooth for dip estimate",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "lenx",
+                            "description": "number of traces to smooth for dip estimate",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "lagc",
+                            "description": "number of ms agc for dip estimate",
+                            "example": "400",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "xopt",
+                            "description": "0 compute spatial derivative via FFT",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "iopt",
+                            "description": "0 = interpolate",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "verbose = 1 echoes information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUINTERPFOWLER",
+                    "description": "interpolate output image from constant velocity panels",
+                    "path_to_executable_file": "SUINTERPFOWLER",
+                    "parameters": [
+                        {
+                            "name": "vmin",
+                            "description": "minimum velocity",
+                            "example": "1500.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vmax",
+                            "description": "maximum velocity",
+                            "example": "2500.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nv",
+                            "description": "number of velocity panels",
+                            "example": "21",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "etamin",
+                            "description": "minimum eta value",
+                            "example": "0.10",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "etamax",
+                            "description": "maximum eta value",
+                            "example": "0.25",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "neta",
+                            "description": "number of eta values",
+                            "example": "11",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ncdps",
+                            "description": "number of cdp points",
+                            "example": "1130",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nvstack",
+                            "description": "number of constant velocity stack panels output by CVS",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vminstack",
+                            "description": "minimum velocity specified for CVS",
+                            "example": "1450",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vscale",
+                            "description": "scale factor for velocity functions",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "cdp",
+                            "description": "cdp number for (t,v,eta) triplets (specify more than",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "t",
+                            "description": "array of times for (t,v,eta) triplets (specify more",
+                            "example": "0.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "v",
+                            "description": "array of velocities for (t,v,eta) triplets (specify",
+                            "example": "1500.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "eta",
+                            "description": "array of etas for (t,v,eta) triplets (specify more",
+                            "example": "0.",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUOCEXT",
+                    "description": "smaller Offset EXTrapolation via Offset Continuation",
+                    "path_to_executable_file": "SUOCEXT",
+                    "parameters": [
+                        {
+                            "name": "tdmo",
+                            "description": "times corresponding to rms velocities in vdmo (s)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vdmo",
+                            "description": "rms velocities corresponding to times in tdmo (m/s)",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sdmo",
+                            "description": "DMO stretch factor; try 0.6 for typical v(z)",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic print",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

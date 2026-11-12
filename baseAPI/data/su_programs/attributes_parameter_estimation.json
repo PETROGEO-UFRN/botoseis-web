@@ -1,0 +1,156 @@
+{
+    "count_programs": 6,
+    "programGroups": [
+        {
+            "name": "attributes_parameter_estimation",
+            "description": "",
+            "programs": [
+                {
+                    "name": "SUATTRIBUTES",
+                    "description": "instantaneous trace ATTRIBUTES",
+                    "path_to_executable_file": "SUATTRIBUTES",
+                    "parameters": [
+                        {
+                            "name": "mode",
+                            "description": "output flag",
+                            "example": "amp",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUCMP",
+                    "description": "CoMPare two seismic data sets, returns 0 to the shell\t,",
+                    "path_to_executable_file": "SUCMP",
+                    "parameters": []
+                },
+                {
+                    "name": "SUHISTOGRAM",
+                    "description": "create histogram of input amplitudes",
+                    "path_to_executable_file": "SUHISTOGRAM",
+                    "parameters": [
+                        {
+                            "name": "trend",
+                            "description": "=0 1-D histogram",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "trend",
+                            "description": "produces a two column ASCII output for use w/ gnuplot.",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "trend",
+                            "description": "produces a 6 column ASCII output for use w/ gnuplot",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "trend",
+                            "description": "produces an SU trace panel w/ one trace per bin that",
+                            "example": "2",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMAX",
+                    "description": "get trace by trace local/global maxima, minima, or absolute maximum",
+                    "path_to_executable_file": "SUMAX",
+                    "parameters": [
+                        {
+                            "name": "output",
+                            "description": "write ascii data to outpar",
+                            "example": "ascii",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mode",
+                            "description": "output both minima and maxima",
+                            "example": "maxmin",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "threshamp",
+                            "description": "threshold amplitude value",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "threshtime",
+                            "description": "tmin to start search for threshold",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "writes global quantities to outpar",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "key1",
+                            "description": "key for verbose=2",
+                            "example": "fldr",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "key2",
+                            "description": "key for verbose=2",
+                            "example": "ep",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMEAN",
+                    "description": "get the mean values of data traces\t\t\t\t,",
+                    "path_to_executable_file": "SUMEAN",
+                    "parameters": []
+                },
+                {
+                    "name": "SUQUANTILE",
+                    "description": "display some quantiles or ranks of a data set",
+                    "path_to_executable_file": "SUQUANTILE",
+                    "parameters": [
+                        {
+                            "name": "panel",
+                            "description": "flag; 0 = do trace by trace (vs. whole data set)",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "quantiles",
+                            "description": "flag; 0 = give ranks instead of quantiles",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "verbose = 1 echoes information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,403 @@
+{
+    "count_programs": 6,
+    "programGroups": [
+        {
+            "name": "multicomponent",
+            "description": "",
+            "programs": [
+                {
+                    "name": "SUALFORD",
+                    "description": "trace by trace Alford Rotation of shear wave data volumes",
+                    "path_to_executable_file": "SUALFORD",
+                    "parameters": [
+                        {
+                            "name": "outS11",
+                            "description": "outS22=file6 outS12=file7 outS21=file8 [optional",
+                            "example": "file5",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntraces",
+                            "description": "will use three adjacent traces to",
+                            "example": "3",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUEIPOFI",
+                    "description": "EIgenimage (SVD) based POlarization FIlter for",
+                    "path_to_executable_file": "SUEIPOFI",
+                    "parameters": [
+                        {
+                            "name": "dt",
+                            "description": "header)  time sampling intervall in seconds",
+                            "example": "(from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "wl",
+                            "description": "SVD time window length in seconds",
+                            "example": "0.1",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pwr",
+                            "description": "exponent of filter weights",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "interp",
+                            "description": "interpolation between initially calculated",
+                            "example": "cubic",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "1 = echo additional information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "file",
+                            "description": "base name for additional output file(s) of",
+                            "example": "polar",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "rl1",
+                            "description": "1 = rectilinearity along first principal axis",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "rl2",
+                            "description": "1 = rectilinearity along second principal axis",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pln",
+                            "description": "1 = planarity",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUHROT",
+                    "description": "Horizontal ROTation of three-component data",
+                    "path_to_executable_file": "SUHROT",
+                    "parameters": [
+                        {
+                            "name": "angle",
+                            "description": "unit of angles, choose \\rad\\, \\deg\\, or \\gon\\",
+                            "example": "rad",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "inv",
+                            "description": "1 = inverse rotation (counter-clockwise)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "1 = echo angle for each 3-C station",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "a",
+                            "description": "array of user-supplied rotation angles",
+                            "example": "...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "x",
+                            "description": "array of corresponding header value(s)",
+                            "example": "0.0,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "key",
+                            "description": "header word defining 3-C station (\\x\\)",
+                            "example": "tracf",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "n",
+                            "description": "number of x and a values in input files",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "xfile",
+                            "description": "file containing the x values as specified by the",
+                            "example": "...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "afile",
+                            "description": "file containing the a values",
+                            "example": "...",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SULTT",
+                    "description": "trace by trace, sample by sample, rotation of shear wave data",
+                    "path_to_executable_file": "SULTT",
+                    "parameters": [
+                        {
+                            "name": "mode",
+                            "description": "computes asymmetry indexes",
+                            "example": "1,",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mode",
+                            "description": "computes Polarization and main",
+                            "example": "2,",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mode",
+                            "description": "same as above, but using eigenvalues",
+                            "example": "3,",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mode",
+                            "description": "is more robust estimation for Polarization angle",
+                            "example": "3",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUPOFILT",
+                    "description": "POlarization FILTer for three-component data",
+                    "path_to_executable_file": "SUPOFILT",
+                    "parameters": [
+                        {
+                            "name": "dfile",
+                            "description": "file containing the 3 components of the",
+                            "example": "polar.dir",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "wfile",
+                            "description": "file name of weighting polarization parameter",
+                            "example": "polar.rl",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "dt",
+                            "description": "header)  time sampling intervall in seconds",
+                            "example": "(from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "smooth",
+                            "description": "1 = smooth filter operators, 0 do not",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sl",
+                            "description": "smoothing window length in seconds",
+                            "example": "0.05",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "wpow",
+                            "description": "raise weighting function to power wpow",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dpow",
+                            "description": "raise directivity functions to power dpow",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "1 = echo additional information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUPOLAR",
+                    "description": "POLarization analysis of three-component data",
+                    "path_to_executable_file": "SUPOLAR",
+                    "parameters": [
+                        {
+                            "name": "dt",
+                            "description": "header)  time sampling intervall in seconds",
+                            "example": "(from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "wl",
+                            "description": "correlation window length in seconds",
+                            "example": "0.1",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "win",
+                            "description": "correlation window shape, choose \\boxcar\\,",
+                            "example": "boxcar",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "file",
+                            "description": "base of output file name(s)",
+                            "example": "polar",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "rl",
+                            "description": "1 = rectilinearity evaluating 2 eigenvalues,",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "rlq",
+                            "description": "contrast parameter for rectilinearity",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dir",
+                            "description": "1 = 3 components of direction of polarization",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tau",
+                            "description": "1 = global polarization parameter",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ellip",
+                            "description": "1 = principal, subprincipal, and transverse",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pln",
+                            "description": "1 = planarity measure",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "f1",
+                            "description": "1 = flatness or oblateness coefficient",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "l1",
+                            "description": "1 = linearity coefficient",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "amp",
+                            "description": "1 = amplitude parameters: instantaneous,",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "theta",
+                            "description": "1, 2, 3 = incidence angle of principal axis",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "phi",
+                            "description": "1, 2, 3 = horizontal azimuth of principal axis",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "angle",
+                            "description": "unit of angles theta and phi, choose \\rad\\,",
+                            "example": "rad",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "all",
+                            "description": "1, 2, 3 = set all output flags to that value",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "1 = echo additional information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

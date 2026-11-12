@@ -1,0 +1,1530 @@
+{
+    "count_programs": 22,
+    "programGroups": [
+        {
+            "name": "migration_inversion",
+            "description": "",
+            "programs": [
+                {
+                    "name": "SUGAZMIGQ",
+                    "description": "SU version of Jeno GAZDAG's phase-shift migration",
+                    "path_to_executable_file": "SUGAZMIGQ",
+                    "parameters": [
+                        {
+                            "name": "dt",
+                            "description": "header(dt) or\t.004\ttime sampling interval",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "header(d2) or 1.0\tmidpoint sampling interval",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ft",
+                            "description": "first time sample",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntau",
+                            "description": "data)\tnumber of migrated time samples",
+                            "example": "nt(from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dtau",
+                            "description": "header)\tmigrated time sampling interval",
+                            "example": "dt(from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ftau",
+                            "description": "first migrated time sample",
+                            "example": "ft",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tmig",
+                            "description": "times corresponding to interval velocities in vmig",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vmig",
+                            "description": "interval velocities corresponding to times in tmig",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "Q",
+                            "description": "quality factor",
+                            "example": "1e6",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ceil",
+                            "description": "gain ceiling beyond which migration ceases",
+                            "example": "1e6",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "verbose = 1 echoes information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUINVXZCO",
+                    "description": "Seismic INVersion of Common Offset data for a smooth",
+                    "path_to_executable_file": "SUINVXZCO",
+                    "parameters": [
+                        {
+                            "name": "fxm",
+                            "description": "first midpoint in input trace",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxd",
+                            "description": "skipped number of midpoints (see note)",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "x sampling interval of velocity",
+                            "example": "50.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fx",
+                            "description": "first x sample of velocity",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dz",
+                            "description": "z sampling interval of velocity",
+                            "example": "50.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxc",
+                            "description": "hozizontal range in which velocity is changed",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nzc",
+                            "description": "vertical range in which velocity is changed",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxo",
+                            "description": "x-coordinate of first output trace",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dxo",
+                            "description": "horizontal spacing of output trace",
+                            "example": "15.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxo",
+                            "description": "number of output traces \t\t\t\t,",
+                            "example": "101",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fzo",
+                            "description": "z-coordinate of first point in output trace",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dzo",
+                            "description": "vertical spacing of output trace",
+                            "example": "15.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nzo",
+                            "description": "number of points in output trace\t\t\t,",
+                            "example": "101",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ang",
+                            "description": "Maximum dip angle allowed in the image",
+                            "example": "180",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ls",
+                            "description": "=1 for line source; =0 for point source",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pert",
+                            "description": "=1 calculate time correction from v_p[nx][nz]",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 to print some useful information",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUINVZCO3D",
+                    "description": "Seismic INVersion of Common Offset data with V(Z) velocity",
+                    "path_to_executable_file": "SUINVZCO3D",
+                    "parameters": [
+                        {
+                            "name": "fxm",
+                            "description": "first midpoint in input trace",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxd",
+                            "description": "skipped number of midpoints (see note)",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "x sampling interval of velocity",
+                            "example": "50.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fx",
+                            "description": "first x sample of velocity",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dz",
+                            "description": "z sampling interval of velocity",
+                            "example": "50.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxo",
+                            "description": "x-coordinate of first output trace",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dxo",
+                            "description": "horizontal spacing of output trace",
+                            "example": "15.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxo",
+                            "description": "number of output traces \t\t\t,",
+                            "example": "101",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fyo",
+                            "description": "y-coordinate of first output trace",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dyo",
+                            "description": "y-coordinate spacing of output trace",
+                            "example": "15.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nyo",
+                            "description": "number of output traces in y-direction",
+                            "example": "101",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fzo",
+                            "description": "z-coordinate of first point in output trace",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dzo",
+                            "description": "vertical spacing of output trace",
+                            "example": "15.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nzo",
+                            "description": "number of points in output trace\t\t,",
+                            "example": "101",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ang",
+                            "description": "Maximum dip angle allowed in the image",
+                            "example": "180",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 to print some useful information",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUKDMIG2D",
+                    "description": "Kirchhoff Depth Migration of 2D poststack/prestack data",
+                    "path_to_executable_file": "SUKDMIG2D",
+                    "parameters": [
+                        {
+                            "name": "infile",
+                            "description": "file for input seismic traces",
+                            "example": "stdin",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "outfile",
+                            "description": "file for common offset migration output",
+                            "example": "stdout",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "fzo",
+                            "description": "z-coordinate of first point in output trace",
+                            "example": "fzt",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxo",
+                            "description": "x-coordinate of first output trace",
+                            "example": "fxt",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "off0",
+                            "description": "first offest in output",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "doff",
+                            "description": "offset increment in output",
+                            "example": "99999",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "noff",
+                            "description": "number of offsets in output \t\t\t,",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "absoff",
+                            "description": "flag for using absolute offsets of input traces",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "limoff",
+                            "description": "flag for only using input traces that fall within the range",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "offmax",
+                            "description": "maximum absolute offset allowed in migration",
+                            "example": "99999",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "angmax",
+                            "description": "migration angle aperature from vertical",
+                            "example": "60",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dvz",
+                            "description": "reference velocity vertical gradient",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ls",
+                            "description": "flag for line source",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "jpfile",
+                            "description": "job print file name",
+                            "example": "stderr",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mtr",
+                            "description": "print verbal information at every mtr traces",
+                            "example": "100",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntr",
+                            "description": "maximum number of input traces to be migrated",
+                            "example": "100000",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "npv",
+                            "description": "flag of computing quantities for velocity analysis",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "rscale",
+                            "description": "scaling for roundoff error suppression",
+                            "example": "1000.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tvfile",
+                            "description": "input file of traveltime variation tables",
+                            "example": "tvfile",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "csfile",
+                            "description": "input file of cosine tables cs[ns][nxt][nzt]",
+                            "example": "csfile",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "outfile1",
+                            "description": "file containning additional migration output",
+                            "example": "outfile1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "absoff",
+                            "description": "and limoff=0, all traces with gx<sx will get migrated into the",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUKDMIG3D",
+                    "description": "Kirchhoff Depth Migration of 3D poststack/prestack data",
+                    "path_to_executable_file": "SUKDMIG3D",
+                    "parameters": [
+                        {
+                            "name": "datain",
+                            "description": "file for input seismic traces",
+                            "example": "stdin",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dataout",
+                            "description": "file for common offset migration output",
+                            "example": "stdout",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "crfile",
+                            "description": "file for cos theta and ray paths",
+                            "example": "NULL",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fzo",
+                            "description": "z-coordinate of first point in output trace",
+                            "example": "fzs",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxo",
+                            "description": "x-coordinate of first output trace",
+                            "example": "fxgd",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fyo",
+                            "description": "y-coordinate of first output trace",
+                            "example": "fygd",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxoffset",
+                            "description": "first offest in output in x",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fyoffset",
+                            "description": "first offest in output in y",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dxoffset",
+                            "description": "offset increment in output in x",
+                            "example": "99999",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dyoffset",
+                            "description": "offset increment in output in y",
+                            "example": "99999",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxoffset",
+                            "description": "number of offsets in output in x",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nyoffset",
+                            "description": "number of offsets in output in y\t\t,",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "xoffsetmax",
+                            "description": "x-maximum absolute offset allowed in migration",
+                            "example": "99999",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "yoffsetmax",
+                            "description": "y-maximum absolute offset allowed in migration",
+                            "example": "99999",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "angmax",
+                            "description": "max angle to handle",
+                            "example": "60",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "jpfile",
+                            "description": "job print file name",
+                            "example": "stderr",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pptr",
+                            "description": "print verbal information at every pptr traces",
+                            "example": "100",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntrmax",
+                            "description": "maximum number of input traces to be migrated",
+                            "example": "100000",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ls",
+                            "description": "point =0 line source =1",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUKTMIG2D",
+                    "description": "prestack time migration of a common-offset",
+                    "path_to_executable_file": "SUKTMIG2D",
+                    "parameters": [
+                        {
+                            "name": "fcdpdata",
+                            "description": "first cdp in data",
+                            "example": "tr.cdp",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "firstcdp",
+                            "description": "first cdp number in velocity file",
+                            "example": "fcdpdata",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "lastcdp",
+                            "description": "header\tlast cdp number in velocity file",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dcdp",
+                            "description": "header\tnumber of cdps between consecutive traces",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "angmax",
+                            "description": "maximum aperture angle for migration (degrees)",
+                            "example": "40",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nfc",
+                            "description": "number of Fourier-coefficients to approximate",
+                            "example": "16",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fwidth",
+                            "description": "high-end frequency increment for the low-pass",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMIGFD",
+                    "description": "45-90 degree Finite difference depth migration for",
+                    "path_to_executable_file": "SUMIGFD",
+                    "parameters": [
+                        {
+                            "name": "dt",
+                            "description": "header(dt) or .004    time sampling interval",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "header(d2) or 1.0\tmidpoint sampling interval",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dip",
+                            "description": "Maximum angle of dip reflector",
+                            "example": "45,65,79,80,87,89,90",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMIGFFD",
+                    "description": "Fourier finite difference depth migration for",
+                    "path_to_executable_file": "SUMIGFFD",
+                    "parameters": [
+                        {
+                            "name": "dt",
+                            "description": "header(dt) or .004    time sampling interval",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "header(d2) or 1.0     midpoint sampling interval",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ft",
+                            "description": "first time sample",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fz",
+                            "description": "first depth sample",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMIGGBZO",
+                    "description": "MIGration via Gaussian Beams of Zero-Offset SU data",
+                    "path_to_executable_file": "SUMIGGBZO",
+                    "parameters": [
+                        {
+                            "name": "dt",
+                            "description": "header\t\ttime sampling interval",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "header(d2) or 1.0\tspatial sampling interval",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dz",
+                            "description": "depth sampling interval",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "amax",
+                            "description": "maximum emergence angle; must be < 90 degrees",
+                            "example": "60",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=0 silent; =1 chatty",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMIGGBZOAN",
+                    "description": "MIGration via Gaussian beams ANisotropic media (P-wave)",
+                    "path_to_executable_file": "SUMIGGBZOAN",
+                    "parameters": [
+                        {
+                            "name": "dt",
+                            "description": "time sampling interval",
+                            "example": "tr.dt",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "inline sampling interval (trace spacing)",
+                            "example": "tr.d2",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dz",
+                            "description": "depth sampling interval",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "amax",
+                            "description": "maximum emergence angle; must be < 90 degrees",
+                            "example": "60",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "silent, =1 chatty",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMIGPREFD",
+                    "description": "-- The 2-D prestack common-shot 45-90 degree",
+                    "path_to_executable_file": "SUMIGPREFD",
+                    "parameters": [
+                        {
+                            "name": "dip",
+                            "description": "the maximum dip to migrate, possible values are:",
+                            "example": "79",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fmax",
+                            "description": "peak frequency of Ricker wavelet used as source wavelet",
+                            "example": "25",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "silent, =1 additional runtime information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMIGPREFFD",
+                    "description": "The 2-D prestack common-shot Fourier finite-difference",
+                    "path_to_executable_file": "SUMIGPREFFD",
+                    "parameters": [
+                        {
+                            "name": "fmax",
+                            "description": "the peak frequency of Ricker wavelet used as source wavelet",
+                            "example": "25",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "silent, =1 additional runtime information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMIGPREPSPI",
+                    "description": "-- The 2-D PREstack commom-shot Phase-Shift-Plus",
+                    "path_to_executable_file": "SUMIGPREPSPI",
+                    "parameters": [
+                        {
+                            "name": "fmax",
+                            "description": "the peak frequency of Ricker wavelet used as source wavelet",
+                            "example": "25",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nflag",
+                            "description": "normalization of cross-correlation:",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "silent, =1 additional runtime information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMIGPRESP",
+                    "description": "The 2-D prestack common-shot split-step Fourier\t\t,",
+                    "path_to_executable_file": "SUMIGPRESP",
+                    "parameters": [
+                        {
+                            "name": "fmax",
+                            "description": "The peak frequency of Ricker wavelet used as source wavelet",
+                            "example": "25",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "silent, =1 additional runtime information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMIGPS",
+                    "description": "MIGration by Phase Shift with turning rays",
+                    "path_to_executable_file": "SUMIGPS",
+                    "parameters": [
+                        {
+                            "name": "dt",
+                            "description": "header(dt) or .004\ttime sampling interval",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "header(d2) or 1.0\tdistance between sucessive cdp's",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tmig",
+                            "description": "times corresponding to interval velocities in vmig",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vmig",
+                            "description": "interval velocities corresponding to times in tmig",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxpad",
+                            "description": "number of cdps to pad with zeros before FFT",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ltaper",
+                            "description": "length of linear taper for left and right edges,",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic print",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMIGPSPI",
+                    "description": "Gazdag's phase-shift plus interpolation depth migration",
+                    "path_to_executable_file": "SUMIGPSPI",
+                    "parameters": [
+                        {
+                            "name": "dt",
+                            "description": "header(dt) or .004    time sampling interval",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "header(d2) or 1.0     midpoint sampling interval",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMIGPSTI",
+                    "description": "MIGration by Phase Shift for TI media with turning rays",
+                    "path_to_executable_file": "SUMIGPSTI",
+                    "parameters": [
+                        {
+                            "name": "dt",
+                            "description": "header(dt) or .004\ttime sampling interval",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "header(d2) or 1.0\tdistance between sucessive cdp's",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tmig",
+                            "description": "times corresponding to interval velocities in vmig",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vnmig",
+                            "description": "interval NMO velocities corresponding to times in tmig",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vmig",
+                            "description": "interval velocities corresponding to times in tmig",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "etamig",
+                            "description": "interval eta values corresponding to times in tmig",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxpad",
+                            "description": "number of cdps to pad with zeros before FFT",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ltaper",
+                            "description": "length of linear taper for left and right edges\t\t,",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic print",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMIGSPLIT",
+                    "description": "Split-step depth migration for zero-offset data.",
+                    "path_to_executable_file": "SUMIGSPLIT",
+                    "parameters": [
+                        {
+                            "name": "dt",
+                            "description": "header(dt) or .004    time sampling interval",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "header(d2) or 1.0     midpoint sampling interval",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ft",
+                            "description": "first time sample",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMIGTK",
+                    "description": "MIGration via T-K domain method for common-midpoint stacked data",
+                    "path_to_executable_file": "SUMIGTK",
+                    "parameters": [
+                        {
+                            "name": "fmax",
+                            "description": "maximum frequency",
+                            "example": "Nyquist",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tmig",
+                            "description": "times corresponding to interval velocities in vmig",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vmig",
+                            "description": "interval velocities corresponding to times in tmig",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxpad",
+                            "description": "number of cdps to pad with zeros before FFT",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ltaper",
+                            "description": "length of linear taper for left and right edges,",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic print",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUMIGTOPO2D",
+                    "description": "Kirchhoff Depth Migration of 2D postack/prestack data",
+                    "path_to_executable_file": "SUMIGTOPO2D",
+                    "parameters": [
+                        {
+                            "name": "infile",
+                            "description": "file for input seismic traces",
+                            "example": "stdin",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "outfile",
+                            "description": "file for common offset migration output",
+                            "example": "stdout",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "fzo",
+                            "description": "z-coordinate of first point in output trace",
+                            "example": "fzt",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxo",
+                            "description": "x-coordinate of first output trace",
+                            "example": "fxt",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "off0",
+                            "description": "first offest in output",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "doff",
+                            "description": "offset increment in output",
+                            "example": "99999",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "noff",
+                            "description": "number of offsets in output \t\t\t,",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "offmax",
+                            "description": "maximum absolute offset allowed in migration",
+                            "example": "99999",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "angmax",
+                            "description": "migration angle aperature from vertical",
+                            "example": "60",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dvz",
+                            "description": "reference velocity vertical gradient",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ls",
+                            "description": "flag for line source",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "jpfile",
+                            "description": "job print file name",
+                            "example": "stderr",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mtr",
+                            "description": "print verbal information at every mtr traces",
+                            "example": "100",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntr",
+                            "description": "maximum number of input traces to be migrated",
+                            "example": "100000",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSTOLT",
+                    "description": "Stolt migration for stacked data or common-offset gathers",
+                    "path_to_executable_file": "SUSTOLT",
+                    "parameters": [
+                        {
+                            "name": "noffmix",
+                            "description": "number of offsets to mix (for unstacked data only)",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tmig",
+                            "description": "times corresponding to rms velocities in vmig (s)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vmig",
+                            "description": "rms velocities corresponding to times in tmig (m/s)",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "smig",
+                            "description": "stretch factor (0.6 typical if vrms increasing)",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vscale",
+                            "description": "scale factor to apply to velocities",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fmax",
+                            "description": "maximum frequency in input data (Hz)",
+                            "example": "Nyquist",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "lstaper",
+                            "description": "length of side tapers (# of traces)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "lbtaper",
+                            "description": "length of bottom taper (# of samples)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic print",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUTIFOWLER",
+                    "description": "velocity analysis via Fowler's method",
+                    "path_to_executable_file": "SUTIFOWLER",
+                    "parameters": [
+                        {
+                            "name": "choose",
+                            "description": "1 do full prestack time migration",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "getcvstacks",
+                            "description": "flag to set to 1 if inputting precomputed cvstacks",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vminstack",
+                            "description": "minimum velocity panel in m/s in input cvstacks",
+                            "example": "vmin",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "etamin",
+                            "description": "minimum eta (see paper by Tariq Alkhalifah)",
+                            "example": "0.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "etamax",
+                            "description": "maximum eta (see paper by Tariq Alkhalifah)",
+                            "example": "0.5",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "neta",
+                            "description": "number of eta values to image",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "d",
+                            "description": "Thomsen's delta",
+                            "example": "0.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vpvs",
+                            "description": "assumed vp/vs ratio (not critical -- default almost always ok)",
+                            "example": "0.5",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "cdp x increment",
+                            "example": "25.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vmin",
+                            "description": "minimum velocity panel in m/s to output",
+                            "example": "1500.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vmax",
+                            "description": "maximum velocity panel in m/s to output",
+                            "example": "8000.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nv",
+                            "description": "number of velocity panels to output",
+                            "example": "75",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nvstack",
+                            "description": "number of stacking velocity panels to compute",
+                            "example": "180",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxpad",
+                            "description": "number of traces to padd for spatial fft",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "lmute",
+                            "description": "length of mute taper in ms",
+                            "example": "24",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nonhyp",
+                            "description": "1 if do mute at 2*offset/vmin to avoid non-hyperbolic",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "lbtaper",
+                            "description": "length of bottom taper in ms",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "lstaper",
+                            "description": "length of side taper in traces",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mxfold",
+                            "description": "maximum number of offsets/input cmp",
+                            "example": "120",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "salias",
+                            "description": "fraction of output frequencies to force within sloth",
+                            "example": "0.8",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "file",
+                            "description": "root name for temporary files",
+                            "example": "sutifowler",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "p",
+                            "description": "Enter a path name where to put temporary files.",
+                            "example": "not",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ngroup",
+                            "description": "Number of cmps per velocity analysis group.",
+                            "example": "20",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "printfile",
+                            "description": "The output file for printout from this program.",
+                            "example": "stderr",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sx",
+                            "description": "- x coordinate as icmp*dx",
+                            "example": "gx",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "tracl",
+                            "description": "-sequential trace count (1 based)",
+                            "example": "tracr",
+                            "input_type": "string",
+                            "isRequired": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

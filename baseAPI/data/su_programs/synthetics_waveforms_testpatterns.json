@@ -1,0 +1,3056 @@
+{
+    "count_programs": 28,
+    "programGroups": [
+        {
+            "name": "synthetics_waveforms_testpatterns",
+            "description": "",
+            "programs": [
+                {
+                    "name": "SUADDEVENT",
+                    "description": "add a linear or hyperbolic moveout event to seismic data",
+                    "path_to_executable_file": "SUADDEVENT",
+                    "parameters": [
+                        {
+                            "name": "type",
+                            "description": "=lmo for linear event",
+                            "example": "nmo",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "t0",
+                            "description": "zero-offset intercept time IN SECONDS",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vel",
+                            "description": "moveout velocity in m/s",
+                            "example": "3000.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "amp",
+                            "description": "amplitude",
+                            "example": "1.",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUDGWAVEFORM",
+                    "description": "make Gaussian derivative waveform in SU format",
+                    "path_to_executable_file": "SUDGWAVEFORM",
+                    "parameters": [
+                        {
+                            "name": "n",
+                            "description": "order of derivative (n>=1)",
+                            "example": "2",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fpeak",
+                            "description": "peak frequency",
+                            "example": "35",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nt",
+                            "description": "length of waveform",
+                            "example": "128",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "shift",
+                            "description": "additional time shift in s (used for plotting)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sign",
+                            "description": "use =-1 to change sign",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=0 don't display diagnostic messages",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUEA2DF",
+                    "description": "SU version of (an)elastic anisotropic 2D finite difference",
+                    "path_to_executable_file": "SUEA2DF",
+                    "parameters": [
+                        {
+                            "name": "c11file",
+                            "description": "c11 voigt elasticity parameter filename",
+                            "example": "c11_file",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "c55file",
+                            "description": "c55 voigt elasticity parameter filename",
+                            "example": "c55_file",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "rhofile",
+                            "description": "density filename",
+                            "example": "rho_file",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "aniso",
+                            "description": "=1 - include anisotropy parameters",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mode",
+                            "description": "=0 output particle velocity, =1 output stresses",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "c13file",
+                            "description": "c13 voigt elasticity parameter filename",
+                            "example": "c13_file",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "c33file",
+                            "description": "c33 voigt elasticity parameter filename",
+                            "example": "c33_file",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "c15file",
+                            "description": "c15 voigt elasticity parameter filename",
+                            "example": "c15_file",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "c35file",
+                            "description": "c35 voigt elasticity parameter filename",
+                            "example": "c35_file",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "qsw",
+                            "description": "switch to include attenuation =1 - include",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "qfile",
+                            "description": "Q parameter filename",
+                            "example": "Q_file",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "time sampling interval (s)",
+                            "example": "0.001",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ft",
+                            "description": "first time (s)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "lt",
+                            "description": "last time (s)",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nx",
+                            "description": "number of values in slow (x-direction)",
+                            "example": "200",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "spatial sampling interval (m) x-coor",
+                            "example": "10.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nz",
+                            "description": "number of values in fast (z)-dimension",
+                            "example": "100",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dz",
+                            "description": "spatial sampling interval (m) z-coor",
+                            "example": "dx",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fz",
+                            "description": "firstz coor (m)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sx",
+                            "description": "source x position (m)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sz",
+                            "description": "source location (m)",
+                            "example": "500",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sang",
+                            "description": "for stype='pw': plane wave angle",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ts",
+                            "description": "source duration (s)",
+                            "example": "0.05",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "favg",
+                            "description": "source average frequency",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "qsw",
+                            "description": "switch to include attenuation =1 - include",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "bc",
+                            "description": "Top,left,bottom,right boundary condition",
+                            "example": "10,10,10,10",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tsw",
+                            "description": "switch to use shear stress only in non-fluid",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tsw",
+                            "description": "then standard calculation",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 to print progress on screen",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUFCTANISMOD",
+                    "description": "Flux-Corrected Transport correction applied to the 2D",
+                    "path_to_executable_file": "SUFCTANISMOD",
+                    "parameters": [
+                        {
+                            "name": "suhead",
+                            "description": "To get SU-header output seismograms (else suhead=0)",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mt",
+                            "description": "number of time steps per output snapshot",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dofct",
+                            "description": "1 do the FCT correction",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "eta0",
+                            "description": "diffusion coefficient",
+                            "example": "0.03",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "eta",
+                            "description": "anti-diffusion coefficient",
+                            "example": "0.04",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fctxbeg",
+                            "description": "x coordinate to begin applying the FCT correction",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fctzbeg",
+                            "description": "z coordinate to begin applying the FCT correction",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fctxend",
+                            "description": "x coordinate to stop applying the FCT correction",
+                            "example": "nx",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fctzend",
+                            "description": "z coordinate to stop applying the FCT correction",
+                            "example": "nz",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "deta0dx",
+                            "description": "gradient of eta0 in x-direction  d(eta0)/dx",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "deta0dz",
+                            "description": "gradient of eta0 in z-direction  d(eta0)/dz",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "detadx",
+                            "description": "gradient of eta in x-direction \t d(eta)/dx",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "detadz",
+                            "description": "gradient of eta in z-direction \t d(eta)/dz",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "order",
+                            "description": "2 second-order finite-difference",
+                            "example": "2",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nt",
+                            "description": "number of time steps",
+                            "example": "200",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "time step",
+                            "example": "0.004",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nx",
+                            "description": "number of grid points in x-direction",
+                            "example": "100",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nz",
+                            "description": "number of grid points in z-direction",
+                            "example": "100",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "spatial step in x-direction",
+                            "example": "0.02",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dz",
+                            "description": "spatial step in z-direction",
+                            "example": "0.02",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fpeak",
+                            "description": "peak frequency of the wavelet",
+                            "example": "20",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "receiverdepth",
+                            "description": "depth of horizontal receivers (in gridpoints)",
+                            "example": "sz",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vspnx",
+                            "description": "x grid loc of vsp",
+                            "example": "sx",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "silent operation",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "wavelet",
+                            "description": "1 AKB wavelet",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "isurf",
+                            "description": "1 absorbing surface condition",
+                            "example": "2",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "source",
+                            "description": "1 point source",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "rho00",
+                            "description": "density at (0, 0)",
+                            "example": "2.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "drhodx",
+                            "description": "density gradient in x-direction  d(rho)/dx",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "drhodz",
+                            "description": "density gradient in z-direction  d(rho)/dz",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "aa00",
+                            "description": "elastic parameter at (0, 0)",
+                            "example": "2.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "daadx",
+                            "description": "parameter gradient in x-direction  d(aa)/dx",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "daadz",
+                            "description": "parameter gradient in z-direction  d(aa)/dz",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "cc00",
+                            "description": "elastic parameter at (0, 0)",
+                            "example": "2.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dccdx",
+                            "description": "parameter gradient in x-direction  d(cc)/dx",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dccdz",
+                            "description": "parameter gradient in z-direction  d(cc)/dz",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ff00",
+                            "description": "elastic parameter at (0, 0)",
+                            "example": "2.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dffdx",
+                            "description": "parameter gradient in x-direction  d(ff)/dx",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dffdz",
+                            "description": "parameter gradient in z-direction  d(ff)/dz",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ll00",
+                            "description": "elastic parameter at (0, 0)",
+                            "example": "2.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dlldx",
+                            "description": "parameter gradient in x-direction  d(ll)/dx",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dlldz",
+                            "description": "parameter gradient in z-direction  d(ll)/dz",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nn00",
+                            "description": "elastic parameter at (0, 0)",
+                            "example": "2.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dnndx",
+                            "description": "parameter gradient in x-direction  d(nn)/dx",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dnndz",
+                            "description": "parameter gradient in z-direction  d(nn)/dz",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "movebc",
+                            "description": "0 do not use moving boundary optimization",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUFDMOD1",
+                    "description": "Finite difference modelling (1-D 1rst order) for the",
+                    "path_to_executable_file": "SUFDMOD1",
+                    "parameters": [
+                        {
+                            "name": "dz",
+                            "description": "z sampling interval",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fz",
+                            "description": "first depth sample",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "rz",
+                            "description": "coordinate of receiver",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sz",
+                            "description": "coordinate of source",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "abs",
+                            "description": "absorbing conditions on top and bottom",
+                            "example": "0,1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "styp",
+                            "description": "source type (0: gauss, 1: ricker 1, 2: ricker 2)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "freq",
+                            "description": "approximate source center frequency (Hz)",
+                            "example": "15.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "zt",
+                            "description": "trace undersampling factor for trace and snapshots",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "zd",
+                            "description": "depth undersampling factor for snapshots",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "press",
+                            "description": "to record the pressure field; 0 records the particle",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic messages",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUFDMOD2",
+                    "description": "Finite-Difference MODeling (2nd order) for acoustic wave equation",
+                    "path_to_executable_file": "SUFDMOD2",
+                    "parameters": [
+                        {
+                            "name": "sstrength",
+                            "description": "strength of source",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pw",
+                            "description": "use point or extended source geometry parameters",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pwt",
+                            "description": "amp taper on ends of line src (in grid points)",
+                            "example": "20",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mono",
+                            "description": "use ricker wavelet as source function",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mt",
+                            "description": "number of time steps (dt) per output time step",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "x sampling interval",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fx",
+                            "description": "first x sample",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dz",
+                            "description": "z sampling interval",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fz",
+                            "description": "first z sample",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic messages, =2 for more",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "abs",
+                            "description": "absorbing boundary conditions on top,left,bottom,right",
+                            "example": "1,1,1,1",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUFDMOD2_PML",
+                    "description": "Finite-Difference MODeling (2nd order) for acoustic wave",
+                    "path_to_executable_file": "SUFDMOD2_PML",
+                    "parameters": [
+                        {
+                            "name": "mt",
+                            "description": "number of time steps (dt) per output time step",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "x sampling interval",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fx",
+                            "description": "first x sample",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dz",
+                            "description": "z sampling interval",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fz",
+                            "description": "first z sample",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic messages, =2 for more",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "abs",
+                            "description": "Absorbing boundary conditions on top,left,bottom,right",
+                            "example": "1,1,1,1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pml_max",
+                            "description": "PML absorption parameter",
+                            "example": "1000.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pml_thick",
+                            "description": "half-thickness of pml layer (0 = do not use PML)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUGOUPILLAUD",
+                    "description": "calculate 1D impulse response of",
+                    "path_to_executable_file": "SUGOUPILLAUD",
+                    "parameters": [
+                        {
+                            "name": "l",
+                            "description": "layer number; 1 <= l <= tr.ns",
+                            "example": "1source",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "k",
+                            "description": "receiver layer number; 1 <= k",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tmax",
+                            "description": "if k >=tr.ns",
+                            "example": "k",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pV",
+                            "description": "flag for vector field seismogram",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "silent operation, =1 list warnings",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUGOUPILLAUDPO",
+                    "description": "calculate Primaries-Only impulse response of a lossless",
+                    "path_to_executable_file": "SUGOUPILLAUDPO",
+                    "parameters": [
+                        {
+                            "name": "l",
+                            "description": "source layer number; 1 <= l <= tr.ns",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "k",
+                            "description": "receiver layer number; 1 <= k",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pV",
+                            "description": "flag for vector field seismogram",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "silent operation, =1 list warnings",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUIMP2D",
+                    "description": "generate shot records for a line scatterer",
+                    "path_to_executable_file": "SUIMP2D",
+                    "parameters": [
+                        {
+                            "name": "nshot",
+                            "description": "number of shots",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nrec",
+                            "description": "number of receivers",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "c",
+                            "description": "speed",
+                            "example": "5000",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "sampling rate",
+                            "example": ".004",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nt",
+                            "description": "number of samples",
+                            "example": "256",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "x0",
+                            "description": "point scatterer location",
+                            "example": "1000",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "z0",
+                            "description": "point scatterer location",
+                            "example": "1000",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sxmin",
+                            "description": "first shot location",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "szmin",
+                            "description": "first shot location",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "gxmin",
+                            "description": "first receiver location",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "gzmin",
+                            "description": "first receiver location",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dsx",
+                            "description": "x-step in shot location",
+                            "example": "100",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dsz",
+                            "description": "z-step in shot location",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dgx",
+                            "description": "x-step in receiver location",
+                            "example": "100",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dgz",
+                            "description": "z-step in receiver location",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUIMP3D",
+                    "description": "generate inplane shot records for a point",
+                    "path_to_executable_file": "SUIMP3D",
+                    "parameters": [
+                        {
+                            "name": "nshot",
+                            "description": "number of shots",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nrec",
+                            "description": "number of receivers",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "c",
+                            "description": "speed",
+                            "example": "5000",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "sampling rate",
+                            "example": ".004",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nt",
+                            "description": "number of samples",
+                            "example": "256",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "x0",
+                            "description": "point scatterer location",
+                            "example": "1000",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "y0",
+                            "description": "point scatterer location",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "z0",
+                            "description": "point scatterer location",
+                            "example": "1000",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dir",
+                            "description": "do not include direct arrival",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sxmin",
+                            "description": "first shot location",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "symin",
+                            "description": "first shot location",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "szmin",
+                            "description": "first shot location",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "gxmin",
+                            "description": "first receiver location",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "gymin",
+                            "description": "first receiver location",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "gzmin",
+                            "description": "first receiver location",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dsx",
+                            "description": "x-step in shot location",
+                            "example": "100",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dsy",
+                            "description": "y-step in shot location",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dsz",
+                            "description": "z-step in shot location",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dgx",
+                            "description": "x-step in receiver location",
+                            "example": "100",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dgy",
+                            "description": "y-step in receiver location",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dgz",
+                            "description": "z-step in receiver location",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUIMPEDANCE",
+                    "description": "Convert reflection coefficients to impedances.",
+                    "path_to_executable_file": "SUIMPEDANCE",
+                    "parameters": [
+                        {
+                            "name": "v0",
+                            "description": "Velocity at first sample (m/sec)",
+                            "example": "1500.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "rho0",
+                            "description": "Density at first sample  (g/m^3)",
+                            "example": "1.0e6",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUKDSYN2D",
+                    "description": "Kirchhoff Depth SYNthesis of 2D seismic data from a",
+                    "path_to_executable_file": "SUKDSYN2D",
+                    "parameters": [
+                        {
+                            "name": "infile",
+                            "description": "input migrated section",
+                            "example": "stdin",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "outfile",
+                            "description": "file for output seismic traces",
+                            "example": "stdout",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "nt",
+                            "description": "number of time samples",
+                            "example": "501",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "time sampling interval (sec)",
+                            "example": "0.004",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ft",
+                            "description": "first time (sec)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxo",
+                            "description": "number of source-receiver offsets",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dxo",
+                            "description": "offset sampling interval",
+                            "example": "25",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxo",
+                            "description": "first offset",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxs",
+                            "description": "number of shotpoints",
+                            "example": "101",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dxs",
+                            "description": "shotpoint sampling interval",
+                            "example": "25",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxs",
+                            "description": "first shotpoint",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "angmax",
+                            "description": "modeling angle aperature from vertical",
+                            "example": "60",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dvz",
+                            "description": "reference velocity vertical gradient",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ls",
+                            "description": "flag for line source",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "jpfile",
+                            "description": "job print file name",
+                            "example": "stderr",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mtr",
+                            "description": "print verbal information at every mtr traces",
+                            "example": "100",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUNHMOSPIKE",
+                    "description": "generates SPIKE test data set with a choice of several",
+                    "path_to_executable_file": "SUNHMOSPIKE",
+                    "parameters": [
+                        {
+                            "name": "nt",
+                            "description": "number of time samples",
+                            "example": "300",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntr",
+                            "description": "number of traces",
+                            "example": "20",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "time sampling interval in seconds",
+                            "example": "0.001",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "offref",
+                            "description": "reference offset",
+                            "example": "2000",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "depthref",
+                            "description": "reference depth used when gopt=2",
+                            "example": "400",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "offinc",
+                            "description": "offset increment",
+                            "example": "100",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nspk",
+                            "description": "number of events",
+                            "example": "4",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUNULL",
+                    "description": "create null (all zeroes) traces",
+                    "path_to_executable_file": "SUNULL",
+                    "parameters": [
+                        {
+                            "name": "ntr",
+                            "description": "number of null traces to create",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "time sampling interval",
+                            "example": "0.004",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUPLANE",
+                    "description": "create common offset data file with up to 3 planes",
+                    "path_to_executable_file": "SUPLANE",
+                    "parameters": [
+                        {
+                            "name": "npl",
+                            "description": "number of planes",
+                            "example": "3",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nt",
+                            "description": "number of time samples",
+                            "example": "64",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntr",
+                            "description": "number of traces",
+                            "example": "32",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "taper",
+                            "description": "no end-of-plane taper",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "offset",
+                            "description": "offset",
+                            "example": "400",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "time sample interval in seconds",
+                            "example": "0.004",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dip1",
+                            "description": "dip of plane #1 (ms/trace)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dip2",
+                            "description": "dip of plane #2 (ms/trace)",
+                            "example": "4",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dip3",
+                            "description": "dip of plane #3 (ms/trace)",
+                            "example": "8",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "liner",
+                            "description": "use parameters",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SURANDSPIKE",
+                    "description": "make a small data set of RANDom SPIKEs",
+                    "path_to_executable_file": "SURANDSPIKE",
+                    "parameters": [
+                        {
+                            "name": "n1",
+                            "description": "number of time samples",
+                            "example": "500",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "n2",
+                            "description": "number of traces",
+                            "example": "200",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "time sampling interval in seconds",
+                            "example": "0.002",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nspk",
+                            "description": "number of spikes per trace",
+                            "example": "20",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "amax",
+                            "description": "abs(max) spike value",
+                            "example": "0.2",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mode",
+                            "description": "different spikes on each trace",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "seed",
+                            "description": "random number seed (integer)",
+                            "example": "from_clock",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUREMAC2D",
+                    "description": "Acoustic 2D Fourier method modeling with high accuracy",
+                    "path_to_executable_file": "SUREMAC2D",
+                    "parameters": [
+                        {
+                            "name": "fx",
+                            "description": "first horizontal coordinate",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fz",
+                            "description": "first vertical coordinate",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "w",
+                            "description": "width of spatial source distribution (see notes)",
+                            "example": "0.1",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sflag",
+                            "description": "source time function",
+                            "example": "2",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "amps",
+                            "description": "amplitudes of sources",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "prec",
+                            "description": "1: precompute Bessel coefficients b_k (see notes)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fsflag",
+                            "description": "1: perform run with free surface b.c.",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dtsnap",
+                            "description": "time interval in seconds of wave field snapshots",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "iabso",
+                            "description": "apply absorbing boundary conditions (0: none)",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "abso",
+                            "description": "damping parameter for absorbing boundaries",
+                            "example": "0.1",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nbwx",
+                            "description": "horizontal width of absorbing boundary",
+                            "example": "20",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nbwz",
+                            "description": "vertical width of absorbing boundary",
+                            "example": "20",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "1: show parameters used",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "velfile",
+                            "description": "velocity filename",
+                            "example": "vel",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "densfile",
+                            "description": "density filename",
+                            "example": "dens",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sname",
+                            "description": "user supplied source time function filename",
+                            "example": "wavelet.su",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sepxname",
+                            "description": "x-direction pressure sections filename",
+                            "example": "sectx.su",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sepzname",
+                            "description": "z-direction pressure sections filename",
+                            "example": "sectz.su",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "snpname",
+                            "description": "pressure snapshot filename",
+                            "example": "snap.su",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "jpfile",
+                            "description": "diagnostic output",
+                            "example": "stderr",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUREMEL2DAN",
+                    "description": "Elastic anisotropic 2D Fourier method modeling with high",
+                    "path_to_executable_file": "SUREMEL2DAN",
+                    "parameters": [
+                        {
+                            "name": "fx",
+                            "description": "first horizontal coordinate",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fz",
+                            "description": "first vertical coordinate",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "w",
+                            "description": "width of spatial source distribution (see notes)",
+                            "example": "0.1",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sflag",
+                            "description": "source time function",
+                            "example": "2",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "amps",
+                            "description": "amplitudes of sources",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "prec",
+                            "description": "1: precompute Bessel coefficients b_k (see notes)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dtsnap",
+                            "description": "time interval in seconds of wave field snapshots",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "iabso",
+                            "description": "apply absorbing boundary conditions (0: none)",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "abso",
+                            "description": "damping parameter for absorbing boundaries",
+                            "example": "0.1",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nbwx",
+                            "description": "horizontal width of absorbing boundary",
+                            "example": "20",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nbwz",
+                            "description": "vertical width of absorbing boundary",
+                            "example": "20",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "1: show parameters used",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "c11file",
+                            "description": "c11 filename",
+                            "example": "c11",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "c13file",
+                            "description": "c13 filename",
+                            "example": "c13",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "c15file",
+                            "description": "c15 filename",
+                            "example": "c15",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "c33file",
+                            "description": "c33 filename",
+                            "example": "c33",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "c35file",
+                            "description": "c35 filename",
+                            "example": "c35",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "c55file",
+                            "description": "c55 filename",
+                            "example": "c55",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vpfile",
+                            "description": "P-velocity filename",
+                            "example": "vp",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vsfile",
+                            "description": "S-velocity filename",
+                            "example": "vs",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "densfile",
+                            "description": "density filename",
+                            "example": "dens",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sname",
+                            "description": "user supplied source time function filename",
+                            "example": "wavelet.su",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "xsect",
+                            "description": "x-direction section files basename",
+                            "example": "xsect_",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "zsect",
+                            "description": "z-direction section files basename",
+                            "example": "zsect_",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "snap",
+                            "description": "snapshot files basename",
+                            "example": "snap_",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "jpfile",
+                            "description": "diagnostic output",
+                            "example": "stderr",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "w",
+                            "description": "may be a reasonable choice; however, the waveform will be",
+                            "example": "2",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSPIKE",
+                    "description": "make a small spike data set",
+                    "path_to_executable_file": "SUSPIKE",
+                    "parameters": [
+                        {
+                            "name": "nt",
+                            "description": "number of time samples",
+                            "example": "64",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntr",
+                            "description": "number of traces",
+                            "example": "32",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "time sampling interval in seconds",
+                            "example": "0.004",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "offset",
+                            "description": "offset",
+                            "example": "400",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nspk",
+                            "description": "number of spikes",
+                            "example": "4",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSYNCZ",
+                    "description": "SYNthetic seismograms for piecewise constant V(Z) function",
+                    "path_to_executable_file": "SUSYNCZ",
+                    "parameters": [
+                        {
+                            "name": "ninf",
+                            "description": "number of interfaces (not including upper surface)",
+                            "example": "4",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "rho",
+                            "description": "densities below surface & interfaces (i=0,1,2,3,4)",
+                            "example": "1,1,1,1,1",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nline",
+                            "description": "number of (identical) lines",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntr",
+                            "description": "number of traces",
+                            "example": "32",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "trace interval",
+                            "example": "10",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tdelay",
+                            "description": "delay in recording time after source initiation",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "time interval",
+                            "example": "0.004",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nt",
+                            "description": "number of time samples",
+                            "example": "128",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSYNLV",
+                    "description": "SYNthetic seismograms for Linear Velocity function",
+                    "path_to_executable_file": "SUSYNLV",
+                    "parameters": [
+                        {
+                            "name": "nt",
+                            "description": "number of time samples",
+                            "example": "101",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "time sampling interval (sec)",
+                            "example": "0.04",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ft",
+                            "description": "first time (sec)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "kilounits",
+                            "description": "input length units are km or kilo-feet",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxo",
+                            "description": "number of source-receiver offsets",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dxo",
+                            "description": "offset sampling interval (kilounits)",
+                            "example": "0.05",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxo",
+                            "description": "first offset (kilounits, see notes below)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxm",
+                            "description": "number of midpoints (see notes below)",
+                            "example": "101",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dxm",
+                            "description": "midpoint sampling interval (kilounits)",
+                            "example": "0.05",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxm",
+                            "description": "first midpoint (kilounits)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxs",
+                            "description": "number of shotpoints (see notes below)",
+                            "example": "101",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dxs",
+                            "description": "shotpoint sampling interval (kilounits)",
+                            "example": "0.05",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxs",
+                            "description": "first shotpoint (kilounits)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "x0",
+                            "description": "distance x at which v00 is specified",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "z0",
+                            "description": "depth z at which v00 is specified",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "v00",
+                            "description": "velocity at x0,z0 (kilounits/sec)",
+                            "example": "2.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dvdx",
+                            "description": "derivative of velocity with distance x (dv/dx)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dvdz",
+                            "description": "derivative of velocity with depth z (dv/dz)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "smooth",
+                            "description": "=1 for smooth (piecewise cubic spline) reflectors",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "er",
+                            "description": "=1 for exploding reflector amplitudes",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ls",
+                            "description": "=1 for line source; default is point source",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ob",
+                            "description": "=1 to include obliquity factors",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ndpfz",
+                            "description": "number of diffractors per Fresnel zone",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 to print some useful information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSYNLVCW",
+                    "description": "SYNthetic seismograms for Linear Velocity function",
+                    "path_to_executable_file": "SUSYNLVCW",
+                    "parameters": [
+                        {
+                            "name": "nt",
+                            "description": "number of time samples",
+                            "example": "101",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "time sampling interval (sec)",
+                            "example": "0.04",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ft",
+                            "description": "first time (sec)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxo",
+                            "description": "number of source-receiver offsets",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dxo",
+                            "description": "offset sampling interval (km)",
+                            "example": "0.05",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxo",
+                            "description": "first offset (km, see notes below)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxm",
+                            "description": "number of midpoints (see notes below)",
+                            "example": "101",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dxm",
+                            "description": "midpoint sampling interval (km)",
+                            "example": "0.05",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxm",
+                            "description": "first midpoint (km)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxs",
+                            "description": "number of shotpoints (see notes below)",
+                            "example": "101",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dxs",
+                            "description": "shotpoint sampling interval (km)",
+                            "example": "0.05",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxs",
+                            "description": "first shotpoint (km)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "x0",
+                            "description": "distance x at which v00 is specified",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "z0",
+                            "description": "depth z at which v00 is specified",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "v00",
+                            "description": "velocity at x0,z0 (km/sec)",
+                            "example": "2.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "gamma",
+                            "description": "velocity ratio, upgoing/downgoing",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dvdx",
+                            "description": "derivative of velocity with distance x (dv/dx)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dvdz",
+                            "description": "derivative of velocity with depth z (dv/dz)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "smooth",
+                            "description": "=1 for smooth (piecewise cubic spline) reflectors",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "er",
+                            "description": "=1 for exploding reflector amplitudes",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ls",
+                            "description": "=1 for line source; default is point source",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ob",
+                            "description": "=1 to include obliquity factors",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sp",
+                            "description": "=1 to account for amplitude spreading",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ndpfz",
+                            "description": "number of diffractors per Fresnel zone",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 to print some useful information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSYNLVFTI",
+                    "description": "SYNthetic seismograms for Linear Velocity function in a",
+                    "path_to_executable_file": "SUSYNLVFTI",
+                    "parameters": [
+                        {
+                            "name": "nt",
+                            "description": "number of time samples",
+                            "example": "101",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "time sampling interval (sec)",
+                            "example": "0.04",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ft",
+                            "description": "first time (sec)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "kilounits",
+                            "description": "input length units are km or kilo-feet",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxo",
+                            "description": "number of source-receiver offsets",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dxo",
+                            "description": "offset sampling interval (kilounits)",
+                            "example": "0.05",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxo",
+                            "description": "first offset (kilounits, see notes below)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxm",
+                            "description": "number of midpoints (see notes below)",
+                            "example": "101",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dxm",
+                            "description": "midpoint sampling interval (kilounits)",
+                            "example": "0.05",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxm",
+                            "description": "first midpoint (kilounits)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxs",
+                            "description": "number of shotpoints (see notes below)",
+                            "example": "101",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dxs",
+                            "description": "shotpoint sampling interval (kilounits)",
+                            "example": "0.05",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxs",
+                            "description": "first shotpoint (kilounits)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "x0",
+                            "description": "distance x at which v00 is specified",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "z0",
+                            "description": "depth z at which v00 is specified",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "v00",
+                            "description": "velocity at x0,z0 (kilounits/sec)",
+                            "example": "2.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dvdx",
+                            "description": "derivative of velocity with distance x (dv/dx)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dvdz",
+                            "description": "derivative of velocity with depth z (dv/dz)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "smooth",
+                            "description": "=1 for smooth (piecewise cubic spline) reflectors",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "er",
+                            "description": "=1 for exploding reflector amplitudes",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ls",
+                            "description": "=1 for line source; default is point source",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ob",
+                            "description": "=1 to include obliquity factors",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ndpfz",
+                            "description": "number of diffractors per Fresnel zone",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 to print some useful information",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "angxs",
+                            "description": "angle of symmetry axis with the vertical (degrees)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "a",
+                            "description": "corresponding to the ratio of elastic coef.(c1111/c3333)",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "f",
+                            "description": "corresponding to the ratio of elastic coef. (c1133/c3333)",
+                            "example": "0.4",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "l",
+                            "description": "corresponding to the ratio of elastic coef. (c1313/c3333)",
+                            "example": "0.3",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "delta",
+                            "description": "Thomsen's 1986 defined parameter",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "epsilon",
+                            "description": "Thomsen's 1986 defined parameter",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntries",
+                            "description": "number of iterations in Snell's law and offset searches",
+                            "example": "40",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "epsx",
+                            "description": "lateral offset tolerance",
+                            "example": ".001",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "epst",
+                            "description": "reflection time tolerance",
+                            "example": ".0001",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nitmax",
+                            "description": "max number of iterations in travel time integrations",
+                            "example": "12",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSYNVXZ",
+                    "description": "SYNthetic seismograms of common offset V(X,Z) media via",
+                    "path_to_executable_file": "SUSYNVXZ",
+                    "parameters": [
+                        {
+                            "name": "nxb",
+                            "description": "band centered at midpoint",
+                            "example": "nx",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxd",
+                            "description": "skipped number of midponits",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "x sampling interval (m)",
+                            "example": "100",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fx",
+                            "description": "first x sample",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dz",
+                            "description": "z sampling interval (m)",
+                            "example": "100",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nt",
+                            "description": "number of time samples",
+                            "example": "101",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "time sampling interval (sec)",
+                            "example": "0.04",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ft",
+                            "description": "first time (sec)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxo",
+                            "description": "number of offsets",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dxo",
+                            "description": "offset sampling interval (m)",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxo",
+                            "description": "first offset (m)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxm",
+                            "description": "number of midpoints",
+                            "example": "101",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dxm",
+                            "description": "midpoint sampling interval (m)",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxm",
+                            "description": "first midpoint (m)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "smooth",
+                            "description": "=1 for smooth (piecewise cubic spline) reflectors",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ls",
+                            "description": "=1 for line source; default is point source",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ndpfz",
+                            "description": "number of diffractors per Fresnel zone",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 to print some useful information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSYNVXZCS",
+                    "description": "SYNthetic seismograms of common shot in V(X,Z) media via",
+                    "path_to_executable_file": "SUSYNVXZCS",
+                    "parameters": [
+                        {
+                            "name": "nt",
+                            "description": "number of time samples",
+                            "example": "501",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "time sampling interval (sec)",
+                            "example": "0.004",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ft",
+                            "description": "first time (sec)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dxg",
+                            "description": "receiver sampling interval (m)",
+                            "example": "15",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxg",
+                            "description": "first receiver (m)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxd",
+                            "description": "skipped number of receivers",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxs",
+                            "description": "number of offsets",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dxs",
+                            "description": "shot sampling interval (m)",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fxs",
+                            "description": "first shot (m)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dx",
+                            "description": "x sampling interval (m)",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fx",
+                            "description": "first x sample (m)",
+                            "example": "0.",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dz",
+                            "description": "z sampling interval (m)",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nxc",
+                            "description": "hozizontal range in which velocity is changed",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nzc",
+                            "description": "vertical range in which velocity is changed",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pert",
+                            "description": "=1 calculate time correction from v_p[nx][nz]",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "smooth",
+                            "description": "=1 for smooth (piecewise cubic spline) reflectors",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ls",
+                            "description": "=1 for line source; =0 for point source",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ndpfz",
+                            "description": "number of diffractors per Fresnel zone",
+                            "example": "5",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "cable",
+                            "description": "roll reciever spread with shot",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 to print some useful information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUVIBRO",
+                    "description": "Generates a Vibroseis sweep (linear, linear-segment,",
+                    "path_to_executable_file": "SUVIBRO",
+                    "parameters": [
+                        {
+                            "name": "dt",
+                            "description": "time sampling interval",
+                            "example": "0.004",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sweep",
+                            "description": "linear sweep",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "swconst",
+                            "description": "sweep constant (see note)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "f1",
+                            "description": "sweep frequency at start",
+                            "example": "10.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "f2",
+                            "description": "sweep frequency at end",
+                            "example": "60.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tv",
+                            "description": "sweep length",
+                            "example": "10.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "phz",
+                            "description": "initial phase (radians=1 default)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "radians",
+                            "description": "=0 degrees",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fseg",
+                            "description": "frequency segments (see notes)",
+                            "example": "10.0,60.0",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tseg",
+                            "description": "time segments (see notes)",
+                            "example": "0.0,10.0",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "t1",
+                            "description": "length of taper at start (see notes)",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "t2",
+                            "description": "length of taper at end (see notes)",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "taper",
+                            "description": "linear",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sweep",
+                            "description": ",",
+                            "example": "3,4,5.",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUWAVEFORM",
+                    "description": "generate a seismic wavelet",
+                    "path_to_executable_file": "SUWAVEFORM",
+                    "parameters": [
+                        {
+                            "name": "type",
+                            "description": "wavelet type",
+                            "example": "akb",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "time sampling interval in seconds",
+                            "example": "0.004",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "fpeak",
+                            "description": "peak frequency of a Berlage, Ricker, or Gaussian,",
+                            "example": "20.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "distort",
+                            "description": "Ricker wavelet \\ricker2\\: distortion factor",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tn",
+                            "description": "Berlage wavelet: time exponent",
+                            "example": "2",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tspike",
+                            "description": "Spike wavelet: time at spike in seconds",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "1: echo output wavelet length",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

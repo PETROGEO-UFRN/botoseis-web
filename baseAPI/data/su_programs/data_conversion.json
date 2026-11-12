@@ -1,0 +1,559 @@
+{
+    "count_programs": 14,
+    "programGroups": [
+        {
+            "name": "data_conversion",
+            "description": "",
+            "programs": [
+                {
+                    "name": "DT1TOSU",
+                    "description": "Convert ground-penetrating radar data in the",
+                    "path_to_executable_file": "DT1TOSU",
+                    "parameters": [
+                        {
+                            "name": "ns",
+                            "description": "header\tnumber of samples per trace",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "time sample interval (see below)",
+                            "example": ".8",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "swap",
+                            "description": "endian is auto-determined =1 (big endian) swap",
+                            "example": "endian",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "silent",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "list",
+                            "description": "silent",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SEGYCLEAN",
+                    "description": "zero out unassigned portion of header",
+                    "path_to_executable_file": "SEGYCLEAN",
+                    "parameters": []
+                },
+                {
+                    "name": "SEGYHDRMOD",
+                    "description": "replace the text header on a SEGY file",
+                    "path_to_executable_file": "SEGYHDRMOD",
+                    "parameters": []
+                },
+                {
+                    "name": "SEGYHDRS",
+                    "description": "make SEG-Y ascii and binary headers for segywrite",
+                    "path_to_executable_file": "SEGYHDRS",
+                    "parameters": [
+                        {
+                            "name": "ns",
+                            "description": "from header    number of samples on input traces",
+                            "example": "tr.ns",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "from header\tsample rate (microseconds) from traces",
+                            "example": "tr.dt",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "bfile",
+                            "description": "name of file containing binary block",
+                            "example": "binary",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "hfile",
+                            "description": "name of file containing ascii block",
+                            "example": "header",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "jobid",
+                            "description": "job id field",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "lino",
+                            "description": "line number (only one line per reel)",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "reno",
+                            "description": "reel number",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "format",
+                            "description": "data format",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "keyword",
+                            "description": "to set keyword to value",
+                            "example": "value",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SEGYREAD",
+                    "description": "read an SEG-Y tape",
+                    "path_to_executable_file": "SEGYREAD",
+                    "parameters": [
+                        {
+                            "name": "buff",
+                            "description": "for buffered device (9-track reel tape drive)",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "silent operation",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vblock",
+                            "description": "echo every 'vblock' traces under verbose option",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "hfile",
+                            "description": "file to store ebcdic block (as ascii)",
+                            "example": "header",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "bfile",
+                            "description": "file to store binary block",
+                            "example": "binary",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "xfile",
+                            "description": "file to store extended text block",
+                            "example": "xhdrs",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "over",
+                            "description": "quit if bhed format not equal 1, 2, 3, 5, or 8",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "format",
+                            "description": "if over=1 try to convert assuming format value",
+                            "example": "bh.format",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "conv",
+                            "description": "convert data to native format",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ebcdic",
+                            "description": "perform ebcdic to ascii conversion on 3200 byte textural",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ns",
+                            "description": "number of samples (use if bhed ns wrong)",
+                            "example": "bh.hns",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "trcwt",
+                            "description": "apply trace weighting factor (bytes 169-170)",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "trmin",
+                            "description": "first trace to read",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "trmax",
+                            "description": "last trace to read",
+                            "example": "INT_MAX",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "endian",
+                            "description": "=1 for big-endian,  =0 for little-endian byte order",
+                            "example": "(autodetected)",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "swapbhed",
+                            "description": "swap binary reel header?",
+                            "example": "endian",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "swaphdrs",
+                            "description": "swap trace headers?",
+                            "example": "endian",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "swapdata",
+                            "description": "swap data?",
+                            "example": "endian",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nextended",
+                            "description": "from binary header) number of extended text headers",
+                            "example": "(set",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "errmax",
+                            "description": "allowable number of consecutive tape IO errors",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "remap",
+                            "description": "remap key(s)",
+                            "example": "...,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "byte",
+                            "description": "formats to use for header remapping",
+                            "example": "...,...",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SEGYSCAN",
+                    "description": "- SCANs SEGY file trace headers for min-max in  several",
+                    "path_to_executable_file": "SEGYSCAN",
+                    "parameters": []
+                },
+                {
+                    "name": "SEGYWRITE",
+                    "description": "write an SEG-Y tape",
+                    "path_to_executable_file": "SEGYWRITE",
+                    "parameters": [
+                        {
+                            "name": "verbose",
+                            "description": "silent operation",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vblock",
+                            "description": "echo every 'vblock' traces under verbose option",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "buff",
+                            "description": "for buffered device (9-track reel tape drive)",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "conv",
+                            "description": "=0 don't convert to IBM format",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ebcdic",
+                            "description": "convert text header to ebcdic, =0 leave as ascii",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "hfile",
+                            "description": "ebcdic card image header file",
+                            "example": "header",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "bfile",
+                            "description": "binary header file",
+                            "example": "binary",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "trmin",
+                            "description": "first trace to write",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "trmax",
+                            "description": "last trace to write",
+                            "example": "INT_MAX",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "endian",
+                            "description": "=1 for big-endian and =0 for little-endian byte order",
+                            "example": "(autodetected)",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "errmax",
+                            "description": "allowable number of consecutive tape IO errors",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SETBHED",
+                    "description": "SET the fields in a SEGY Binary tape HEaDer file, as would be",
+                    "path_to_executable_file": "SETBHED",
+                    "parameters": [
+                        {
+                            "name": "bfile",
+                            "description": "output binary tape header file",
+                            "example": "binary",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "keyword",
+                            "description": "to set keyword to value",
+                            "example": "value",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUASCII",
+                    "description": "print non zero header values and data in various formats",
+                    "path_to_executable_file": "SUASCII",
+                    "parameters": [
+                        {
+                            "name": "bare",
+                            "description": "print headers and data",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntr",
+                            "description": "maximum number of output traces (bare=3 or bare=4 only)",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "index",
+                            "description": "don't include time/depth index in ascii file (bare=4)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for detailed information",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUINTVEL",
+                    "description": "convert stacking velocity model to interval velocity model",
+                    "path_to_executable_file": "SUINTVEL",
+                    "parameters": [
+                        {
+                            "name": "mode",
+                            "description": "output h= v= ; =1 output v=  t=",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "h",
+                            "description": "thicknesses vector",
+                            "example": "layer",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "v",
+                            "description": "velocities vector",
+                            "example": "interval",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "t",
+                            "description": "of times from t0",
+                            "example": "vector",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "v",
+                            "description": "velocities vector",
+                            "example": "interval",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUOLDTONEW",
+                    "description": "convert existing su data to xdr format",
+                    "path_to_executable_file": "SUOLDTONEW",
+                    "parameters": []
+                },
+                {
+                    "name": "SUSTKVEL",
+                    "description": "convert constant dip layer interval velocity model to the",
+                    "path_to_executable_file": "SUSTKVEL",
+                    "parameters": [
+                        {
+                            "name": "dip",
+                            "description": "(constant) dip of the layers (degrees)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tv",
+                            "description": "incidence time pick vector",
+                            "example": "zero",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "v",
+                            "description": "velocities vector",
+                            "example": "stacking",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUSWAPBYTES",
+                    "description": "SWAP the BYTES in SU data to convert data from big endian",
+                    "path_to_executable_file": "SUSWAPBYTES",
+                    "parameters": [
+                        {
+                            "name": "format",
+                            "description": "foreign to native",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "swaphdr",
+                            "description": "swap the header byte order",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "swapdata",
+                            "description": "swap the data byte order",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ns",
+                            "description": "header\t\tif ns not set in header, must be set by hand",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SWAPBHED",
+                    "description": "SWAP the BYTES in a SEGY Binary tape HEaDer file",
+                    "path_to_executable_file": "SWAPBHED",
+                    "parameters": []
+                }
+            ]
+        }
+    ]
+}

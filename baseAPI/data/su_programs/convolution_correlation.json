@@ -1,0 +1,172 @@
+{
+    "count_programs": 4,
+    "programGroups": [
+        {
+            "name": "convolution_correlation",
+            "description": "",
+            "programs": [
+                {
+                    "name": "SUACOR",
+                    "description": "auto-correlation",
+                    "path_to_executable_file": "SUACOR",
+                    "parameters": [
+                        {
+                            "name": "ntout",
+                            "description": "odd number of time samples output",
+                            "example": "101",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "norm",
+                            "description": "if non-zero, normalize maximum absolute output to 1",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sym",
+                            "description": "if non-zero, produce a symmetric output from",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUACORFRAC",
+                    "description": "- general FRACtional Auto-CORrelation/convolution",
+                    "path_to_executable_file": "SUACORFRAC",
+                    "parameters": [
+                        {
+                            "name": "a",
+                            "description": "exponent of complex amplitude",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "b",
+                            "description": "multiplier of complex phase",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "dt",
+                            "description": "header)\ttime sample interval (in seconds)",
+                            "example": "(from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for advisory messages",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntout",
+                            "description": "number of time samples output",
+                            "example": "tr.ns",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sym",
+                            "description": "if non-zero, produce a symmetric output from",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUCONV",
+                    "description": "convolution with user-supplied filter",
+                    "path_to_executable_file": "SUCONV",
+                    "parameters": [
+                        {
+                            "name": "panel",
+                            "description": "use only the first trace of sufile",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUXCOR",
+                    "description": "correlation with user-supplied filter",
+                    "path_to_executable_file": "SUXCOR",
+                    "parameters": [
+                        {
+                            "name": "vibroseis",
+                            "description": "=nsout for correlating vibroseis data",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "first",
+                            "description": "supplied trace is default first element of",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "panel",
+                            "description": "use only the first trace of sufile as filter",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ftwin",
+                            "description": "first sample on the first trace of the window",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ltwin",
+                            "description": "first sample on the last trace of the window",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntwin",
+                            "description": "number of samples in the correlation window",
+                            "example": "nt",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "ntrc",
+                            "description": "number of traces on a gather",
+                            "example": "48",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "sweep",
+                            "description": "sweep in SU format, nsweep=number of samples on",
+                            "example": "vibroseis",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tsweep",
+                            "description": "length in seconds, tout=desired output trace length in seconds",
+                            "example": "sweep",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

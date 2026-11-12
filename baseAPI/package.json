@@ -12,7 +12,10 @@
     "lint": "biome check src --write",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "programs:write-docs": "tsx src/cli/writeProgramsDocs.ts",
+    "programs:populate": "tsx src/cli/populatePrograms.ts",
+    "programs:export": "tsx src/cli/exportPrograms.ts"
   },
   "dependencies": {
     "@koa/cors": "^5.0.0",

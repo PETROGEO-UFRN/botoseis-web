@@ -1,0 +1,457 @@
+{
+    "count_programs": 11,
+    "programGroups": [
+        {
+            "name": "amplitudes",
+            "description": "",
+            "programs": [
+                {
+                    "name": "suai2r",
+                    "description": "Acoustic Impedance to Reflectivity (Forward Modeling)",
+                    "path_to_executable_file": "suai2r",
+                    "parameters": []
+                },
+                {
+                    "name": "SUCENTSAMP",
+                    "description": "CENTRoid SAMPle seismic traces",
+                    "path_to_executable_file": "SUCENTSAMP",
+                    "parameters": [
+                        {
+                            "name": "dt",
+                            "description": "header\t\tsampling interval",
+                            "example": "from",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=0 to stop advisory messages",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUDIPDIVCOR",
+                    "description": "Dip-dependent Divergence (spreading) correction",
+                    "path_to_executable_file": "SUDIPDIVCOR",
+                    "parameters": [
+                        {
+                            "name": "np",
+                            "description": "number of slopes",
+                            "example": "50",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tmig",
+                            "description": "times corresponding to rms velocities in vmig",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vmig",
+                            "description": "rms velocities corresponding to times in tmig",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vfile",
+                            "description": "(non-ascii) file containing velocities vmig(t)",
+                            "example": "binary",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "conv",
+                            "description": "=1 to apply the conventional divergence correction",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "trans",
+                            "description": "=1 to include transmission factors",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "=1 for diagnostic print",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUDIVCOR",
+                    "description": "Divergence (spreading) correction",
+                    "path_to_executable_file": "SUDIVCOR",
+                    "parameters": [
+                        {
+                            "name": "trms",
+                            "description": "times corresponding to rms velocities in vrms",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vrms",
+                            "description": "rms velocities corresponding to times in trms",
+                            "example": "1500.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUGAIN",
+                    "description": "apply various types of gain",
+                    "path_to_executable_file": "SUGAIN",
+                    "parameters": [
+                        {
+                            "name": "panel",
+                            "description": "=1  gain whole data set (vs. trace by trace)",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "tpow",
+                            "description": "multiply data by t^tpow",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "epow",
+                            "description": "multiply data by exp(epow*t)",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "etpow",
+                            "description": "multiply data by exp(epow*t^etpow)",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "gpow",
+                            "description": "take signed gpowth power of scaled data",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "agc",
+                            "description": "flag; 1 = do automatic gain control",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "gagc",
+                            "description": "flag; 1 = ... with gaussian taper",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "wagc",
+                            "description": "agc window in seconds (use if agc=1 or gagc=1)",
+                            "example": "0.5",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "trap",
+                            "description": "zero any value whose magnitude exceeds trapval",
+                            "example": "none",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "clip",
+                            "description": "clip any value whose magnitude exceeds clipval",
+                            "example": "none",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pclip",
+                            "description": "clip any value greater than clipval",
+                            "example": "none",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "nclip",
+                            "description": "clip any value less than  clipval",
+                            "example": "none",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "qclip",
+                            "description": "clip by quantile on absolute values on trace",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "qbal",
+                            "description": "flag; 1 = balance traces by qclip and scale",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "pbal",
+                            "description": "flag; 1 = bal traces by dividing by rms value",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mbal",
+                            "description": "flag; 1 = bal traces by subtracting the mean",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "maxbal",
+                            "description": "flag; 1 = balance traces by subtracting the max",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "scale",
+                            "description": "multiply data by overall scale factor",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "norm",
+                            "description": "divide data by overall scale factor",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "bias",
+                            "description": "bias data by adding an overall bias value",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "jon",
+                            "description": "flag; 1 means tpow=2, gpow=.5, qclip=.95",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "verbose = 1 echoes info",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "mark",
+                            "description": "apply gain only to traces with tr.mark=0",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "vred",
+                            "description": "reducing velocity of data to use with tpow",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUNAN",
+                    "description": "remove NaNs & Infs from the input stream",
+                    "path_to_executable_file": "SUNAN",
+                    "parameters": [
+                        {
+                            "name": "verbose",
+                            "description": "echo locations of NaNs or Infs to stderr",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "value",
+                            "description": "NaNs and Inf replacement value",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "interp",
+                            "description": "=1 replace NaNs and Infs by interpolating",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "interp",
+                            "description": "NaNs are replaced with the average of neighboring values",
+                            "example": "1",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUNORMALIZE",
+                    "description": "Trace NORMALIZation by rms, max, or median       ,",
+                    "path_to_executable_file": "SUNORMALIZE",
+                    "parameters": [
+                        {
+                            "name": "dt",
+                            "description": "if not set in header, dt is mandatory",
+                            "example": "tr.dt",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "ns",
+                            "description": "if not set in header, ns is mandatory",
+                            "example": "tr.ns",
+                            "input_type": "string",
+                            "isRequired": true
+                        },
+                        {
+                            "name": "norm",
+                            "description": "type of norm rms, max, med , balmed",
+                            "example": "rms",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "t0",
+                            "description": "startimg time for window",
+                            "example": "0.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "t1",
+                            "description": "ending time for window",
+                            "example": "TMAX",
+                            "input_type": "string",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUPGC",
+                    "description": "Programmed Gain Control--apply agc like function",
+                    "path_to_executable_file": "SUPGC",
+                    "parameters": [
+                        {
+                            "name": "ntrscan",
+                            "description": "number of traces to scan for gain function",
+                            "example": "200",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "lwindow",
+                            "description": "length of time window in seconds",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "sur2ai",
+                    "description": "Reflectivity to Acoustic Impedance (Inversion)",
+                    "path_to_executable_file": "sur2ai",
+                    "parameters": []
+                },
+                {
+                    "name": "SUWEIGHT",
+                    "description": "weight traces by header parameter, such as offset",
+                    "path_to_executable_file": "SUWEIGHT",
+                    "parameters": [
+                        {
+                            "name": "key",
+                            "description": "keyword of header field to weight traces by",
+                            "example": "offset",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "a",
+                            "description": "constant weighting parameter (see notes below)",
+                            "example": "1.0",
+                            "input_type": "float",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "b",
+                            "description": "variable weighting parameter (see notes below)",
+                            "example": ".0005",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "scale",
+                            "description": "scale factor to apply to header field values",
+                            "example": ".0001",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "inv",
+                            "description": "weight by header value",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                },
+                {
+                    "name": "SUZERO",
+                    "description": "- zero-out (or set constant) data within a time window",
+                    "path_to_executable_file": "SUZERO",
+                    "parameters": [
+                        {
+                            "name": "itmin",
+                            "description": "first time sample to zero out",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "value",
+                            "description": "value to set",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,53 @@
+{
+    "count_programs": 1,
+    "programGroups": [
+        {
+            "name": "gocad",
+            "description": "",
+            "programs": [
+                {
+                    "name": "SU2VOXET",
+                    "description": "convert 3D data volume to Gocad VOXET object",
+                    "path_to_executable_file": "SU2VOXET",
+                    "parameters": [
+                        {
+                            "name": "u",
+                            "description": "key corresponding to x coordinate",
+                            "example": "cdp",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "v",
+                            "description": "key corresponding to y coordinate",
+                            "example": "ep",
+                            "input_type": "string",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "time",
+                            "description": "1",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "bendian",
+                            "description": "1 if the software is running on big endian machine",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        },
+                        {
+                            "name": "datum",
+                            "description": "if not specified trace header word delrt is used",
+                            "example": "0",
+                            "input_type": "integer",
+                            "isRequired": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
