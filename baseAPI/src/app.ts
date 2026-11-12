@@ -9,6 +9,7 @@ import { lineRouterFactory } from '@/presentation/routes/lineRoutes'
 import { projectRouterFactory } from '@/presentation/routes/projectRoutes'
 import { sessionRouterFactory } from '@/presentation/routes/sessionRoutes'
 import { userRouterFactory } from '@/presentation/routes/userRoutes'
+import { workflowRouterFactory } from '@/presentation/routes/workflowRoutes'
 
 export default function appFactory({
   environment = 'development'
@@ -19,7 +20,8 @@ export default function appFactory({
     userRouterFactory({ environment }),
     sessionRouterFactory({ environment }),
     projectRouterFactory({ environment }),
-    lineRouterFactory({ environment })
+    lineRouterFactory({ environment }),
+    workflowRouterFactory({ environment })
   ]
 
   app.use(errorHandlerFactory({ environment }))
