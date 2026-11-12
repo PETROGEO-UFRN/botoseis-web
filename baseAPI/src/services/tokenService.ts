@@ -3,6 +3,9 @@ import jwt from 'jsonwebtoken'
 import { authConfig } from '@/config/auth'
 import { AuthError } from '@/errors/AuthError'
 
+export const UUID_PATTERN =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
 export interface ITokenPayload {
   id: string
   name: string | null
@@ -37,7 +40,12 @@ export const tokenService = {
       throw new AuthError()
     }
 
-    if (typeof payload === 'string' || typeof payload.id !== 'string') {
+    // *** User ids are UUIDs, any other id makes the token invalid
+    if (
+      typeof payload === 'string' ||
+      typeof payload.id !== 'string' ||
+      !UUID_PATTERN.test(payload.id)
+    ) {
       throw new AuthError()
     }
     return payload as ITokenPayload

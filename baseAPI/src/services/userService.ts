@@ -6,9 +6,7 @@ import { AppError } from '@/errors/AppError'
 import { type IUser, projects, users } from '@/models/index'
 import { passwordService } from '@/services/passwordService'
 import { removeProjects } from '@/services/projectService'
-
-const UUID_PATTERN =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+import { UUID_PATTERN } from '@/services/tokenService'
 
 export const userService = {
   async listAll(): Promise<IUser[]> {
