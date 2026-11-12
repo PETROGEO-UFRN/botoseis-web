@@ -6,6 +6,7 @@ import { koaBody } from 'koa-body'
 import { isOriginAllowed } from '@/config/cors'
 import { errorHandlerFactory } from '@/presentation/middlewares/errorHandler'
 import { lineRouterFactory } from '@/presentation/routes/lineRoutes'
+import { parameterRouterFactory } from '@/presentation/routes/parameterRoutes'
 import { programGroupRouterFactory } from '@/presentation/routes/programGroupRoutes'
 import { programRouterFactory } from '@/presentation/routes/programRoutes'
 import { projectRouterFactory } from '@/presentation/routes/projectRoutes'
@@ -25,7 +26,8 @@ export default function appFactory({
     lineRouterFactory({ environment }),
     workflowRouterFactory({ environment }),
     programGroupRouterFactory({ environment }),
-    programRouterFactory({ environment })
+    programRouterFactory({ environment }),
+    parameterRouterFactory({ environment })
   ]
 
   app.use(errorHandlerFactory({ environment }))
