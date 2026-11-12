@@ -1,0 +1,23 @@
+# Matches the schema of the installed Hermes, so it skips its config migration.
+_config_version: 53
+
+# Use the Claude account login (borrowed from Claude Code in ~/.claude); "auto" ignores it.
+model:
+  provider: "anthropic"
+  # Required: without it the gateway rejects every turn as storage_unavailable.
+  default: "claude-opus-5-5"
+skills:
+  # *** Loads the repo's own .agents/skills (project skills need a trusted root)
+  trusted_project_dirs:
+    - /workspace
+telemetry:
+  shared_metrics:
+    enabled: false
+    send: false
+    offer_version: 2
+onboarding:
+  seen:
+    tool_progress_prompt: true
+    busy_input_prompt: true
+terminal:
+  cwd: /workspace

@@ -42,6 +42,11 @@ make adm
 ```
 
 
+For a development agent (Hermes + Claude) in its own container, see [`docs/agentContainer.md`](./docs/agentContainer.md):
+```bash
+make agent
+```
+
 Each service can be run and managed individualy with docker-compose.
 
 To manully run any instance without docker, check each service `README.md` on each service folder.

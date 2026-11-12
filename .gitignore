@@ -16,3 +16,8 @@ __pycache__
 */**/*.sh
 *.su
 *.dat
+
+# Agent container
+!agent/*.sh
+.secrets/*
+!.secrets/.gitkeep

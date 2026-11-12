@@ -2,6 +2,14 @@ version: '3.1'
 
 volumes:
   seismic-data-files:
+  agent-claude:
+  agent-venv:
+  agent-hermes-state:
+  agent-hermes-sessions:
+  agent-hermes-memories:
+  agent-hermes-skills:
+  agent-hermes-cron:
+  agent-hermes-hooks:
 
 services:
 
@@ -79,3 +87,68 @@ services:
         - VITE_API_URL=${VITE_API_URL:-http://localhost:5000}
     ports:
       - "4172:4173"
+
+  # *** Development agent (Hermes + Claude), see docs/agentContainer.md. Start it with
+  # *** `make agent`; the profile keeps it out of a plain `docker compose up`/`build`.
+  boto-dev-agent:
+    image: boto-dev-agent
+    container_name: boto-dev-agent
+    profiles:
+      - agent
+    build:
+      context: ./agent
+      dockerfile: dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    user: "${UID:-1000}:${GID:-1000}"
+    userns_mode: ${USERNS_MODE:-}
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev
+      # *** Masks the secrets inside the repo mount below. podman needs notmpcopyup or it
+      # *** copies them into the mask; docker rejects that option, so `make agent` sets "ro"
+      - /workspace/.secrets:${AGENT_SECRETS_TMPFS:-ro,notmpcopyup}
+    # *** GH_APP_ID for the GitHub App identity the agent opens PRs with. Optional: without
+    # *** it the agent works, but cannot push or open PRs.
+    # *** Root and service .env files and keys are hidden by the override `make agent`
+    # *** generates (agent/secret-masks.sh), only for the files that exist.
+    env_file:
+      - path: ./.secrets/agent.env
+        required: false
+    environment:
+      # *** Server tests reach the db-test service (`make test` on the host) by name
+      - DATABASE_HOST=db-test
+      - TEST_DATABASE_PORT=5432
+    stdin_open: true
+    tty: true
+    volumes:
+      # *** The repo is writable: services, clients, docs and new folders
+      - .:/workspace
+      # *** Shared with the host's git: the agent opens PRs from its own clone instead
+      - ./.git:/workspace/.git:ro
+      # *** CI workflows and repo policy
+      - ./.github:/workspace/.github:ro
+      - ./LICENSE:/workspace/LICENSE:ro
+      - ./.gitignore:/workspace/.gitignore:ro
+      # *** The agent's own container and config
+      - ./Makefile:/workspace/Makefile:ro
+      - ./docker-compose.yml:/workspace/docker-compose.yml:ro
+      - ./agent:/workspace/agent:ro
+      - ./.agents:/workspace/.agents:ro
+      - ./.agents/hermes.yaml:/home/agent/.hermes/config.yaml
+      # *** GitHub App private key, outside the masked .secrets path
+      - ./.secrets:/run/secrets:ro
+      - agent-claude:/home/agent/.claude
+      - agent-venv:/home/agent/.venvs
+      # *** Hermes home: holds state.db, which Hermes requires to be a real file directly
+      # *** inside it; the entrypoint links the runtime in from ~/.hermes-runtime
+      - agent-hermes-state:/home/agent/.hermes
+      - agent-hermes-sessions:/home/agent/.hermes/sessions
+      - agent-hermes-memories:/home/agent/.hermes/memories
+      - agent-hermes-skills:/home/agent/.hermes/skills
+      - agent-hermes-cron:/home/agent/.hermes/cron
+      - agent-hermes-hooks:/home/agent/.hermes/hooks
