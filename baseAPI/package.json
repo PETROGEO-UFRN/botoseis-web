@@ -1,0 +1,39 @@
+{
+  "name": "base-api",
+  "version": "1.0.0",
+  "description": "Botoseis base API: users, sessions, projects, lines, workflows, commands and programs",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.32.1",
+  "scripts": {
+    "server:dev": "tsx watch src/server.ts",
+    "server:prod": "tsx src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check src --write",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@koa/cors": "^5.0.0",
+    "@koa/router": "^15.7.1",
+    "bcryptjs": "^3.0.3",
+    "drizzle-orm": "^0.45.4",
+    "jsonwebtoken": "^9.0.3",
+    "koa": "^3.3.0",
+    "koa-body": "^8.0.1",
+    "pg": "^8.23.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.7",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/koa": "^3.0.3",
+    "@types/koa__cors": "^5.0.1",
+    "@types/node": "^26.6.6",
+    "@types/pg": "^8.23.1",
+    "drizzle-kit": "^0.31.11",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3"
+  }
+}
