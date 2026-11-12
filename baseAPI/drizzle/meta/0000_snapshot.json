@@ -1,0 +1,873 @@
+{
+  "id": "a0be170a-aba8-4071-92bb-13a918e87911",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.commands_table": {
+      "name": "commands_table",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parameters": {
+          "name": "parameters",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "workflowId": {
+          "name": "workflowId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "owner_email": {
+          "name": "owner_email",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "program_id": {
+          "name": "program_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "FK_programs_table_commands_table": {
+          "name": "FK_programs_table_commands_table",
+          "tableFrom": "commands_table",
+          "tableTo": "programs_table",
+          "columnsFrom": [
+            "program_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "FK_users_table_commands_table": {
+          "name": "FK_users_table_commands_table",
+          "tableFrom": "commands_table",
+          "tableTo": "users_table",
+          "columnsFrom": [
+            "owner_email"
+          ],
+          "columnsTo": [
+            "email"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "FK_workflows_table_commands_table": {
+          "name": "FK_workflows_table_commands_table",
+          "tableFrom": "commands_table",
+          "tableTo": "workflows_table",
+          "columnsFrom": [
+            "workflowId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.datasets_table": {
+      "name": "datasets_table",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "owner_email": {
+          "name": "owner_email",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "originWorkflowId": {
+          "name": "originWorkflowId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "FK_users_table_dataset_table": {
+          "name": "FK_users_table_dataset_table",
+          "tableFrom": "datasets_table",
+          "tableTo": "users_table",
+          "columnsFrom": [
+            "owner_email"
+          ],
+          "columnsTo": [
+            "email"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "FK_workflows_tables_datasets_table": {
+          "name": "FK_workflows_tables_datasets_table",
+          "tableFrom": "datasets_table",
+          "tableTo": "workflows_table",
+          "columnsFrom": [
+            "originWorkflowId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.helper_file_link_table": {
+      "name": "helper_file_link_table",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "path": {
+          "name": "path",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "data_type": {
+          "name": "data_type",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lineId": {
+          "name": "lineId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "modified_at": {
+          "name": "modified_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "FK_lines_table_helper_file_link_table": {
+          "name": "FK_lines_table_helper_file_link_table",
+          "tableFrom": "helper_file_link_table",
+          "tableTo": "lines_table",
+          "columnsFrom": [
+            "lineId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.lines_table": {
+      "name": "lines_table",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "projectId": {
+          "name": "projectId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "owner_email": {
+          "name": "owner_email",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "FK_projects_table_lines_table": {
+          "name": "FK_projects_table_lines_table",
+          "tableFrom": "lines_table",
+          "tableTo": "projects_table",
+          "columnsFrom": [
+            "projectId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "FK_users_table_lines_table": {
+          "name": "FK_users_table_lines_table",
+          "tableFrom": "lines_table",
+          "tableTo": "users_table",
+          "columnsFrom": [
+            "owner_email"
+          ],
+          "columnsTo": [
+            "email"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ordered_commands_list_table": {
+      "name": "ordered_commands_list_table",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "workflowId": {
+          "name": "workflowId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "commandIds": {
+          "name": "commandIds",
+          "type": "integer[]",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "FK_workflows_table_workflow_commands_list_table": {
+          "name": "FK_workflows_table_workflow_commands_list_table",
+          "tableFrom": "ordered_commands_list_table",
+          "tableTo": "workflows_table",
+          "columnsFrom": [
+            "workflowId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.parameters_table": {
+      "name": "parameters_table",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "input_type": {
+          "name": "input_type",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "programId": {
+          "name": "programId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isRequired": {
+          "name": "isRequired",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "example": {
+          "name": "example",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "FK_programs_table_parameters_table": {
+          "name": "FK_programs_table_parameters_table",
+          "tableFrom": "parameters_table",
+          "tableTo": "programs_table",
+          "columnsFrom": [
+            "programId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.program_groups_table": {
+      "name": "program_groups_table",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.programs_table": {
+      "name": "programs_table",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "path_to_executable_file": {
+          "name": "path_to_executable_file",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "groupId": {
+          "name": "groupId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "FK_program_groups_table_programs_table": {
+          "name": "FK_program_groups_table_programs_table",
+          "tableFrom": "programs_table",
+          "tableTo": "program_groups_table",
+          "columnsFrom": [
+            "groupId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.projects_table": {
+      "name": "projects_table",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "modified_at": {
+          "name": "modified_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "FK_users_table_projects_table": {
+          "name": "FK_users_table_projects_table",
+          "tableFrom": "projects_table",
+          "tableTo": "users_table",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.su_file_link_table": {
+      "name": "su_file_link_table",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "path": {
+          "name": "path",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "projectId": {
+          "name": "projectId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "datasetId": {
+          "name": "datasetId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "modified_at": {
+          "name": "modified_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "FK_datasets_table_su_file_link_table": {
+          "name": "FK_datasets_table_su_file_link_table",
+          "tableFrom": "su_file_link_table",
+          "tableTo": "datasets_table",
+          "columnsFrom": [
+            "datasetId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "FK_projects_table_su_file_link_table": {
+          "name": "FK_projects_table_su_file_link_table",
+          "tableFrom": "su_file_link_table",
+          "tableTo": "projects_table",
+          "columnsFrom": [
+            "projectId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.users_table": {
+      "name": "users_table",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_admin": {
+          "name": "is_admin",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "password": {
+          "name": "password",
+          "type": "bytea",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "users_table_email_key": {
+          "name": "users_table_email_key",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.workflow_parents_association_table": {
+      "name": "workflow_parents_association_table",
+      "schema": "",
+      "columns": {
+        "workflowId": {
+          "name": "workflowId",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "lineId": {
+          "name": "lineId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "projectId": {
+          "name": "projectId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "datasetId": {
+          "name": "datasetId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "FK_workflow_parents_association_table_dataset_table": {
+          "name": "FK_workflow_parents_association_table_dataset_table",
+          "tableFrom": "workflow_parents_association_table",
+          "tableTo": "datasets_table",
+          "columnsFrom": [
+            "datasetId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "FK_workflow_parents_association_table_lines_table": {
+          "name": "FK_workflow_parents_association_table_lines_table",
+          "tableFrom": "workflow_parents_association_table",
+          "tableTo": "lines_table",
+          "columnsFrom": [
+            "lineId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "FK_workflow_parents_association_table_projects_table": {
+          "name": "FK_workflow_parents_association_table_projects_table",
+          "tableFrom": "workflow_parents_association_table",
+          "tableTo": "projects_table",
+          "columnsFrom": [
+            "projectId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "FK_workflow_parents_association_table_workflows_table": {
+          "name": "FK_workflow_parents_association_table_workflows_table",
+          "tableFrom": "workflow_parents_association_table",
+          "tableTo": "workflows_table",
+          "columnsFrom": [
+            "workflowId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.workflows_table": {
+      "name": "workflows_table",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "owner_email": {
+          "name": "owner_email",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "output_name": {
+          "name": "output_name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "input_file_link_id": {
+          "name": "input_file_link_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "post_processing_options": {
+          "name": "post_processing_options",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "picks_table_file_id": {
+          "name": "picks_table_file_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "FK_helper_file_link_table_workflows_table": {
+          "name": "FK_helper_file_link_table_workflows_table",
+          "tableFrom": "workflows_table",
+          "tableTo": "helper_file_link_table",
+          "columnsFrom": [
+            "picks_table_file_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "FK_su_file_links_table_workflows_table": {
+          "name": "FK_su_file_links_table_workflows_table",
+          "tableFrom": "workflows_table",
+          "tableTo": "su_file_link_table",
+          "columnsFrom": [
+            "input_file_link_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "FK_users_table_workflows_table": {
+          "name": "FK_users_table_workflows_table",
+          "tableFrom": "workflows_table",
+          "tableTo": "users_table",
+          "columnsFrom": [
+            "owner_email"
+          ],
+          "columnsTo": [
+            "email"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
