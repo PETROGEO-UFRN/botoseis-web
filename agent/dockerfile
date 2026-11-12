@@ -1,0 +1,89 @@
+# *** boto-dev-agent: a Hermes agent (Claude) for developing botoseis-web.
+# *** Seismic Unix 44R28 on Ubuntu 24.04 (python3 3.12), the same image the server runs on.
+# *** Pinned by digest: the tag is third-party and `latest` can change underneath.
+FROM docker.io/cadu21/seismic-unix@sha256:8c1c9e9e8ff1f16be539c5cd5e36204fca0b12735d63f6748c165688ef9ce565
+
+# Host UID/GID (exported by the Makefile) so files the agent writes on bind mounts
+# belong to the host user, without needing root or capabilities at runtime.
+ARG UID=1000
+ARG GID=1000
+
+# Node version of the workspace and admin images (node:22.18.0-alpine). Corepack's
+# default pnpm is the latest major, which this corepack can't run: both are pinned.
+ARG NODE_VERSION=22.18.0
+ARG YARN_VERSION=1.22.22
+ARG PNPM_VERSION=10.34.9
+
+# The Hermes installer brings its own pinned Python/Node; libatomic1 is required by
+# that Node and would otherwise make the installer ask for sudo.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    bash \
+    git \
+    ca-certificates \
+    tar \
+    xz-utils \
+    libatomic1 \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV HOME=/home/agent
+# The project's Node comes first, so it wins over the Node Hermes appends to PATH.
+ENV PATH=/home/agent/.local/node/bin:/home/agent/.local/bin:$PATH
+# Keep Claude Code's whole state (credentials + .claude.json) in one persisted dir.
+# It is also the default credentials path, which Hermes reads to borrow the login.
+ENV CLAUDE_CONFIG_DIR=/home/agent/.claude
+# yarn (workspace, admin, shared-ui) and pnpm (plotView) come from corepack, without
+# asking before their first download.
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+
+# -o: Ubuntu 24.04 already ships a user and group with id 1000.
+RUN groupadd -o -g ${GID} agent_group && \
+    useradd -o -u ${UID} -g ${GID} -d /home/agent -s /bin/bash agent_user && \
+    mkdir -p /home/agent/.claude /home/agent/.venvs && \
+    chown -R ${UID}:${GID} /home/agent
+
+WORKDIR /workspace
+
+# The installers must run as the user that will use them (they install under $HOME).
+USER agent_user
+
+# ~/.hermes mixes runtime (hermes-agent, installs, tools: ~2.4 GB, baked into the image)
+# with user data, which compose persists.
+RUN curl -fsSL --compressed https://hermes-agent.nousresearch.com/install.sh | \
+    bash -s -- --non-interactive --skip-browser --skip-computer-use
+
+# ~/.hermes is the agent-hermes-state volume, so Hermes' state.db is a real file inside its
+# home (Hermes refuses a symlinked one). The installed tree moves to ~/.hermes-runtime and
+# the entrypoint links the runtime dirs back into the volume. The empty ~/.hermes is the
+# mount point, created here so the volume is user-owned.
+RUN mv /home/agent/.hermes /home/agent/.hermes-runtime && mkdir /home/agent/.hermes
+
+# Claude Code: its account login (/login) persists in the agent-claude volume and Hermes
+# borrows it.
+RUN curl -fsSL --compressed https://claude.ai/install.sh | bash
+
+# uv, for the Python services' virtualenvs (persisted in the agent-venv volume).
+RUN curl -LsSf https://github.com/astral-sh/uv/releases/download/0.13.6/uv-installer.sh | sh
+
+# Node for the React clients, checked against the release's published checksums.
+RUN case "$(dpkg --print-architecture)" in \
+        amd64) NODE_ARCH=x64 ;; \
+        arm64) NODE_ARCH=arm64 ;; \
+        *) echo "unsupported architecture" >&2; exit 1 ;; \
+    esac && \
+    NODE_TARBALL="node-v${NODE_VERSION}-linux-${NODE_ARCH}.tar.xz" && \
+    cd /tmp && \
+    curl -fsSLO "https://nodejs.org/dist/v${NODE_VERSION}/${NODE_TARBALL}" && \
+    curl -fsSL "https://nodejs.org/dist/v${NODE_VERSION}/SHASUMS256.txt" | \
+        grep " ${NODE_TARBALL}\$" | sha256sum -c - && \
+    mkdir -p /home/agent/.local/node && \
+    tar -xJf "${NODE_TARBALL}" -C /home/agent/.local/node --strip-components=1 && \
+    rm "${NODE_TARBALL}" && \
+    corepack enable && \
+    corepack install --global yarn@${YARN_VERSION} pnpm@${PNPM_VERSION}
+
+RUN git config --global --add safe.directory /workspace
+
+COPY entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
