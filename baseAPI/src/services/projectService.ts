@@ -11,6 +11,7 @@ import {
   workflows
 } from '@/models/index'
 import type { IEntityOwner } from '@/presentation/middlewares/requireAuthentication'
+import { removeLines } from '@/services/lineService'
 
 // *** Same cascade as the Flask models: a project takes its lines along and
 // *** line workflows lose their parent; project workflow associations and
@@ -25,15 +26,10 @@ export async function removeProjects(
     .select({ id: lines.id })
     .from(lines)
     .where(inArray(lines.projectId, projectIds))
-  const lineIds = projectLines.map(line => line.id)
-
-  if (lineIds.length > 0) {
-    await transaction
-      .update(workflowParentsAssociations)
-      .set({ lineId: null })
-      .where(inArray(workflowParentsAssociations.lineId, lineIds))
-    await transaction.delete(lines).where(inArray(lines.id, lineIds))
-  }
+  await removeLines(
+    transaction,
+    projectLines.map(line => line.id)
+  )
 
   return transaction
     .delete(projects)
