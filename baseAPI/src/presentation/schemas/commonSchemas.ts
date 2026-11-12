@@ -22,8 +22,21 @@ const requiredOr = (typeMessage: string) => ({
 
 export const requiredString = () => z.string(requiredOr(MESSAGES.string))
 
-export const requiredInteger = () =>
+// *** Integer strings are accepted too, as marshmallow does
+const INTEGER_STRING = /^\s*[-+]?\d+\s*$/
+
+const toInteger = (value: unknown) =>
+  typeof value === 'string' && INTEGER_STRING.test(value)
+    ? Number(value)
+    : value
+
+export const integerValue = () =>
   z.number(requiredOr(MESSAGES.integer)).int({ error: MESSAGES.integer })
+
+export const requiredInteger = () => z.preprocess(toInteger, integerValue())
+
+export const requiredIntegerList = () =>
+  z.array(z.preprocess(toInteger, integerValue()), requiredOr(MESSAGES.list))
 
 export const requiredBoolean = () => z.boolean(requiredOr(MESSAGES.boolean))
 
