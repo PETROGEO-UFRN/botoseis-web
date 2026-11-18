@@ -13,7 +13,8 @@ The Flask integration suite at `server/app/tests` is the acceptance test.
 
 - [Koa](https://koajs.com/) with `@koa/router`, `@koa/cors` and `koa-body`
 - [Drizzle ORM](https://orm.drizzle.team/) on PostgreSQL (`pg`)
-- [Zod](https://zod.dev/) for request validation
+- [Zod](https://zod.dev/) for request and response schemas, with `drizzle-zod`
+  deriving the entity schemas from the Drizzle tables
 - `jsonwebtoken` (HS256) and `bcryptjs` for sessions and passwords
 - [Biome](https://biomejs.dev/) for linting and formatting
 
@@ -26,12 +27,13 @@ src/
   config/                 environment, database and CORS settings
   database/connection.ts  Drizzle client
   errors/                 AppError, AuthError and ValidationError
+  factories/              pure builders of domain objects
   models/                 Drizzle tables, one file per table
+  schemas/                Zod schemas per domain: entities (from the tables),
+                          request bodies and response bodies
   presentation/
     middlewares/          error handler, validation, authentication
     routes/               one router factory per domain
-    schemas/              Zod request schemas
-    serializers/          response bodies
   services/               domain logic and database access
   cli/                    programs catalog scripts
 drizzle/                  SQL migrations

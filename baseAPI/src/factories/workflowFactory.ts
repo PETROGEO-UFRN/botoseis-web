@@ -3,19 +3,11 @@ import type {
   IWorkflow,
   IWorkflowParentsAssociation
 } from '@/models/index'
-
-export type IWorkflowParentKey = 'projectId' | 'lineId'
-
-export type IWorkflowParentType = 'project' | 'line' | 'dataset' | null
-
-export interface IWorkflowDetails extends IWorkflow {
-  commands: ICommand[]
-  parentType: IWorkflowParentType
-}
+import type { IWorkflowDetails } from '@/schemas/workflowSchemas'
 
 function getParentType(
   parentAssociation: IWorkflowParentsAssociation | undefined
-): IWorkflowParentType {
+): IWorkflowDetails['parentType'] {
   if (parentAssociation?.projectId) return 'project'
   if (parentAssociation?.lineId) return 'line'
   if (parentAssociation?.datasetId) return 'dataset'
@@ -33,9 +25,4 @@ export function createWorkflowDetails(
     commands: orderedCommands,
     parentType: getParentType(parentAssociation)
   }
-}
-
-// *** Keeps letters, digits and - _ ( )
-export function createOutputName(outputName: string): string {
-  return outputName.replace(/[^a-zA-Z0-9\-_()]/g, '')
 }

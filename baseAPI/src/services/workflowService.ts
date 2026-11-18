@@ -1,18 +1,9 @@
 import { eq } from 'drizzle-orm'
+import { z } from 'zod'
 
 import database from '@/database/connection'
 import { AppError } from '@/errors/AppError'
-import {
-  createPostProcessingOptions,
-  type IPostProcessingOptions,
-  parsePostProcessingOptions
-} from '@/factories/postProcessingOptionsFactory'
-import {
-  createOutputName,
-  createWorkflowDetails,
-  type IWorkflowDetails,
-  type IWorkflowParentKey
-} from '@/factories/workflowFactory'
+import { createWorkflowDetails } from '@/factories/workflowFactory'
 import {
   type IWorkflow,
   suFileLinks,
@@ -20,6 +11,13 @@ import {
   workflows
 } from '@/models/index'
 import type { IEntityOwner } from '@/presentation/middlewares/requireAuthentication'
+import {
+  DEFAULT_POST_PROCESSING_OPTIONS,
+  type IPostProcessingOptions,
+  type IWorkflowCreate,
+  type IWorkflowDetails,
+  StoredPostProcessingOptionsSchema
+} from '@/schemas/workflowSchemas'
 import { orderedCommandsListService } from '@/services/orderedCommandsListService'
 
 async function getDetails(
@@ -66,7 +64,7 @@ export const workflowService = {
   // *** A workflow always has a parent association and an ordered list
   async create(
     ownerEmail: string | null,
-    workflowData: { name: string; parentType: IWorkflowParentKey },
+    workflowData: IWorkflowCreate,
     parentId: number
   ): Promise<IWorkflowDetails> {
     return database.transaction(async transaction => {
@@ -76,7 +74,10 @@ export const workflowService = {
           name: workflowData.name,
           ownerEmail,
           outputName: '',
-          postProcessingOptions: createPostProcessingOptions()
+          postProcessingOptions: z.encode(
+            StoredPostProcessingOptionsSchema,
+            DEFAULT_POST_PROCESSING_OPTIONS
+          )
         })
         .returning()
 
@@ -123,13 +124,14 @@ export const workflowService = {
     return getDetails(database, workflow)
   },
 
+  // *** The output name comes sanitized by the request schema
   async updateOutputName(
     workflowId: number,
     outputName: string
   ): Promise<IWorkflowDetails> {
     const [workflow] = await database
       .update(workflows)
-      .set({ outputName: createOutputName(outputName) })
+      .set({ outputName })
       .where(eq(workflows.id, workflowId))
       .returning()
     if (!workflow) throw new AppError('Workflow does not exist', 404)
@@ -139,22 +141,19 @@ export const workflowService = {
   async updatePostProcessingOptions(
     workflowId: number,
     postProcessingOptions: IPostProcessingOptions
-  ): Promise<{ post_processing_options: Partial<IPostProcessingOptions> }> {
+  ): Promise<IWorkflow> {
     const [workflow] = await database
       .update(workflows)
       .set({
-        postProcessingOptions: createPostProcessingOptions(
+        postProcessingOptions: z.encode(
+          StoredPostProcessingOptionsSchema,
           postProcessingOptions
         )
       })
       .where(eq(workflows.id, workflowId))
       .returning()
     if (!workflow) throw new AppError('Workflow does not exist', 404)
-    return {
-      post_processing_options: parsePostProcessingOptions(
-        workflow.postProcessingOptions
-      )
-    }
+    return workflow
   },
 
   // *** Answers the workflow as it was; commands, the ordered list, the parent

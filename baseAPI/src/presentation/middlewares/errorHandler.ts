@@ -1,4 +1,6 @@
-import type Koa from 'koa'
+import { DrizzleQueryError } from 'drizzle-orm'
+import Koa from 'koa'
+import { DatabaseError } from 'pg'
 
 import { AppError } from '@/errors/AppError'
 import { AuthError } from '@/errors/AuthError'
@@ -7,13 +9,9 @@ import { ValidationError } from '@/errors/ValidationError'
 const FOREIGN_KEY_VIOLATION = '23503'
 
 function getPostgresErrorCode(error: unknown): string | undefined {
-  // *** drizzle wraps driver errors, the code lives on the cause
-  const candidates = [error, (error as { cause?: unknown })?.cause]
-  for (const candidate of candidates) {
-    const code = (candidate as { code?: unknown })?.code
-    if (typeof code === 'string') return code
-  }
-  return undefined
+  // *** drizzle wraps driver errors, the PostgreSQL error is the cause
+  const databaseError = error instanceof DrizzleQueryError ? error.cause : error
+  return databaseError instanceof DatabaseError ? databaseError.code : undefined
 }
 
 // *** Every error becomes a JSON body shaped as { "Error": ... }
@@ -48,10 +46,14 @@ export const errorHandlerFactory = ({
         return
       }
 
-      const status = (error as { status?: unknown }).status
-      if (typeof status === 'number' && status >= 400 && status < 500) {
-        context.status = status
-        context.body = { Error: (error as Error).message }
+      // *** framework errors, such as a malformed JSON body
+      if (
+        error instanceof Koa.HttpError &&
+        error.status >= 400 &&
+        error.status < 500
+      ) {
+        context.status = error.status
+        context.body = { Error: error.message }
         return
       }
 

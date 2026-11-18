@@ -1,7 +1,7 @@
 import type Koa from 'koa'
 
 import { AppError } from '@/errors/AppError'
-import { IdSchema } from '@/presentation/schemas/commonSchemas'
+import { IdSchema } from '@/schemas/commonSchemas'
 
 // *** Ids that are not positive integers can not match any row, so they get
 // *** the same 404 as a missing entity

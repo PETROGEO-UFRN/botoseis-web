@@ -2,36 +2,25 @@ import Router from '@koa/router'
 
 import {
   getAuthenticatedUser,
-  type IOwnerLoader,
   ownerByRouteParam,
   requireAuthentication
 } from '@/presentation/middlewares/requireAuthentication'
 import { validateRequestBody } from '@/presentation/middlewares/validateRequestBody'
-import { IdSchema } from '@/presentation/schemas/commonSchemas'
+import { IdSchema } from '@/schemas/commonSchemas'
 import {
-  type IWorkflowCreateBody,
-  type IWorkflowFileLinkUpdateBody,
-  type IWorkflowNameUpdateBody,
-  type IWorkflowOutputNameUpdateBody,
-  type IWorkflowPostProcessingUpdateBody,
+  type IWorkflowCreate,
   WorkflowCreateSchema,
   WorkflowFileLinkUpdateSchema,
   WorkflowNameUpdateSchema,
   WorkflowOutputNameUpdateSchema,
-  WorkflowPostProcessingUpdateSchema
-} from '@/presentation/schemas/workflowSchemas'
-import { serializeWorkflow } from '@/presentation/serializers/workflowSerializer'
+  WorkflowPostProcessingResponseSchema,
+  WorkflowPostProcessingUpdateSchema,
+  WorkflowResponseSchema,
+  WorkflowSummarySchema
+} from '@/schemas/workflowSchemas'
 import { lineService } from '@/services/lineService'
 import { projectService } from '@/services/projectService'
 import { workflowService } from '@/services/workflowService'
-
-// *** The parent at the route is a line or a project, as told by "parentType"
-const parentOwner: IOwnerLoader = async context => {
-  const { parentType } = context.request.body as IWorkflowCreateBody
-  const findOwner =
-    parentType === 'lineId' ? lineService.findOwner : projectService.findOwner
-  return ownerByRouteParam(findOwner, 'parentId')(context)
-}
 
 export function workflowRouterFactory(_props: IRouteFactoryProps) {
   const router = new Router({ prefix: '/workflow' })
@@ -42,19 +31,33 @@ export function workflowRouterFactory(_props: IRouteFactoryProps) {
 
   router.get('/show/:id', requireWorkflowOwner('id'), async context => {
     const id = IdSchema.parse(context.params.id)
-    context.body = serializeWorkflow(await workflowService.showById(id))
+    context.body = WorkflowResponseSchema.parse(
+      await workflowService.showById(id)
+    )
   })
 
   router.post(
     '/create/:parentId',
     validateRequestBody(WorkflowCreateSchema),
-    requireAuthentication(parentOwner),
+    // *** The parent at the route is a line or a project, as told by
+    // *** "parentType"
+    requireAuthentication<{ body: IWorkflowCreate }>(context =>
+      ownerByRouteParam(
+        context.state.body.parentType === 'lineId'
+          ? lineService.findOwner
+          : projectService.findOwner,
+        'parentId'
+      )(context)
+    ),
     async context => {
-      const data = context.request.body as IWorkflowCreateBody
       const parentId = IdSchema.parse(context.params.parentId)
       const user = getAuthenticatedUser(context)
-      const workflow = await workflowService.create(user.email, data, parentId)
-      context.body = serializeWorkflow(workflow)
+      const workflow = await workflowService.create(
+        user.email,
+        context.state.body,
+        parentId
+      )
+      context.body = WorkflowResponseSchema.parse(workflow)
     }
   )
 
@@ -63,9 +66,12 @@ export function workflowRouterFactory(_props: IRouteFactoryProps) {
     validateRequestBody(WorkflowNameUpdateSchema),
     requireWorkflowOwner('workflowId'),
     async context => {
-      const { name } = context.request.body as IWorkflowNameUpdateBody
       const workflowId = IdSchema.parse(context.params.workflowId)
-      context.body = await workflowService.updateName(workflowId, name)
+      const workflow = await workflowService.updateName(
+        workflowId,
+        context.state.body.name
+      )
+      context.body = WorkflowSummarySchema.parse(workflow)
     }
   )
 
@@ -74,13 +80,12 @@ export function workflowRouterFactory(_props: IRouteFactoryProps) {
     validateRequestBody(WorkflowFileLinkUpdateSchema),
     requireWorkflowOwner('workflowId'),
     async context => {
-      const { fileLinkId } = context.request.body as IWorkflowFileLinkUpdateBody
       const workflowId = IdSchema.parse(context.params.workflowId)
       const workflow = await workflowService.updateInputFile(
         workflowId,
-        fileLinkId
+        context.state.body.fileLinkId
       )
-      context.body = serializeWorkflow(workflow)
+      context.body = WorkflowResponseSchema.parse(workflow)
     }
   )
 
@@ -89,14 +94,12 @@ export function workflowRouterFactory(_props: IRouteFactoryProps) {
     validateRequestBody(WorkflowOutputNameUpdateSchema),
     requireWorkflowOwner('workflowId'),
     async context => {
-      const { outputName } = context.request
-        .body as IWorkflowOutputNameUpdateBody
       const workflowId = IdSchema.parse(context.params.workflowId)
       const workflow = await workflowService.updateOutputName(
         workflowId,
-        outputName
+        context.state.body.outputName
       )
-      context.body = serializeWorkflow(workflow)
+      context.body = WorkflowResponseSchema.parse(workflow)
     }
   )
 
@@ -105,18 +108,20 @@ export function workflowRouterFactory(_props: IRouteFactoryProps) {
     validateRequestBody(WorkflowPostProcessingUpdateSchema),
     requireWorkflowOwner('workflowId'),
     async context => {
-      const options = context.request.body as IWorkflowPostProcessingUpdateBody
       const workflowId = IdSchema.parse(context.params.workflowId)
-      context.body = await workflowService.updatePostProcessingOptions(
+      const workflow = await workflowService.updatePostProcessingOptions(
         workflowId,
-        options
+        context.state.body
       )
+      context.body = WorkflowPostProcessingResponseSchema.parse(workflow)
     }
   )
 
   router.delete('/delete/:id', requireWorkflowOwner('id'), async context => {
     const id = IdSchema.parse(context.params.id)
-    context.body = serializeWorkflow(await workflowService.delete(id))
+    context.body = WorkflowResponseSchema.parse(
+      await workflowService.delete(id)
+    )
   })
 
   return router

@@ -4,7 +4,7 @@ import { authConfig } from '@/config/auth'
 import { AppError } from '@/errors/AppError'
 import { AuthError } from '@/errors/AuthError'
 import type { IUser } from '@/models/index'
-import { IdSchema } from '@/presentation/schemas/commonSchemas'
+import { IdSchema } from '@/schemas/commonSchemas'
 import { tokenService } from '@/services/tokenService'
 import { userService } from '@/services/userService'
 
@@ -15,8 +15,8 @@ export interface IEntityOwner {
   ownerEmail?: string | null
 }
 
-export type IOwnerLoader = (
-  context: Koa.Context
+export type IOwnerLoader<StateT extends Koa.DefaultState = Koa.DefaultState> = (
+  context: Koa.ParameterizedContext<StateT>
 ) => Promise<IEntityOwner | undefined>
 
 // *** Loads the owner of the entity whose integer id is at the route param
@@ -39,8 +39,12 @@ function isOwner(owner: IEntityOwner, user: IUser): boolean {
 
 // *** Requires a valid session cookie; when an owner loader is given, the
 // *** entity must exist (404) and belong to the session user (401)
-export const requireAuthentication = (loadOwner?: IOwnerLoader) => {
-  return async (context: Koa.Context, next: Koa.Next) => {
+export const requireAuthentication = <
+  StateT extends Koa.DefaultState = Koa.DefaultState
+>(
+  loadOwner?: IOwnerLoader<StateT>
+) => {
+  return async (context: Koa.ParameterizedContext<StateT>, next: Koa.Next) => {
     const token = context.cookies.get(authConfig.cookieName)
     if (!token) throw new AuthError('No token')
 

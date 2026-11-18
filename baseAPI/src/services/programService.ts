@@ -3,16 +3,11 @@ import { asc, eq } from 'drizzle-orm'
 import database from '@/database/connection'
 import { AppError } from '@/errors/AppError'
 import { type IProgram, programs } from '@/models/index'
+import type { IProgramData } from '@/schemas/programSchemas'
 import { programGroupService } from '@/services/programGroupService'
 
 export const PROGRAM_NOT_FOUND = 'Program does not exist'
 export const PROGRAM_GROUP_NOT_FOUND = 'Program Group does not exist'
-
-export interface IProgramData {
-  name: string
-  description: string
-  path_to_executable_file: string
-}
 
 export const programService = {
   async findById(programId: number): Promise<IProgram | undefined> {

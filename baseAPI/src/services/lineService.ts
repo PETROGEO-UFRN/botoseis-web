@@ -9,10 +9,7 @@ import {
   workflows
 } from '@/models/index'
 import type { IEntityOwner } from '@/presentation/middlewares/requireAuthentication'
-
-export interface ILineWithWorkflows extends ILine {
-  workflows: { id: number; name: string | null }[]
-}
+import type { ILineWithWorkflows } from '@/schemas/lineSchemas'
 
 async function attachWorkflows(
   executor: IDatabaseExecutor,

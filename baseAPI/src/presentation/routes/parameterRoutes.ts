@@ -1,12 +1,12 @@
 import Router from '@koa/router'
+import { z } from 'zod'
 
 import { getRouteId } from '@/presentation/middlewares/validateIdRouteParam'
 import { validateRequestBody } from '@/presentation/middlewares/validateRequestBody'
 import {
-  type IParameterUpdateBody,
+  ParameterResponseSchema,
   ParameterUpdateSchema
-} from '@/presentation/schemas/parameterSchemas'
-import { serializeParameter } from '@/presentation/serializers/parameterSerializer'
+} from '@/schemas/parameterSchemas'
 import {
   PARAMETER_NOT_FOUND,
   parameterService
@@ -20,33 +20,36 @@ export function parameterRouterFactory(_props: IRouteFactoryProps) {
   router.get('/list/:programId', async context => {
     const programId = getRouteId(context, 'programId', PROGRAM_NOT_FOUND)
     const parameters = await parameterService.listByProgramId(programId)
-    context.body = parameters.map(serializeParameter)
+    context.body = z.array(ParameterResponseSchema).parse(parameters)
   })
 
   router.post('/create/:programId', async context => {
     const programId = getRouteId(context, 'programId', PROGRAM_NOT_FOUND)
-    context.body = serializeParameter(await parameterService.create(programId))
+    context.body = ParameterResponseSchema.parse(
+      await parameterService.create(programId)
+    )
   })
 
   router.put(
     '/update/:parameterId',
     validateRequestBody(ParameterUpdateSchema),
     async context => {
-      const data = context.request.body as IParameterUpdateBody
       const parameterId = getRouteId(
         context,
         'parameterId',
         PARAMETER_NOT_FOUND
       )
-      context.body = serializeParameter(
-        await parameterService.update(parameterId, data)
+      const parameter = await parameterService.update(
+        parameterId,
+        context.state.body
       )
+      context.body = ParameterResponseSchema.parse(parameter)
     }
   )
 
   router.delete('/delete/:parameterId', async context => {
     const parameterId = getRouteId(context, 'parameterId', PARAMETER_NOT_FOUND)
-    context.body = serializeParameter(
+    context.body = ParameterResponseSchema.parse(
       await parameterService.delete(parameterId)
     )
   })

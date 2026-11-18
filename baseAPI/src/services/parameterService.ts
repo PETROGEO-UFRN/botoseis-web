@@ -3,17 +3,10 @@ import { asc, eq } from 'drizzle-orm'
 import database from '@/database/connection'
 import { AppError } from '@/errors/AppError'
 import { type IParameter, parameters } from '@/models/index'
+import type { IParameterUpdate } from '@/schemas/parameterSchemas'
 import { PROGRAM_NOT_FOUND, programService } from '@/services/programService'
 
 export const PARAMETER_NOT_FOUND = 'Parameter does not exist'
-
-export interface IParameterUpdateData {
-  name?: string
-  description?: string
-  example?: string
-  input_type?: string
-  isRequired?: boolean
-}
 
 export const parameterService = {
   async listByProgramId(programId: number): Promise<IParameter[]> {
@@ -46,7 +39,7 @@ export const parameterService = {
     return parameter
   },
 
-  async update(id: number, data: IParameterUpdateData): Promise<IParameter> {
+  async update(id: number, data: IParameterUpdate): Promise<IParameter> {
     const [parameter] = await database
       .update(parameters)
       .set({

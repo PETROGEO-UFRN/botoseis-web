@@ -4,8 +4,12 @@ import { eq } from 'drizzle-orm'
 import database from '@/database/connection'
 import { AppError } from '@/errors/AppError'
 import { type IUser, users } from '@/models/index'
+import {
+  type IUserCreate,
+  type IUserUpdate,
+  UserIdSchema
+} from '@/schemas/userSchemas'
 import { passwordService } from '@/services/passwordService'
-import { UUID_PATTERN } from '@/services/tokenService'
 
 export const userService = {
   async listAll(): Promise<IUser[]> {
@@ -13,7 +17,7 @@ export const userService = {
   },
 
   async findById(userId: string): Promise<IUser | undefined> {
-    if (!UUID_PATTERN.test(userId)) return undefined
+    if (!UserIdSchema.safeParse(userId).success) return undefined
     const [user] = await database
       .select()
       .from(users)
@@ -29,11 +33,7 @@ export const userService = {
     return user
   },
 
-  async create(userData: {
-    name: string
-    email: string
-    password: string
-  }): Promise<IUser> {
+  async create(userData: IUserCreate): Promise<IUser> {
     if (await userService.findByEmail(userData.email)) {
       throw new AppError('Email alredy used')
     }
@@ -50,7 +50,7 @@ export const userService = {
     return user
   },
 
-  async update(userId: string, userData: { name: string }): Promise<IUser> {
+  async update(userId: string, userData: IUserUpdate): Promise<IUser> {
     const [user] = await database
       .update(users)
       .set({ name: userData.name })

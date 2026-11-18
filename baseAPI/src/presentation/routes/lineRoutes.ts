@@ -1,4 +1,5 @@
 import Router from '@koa/router'
+import { z } from 'zod'
 
 import {
   getAuthenticatedUser,
@@ -6,14 +7,12 @@ import {
   requireAuthentication
 } from '@/presentation/middlewares/requireAuthentication'
 import { validateRequestBody } from '@/presentation/middlewares/validateRequestBody'
-import { IdSchema } from '@/presentation/schemas/commonSchemas'
+import { IdSchema } from '@/schemas/commonSchemas'
 import {
-  type ILineCreateBody,
-  type ILineUpdateBody,
   LineCreateSchema,
+  LineResponseSchema,
   LineUpdateSchema
-} from '@/presentation/schemas/lineSchemas'
-import { serializeLine } from '@/presentation/serializers/lineSerializer'
+} from '@/schemas/lineSchemas'
 import { lineService } from '@/services/lineService'
 import { projectService } from '@/services/projectService'
 
@@ -29,7 +28,7 @@ export function lineRouterFactory(_props: IRouteFactoryProps) {
   router.get('/list/:projectId', requireProjectOwner, async context => {
     const projectId = IdSchema.parse(context.params.projectId)
     const lines = await lineService.listByProjectId(projectId)
-    context.body = lines.map(serializeLine)
+    context.body = z.array(LineResponseSchema).parse(lines)
   })
 
   router.post(
@@ -37,11 +36,14 @@ export function lineRouterFactory(_props: IRouteFactoryProps) {
     validateRequestBody(LineCreateSchema),
     requireProjectOwner,
     async context => {
-      const { name } = context.request.body as ILineCreateBody
       const projectId = IdSchema.parse(context.params.projectId)
       const user = getAuthenticatedUser(context)
-      const line = await lineService.create(user.email, projectId, name)
-      context.body = serializeLine(line)
+      const line = await lineService.create(
+        user.email,
+        projectId,
+        context.state.body.name
+      )
+      context.body = LineResponseSchema.parse(line)
     }
   )
 
@@ -50,15 +52,15 @@ export function lineRouterFactory(_props: IRouteFactoryProps) {
     validateRequestBody(LineUpdateSchema),
     requireLineOwner,
     async context => {
-      const { name } = context.request.body as ILineUpdateBody
       const lineId = IdSchema.parse(context.params.lineId)
-      context.body = serializeLine(await lineService.updateName(lineId, name))
+      const line = await lineService.updateName(lineId, context.state.body.name)
+      context.body = LineResponseSchema.parse(line)
     }
   )
 
   router.delete('/delete/:lineId', requireLineOwner, async context => {
     const lineId = IdSchema.parse(context.params.lineId)
-    context.body = serializeLine(await lineService.delete(lineId))
+    context.body = LineResponseSchema.parse(await lineService.delete(lineId))
   })
 
   return router

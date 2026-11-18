@@ -1,14 +1,13 @@
 import Router from '@koa/router'
+import { z } from 'zod'
 
 import { getRouteId } from '@/presentation/middlewares/validateIdRouteParam'
 import { validateRequestBody } from '@/presentation/middlewares/validateRequestBody'
 import {
-  type IProgramGroupCreateBody,
-  type IProgramGroupUpdateBody,
   ProgramGroupCreateSchema,
+  ProgramGroupResponseSchema,
   ProgramGroupUpdateSchema
-} from '@/presentation/schemas/programGroupSchemas'
-import { serializeProgramGroup } from '@/presentation/serializers/programSerializer'
+} from '@/schemas/programSchemas'
 import {
   PROGRAM_GROUP_NOT_FOUND,
   programGroupService
@@ -20,17 +19,15 @@ export function programGroupRouterFactory(_props: IRouteFactoryProps) {
 
   router.get('/list', async context => {
     const groups = await programGroupService.listAll()
-    context.body = groups.map(serializeProgramGroup)
+    context.body = z.array(ProgramGroupResponseSchema).parse(groups)
   })
 
   router.post(
     '/create',
     validateRequestBody(ProgramGroupCreateSchema),
     async context => {
-      const data = context.request.body as IProgramGroupCreateBody
-      context.body = serializeProgramGroup(
-        await programGroupService.create(data)
-      )
+      const group = await programGroupService.create(context.state.body)
+      context.body = ProgramGroupResponseSchema.parse(group)
     }
   )
 
@@ -38,17 +35,18 @@ export function programGroupRouterFactory(_props: IRouteFactoryProps) {
     '/update/:groupId',
     validateRequestBody(ProgramGroupUpdateSchema),
     async context => {
-      const data = context.request.body as IProgramGroupUpdateBody
       const groupId = getRouteId(context, 'groupId', PROGRAM_GROUP_NOT_FOUND)
-      context.body = serializeProgramGroup(
-        await programGroupService.update(groupId, data)
+      const group = await programGroupService.update(
+        groupId,
+        context.state.body
       )
+      context.body = ProgramGroupResponseSchema.parse(group)
     }
   )
 
   router.delete('/delete/:groupId', async context => {
     const groupId = getRouteId(context, 'groupId', PROGRAM_GROUP_NOT_FOUND)
-    context.body = serializeProgramGroup(
+    context.body = ProgramGroupResponseSchema.parse(
       await programGroupService.delete(groupId)
     )
   })

@@ -1,8 +1,10 @@
-const ENVIRONMENTS: environmentType[] = ['development', 'production', 'test']
+import { z } from 'zod'
+
+// *** Unknown or missing NODE_ENV values fall back to development
+const EnvironmentSchema = z
+  .enum(['development', 'production', 'test'])
+  .catch('development')
 
 export function getEnvironment(): environmentType {
-  const environment = process.env.NODE_ENV as environmentType | undefined
-  return environment && ENVIRONMENTS.includes(environment)
-    ? environment
-    : 'development'
+  return EnvironmentSchema.parse(process.env.NODE_ENV)
 }

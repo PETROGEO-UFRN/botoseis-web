@@ -4,6 +4,7 @@ import database from '@/database/connection'
 import { AppError } from '@/errors/AppError'
 import { commands, type ICommand } from '@/models/index'
 import type { IEntityOwner } from '@/presentation/middlewares/requireAuthentication'
+import type { ICommandCreate } from '@/schemas/commandSchemas'
 import { orderedCommandsListService } from '@/services/orderedCommandsListService'
 import { PROGRAM_NOT_FOUND, programService } from '@/services/programService'
 
@@ -35,7 +36,7 @@ export const commandService = {
   async create(
     ownerEmail: string | null,
     workflowId: number,
-    commandData: { name: string; parameters: string; program_id: number }
+    commandData: ICommandCreate
   ): Promise<ICommand> {
     if (!(await programService.findById(commandData.program_id))) {
       throw new AppError(PROGRAM_NOT_FOUND, 404)

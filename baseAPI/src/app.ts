@@ -42,8 +42,21 @@ export default function appFactory({
       }
     })
   )
-  // *** multipart is parsed for its text fields only, files are not handled
-  app.use(koaBody({ multipart: true }))
+  // *** multipart is parsed for its text fields only, files are not handled;
+  // *** parse errors become Koa HTTP errors that keep their status (400 for
+  // *** malformed JSON)
+  app.use(
+    koaBody({
+      multipart: true,
+      onError: (error, context) => {
+        const status =
+          'status' in error && typeof error.status === 'number'
+            ? error.status
+            : 400
+        context.throw(status, error.message)
+      }
+    })
+  )
 
   for (const router of routers) {
     app.use(router.routes())

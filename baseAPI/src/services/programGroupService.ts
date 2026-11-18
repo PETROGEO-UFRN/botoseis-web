@@ -2,18 +2,14 @@ import { asc, eq, inArray } from 'drizzle-orm'
 
 import database from '@/database/connection'
 import { AppError } from '@/errors/AppError'
-import {
-  type IProgram,
-  type IProgramGroup,
-  programGroups,
-  programs
-} from '@/models/index'
+import { type IProgramGroup, programGroups, programs } from '@/models/index'
+import type {
+  IProgramGroupCreate,
+  IProgramGroupUpdate,
+  IProgramGroupWithPrograms
+} from '@/schemas/programSchemas'
 
 export const PROGRAM_GROUP_NOT_FOUND = 'Group does not exist'
-
-export interface IProgramGroupWithPrograms extends IProgramGroup {
-  programs: IProgram[]
-}
 
 async function attachPrograms(
   groups: IProgramGroup[]
@@ -54,10 +50,9 @@ export const programGroupService = {
     return group
   },
 
-  async create(groupData: {
-    name: string
-    description?: string
-  }): Promise<IProgramGroupWithPrograms> {
+  async create(
+    groupData: IProgramGroupCreate
+  ): Promise<IProgramGroupWithPrograms> {
     const [group] = await database
       .insert(programGroups)
       .values({
@@ -70,7 +65,7 @@ export const programGroupService = {
 
   async update(
     groupId: number,
-    groupData: { name?: string; description?: string }
+    groupData: IProgramGroupUpdate
   ): Promise<IProgramGroupWithPrograms> {
     const [group] = await database
       .update(programGroups)

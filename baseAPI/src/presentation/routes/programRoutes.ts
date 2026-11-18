@@ -1,15 +1,14 @@
 import Router from '@koa/router'
+import { z } from 'zod'
 
 import { requireFormBody } from '@/presentation/middlewares/requireFormBody'
 import { getRouteId } from '@/presentation/middlewares/validateIdRouteParam'
 import { validateRequestBody } from '@/presentation/middlewares/validateRequestBody'
 import {
-  type IProgramCreateBody,
-  type IProgramUpdateBody,
   ProgramCreateSchema,
+  ProgramResponseSchema,
   ProgramUpdateSchema
-} from '@/presentation/schemas/programSchemas'
-import { serializeProgram } from '@/presentation/serializers/programSerializer'
+} from '@/schemas/programSchemas'
 import {
   PROGRAM_GROUP_NOT_FOUND,
   PROGRAM_NOT_FOUND,
@@ -23,7 +22,7 @@ export function programRouterFactory(_props: IRouteFactoryProps) {
   router.get('/list/:groupId', async context => {
     const groupId = getRouteId(context, 'groupId', PROGRAM_GROUP_NOT_FOUND)
     const programs = await programService.listByGroupId(groupId)
-    context.body = programs.map(serializeProgram)
+    context.body = z.array(ProgramResponseSchema).parse(programs)
   })
 
   router.post(
@@ -31,11 +30,9 @@ export function programRouterFactory(_props: IRouteFactoryProps) {
     validateRequestBody(ProgramCreateSchema),
     requireFormBody,
     async context => {
-      const data = context.request.body as IProgramCreateBody
       const groupId = getRouteId(context, 'groupId', PROGRAM_GROUP_NOT_FOUND)
-      context.body = serializeProgram(
-        await programService.create(groupId, data)
-      )
+      const program = await programService.create(groupId, context.state.body)
+      context.body = ProgramResponseSchema.parse(program)
     }
   )
 
@@ -44,17 +41,17 @@ export function programRouterFactory(_props: IRouteFactoryProps) {
     validateRequestBody(ProgramUpdateSchema),
     requireFormBody,
     async context => {
-      const data = context.request.body as IProgramUpdateBody
       const programId = getRouteId(context, 'programId', PROGRAM_NOT_FOUND)
-      context.body = serializeProgram(
-        await programService.update(programId, data)
-      )
+      const program = await programService.update(programId, context.state.body)
+      context.body = ProgramResponseSchema.parse(program)
     }
   )
 
   router.delete('/delete/:programId', async context => {
     const programId = getRouteId(context, 'programId', PROGRAM_NOT_FOUND)
-    context.body = serializeProgram(await programService.delete(programId))
+    context.body = ProgramResponseSchema.parse(
+      await programService.delete(programId)
+    )
   })
 
   return router

@@ -1,7 +1,9 @@
+import type { RouterMiddleware } from '@koa/router'
 import type Koa from 'koa'
-import type { ZodType } from 'zod'
+import type { z } from 'zod'
+
 import { ValidationError } from '@/errors/ValidationError'
-import { toValidationMessages } from '@/presentation/schemas/commonSchemas'
+import { toValidationMessages } from '@/schemas/commonSchemas'
 
 // *** JSON bodies are read as is, form bodies as their text fields
 export function getRequestData(context: Koa.Context): unknown {
@@ -11,15 +13,17 @@ export function getRequestData(context: Koa.Context): unknown {
   return {}
 }
 
-// *** Unknown fields are dropped; the parsed body is stored on the request
-export const validateRequestBody = <T>(schema: ZodType<T>) => {
-  return async (context: Koa.Context, next: Koa.Next) => {
+// *** Unknown fields are dropped; the parsed body goes to context.state.body,
+// *** typed by the schema for the rest of the route
+export const validateRequestBody =
+  <Schema extends z.ZodType>(
+    schema: Schema
+  ): RouterMiddleware<{ body: z.output<Schema> }> =>
+  async (context, next) => {
     const result = schema.safeParse(getRequestData(context))
     if (!result.success) {
       throw new ValidationError(toValidationMessages(result.error))
     }
-
-    Object.assign(context.request, { body: result.data })
+    context.state.body = result.data
     await next()
   }
-}
